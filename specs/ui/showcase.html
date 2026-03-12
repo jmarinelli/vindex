@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VinDex — Design System Showcase</title>
+  <style>
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1F2937;
+      background: #F9FAFB;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Brand */
+      --brand-primary: #1E3A5F;
+      --brand-primary-hover: #162D4A;
+      --brand-accent: #3B82F6;
+
+      /* Status */
+      --status-good: #16A34A;
+      --status-good-bg: #F0FDF4;
+      --status-attention: #D97706;
+      --status-attention-bg: #FFFBEB;
+      --status-critical: #DC2626;
+      --status-critical-bg: #FEF2F2;
+      --status-not-evaluated: #6B7280;
+      --status-not-evaluated-bg: #F9FAFB;
+
+      /* Neutrals */
+      --gray-50: #F9FAFB;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-300: #D1D5DB;
+      --gray-400: #9CA3AF;
+      --gray-500: #6B7280;
+      --gray-600: #4B5563;
+      --gray-700: #374151;
+      --gray-800: #1F2937;
+      --gray-900: #111827;
+      --white: #FFFFFF;
+
+      /* Semantic */
+      --success: #16A34A;
+      --warning: #D97706;
+      --error: #DC2626;
+      --info: #3B82F6;
+
+      /* Spacing */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+
+      /* Radius */
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+      --shadow-top: 0 -2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* ============================================
+       SHOWCASE LAYOUT
+       ============================================ */
+    .showcase { max-width: 1024px; margin: 0 auto; padding: var(--space-8); }
+    .showcase-title {
+      font-size: 30px; font-weight: 700; line-height: 36px;
+      color: var(--brand-primary); margin-bottom: var(--space-2);
+    }
+    .showcase-subtitle {
+      font-size: 14px; color: var(--gray-500); margin-bottom: var(--space-12);
+    }
+
+    .section { margin-bottom: var(--space-12); }
+    .section-title {
+      font-size: 20px; font-weight: 600; line-height: 28px;
+      color: var(--gray-800); margin-bottom: var(--space-6);
+      padding-bottom: var(--space-2);
+      border-bottom: 2px solid var(--gray-200);
+    }
+    .subsection-title {
+      font-size: 16px; font-weight: 500; color: var(--gray-600);
+      margin-bottom: var(--space-4); margin-top: var(--space-6);
+    }
+
+    .row { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6); }
+    .col { flex: 1; min-width: 200px; }
+
+    /* ============================================
+       1. COLOR PALETTE
+       ============================================ */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--space-3); }
+    .color-swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+    }
+    .color-swatch-block { height: 64px; }
+    .color-swatch-label {
+      padding: var(--space-2) var(--space-3);
+      font-size: 12px; line-height: 16px;
+    }
+    .color-swatch-label .name { font-weight: 600; color: var(--gray-700); display: block; }
+    .color-swatch-label .hex { color: var(--gray-400); }
+
+    /* ============================================
+       2. TYPOGRAPHY
+       ============================================ */
+    .type-sample { margin-bottom: var(--space-4); }
+    .type-label { font-size: 12px; color: var(--gray-400); margin-bottom: var(--space-1); }
+    .type-3xl { font-size: 30px; font-weight: 700; line-height: 36px; color: var(--gray-900); }
+    .type-2xl { font-size: 24px; font-weight: 700; line-height: 32px; color: var(--gray-800); }
+    .type-xl { font-size: 20px; font-weight: 600; line-height: 28px; color: var(--gray-800); }
+    .type-lg { font-size: 18px; font-weight: 500; line-height: 28px; color: var(--gray-700); }
+    .type-base { font-size: 16px; font-weight: 400; line-height: 24px; color: var(--gray-600); }
+    .type-sm { font-size: 14px; font-weight: 400; line-height: 20px; color: var(--gray-500); }
+    .type-xs { font-size: 12px; font-weight: 400; line-height: 16px; color: var(--gray-400); }
+
+    /* ============================================
+       3. BUTTONS
+       ============================================ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+      font-family: inherit; font-weight: 500; border: none; cursor: pointer;
+      border-radius: var(--radius-sm); transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 2px; }
+
+    .btn-sm { height: 32px; padding: 0 12px; font-size: 14px; }
+    .btn-md { height: 40px; padding: 0 16px; font-size: 16px; }
+    .btn-lg { height: 48px; padding: 0 20px; font-size: 18px; }
+
+    .btn-primary { background: var(--brand-primary); color: var(--white); }
+    .btn-primary:hover { background: var(--brand-primary-hover); }
+    .btn-secondary { background: var(--white); color: var(--gray-700); border: 1px solid var(--gray-200); }
+    .btn-secondary:hover { background: var(--gray-50); }
+    .btn-ghost { background: transparent; color: var(--brand-primary); }
+    .btn-ghost:hover { background: var(--gray-50); }
+    .btn-destructive { background: var(--error); color: var(--white); }
+    .btn-destructive:hover { background: #B91C1C; }
+    .btn-disabled { background: var(--gray-100); color: var(--gray-400); cursor: not-allowed; }
+
+    /* ============================================
+       4. STATUS BUTTONS (Inspection Form)
+       ============================================ */
+    .status-buttons {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border-radius: var(--radius-sm); overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+    .status-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px; height: 56px; font-family: inherit; font-size: 13px; font-weight: 500;
+      cursor: pointer; border: none; transition: all 0.15s ease;
+      background: var(--white); color: var(--gray-600);
+      border-right: 1px solid var(--gray-200);
+    }
+    .status-btn:last-child { border-right: none; }
+    .status-btn .status-icon { font-size: 18px; }
+
+    .status-btn.selected-good {
+      background: var(--status-good-bg); color: var(--status-good);
+      font-weight: 700; box-shadow: inset 0 -3px 0 var(--status-good);
+    }
+    .status-btn.selected-attention {
+      background: var(--status-attention-bg); color: var(--status-attention);
+      font-weight: 700; box-shadow: inset 0 -3px 0 var(--status-attention);
+    }
+    .status-btn.selected-critical {
+      background: var(--status-critical-bg); color: var(--status-critical);
+      font-weight: 700; box-shadow: inset 0 -3px 0 var(--status-critical);
+    }
+    .status-btn.selected-ne {
+      background: var(--status-not-evaluated-bg); color: var(--status-not-evaluated);
+      font-weight: 700; box-shadow: inset 0 -3px 0 var(--status-not-evaluated);
+    }
+
+    /* ============================================
+       5. FORM INPUTS
+       ============================================ */
+    .input {
+      width: 100%; height: 40px; padding: 0 var(--space-3);
+      font-family: inherit; font-size: 16px; color: var(--gray-800);
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm); transition: border-color 0.15s ease;
+    }
+    .input:focus { outline: none; border-color: var(--brand-accent); box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
+    .input::placeholder { color: var(--gray-400); }
+    .input-focus { border-color: var(--brand-accent); box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
+
+    .textarea {
+      width: 100%; min-height: 80px; padding: var(--space-3);
+      font-family: inherit; font-size: 16px; color: var(--gray-800);
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm); resize: vertical;
+      transition: border-color 0.15s ease;
+    }
+    .textarea:focus { outline: none; border-color: var(--brand-accent); box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
+    .textarea::placeholder { color: var(--gray-400); }
+
+    .select {
+      width: 100%; height: 40px; padding: 0 var(--space-3);
+      font-family: inherit; font-size: 16px; color: var(--gray-800);
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm); appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+    }
+
+    .form-label { display: block; font-size: 14px; font-weight: 500; color: var(--gray-700); margin-bottom: var(--space-1); }
+    .form-group { margin-bottom: var(--space-4); }
+
+    /* ============================================
+       6. CARDS
+       ============================================ */
+    .card {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .card-body { padding: var(--space-4); }
+
+    /* Item Card — Checklist */
+    .item-card { margin-bottom: var(--space-4); }
+    .item-card-header {
+      padding: var(--space-3) var(--space-4);
+      font-size: 16px; font-weight: 500; color: var(--gray-800);
+      border-bottom: 1px solid var(--gray-100);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .item-card-content { padding: var(--space-4); }
+    .item-card-observation { margin-top: var(--space-3); }
+    .item-card-photos { margin-top: var(--space-3); display: flex; gap: var(--space-2); align-items: center; }
+
+    .item-card.status-good { border-left: 3px solid var(--status-good); }
+    .item-card.status-attention { border-left: 3px solid var(--status-attention); }
+    .item-card.status-critical { border-left: 3px solid var(--status-critical); }
+    .item-card.status-ne { border-left: 3px solid var(--gray-300); }
+
+    /* Photo thumbnail */
+    .photo-thumb {
+      width: 64px; height: 64px; border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200); background: var(--gray-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: var(--gray-400); overflow: hidden;
+      position: relative;
+    }
+    .photo-thumb-uploading::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--brand-accent);
+      animation: upload-progress 2s infinite;
+    }
+    @keyframes upload-progress {
+      0% { width: 0; } 50% { width: 70%; } 100% { width: 100%; }
+    }
+    .photo-add-btn {
+      width: 64px; height: 64px; border-radius: var(--radius-sm);
+      border: 2px dashed var(--gray-300); background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: var(--gray-400); cursor: pointer;
+    }
+    .photo-add-btn:hover { border-color: var(--brand-accent); color: var(--brand-accent); }
+
+    /* Inspection Summary Card */
+    .summary-card { cursor: pointer; transition: box-shadow 0.15s ease; }
+    .summary-card:hover { box-shadow: var(--shadow-md); }
+    .summary-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-2); }
+    .summary-card-vehicle { font-size: 16px; font-weight: 600; color: var(--gray-800); }
+    .summary-card-vin { font-size: 13px; color: var(--gray-400); font-family: monospace; margin-top: 2px; }
+    .summary-card-meta { font-size: 14px; color: var(--gray-500); margin-top: var(--space-2); }
+    .summary-card-footer {
+      padding: var(--space-3) var(--space-4);
+      background: var(--gray-50); border-top: 1px solid var(--gray-100);
+      font-size: 13px; color: var(--gray-500);
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex; align-items: center; padding: 2px 10px;
+      font-size: 12px; font-weight: 600; border-radius: var(--radius-full);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .badge-draft { background: var(--status-attention-bg); color: var(--status-attention); }
+    .badge-signed { background: var(--status-good-bg); color: var(--status-good); }
+
+    /* ============================================
+       7. NAVIGATION
+       ============================================ */
+    /* Section Tabs */
+    .section-tabs {
+      display: flex; overflow-x: auto; gap: 0;
+      border-bottom: 1px solid var(--gray-200);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .section-tabs::-webkit-scrollbar { display: none; }
+    .section-tab {
+      flex-shrink: 0; padding: 0 var(--space-4); height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 500; color: var(--gray-500);
+      border-bottom: 2px solid transparent;
+      cursor: pointer; white-space: nowrap; transition: all 0.15s ease;
+      background: none; border-top: none; border-left: none; border-right: none;
+      font-family: inherit;
+    }
+    .section-tab:hover { color: var(--gray-700); }
+    .section-tab.active { color: var(--brand-accent); border-bottom-color: var(--brand-accent); }
+
+    /* ============================================
+       8. SYNC STATUS
+       ============================================ */
+    .sync-status { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; }
+    .sync-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .sync-saved { color: var(--gray-400); }
+    .sync-saved .sync-dot { background: var(--gray-400); }
+    .sync-synced { color: var(--success); }
+    .sync-synced .sync-dot { background: var(--success); }
+    .sync-offline { color: var(--warning); }
+    .sync-offline .sync-dot { background: var(--warning); }
+
+    /* ============================================
+       9. VERIFICATION BADGE
+       ============================================ */
+    .verification-badge {
+      background: var(--status-good-bg); border: 1px solid var(--status-good);
+      border-radius: var(--radius-md); padding: var(--space-4);
+      display: flex; gap: var(--space-3); align-items: flex-start;
+    }
+    .verification-badge-icon {
+      flex-shrink: 0; width: 24px; height: 24px;
+      color: var(--status-good); font-size: 20px;
+    }
+    .verification-badge-text { font-size: 14px; color: var(--gray-700); line-height: 20px; }
+
+    /* ============================================
+       LAYOUT SHELLS
+       ============================================ */
+    .shell-demo {
+      border: 2px solid var(--gray-200); border-radius: var(--radius-lg);
+      overflow: hidden; margin-bottom: var(--space-6); background: var(--gray-50);
+    }
+
+    /* Shell A — Public */
+    .shell-a-topbar {
+      height: 56px; background: var(--white); border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--space-4);
+    }
+    .shell-a-logo { font-size: 16px; font-weight: 700; color: var(--brand-primary); }
+    .shell-a-content {
+      max-width: 768px; margin: 0 auto; padding: var(--space-6) var(--space-4);
+      min-height: 200px;
+    }
+    .shell-a-footer {
+      padding: var(--space-4); text-align: center;
+      font-size: 12px; color: var(--gray-400); border-top: 1px solid var(--gray-200);
+    }
+
+    /* Shell B — Dashboard */
+    .shell-b-topbar {
+      height: 64px; background: var(--white); border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--space-6);
+    }
+    .shell-b-logo { font-size: 18px; font-weight: 700; color: var(--brand-primary); }
+    .shell-b-section { font-size: 16px; font-weight: 500; color: var(--gray-700); }
+    .shell-b-user {
+      display: flex; align-items: center; gap: var(--space-2);
+      font-size: 14px; color: var(--gray-600);
+    }
+    .shell-b-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--brand-primary); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600;
+    }
+    .shell-b-content { max-width: 1024px; margin: 0 auto; padding: var(--space-6) var(--space-4); min-height: 200px; }
+
+    /* Shell C — Field Mode */
+    .shell-c-container { display: flex; flex-direction: column; height: 480px; max-width: 400px; margin: 0 auto; }
+    .shell-c-topbar {
+      height: 48px; background: var(--white); border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--space-3); flex-shrink: 0;
+    }
+    .shell-c-vehicle { font-size: 14px; font-weight: 600; color: var(--gray-800); }
+    .shell-c-progress { font-size: 13px; color: var(--gray-400); }
+    .shell-c-close { font-size: 18px; color: var(--gray-400); cursor: pointer; background: none; border: none; padding: var(--space-2); }
+    .shell-c-tabs { flex-shrink: 0; background: var(--white); }
+    .shell-c-content { flex: 1; overflow-y: auto; padding: var(--space-4); background: var(--gray-50); }
+    .shell-c-bottombar {
+      height: 56px; background: var(--white); border-top: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-top);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--space-4); flex-shrink: 0;
+    }
+    .shell-c-bottombar .btn { min-width: 100px; }
+    .shell-c-camera-btn {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--brand-primary); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; border: none; cursor: pointer;
+    }
+
+    /* ============================================
+       REPORT PREVIEW
+       ============================================ */
+    .report-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: var(--space-6);
+    }
+    .report-inspector { display: flex; align-items: center; gap: var(--space-3); }
+    .report-inspector-logo {
+      width: 48px; height: 48px; border-radius: var(--radius-md);
+      background: var(--brand-primary); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700;
+    }
+    .report-inspector-name { font-size: 14px; font-weight: 600; color: var(--gray-800); }
+    .report-inspector-link { font-size: 12px; color: var(--brand-accent); text-decoration: none; }
+
+    .report-vehicle-title { font-size: 24px; font-weight: 700; color: var(--gray-900); margin-bottom: var(--space-2); }
+    .report-meta { font-size: 14px; color: var(--gray-500); }
+    .report-meta-row { display: flex; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-1); }
+
+    .report-section-title {
+      font-size: 18px; font-weight: 600; color: var(--gray-800);
+      margin-top: var(--space-8); margin-bottom: var(--space-4);
+      padding-bottom: var(--space-2); border-bottom: 1px solid var(--gray-200);
+    }
+
+    .report-finding {
+      padding: var(--space-3) var(--space-4);
+      border-left: 3px solid var(--gray-200);
+      margin-bottom: var(--space-3);
+    }
+    .report-finding.good { border-left-color: var(--status-good); }
+    .report-finding.attention { border-left-color: var(--status-attention); }
+    .report-finding.critical { border-left-color: var(--status-critical); }
+
+    .report-finding-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-1); }
+    .report-finding-name { font-size: 14px; font-weight: 500; color: var(--gray-700); }
+    .report-finding-status {
+      font-size: 12px; font-weight: 600; padding: 2px 8px;
+      border-radius: var(--radius-full);
+    }
+    .report-finding-status.good { background: var(--status-good-bg); color: var(--status-good); }
+    .report-finding-status.attention { background: var(--status-attention-bg); color: var(--status-attention); }
+    .report-finding-status.critical { background: var(--status-critical-bg); color: var(--status-critical); }
+    .report-finding-status.ne { background: var(--gray-100); color: var(--gray-500); }
+    .report-finding-observation { font-size: 14px; color: var(--gray-600); line-height: 20px; }
+
+    /* ============================================
+       OG PREVIEW CARD
+       ============================================ */
+    .og-preview {
+      width: 100%; max-width: 500px; border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md); overflow: hidden; background: var(--white);
+    }
+    .og-preview-image {
+      height: 180px; background: linear-gradient(135deg, var(--brand-primary) 0%, #2563EB 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.3); font-size: 48px;
+    }
+    .og-preview-body { padding: var(--space-3) var(--space-4); }
+    .og-preview-title { font-size: 16px; font-weight: 600; color: var(--gray-800); }
+    .og-preview-desc { font-size: 13px; color: var(--gray-500); margin-top: var(--space-1); line-height: 18px; }
+    .og-preview-url { font-size: 12px; color: var(--gray-400); margin-top: var(--space-2); }
+
+    /* ============================================
+       UTILITIES
+       ============================================ */
+    .mt-2 { margin-top: var(--space-2); }
+    .mt-4 { margin-top: var(--space-4); }
+    .mt-6 { margin-top: var(--space-6); }
+    .mb-2 { margin-bottom: var(--space-2); }
+    .mb-4 { margin-bottom: var(--space-4); }
+    .gap-2 { gap: var(--space-2); }
+    .gap-4 { gap: var(--space-4); }
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .text-sm { font-size: 14px; }
+    .text-gray-500 { color: var(--gray-500); }
+    .label-hint { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="showcase">
+
+  <h1 class="showcase-title">VinDex — Design System Showcase</h1>
+  <p class="showcase-subtitle">Static HTML showcase. No logic. Review in browser (especially mobile) and iterate.</p>
+
+  <!-- ==========================================
+       SECTION: Colors
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">1. Color Palette</h2>
+
+    <h3 class="subsection-title">Brand</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--brand-primary);"></div>
+        <div class="color-swatch-label"><span class="name">Primary</span><span class="hex">#1E3A5F</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--brand-primary-hover);"></div>
+        <div class="color-swatch-label"><span class="name">Primary Hover</span><span class="hex">#162D4A</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--brand-accent);"></div>
+        <div class="color-swatch-label"><span class="name">Accent</span><span class="hex">#3B82F6</span></div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Status</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-good);"></div>
+        <div class="color-swatch-label"><span class="name">Good</span><span class="hex">#16A34A</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-good-bg);"></div>
+        <div class="color-swatch-label"><span class="name">Good BG</span><span class="hex">#F0FDF4</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-attention);"></div>
+        <div class="color-swatch-label"><span class="name">Attention</span><span class="hex">#D97706</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-attention-bg);"></div>
+        <div class="color-swatch-label"><span class="name">Attention BG</span><span class="hex">#FFFBEB</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-critical);"></div>
+        <div class="color-swatch-label"><span class="name">Critical</span><span class="hex">#DC2626</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-critical-bg);"></div>
+        <div class="color-swatch-label"><span class="name">Critical BG</span><span class="hex">#FEF2F2</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-not-evaluated);"></div>
+        <div class="color-swatch-label"><span class="name">Not Evaluated</span><span class="hex">#6B7280</span></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background: var(--status-not-evaluated-bg);"></div>
+        <div class="color-swatch-label"><span class="name">N/E BG</span><span class="hex">#F9FAFB</span></div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Neutrals</h3>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #F9FAFB;"></div><div class="color-swatch-label"><span class="name">Gray 50</span><span class="hex">#F9FAFB</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #F3F4F6;"></div><div class="color-swatch-label"><span class="name">Gray 100</span><span class="hex">#F3F4F6</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #E5E7EB;"></div><div class="color-swatch-label"><span class="name">Gray 200</span><span class="hex">#E5E7EB</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #D1D5DB;"></div><div class="color-swatch-label"><span class="name">Gray 300</span><span class="hex">#D1D5DB</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #9CA3AF;"></div><div class="color-swatch-label"><span class="name">Gray 400</span><span class="hex">#9CA3AF</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #6B7280;"></div><div class="color-swatch-label"><span class="name">Gray 500</span><span class="hex">#6B7280</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #4B5563;"></div><div class="color-swatch-label"><span class="name">Gray 600</span><span class="hex">#4B5563</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #374151;"></div><div class="color-swatch-label"><span class="name">Gray 700</span><span class="hex">#374151</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #1F2937;"></div><div class="color-swatch-label"><span class="name">Gray 800</span><span class="hex">#1F2937</span></div></div>
+      <div class="color-swatch"><div class="color-swatch-block" style="background: #111827;"></div><div class="color-swatch-label"><span class="name">Gray 900</span><span class="hex">#111827</span></div></div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Typography
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">2. Typography</h2>
+    <div class="type-sample"><div class="type-label">text-3xl — 30px / 700</div><div class="type-3xl">Nissan Sentra 2019</div></div>
+    <div class="type-sample"><div class="type-label">text-2xl — 24px / 700</div><div class="type-2xl">Inspección Pre-Compra</div></div>
+    <div class="type-sample"><div class="type-label">text-xl — 20px / 600</div><div class="type-xl">Panel de Inspecciones</div></div>
+    <div class="type-sample"><div class="type-label">text-lg — 18px / 500</div><div class="type-lg">Exterior</div></div>
+    <div class="type-sample"><div class="type-label">text-base — 16px / 400</div><div class="type-base">Rayón profundo en puerta trasera derecha, 15cm aprox. Pintura levantada.</div></div>
+    <div class="type-sample"><div class="type-label">text-sm — 14px / 400</div><div class="type-sm">12 Mar 2026 · 87,500 km · Pre-compra</div></div>
+    <div class="type-sample"><div class="type-label">text-xs — 12px / 400</div><div class="type-xs">Firmado el 12 Mar 2026 a las 16:45 · Verificado en VinDex</div></div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Buttons
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">3. Buttons</h2>
+
+    <h3 class="subsection-title">Variants</h3>
+    <div class="row">
+      <button class="btn btn-md btn-primary">Firmar Inspección</button>
+      <button class="btn btn-md btn-secondary">Cancelar</button>
+      <button class="btn btn-md btn-ghost">Ver perfil</button>
+      <button class="btn btn-md btn-destructive">Eliminar borrador</button>
+      <button class="btn btn-md btn-disabled" disabled>Deshabilitado</button>
+    </div>
+
+    <h3 class="subsection-title">Sizes</h3>
+    <div class="row" style="align-items: center;">
+      <button class="btn btn-sm btn-primary">Small</button>
+      <button class="btn btn-md btn-primary">Medium</button>
+      <button class="btn btn-lg btn-primary">Large</button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Status Buttons
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">4. Status Buttons (Inspection Form)</h2>
+
+    <h3 class="subsection-title">Unselected</h3>
+    <div style="max-width: 400px;">
+      <div class="status-buttons">
+        <button class="status-btn"><span class="status-icon">✓</span> Bien</button>
+        <button class="status-btn"><span class="status-icon">⚠</span> Atención</button>
+        <button class="status-btn"><span class="status-icon">✕</span> Crítico</button>
+        <button class="status-btn"><span class="status-icon">—</span> N/E</button>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Selected States</h3>
+    <div style="max-width: 400px; display: flex; flex-direction: column; gap: var(--space-4);">
+      <div class="status-buttons">
+        <button class="status-btn selected-good"><span class="status-icon">✓</span> Bien</button>
+        <button class="status-btn"><span class="status-icon">⚠</span> Atención</button>
+        <button class="status-btn"><span class="status-icon">✕</span> Crítico</button>
+        <button class="status-btn"><span class="status-icon">—</span> N/E</button>
+      </div>
+      <div class="status-buttons">
+        <button class="status-btn"><span class="status-icon">✓</span> Bien</button>
+        <button class="status-btn selected-attention"><span class="status-icon">⚠</span> Atención</button>
+        <button class="status-btn"><span class="status-icon">✕</span> Crítico</button>
+        <button class="status-btn"><span class="status-icon">—</span> N/E</button>
+      </div>
+      <div class="status-buttons">
+        <button class="status-btn"><span class="status-icon">✓</span> Bien</button>
+        <button class="status-btn"><span class="status-icon">⚠</span> Atención</button>
+        <button class="status-btn selected-critical"><span class="status-icon">✕</span> Crítico</button>
+        <button class="status-btn"><span class="status-icon">—</span> N/E</button>
+      </div>
+      <div class="status-buttons">
+        <button class="status-btn"><span class="status-icon">✓</span> Bien</button>
+        <button class="status-btn"><span class="status-icon">⚠</span> Atención</button>
+        <button class="status-btn"><span class="status-icon">✕</span> Crítico</button>
+        <button class="status-btn selected-ne"><span class="status-icon">—</span> N/E</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Form Inputs
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">5. Form Inputs</h2>
+
+    <div style="max-width: 400px;">
+      <div class="form-group">
+        <label class="form-label">VIN</label>
+        <input class="input" type="text" placeholder="Ej: 3N1AB7AP5KY250312" maxlength="17" style="font-family: monospace;">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Kilómetros</label>
+        <input class="input" type="number" placeholder="87500" style="text-align: right;">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tipo de inspección</label>
+        <select class="select">
+          <option>Pre-compra</option>
+          <option>Ingreso a taller</option>
+          <option>Periódica</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Solicitado por</label>
+        <select class="select">
+          <option>Comprador</option>
+          <option>Vendedor</option>
+          <option>Agencia</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Fecha de inspección</label>
+        <input class="input" type="date" value="2026-03-12">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Observación</label>
+        <textarea class="textarea" placeholder="Descripción del hallazgo..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Input con focus</label>
+        <input class="input input-focus" type="text" value="Texto de ejemplo">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Item Cards
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">6. Item Cards</h2>
+
+    <div style="max-width: 400px;">
+      <h3 class="subsection-title">Checklist Item — Good</h3>
+      <div class="card item-card status-good">
+        <div class="item-card-header">
+          <span>Carrocería y pintura</span>
+          <span style="font-size: 14px; color: var(--gray-400);">▾</span>
+        </div>
+        <div class="item-card-content">
+          <div class="status-buttons">
+            <button class="status-btn selected-good"><span class="status-icon">✓</span> Bien</button>
+            <button class="status-btn"><span class="status-icon">⚠</span> Atención</button>
+            <button class="status-btn"><span class="status-icon">✕</span> Crítico</button>
+            <button class="status-btn"><span class="status-icon">—</span> N/E</button>
+          </div>
+          <div class="item-card-observation">
+            <textarea class="textarea" style="min-height: 50px;">Sin daños visibles. Pintura original en todos los paneles.</textarea>
+          </div>
+          <div class="item-card-photos">
+            <div class="photo-thumb" style="background: #ddd;">IMG</div>
+            <div class="photo-thumb" style="background: #ddd;">IMG</div>
+            <button class="photo-add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">Checklist Item — Attention</h3>
+      <div class="card item-card status-attention">
+        <div class="item-card-header">
+          <span>Neumáticos y llantas</span>
+          <span style="font-size: 14px; color: var(--gray-400);">▾</span>
+        </div>
+        <div class="item-card-content">
+          <div class="status-buttons">
+            <button class="status-btn"><span class="status-icon">✓</span> Bien</button>
+            <button class="status-btn selected-attention"><span class="status-icon">⚠</span> Atención</button>
+            <button class="status-btn"><span class="status-icon">✕</span> Crítico</button>
+            <button class="status-btn"><span class="status-icon">—</span> N/E</button>
+          </div>
+          <div class="item-card-observation">
+            <textarea class="textarea" style="min-height: 50px;">Neumáticos delanteros con 40% de vida útil. Traseros al 60%. Recomiendo cambio de delanteros en los próximos 10.000 km.</textarea>
+          </div>
+          <div class="item-card-photos">
+            <div class="photo-thumb" style="background: #ddd;">IMG</div>
+            <button class="photo-add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">Checklist Item — Critical</h3>
+      <div class="card item-card status-critical">
+        <div class="item-card-header">
+          <span>Sistema de frenos</span>
+          <span style="font-size: 14px; color: var(--gray-400);">▾</span>
+        </div>
+        <div class="item-card-content">
+          <div class="status-buttons">
+            <button class="status-btn"><span class="status-icon">✓</span> Bien</button>
+            <button class="status-btn"><span class="status-icon">⚠</span> Atención</button>
+            <button class="status-btn selected-critical"><span class="status-icon">✕</span> Crítico</button>
+            <button class="status-btn"><span class="status-icon">—</span> N/E</button>
+          </div>
+          <div class="item-card-observation">
+            <textarea class="textarea" style="min-height: 50px;">Pastillas de freno delanteras al límite. Disco delantero izquierdo con desgaste irregular. Reparación urgente antes de circular.</textarea>
+          </div>
+          <div class="item-card-photos">
+            <div class="photo-thumb" style="background: #ddd;">IMG</div>
+            <div class="photo-thumb" style="background: #ddd;">IMG</div>
+            <div class="photo-thumb photo-thumb-uploading" style="background: #ddd;">IMG</div>
+            <button class="photo-add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">Free Text Item</h3>
+      <div class="card item-card" style="border-left: 3px solid var(--brand-accent);">
+        <div class="item-card-header">
+          <span>Observaciones generales y recomendación</span>
+        </div>
+        <div class="item-card-content">
+          <textarea class="textarea" style="min-height: 100px;">Vehículo en buen estado general para el kilometraje. Los frenos requieren atención inmediata. Neumáticos delanteros próximos a cambio. Recomiendo la compra con presupuesto de $150.000 para frenos y neumáticos.</textarea>
+          <div class="item-card-photos" style="margin-top: var(--space-3);">
+            <button class="photo-add-btn">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Badges & Status
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">7. Badges & Sync Status</h2>
+
+    <h3 class="subsection-title">Badges</h3>
+    <div class="row" style="align-items: center;">
+      <span class="badge badge-draft">Borrador</span>
+      <span class="badge badge-signed">Firmado</span>
+    </div>
+
+    <h3 class="subsection-title">Sync Status Indicators</h3>
+    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+      <div class="sync-status sync-saved"><span class="sync-dot"></span> Guardado</div>
+      <div class="sync-status sync-synced"><span class="sync-dot"></span> Sincronizado</div>
+      <div class="sync-status sync-offline"><span class="sync-dot"></span> Sin conexión — guardado local</div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Section Tabs
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">8. Section Tabs (Navigation)</h2>
+    <div style="max-width: 400px; background: var(--white); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--gray-200);">
+      <div class="section-tabs">
+        <button class="section-tab">Exterior</button>
+        <button class="section-tab active">Motor</button>
+        <button class="section-tab">Interior</button>
+        <button class="section-tab">Tren</button>
+        <button class="section-tab">Mecánica</button>
+        <button class="section-tab">Ruta</button>
+        <button class="section-tab">Eléctrica</button>
+        <button class="section-tab">Doc.</button>
+        <button class="section-tab">Conclusión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Inspection Summary Cards
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">9. Inspection Summary Cards (Dashboard)</h2>
+
+    <div style="max-width: 500px; display: flex; flex-direction: column; gap: var(--space-4);">
+      <div class="card summary-card">
+        <div class="card-body">
+          <div class="summary-card-header">
+            <div>
+              <div class="summary-card-vehicle">Nissan Sentra 2019</div>
+              <div class="summary-card-vin">3N1AB7AP5KY250312</div>
+            </div>
+            <span class="badge badge-signed">Firmado</span>
+          </div>
+          <div class="summary-card-meta">
+            <div class="report-meta-row">12 Mar 2026 · 87,500 km</div>
+            <div>Pre-compra · Solicitado por comprador</div>
+          </div>
+        </div>
+        <div class="summary-card-footer">23 items · 12 fotos · 18 observaciones</div>
+      </div>
+
+      <div class="card summary-card">
+        <div class="card-body">
+          <div class="summary-card-header">
+            <div>
+              <div class="summary-card-vehicle">Toyota Corolla 2021</div>
+              <div class="summary-card-vin">9BRBL3HE3M0123456</div>
+            </div>
+            <span class="badge badge-draft">Borrador</span>
+          </div>
+          <div class="summary-card-meta">
+            <div class="report-meta-row">12 Mar 2026 · 34,200 km</div>
+            <div>Pre-compra · Solicitado por comprador</div>
+          </div>
+        </div>
+        <div class="summary-card-footer">8/23 items · 4 fotos · 6 observaciones</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Verification Badge
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">10. Verification Badge</h2>
+    <div style="max-width: 500px;">
+      <div class="verification-badge">
+        <div class="verification-badge-icon">🛡</div>
+        <div class="verification-badge-text">
+          Este informe fue firmado el <strong>12 Mar 2026</strong> por <strong>Taller Martínez</strong> y no puede ser modificado. Cualquier corrección se registra como un evento separado.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Layout Shells
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">11. Layout Shells</h2>
+
+    <h3 class="subsection-title">Shell A — Public Pages (report, profile, vehicle)</h3>
+    <div class="shell-demo">
+      <div class="shell-a-topbar">
+        <div class="shell-a-logo">VinDex</div>
+        <div style="font-size: 14px; color: var(--gray-400);">vindex.app</div>
+      </div>
+      <div class="shell-a-content">
+        <div style="text-align: center; color: var(--gray-300); padding: var(--space-10) 0;">
+          Content Area — max-width: 768px
+        </div>
+      </div>
+      <div class="shell-a-footer">Verificado en VinDex · vindex.app</div>
+    </div>
+
+    <h3 class="subsection-title">Shell B — Dashboard (authenticated)</h3>
+    <div class="shell-demo">
+      <div class="shell-b-topbar">
+        <div class="shell-b-logo">VinDex</div>
+        <div class="shell-b-section">Mis Inspecciones</div>
+        <div class="shell-b-user">
+          <span>Carlos M.</span>
+          <div class="shell-b-avatar">CM</div>
+        </div>
+      </div>
+      <div class="shell-b-content">
+        <div style="text-align: center; color: var(--gray-300); padding: var(--space-10) 0;">
+          Content Area — max-width: 1024px
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Shell C — Field Mode (inspection form, mobile)</h3>
+    <div class="shell-demo" style="max-width: 400px;">
+      <div class="shell-c-container">
+        <div class="shell-c-topbar">
+          <div class="shell-c-vehicle">Nissan Sentra 2019</div>
+          <div style="display: flex; align-items: center; gap: var(--space-2);">
+            <div class="sync-status sync-saved" style="font-size: 11px;"><span class="sync-dot"></span> Guardado</div>
+            <div class="shell-c-progress">2/9</div>
+            <button class="shell-c-close">✕</button>
+          </div>
+        </div>
+        <div class="shell-c-tabs">
+          <div class="section-tabs">
+            <button class="section-tab">Ext.</button>
+            <button class="section-tab active">Motor</button>
+            <button class="section-tab">Int.</button>
+            <button class="section-tab">Tren</button>
+            <button class="section-tab">Mec.</button>
+            <button class="section-tab">Ruta</button>
+            <button class="section-tab">Elec.</button>
+            <button class="section-tab">Doc.</button>
+            <button class="section-tab">Concl.</button>
+          </div>
+        </div>
+        <div class="shell-c-content">
+          <div class="card item-card status-good" style="margin-bottom: var(--space-3);">
+            <div class="item-card-header" style="padding: var(--space-2) var(--space-3); font-size: 14px;">
+              <span>Nivel y estado de aceite</span>
+            </div>
+            <div class="item-card-content" style="padding: var(--space-3);">
+              <div class="status-buttons">
+                <button class="status-btn selected-good" style="height: 48px; font-size: 12px;"><span class="status-icon">✓</span> Bien</button>
+                <button class="status-btn" style="height: 48px; font-size: 12px;"><span class="status-icon">⚠</span> Att</button>
+                <button class="status-btn" style="height: 48px; font-size: 12px;"><span class="status-icon">✕</span> Crit</button>
+                <button class="status-btn" style="height: 48px; font-size: 12px;"><span class="status-icon">—</span> N/E</button>
+              </div>
+              <textarea class="textarea" style="min-height: 36px; font-size: 14px; margin-top: var(--space-2);" placeholder="Observación...">Nivel correcto. Aceite limpio, cambio reciente.</textarea>
+            </div>
+          </div>
+          <div class="card item-card status-attention" style="margin-bottom: var(--space-3);">
+            <div class="item-card-header" style="padding: var(--space-2) var(--space-3); font-size: 14px;">
+              <span>Sistema de refrigeración</span>
+            </div>
+            <div class="item-card-content" style="padding: var(--space-3);">
+              <div class="status-buttons">
+                <button class="status-btn" style="height: 48px; font-size: 12px;"><span class="status-icon">✓</span> Bien</button>
+                <button class="status-btn selected-attention" style="height: 48px; font-size: 12px;"><span class="status-icon">⚠</span> Att</button>
+                <button class="status-btn" style="height: 48px; font-size: 12px;"><span class="status-icon">✕</span> Crit</button>
+                <button class="status-btn" style="height: 48px; font-size: 12px;"><span class="status-icon">—</span> N/E</button>
+              </div>
+              <textarea class="textarea" style="min-height: 36px; font-size: 14px; margin-top: var(--space-2);" placeholder="Observación...">Manguera superior con principio de desgaste.</textarea>
+            </div>
+          </div>
+        </div>
+        <div class="shell-c-bottombar">
+          <button class="btn btn-sm btn-secondary">◀ Exterior</button>
+          <button class="shell-c-camera-btn">📷</button>
+          <button class="btn btn-sm btn-primary">Interior ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Public Report Preview
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">12. Public Report Preview</h2>
+
+    <div class="shell-demo">
+      <div class="shell-a-topbar">
+        <div class="shell-a-logo">VinDex</div>
+      </div>
+      <div class="shell-a-content">
+
+        <!-- Report Header -->
+        <div class="report-header">
+          <div>
+            <div class="report-vehicle-title">Nissan Sentra 2019 SR</div>
+            <div class="report-meta">
+              <div class="report-meta-row">
+                <span>VIN: 3N1AB7AP•••••0312</span>
+                <span>87,500 km</span>
+              </div>
+              <div class="report-meta-row">
+                <span>Inspección pre-compra · 12 Mar 2026</span>
+              </div>
+              <div class="report-meta-row">
+                <span>Solicitado por: <strong>Comprador</strong></span>
+              </div>
+            </div>
+          </div>
+          <div class="report-inspector">
+            <div>
+              <div class="report-inspector-name">Taller Martínez</div>
+              <a href="#" class="report-inspector-link">Ver perfil →</a>
+            </div>
+            <div class="report-inspector-logo">TM</div>
+          </div>
+        </div>
+
+        <!-- Verification Badge -->
+        <div class="verification-badge" style="margin-bottom: var(--space-6);">
+          <div class="verification-badge-icon">🛡</div>
+          <div class="verification-badge-text">
+            Firmado el <strong>12 Mar 2026</strong> por <strong>Taller Martínez</strong>. Este informe no puede ser modificado.
+          </div>
+        </div>
+
+        <!-- Report Findings -->
+        <div class="report-section-title">Exterior</div>
+
+        <div class="report-finding good">
+          <div class="report-finding-header">
+            <span class="report-finding-name">Carrocería y pintura</span>
+            <span class="report-finding-status good">Bien</span>
+          </div>
+          <div class="report-finding-observation">Sin daños visibles. Pintura original en todos los paneles.</div>
+        </div>
+
+        <div class="report-finding good">
+          <div class="report-finding-header">
+            <span class="report-finding-name">Vidrios y espejos</span>
+            <span class="report-finding-status good">Bien</span>
+          </div>
+        </div>
+
+        <div class="report-finding attention">
+          <div class="report-finding-header">
+            <span class="report-finding-name">Neumáticos y llantas</span>
+            <span class="report-finding-status attention">Atención</span>
+          </div>
+          <div class="report-finding-observation">Neumáticos delanteros con 40% de vida útil. Traseros al 60%. Cambio de delanteros recomendado en los próximos 10.000 km.</div>
+        </div>
+
+        <div class="report-section-title">Motor</div>
+
+        <div class="report-finding good">
+          <div class="report-finding-header">
+            <span class="report-finding-name">Nivel y estado de aceite</span>
+            <span class="report-finding-status good">Bien</span>
+          </div>
+          <div class="report-finding-observation">Nivel correcto. Aceite limpio, cambio reciente.</div>
+        </div>
+
+        <div class="report-finding critical">
+          <div class="report-finding-header">
+            <span class="report-finding-name">Sistema de frenos</span>
+            <span class="report-finding-status critical">Crítico</span>
+          </div>
+          <div class="report-finding-observation">Pastillas de freno delanteras al límite. Disco delantero izquierdo con desgaste irregular. Reparación urgente.</div>
+        </div>
+
+        <div class="report-section-title">Conclusión</div>
+        <div style="font-size: 15px; color: var(--gray-700); line-height: 24px; padding: var(--space-4); background: var(--gray-50); border-radius: var(--radius-md);">
+          Vehículo en buen estado general para el kilometraje. Los frenos requieren atención inmediata. Neumáticos delanteros próximos a cambio. Recomiendo la compra con presupuesto de $150.000 para frenos y neumáticos.
+        </div>
+
+      </div>
+      <div class="shell-a-footer">Verificado en VinDex · vindex.app</div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: OG Preview Card
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">13. OpenGraph Preview Card</h2>
+    <p class="text-sm text-gray-500 mb-4">Así se vería el link cuando se comparte en WhatsApp, MercadoLibre o Facebook.</p>
+
+    <div class="og-preview">
+      <div class="og-preview-image">🚗</div>
+      <div class="og-preview-body">
+        <div class="og-preview-title">Nissan Sentra 2019 SR — Inspección verificada</div>
+        <div class="og-preview-desc">Inspección pre-compra · 23 items evaluados, 4 hallazgos · Por Taller Martínez · Verificado en VinDex</div>
+        <div class="og-preview-url">vindex.app</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SECTION: Touch Target Reference
+       ========================================== -->
+  <div class="section">
+    <h2 class="section-title">14. Touch Target Reference</h2>
+    <p class="text-sm text-gray-500 mb-4">Minimum 48x48px for all interactive elements. These boxes show the minimum sizes.</p>
+
+    <div class="row" style="align-items: end;">
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--brand-accent); opacity: 0.2; border: 2px dashed var(--brand-accent); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+          <span style="font-size: 11px; color: var(--brand-accent); font-weight: 600;">48px</span>
+        </div>
+        <span style="font-size: 11px; color: var(--gray-400); margin-top: 4px; display: block;">Min touch</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 56px; height: 56px; background: var(--status-good); opacity: 0.2; border: 2px dashed var(--status-good); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+          <span style="font-size: 11px; color: var(--status-good); font-weight: 600;">56px</span>
+        </div>
+        <span style="font-size: 11px; color: var(--gray-400); margin-top: 4px; display: block;">Status btn</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 64px; height: 64px; background: var(--gray-400); opacity: 0.2; border: 2px dashed var(--gray-400); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+          <span style="font-size: 11px; color: var(--gray-600); font-weight: 600;">64px</span>
+        </div>
+        <span style="font-size: 11px; color: var(--gray-400); margin-top: 4px; display: block;">Photo thumb</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
