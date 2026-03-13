@@ -33,8 +33,75 @@ export const updateTemplateSchema = z.object({
     .min(1, "El template debe tener al menos una sección"),
 });
 
+// ─── Vehicle Schemas ────────────────────────────────────────────────────────
+
+export const vehicleEntrySchema = z.object({
+  vin: z
+    .string()
+    .length(17, "El VIN debe tener 17 caracteres.")
+    .regex(/^[A-HJ-NPR-Z0-9]+$/i, "El VIN contiene caracteres inválidos."),
+  make: z.string().max(100).optional().nullable(),
+  model: z.string().max(100).optional().nullable(),
+  year: z.number().int().min(1900).max(2100).optional().nullable(),
+  trim: z.string().max(100).optional().nullable(),
+  plate: z.string().max(20).optional().nullable(),
+});
+
+// ─── Inspection Metadata Schemas ────────────────────────────────────────────
+
+export const inspectionTypeValues = [
+  "pre_purchase",
+  "intake",
+  "periodic",
+  "other",
+] as const;
+
+export const requestedByValues = [
+  "buyer",
+  "seller",
+  "agency",
+  "other",
+] as const;
+
+export const createInspectionSchema = z.object({
+  vehicleId: z.string().uuid("ID de vehículo inválido."),
+  inspectionType: z.enum(inspectionTypeValues, {
+    error: "Tipo de inspección inválido.",
+  }),
+  requestedBy: z.enum(requestedByValues, {
+    error: "Valor de 'solicitada por' inválido.",
+  }),
+  odometerKm: z
+    .number()
+    .int("El kilometraje debe ser un número entero.")
+    .min(1, "Ingresá un kilometraje válido."),
+  eventDate: z.string().min(1, "La fecha es requerida."),
+});
+
+// ─── Finding Schemas ────────────────────────────────────────────────────────
+
+export const findingStatusValues = [
+  "good",
+  "attention",
+  "critical",
+  "not_evaluated",
+] as const;
+
+export const updateFindingSchema = z.object({
+  findingId: z.string().uuid("ID de hallazgo inválido."),
+  status: z
+    .enum(findingStatusValues, {
+      error: "Estado de hallazgo inválido.",
+    })
+    .optional(),
+  observation: z.string().optional().nullable(),
+});
+
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export type TemplateItem = z.infer<typeof templateItemSchema>;
 export type TemplateSection = z.infer<typeof templateSectionSchema>;
 export type UpdateTemplateInput = z.infer<typeof updateTemplateSchema>;
+export type VehicleEntryInput = z.infer<typeof vehicleEntrySchema>;
+export type CreateInspectionInput = z.infer<typeof createInspectionSchema>;
+export type UpdateFindingInput = z.infer<typeof updateFindingSchema>;
