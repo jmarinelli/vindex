@@ -51,6 +51,11 @@ vindex/
 │   ├── entities/
 │   ├── flows/
 │   └── ui/
+│       ├── design-system.md        # Written spec (tokens, patterns, layouts)
+│       ├── showcase.html           # HTML visual showcase
+│       └── designs/                # Pencil (.pen) visual mockups
+│           ├── design-system.pen   # Shared tokens + reusable components
+│           └── {phase}.pen         # Per-phase screen mockups (import design-system.pen)
 │
 ├── public/                         # Static assets
 │   ├── sw.js                       # Service worker (PWA)
@@ -203,7 +208,68 @@ User action (status change, observation text, photo capture)
 
 ---
 
-## 5. Environment Variables
+## 5. Testing
+
+### 5.1 Stack
+
+| Tool | Purpose |
+|------|---------|
+| Vitest | Unit and integration test runner. Fast, native ESM, compatible with Next.js. |
+| React Testing Library | Component testing — render, query, interact, assert. |
+| MSW (Mock Service Worker) | HTTP-level mocking for API calls and external services (NHTSA, Cloudinary). |
+| `@testing-library/user-event` | Realistic user interaction simulation (click, type, drag). |
+| `vitest-environment-vprisma` or `pg-mem` | In-memory PostgreSQL for integration tests against Drizzle schema. |
+
+### 5.2 Coverage Target
+
+- **Global minimum: 80% line coverage.** Enforced in CI — builds fail below threshold.
+- Coverage is measured per-module. No module may fall below 70%.
+- Coverage config lives in `vitest.config.ts` with thresholds set via `coverage.thresholds`.
+
+### 5.3 Test Categories
+
+| Category | Location | What it covers | Speed |
+|----------|----------|---------------|-------|
+| **Unit** | `__tests__/unit/` or co-located `*.test.ts` | Services, validators, utilities, pure functions | < 1s per file |
+| **Integration** | `__tests__/integration/` | Server actions end-to-end (action → service → DB), auth flows, API routes | < 5s per file |
+| **Component** | Co-located `*.test.tsx` | React component rendering, interaction, state changes | < 2s per file |
+
+### 5.4 Conventions
+
+- **Co-located component tests.** Component test files live next to the component: `template-editor.tsx` → `template-editor.test.tsx`.
+- **Centralized service/action tests.** Under `__tests__/unit/services/` and `__tests__/integration/actions/`.
+- **Test file naming:** `{module}.test.ts` or `{module}.test.tsx`.
+- **No mocking of internal services in integration tests.** Integration tests exercise the real service → DB path. Only external HTTP calls (NHTSA, Cloudinary) are mocked via MSW.
+- **Factory functions for test data.** Shared factories in `__tests__/helpers/factories.ts` — produce valid entities using the same Zod schemas as production code.
+- **Each test is independent.** No shared mutable state between tests. Database is reset between integration test suites.
+- **Server actions are tested as integration tests.** Call the action function directly, assert on the return value and DB state.
+- **Validators are tested as unit tests.** Test valid input, invalid input, and edge cases for every Zod schema.
+
+### 5.5 What to Test per Layer
+
+| Layer | Must test | Not required |
+|-------|-----------|-------------|
+| **Validators** (`validators.ts`) | Every schema: valid input passes, invalid input fails with correct error | — |
+| **Services** (`services/*.ts`) | Business rules, authorization checks, error cases, DB reads/writes | Internal implementation details |
+| **Server Actions** (`actions/*.ts`) | Full round-trip: input → validation → service → response shape | — (tested as integration) |
+| **Components** | Renders correctly, user interactions trigger expected callbacks/state, error/loading/empty states | Pixel-perfect styling, animation timing |
+| **Utilities** (`lib/*.ts`) | All exported functions, edge cases | — |
+| **Auth** (`auth.ts`) | Login flow, session creation, role-based access, protected routes redirect | — |
+| **DB Schema** | Migrations apply cleanly, seed script runs, constraints enforced | — |
+
+### 5.6 Scripts
+
+```bash
+npm run test              # Run all tests
+npm run test:unit         # Unit tests only
+npm run test:integration  # Integration tests only
+npm run test:coverage     # Run with coverage report
+npm run test:watch        # Watch mode (dev)
+```
+
+---
+
+## 6. Environment Variables
 
 ```
 # Database

@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { Logo } from "@/components/ui/logo";
 
 export function LoginForm() {
   const router = useRouter();
@@ -35,19 +36,17 @@ export function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-sm">
-      <h1 className="text-2xl font-bold text-center text-brand-primary mb-8">
-        VinDex
-      </h1>
-      <div className="bg-white rounded-md shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">
+    <div className="w-full max-w-[400px] flex flex-col items-center gap-6">
+      <Logo size="lg" />
+      <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-8">
+        <h2 className="text-xl font-semibold text-gray-800 sm:text-2xl sm:font-bold">
           Iniciar sesión
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
+        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
+          <div className="flex flex-col gap-1.5">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700"
             >
               Email
             </label>
@@ -60,10 +59,10 @@ export function LoginForm() {
               placeholder="tu@email.com"
             />
           </div>
-          <div>
+          <div className="flex flex-col gap-1.5">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-sm font-medium text-gray-700"
             >
               Contraseña
             </label>
@@ -79,7 +78,7 @@ export function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-10 bg-brand-primary text-white rounded-sm font-medium hover:bg-brand-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-10 sm:h-11 bg-brand-primary text-white rounded-sm font-medium hover:bg-brand-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? "Ingresando..." : "Ingresar"}
           </button>

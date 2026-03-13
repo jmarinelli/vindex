@@ -55,9 +55,9 @@ Landing (/)
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `brand-primary` | `#1E3A5F` | Primary actions, headers, links |
-| `brand-primary-hover` | `#162D4A` | Hover state |
-| `brand-accent` | `#3B82F6` | Active states, focus rings, highlights |
+| `brand-primary` | `#1E293B` | Primary actions, headers, links |
+| `brand-primary-hover` | `#0F172A` | Hover state |
+| `brand-accent` | `#0EA5E9` | Active states, focus rings, highlights |
 
 **Status** — the most important colors in the system. Used on every inspection form and report.
 
@@ -95,7 +95,7 @@ Landing (/)
 | `success` | `#16A34A` | Success messages, confirmations |
 | `warning` | `#D97706` | Warnings |
 | `error` | `#DC2626` | Errors, destructive actions |
-| `info` | `#3B82F6` | Informational messages |
+| `info` | `#0EA5E9` | Informational messages |
 
 ### 2.2 Typography
 
@@ -427,7 +427,7 @@ When the report link is shared on WhatsApp, MercadoLibre, Facebook:
 
 **Mobile-first:** all CSS starts from mobile and scales up.
 
-**Field mode (inspection form) is mobile-only in design.** It renders acceptably on tablet/desktop but is not optimized for those viewports. The inspector is holding a phone.
+**Field mode (inspection form) is optimized for mobile.** The inspector is typically holding a phone. On tablet/desktop (≥ 640px), the layout adapts: content area is capped at `768px` centered, item cards get more internal padding (`space-6`), and photo thumbnails increase to 80x80px. The fixed top bar, section tabs, and bottom bar span full viewport width. No side panel or multi-column layout — the single-column flow is preserved at a comfortable reading width.
 
 **Public report is optimized for all viewports.** Buyers may view on phone (WhatsApp link) or desktop (marketplace listing).
 

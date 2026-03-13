@@ -2,19 +2,26 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
+import { Logo } from "@/components/ui/logo";
 
-export function ShellDashboard({ children }: { children: React.ReactNode }) {
+export function ShellDashboard({
+  children,
+  title = "Dashboard",
+}: {
+  children: React.ReactNode;
+  title?: string;
+}) {
   const { data: session } = useSession();
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Top bar — 64px */}
       <header className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4">
-        <Link href="/dashboard" className="text-lg font-bold text-brand-primary">
-          VinDex
+        <Link href="/dashboard">
+          <Logo size="sm" />
         </Link>
         <span className="text-sm font-medium text-gray-700 hidden sm:block">
-          Dashboard
+          {title}
         </span>
         <div className="flex items-center gap-3">
           <span className="text-sm text-gray-600">

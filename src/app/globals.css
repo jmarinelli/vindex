@@ -55,10 +55,10 @@
   --radius-2xl: 20px;
   --radius-full: 9999px;
 
-  /* VinDex brand colors */
-  --color-brand-primary: #1E3A5F;
-  --color-brand-primary-hover: #162D4A;
-  --color-brand-accent: #3B82F6;
+  /* VinDex brand colors (slate palette) */
+  --color-brand-primary: #1E293B;
+  --color-brand-primary-hover: #0F172A;
+  --color-brand-accent: #0EA5E9;
 
   /* Status colors */
   --color-status-good: #16A34A;
@@ -86,7 +86,7 @@
   --color-success: #16A34A;
   --color-warning: #D97706;
   --color-error: #DC2626;
-  --color-info: #3B82F6;
+  --color-info: #0EA5E9;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -103,33 +103,33 @@
   --card-foreground: #1F2937;
   --popover: #FFFFFF;
   --popover-foreground: #1F2937;
-  --primary: #1E3A5F;
+  --primary: #1E293B;
   --primary-foreground: #FFFFFF;
   --secondary: #F3F4F6;
   --secondary-foreground: #374151;
   --muted: #F3F4F6;
   --muted-foreground: #6B7280;
-  --accent: #3B82F6;
+  --accent: #0EA5E9;
   --accent-foreground: #FFFFFF;
   --destructive: #DC2626;
   --border: #E5E7EB;
   --input: #E5E7EB;
-  --ring: #3B82F6;
+  --ring: #0EA5E9;
   --radius: 8px;
 
   /* Sidebar */
   --sidebar: #FFFFFF;
   --sidebar-foreground: #1F2937;
-  --sidebar-primary: #1E3A5F;
+  --sidebar-primary: #1E293B;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #F3F4F6;
   --sidebar-accent-foreground: #1F2937;
   --sidebar-border: #E5E7EB;
-  --sidebar-ring: #3B82F6;
+  --sidebar-ring: #0EA5E9;
 
   /* Charts */
-  --chart-1: #1E3A5F;
-  --chart-2: #3B82F6;
+  --chart-1: #1E293B;
+  --chart-2: #0EA5E9;
   --chart-3: #16A34A;
   --chart-4: #D97706;
   --chart-5: #DC2626;

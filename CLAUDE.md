@@ -16,6 +16,7 @@
 - UI specs: specs/ui/ (written per phase, before implementation)
 - Design system: specs/ui/design-system.md
 - Visual showcase: specs/ui/showcase.html
+- Design mockups: specs/ui/designs/*.pen (Pencil files, per phase)
 
 ## Conventions
 
@@ -63,6 +64,20 @@ From specs/architecture.md — follow these strictly:
 - Service worker caches app shell (stale-while-revalidate).
 - Dexie.js (IndexedDB) for offline draft persistence and photo queuing.
 - Signing requires connectivity. Everything else works offline.
+
+### Testing
+- Vitest + React Testing Library + MSW. See `specs/architecture.md §5` for full details.
+- Coverage target: ≥ 80% line coverage globally, ≥ 70% per module.
+- Co-located component tests (`*.test.tsx`), centralized service/action tests under `__tests__/`.
+- No mocking internal services in integration tests — only mock external HTTP (MSW).
+- Factory functions for test data in `__tests__/helpers/factories.ts`.
+- Every phase must meet coverage before completion.
+
+### Design Mockups (.pen files)
+- `specs/ui/designs/design-system.pen` is the visual source of truth. It defines design tokens as variables and reusable components (buttons, status buttons, cards, inputs, badges, tabs, etc.).
+- Screen mockups (one `.pen` per phase) import `design-system.pen` so all tokens and components propagate automatically.
+- Per-phase workflow: write flow spec (.md) → write UI spec (.md) → design in Pencil (.pen) → implement → review against mockup.
+- If a design token or component changes, update `design-system.pen` first — changes propagate to all importing files.
 
 ## Stack
 
