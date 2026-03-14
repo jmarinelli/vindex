@@ -176,7 +176,7 @@ Items are displayed as vertically stacked cards within the active section.
 #### 3.4 Bottom Bar (Fixed, 56px)
 
 - **Previous button** (left): "◀ Anterior". Navigates to previous section. Disabled on first section.
-- **Camera button** (center): "📷 Foto general". Adds a photo to the event's general photos (not tied to any finding). Always enabled.
+- **Camera button** (center): "📷 Foto". Adds a vehicle photo (`photo_type = 'vehicle'`, not tied to any finding). Auto-expands the vehicle photos section if collapsed. Always enabled.
 - **Next button** (right): "Siguiente ▶". Navigates to next section. On last section, label changes to "Revisar ▶" (future: navigates to Review & Sign in Phase 3).
 
 #### 3.5 Sync Indicator
@@ -307,7 +307,7 @@ Inspector changes status / types observation / captures photo
   → Write to Dexie immediately (debounced for text)
   → Queue sync:
     → Server action: updateFinding({ findingId, status?, observation? })
-    → Server action: uploadPhoto({ eventId, findingId?, blob })
+    → Server action: uploadPhoto({ eventId, findingId?, photoType, blob })
   → If online: sync immediately
   → If offline: queue for later
 ```
@@ -349,7 +349,7 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 | **Item card (checklist)** | Renders name + status buttons + textarea + photo row · Status change auto-saves · Observation debounces 500ms · Left border matches status |
 | **Item card (free_text)** | Renders name + textarea + photo row · No status buttons · Textarea auto-expands |
 | **Photo capture** | Camera button triggers file input · Thumbnail appears after capture · Upload indicator states · Long-press to delete |
-| **Bottom bar** | Previous/Next navigate sections · Disabled at boundaries · Camera adds general photo |
+| **Bottom bar** | Previous/Next navigate sections · Disabled at boundaries · Camera adds vehicle photo and expands vehicle photos section |
 | **Sync indicator** | Shows correct state (saved/syncing/synced/offline) · Transitions between states |
 | **Auto-save hooks** | `useAutoSave` debounces text at 500ms · `useDraft` loads from Dexie · `useOfflineStatus` reflects connectivity |
 

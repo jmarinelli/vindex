@@ -7,7 +7,7 @@
 
 ## Overview
 
-The MVP is built in 6 phases (0–5). Each phase follows the Spec-Driven Development cycle: write the phase's flow + UI specs → design mockups in Pencil → implement → review against mockups → iterate → commit.
+The MVP is built in 14 sub-phases (0, 1, 2, 3A–3D, 4A–4B, 5A–5E). Each sub-phase follows the Spec-Driven Development cycle: write the sub-phase's flow + UI specs → design mockups in Pencil (when applicable) → implement → review against mockups → iterate → commit.
 
 Entity specs (`specs/entities/`) and the design system (`specs/ui/design-system.md`) are already written. Flow specs, UI specs, and `.pen` mockups are written just before the phase that needs them.
 
@@ -132,7 +132,7 @@ npm run test:coverage → ≥ 80% line coverage on Phase 1 code
 
 ### Specs to Write Before Implementation
 
-- `specs/flows/inspection-creation.md` — full flow: vehicle identification (VIN entry, decode, manual fallback), metadata (type, requested_by, odometer, date), structured form (by template), photo capture, general photos, draft persistence
+- `specs/flows/inspection-creation.md` — full flow: vehicle identification (VIN entry, decode, manual fallback), metadata (type, requested_by, odometer, date), structured form (by template), photo capture, vehicle photos, draft persistence
 - `specs/ui/inspection-form.md` — field mode layout (Shell C), section tabs, item cards (checklist + free text), status buttons, photo thumbnails, bottom bar, sync indicator, all states
 - `specs/ui/designs/field-mode.pen` — visual mockup (imports `design-system.pen`)
 
@@ -180,80 +180,227 @@ npm run test:coverage → ≥ 80% line coverage on Phase 2 code
 
 ---
 
-## Phase 3 — Signing + Report
+## Phase 3A — Signing Logic
 
-**Goal:** The inspector signs an inspection and gets a shareable verified report link. The report renders publicly with OG preview.
+**Goal:** The service layer supports signing inspections: completeness validation, immutability enforcement, and the server action. No UI yet.
 
 ### Specs to Write Before Implementation
 
-- `specs/flows/inspection-signing.md` — review summary, sign action, immutability enforcement, slug generation, confirmation + share screen
+- `specs/flows/inspection-signing.md` — sign action preconditions, completeness rules, immutability enforcement, slug behavior (already generated at creation), status transition
+
+### What Gets Built
+
+- Signing logic in inspection service: `signInspection` (validates completeness, sets `signed_at` + `signed_by_user_id` + `status = 'signed'`)
+- Immutability guard in inspection service: reject any mutation (update/delete) on events where `status = 'signed'`
+- Zod validators for sign action input
+- Server action for signing (`src/lib/actions/inspection.ts`: `signInspectionAction`)
+
+### Test Plan
+
+- **Signing service:** Integration tests — `signInspection` validates completeness (rejects incomplete), sets `signed_at` to server timestamp, sets `signed_by_user_id`, transitions status to `signed`.
+- **Immutability enforcement:** Integration tests — attempt to update a signed event via service → throws error. Attempt to delete → throws error. Attempt to update findings on signed event → throws error.
+- **Completeness validation:** Unit tests — event with zero findings fails, event with all items evaluated passes, edge cases (some sections empty).
+- **Server action:** Integration test — full round-trip: call action with valid event → returns `{ success: true, data }` with correct DB state. Call with invalid event → returns `{ success: false, error }`.
+- **Validators:** Unit tests for sign action input schema.
+
+### Deliverable
+
+```
+signInspection(eventId, userId) → transitions draft to signed
+Signed event rejects all mutations at service layer
+Server action validates input and returns correct shape
+npm run test:coverage → ≥ 80% line coverage on Phase 3A code
+```
+
+---
+
+## Phase 3B — Review & Sign UI
+
+**Goal:** The inspector can review a summary of their inspection and sign it. After signing, they see a confirmation screen with a shareable link.
+
+### Specs to Write Before Implementation
+
+- `specs/ui/review-sign.md` — Step 4 of inspection flow: summary layout, findings overview by section, status counts, sign button states, confirmation screen, share actions
+
+### What Gets Built
+
+- Review & Sign step in inspection flow (Step 4 at `src/app/dashboard/inspect/[id]/sign/`):
+  - Summary view: all findings grouped by section (status icon + observation preview)
+  - Status counts bar (good / attention / critical / not evaluated)
+  - Photo count summary
+  - "Sign Inspection" button (disabled if incomplete, loading state while signing)
+- Confirmation screen (post-sign):
+  - Success message with verification badge
+  - Shareable report URL displayed prominently
+  - Copy-to-clipboard button
+  - Native share API button (mobile)
+- Navigation: from findings form (Step 3) → review (Step 4) → confirmation
+
+### Test Plan
+
+- **Review summary:** Component tests — renders all sections with findings, status counts are correct, incomplete inspection shows warning, sign button disabled when incomplete.
+- **Sign interaction:** Component test — sign button calls action, shows loading state, transitions to confirmation on success, shows error toast on failure.
+- **Confirmation screen:** Component tests — displays report URL, copy button copies to clipboard, share button triggers native share API (or fallback).
+- **Navigation:** Component test — back from review returns to findings, sign success navigates to confirmation.
+
+### Deliverable
+
+```
+Inspector completes inspection → taps "Review & Sign"
+Sees summary of all findings with status counts
+Taps "Sign" → loading → confirmation screen
+Confirmation shows shareable link with copy + share buttons
+npm run test:coverage → ≥ 80% line coverage on Phase 3B code
+```
+
+---
+
+## Phase 3C — Public Report Page
+
+**Goal:** Signed inspections are viewable as a public report page with OG preview for social sharing.
+
+### Specs to Write Before Implementation
+
 - `specs/ui/report-public.md` — public report layout (Shell A), vehicle summary, inspector identity, findings by section, photos, verification badge, OG meta tags, white-label presentation
 - `specs/ui/designs/public-report.pen` — visual mockup (imports `design-system.pen`)
 
 ### What Gets Built
 
-- Signing logic in inspection service: signInspection (validates completeness, sets signed_at, generates slug, enforces immutability)
-- Slug generation utility (`src/lib/slug.ts`)
-- Server action for signing
-- Review & Sign step in inspection flow (Step 4): summary view of all findings, sign button, confirmation screen with shareable link
 - Public report page (`src/app/(public)/report/[slug]/`)
+  - Vehicle summary card (make, model, year, VIN, plate, odometer)
+  - Inspector identity card (name, logo, contact info from Node)
+  - Verification badge ("Signed on [date] by [name]. Cannot be modified.")
+  - Findings organized by section: items with status icon, observation text, photos
+  - General event photos section
+  - Links to inspector profile (`/inspector/{slug}`) and vehicle page (`/vehicle/{vin}`)
 - Report display components (`src/components/report/`): findings list, status indicators, photo gallery, verification badge, inspector card
-- OG image generation (`src/app/api/og/`): dynamic image per report using Satori / @vercel/og
-- OpenGraph meta tags on report page
-- Share actions: copy link, native share API (mobile)
+- OG image generation (`src/app/api/og/`): dynamic image per report using @vercel/og (vehicle info + inspector name + "Verified Inspection")
+- OpenGraph meta tags on report page (`og:title`, `og:description`, `og:image`, `twitter:card`)
+- Draft slugs return 404 on the public route
 
 ### Test Plan
 
-- **Signing service:** Integration tests — `signInspection` validates completeness, sets `signed_at`, generates slug, enforces immutability (reject update on signed event), incomplete inspection cannot be signed.
-- **Slug utility:** Unit tests — generates URL-safe strings, uniqueness, correct length.
-- **Server action for signing:** Integration test — full round-trip, return shape, DB state after sign.
-- **Review & Sign step:** Component tests — summary renders all findings, sign button triggers action, confirmation screen shows link, share actions work.
-- **Public report page:** Component tests — renders vehicle summary, inspector identity, findings by section, photos, verification badge. Handles missing data gracefully.
-- **OG image route:** Integration test — returns valid image response with correct content-type and dimensions.
-- **Immutability enforcement:** Integration test — attempt to update a signed event via service and action, verify rejection.
+- **Public report page:** Component tests — renders vehicle summary, inspector identity, verification badge, findings by section, photos. Handles missing optional data gracefully. Draft slug returns 404.
+- **Report components:** Component tests — findings list renders all types, status indicators use correct colors, photo gallery displays thumbnails with lightbox, inspector card shows node info.
+- **OG image route:** Integration test — returns valid image response with correct content-type (image/png) and dimensions (~1200×630).
+- **Meta tags:** Test — report page includes correct `og:title`, `og:description`, `og:image` tags.
 
 ### Deliverable
 
 ```
-Inspector completes inspection → reviews summary → taps "Sign"
-Gets confirmation with shareable link
-Link opens publicly: full report with findings, photos, inspector identity
+Visit /report/{slug} → full public report with findings, photos, inspector identity
 "Signed on [date] by [name]. Cannot be modified."
-Paste link in WhatsApp → professional OG preview renders
-Paste in MercadoLibre → preview card with vehicle photo and summary
-npm run test:coverage → ≥ 80% line coverage on Phase 3 code
+Draft slug → 404
+Paste link in WhatsApp/MercadoLibre → professional OG preview renders
+npm run test:coverage → ≥ 80% line coverage on Phase 3C code
 ```
 
 ---
 
-## Phase 4 — Dashboard + Profile
+## Phase 3D — Vehicle Photos
 
-**Goal:** The inspector has a functional home screen and a public professional profile.
+**Goal:** Promote "general photos" to a first-class "Vehicle Photos" feature with an explicit `photo_type` column, a dedicated section in field mode, a thumbnail preview in review & sign, and a prominent gallery in the public report.
+
+### Specs to Update Before Implementation
+
+- `specs/entities/event-photo.md` — add `photo_type` enum column (done)
+- `specs/ui/inspection-form.md` — add dedicated "Fotos del vehículo" collapsible section at the top of field mode (done)
+- `specs/ui/review-sign.md` — replace text count with mini thumbnail grid (done)
+- `specs/ui/report-public.md` — move vehicle photos gallery to just below Vehicle Summary Card (done)
+- `specs/flows/inspection-creation.md` — update references from "general photos" to "vehicle photos" with `photo_type` (done)
+- `specs/ui/designs/field-mode.pen` — add vehicle photos section to field mode mockup (done)
+- `specs/ui/designs/public-report.pen` — move gallery from bottom to below vehicle summary (done)
+
+### What Gets Built
+
+**Schema change:**
+
+- Add `photo_type` enum (`'finding' | 'vehicle'`) column to `event_photos` table (NOT NULL, no default).
+- Migration: backfill existing photos — `finding_id IS NULL → 'vehicle'`, else `'finding'`.
+- Update Drizzle schema in `src/db/schema.ts`.
+
+**Service layer:**
+
+- Update all photo queries to filter by `photo_type` instead of `finding_id IS NULL`.
+- Update `getPublicReport` to separate photos by `photo_type`.
+- Update photo creation in `src/offline/photo-queue.ts` and `src/lib/actions/inspection.ts` to include `photo_type`.
+
+**Field mode (Step 3) — dedicated vehicle photos section:**
+
+- Add a collapsible "Fotos del vehículo" section at the top of the item area, above the first section's items.
+- Contains a photo grid (2-column) showing captured vehicle photos with add/remove capability.
+- Collapsed by default if no photos; auto-expands when first vehicle photo is captured.
+- The bottom bar camera button continues to work as a shortcut — adds a photo and auto-expands the section.
+- Remove the old floating "Fotos generales" block that appeared at the bottom of the scrollable area.
+
+**Review & Sign (Step 4A) — thumbnail preview:**
+
+- Replace the "Fotos generales: X fotos" text line with a mini thumbnail grid of vehicle photos.
+- Position above the findings sections (after status counts bar).
+- Thumbnails are 64x64, 2-column grid, max 6 visible with "+N más" overflow indicator.
+- Section hidden if no vehicle photos.
+
+**Public report — vehicle gallery:**
+
+- Move the vehicle photos gallery from the bottom of the page (after findings) to just below the Vehicle Summary Card.
+- Rename from "Fotos generales" to "Fotos del vehículo".
+- Same grid layout (2-col mobile, 3-col desktop), same lightbox behavior.
+- If no vehicle photos, section not rendered (no gap).
+
+**Component updates:**
+
+- Update `src/components/report/general-photos.tsx` → rename to `vehicle-photos.tsx`, update props and semantics.
+- Update all `photos.filter(p => !p.findingId)` to `photos.filter(p => p.photoType === 'vehicle')`.
+- Update Dexie `DraftPhoto` type in `src/types/inspection.ts` to include `photoType`.
+
+### Test Plan
+
+- **Schema migration:** Integration test — migration adds `photo_type` column, backfill correctly classifies existing photos, NOT NULL constraint enforced after backfill.
+- **Validators:** Unit tests — photo creation requires `photo_type`, rejects invalid values, accepts `'finding'` and `'vehicle'`.
+- **Service layer:** Integration tests — `getPublicReport` returns photos separated by `photo_type`. Photo creation with explicit `photo_type` persists correctly.
+- **Field mode vehicle photos section:** Component tests — section renders collapsed when empty, expands when photos exist, add photo via section button works, add photo via bottom bar camera expands section, remove photo works (draft only), photo grid displays correct thumbnails.
+- **Review & Sign thumbnails:** Component tests — thumbnail grid renders vehicle photos, max 6 with overflow count, hidden when 0 photos.
+- **Public report gallery:** Component tests — gallery renders below vehicle summary (not at bottom), correct grid columns per viewport, lightbox opens on tap, hidden when 0 photos.
+- **Offline:** Unit tests — `DraftPhoto` includes `photoType`, Dexie persistence with `photoType` field, sync sends `photoType` to server.
+
+### Deliverable
+
+```
+Schema: photo_type column exists on event_photos, backfilled correctly
+Field mode: "Fotos del vehículo" collapsible section at top of item area
+Review & Sign: thumbnail grid of vehicle photos above findings
+Public report: vehicle gallery below vehicle summary card
+All photo queries use photo_type instead of findingId IS NULL
+npm run test:coverage → ≥ 80% line coverage on Phase 3D code
+```
+
+---
+
+## Phase 4A — Dashboard
+
+**Goal:** The inspector has a functional home screen listing all their inspections with search and filters.
 
 ### Specs to Write Before Implementation
 
 - `specs/ui/dashboard.md` — dashboard layout (Shell B), inspection list (drafts + signed), filters, quick actions, empty state
-- `specs/ui/inspector-profile.md` — public profile layout (Shell A), inspector identity, stats (inspection count, detail level, operating since), review aggregation, report list
 - `specs/ui/designs/dashboard.pen` — visual mockup (imports `design-system.pen`)
 
 ### What Gets Built
 
 - Dashboard page (`src/app/dashboard/page.tsx`): replace placeholder with full dashboard
-- Inspection list component: card per inspection (draft/signed badge, vehicle info, date, progress)
-- Search/filter: by VIN, date, status (draft/signed)
-- Quick action: "New Inspection" prominent button
-- Links to: template editor, public profile
-- Inspector profile page (`src/app/(public)/inspector/[slug]/`)
-- Profile components: identity card (name, logo, contact, bio), stats (inspection count, average detail level, inspecting since), review summary (aggregated match ratings), list of signed reports
-- Node service (`src/lib/services/node.ts`): getNodeProfile, getNodeStats
+- Inspection list component (`src/components/inspection/inspection-list.tsx`): card per inspection showing vehicle info, date, status badge (draft/signed), odometer, progress indicator
+- Search/filter: text input (searches VIN, make, model), status filter (draft/signed/all)
+- Quick action: prominent "New Inspection" button
+- Secondary links: template editor, public profile
+- Empty state: "No inspections yet" with CTA to create first inspection
+- Inspection service extension: `getInspectionsForNode` with filter/search params
 
 ### Test Plan
 
-- **Node service:** Integration tests — `getNodeProfile` returns correct data, `getNodeStats` calculates counts/averages correctly, handles node with zero inspections.
-- **Dashboard page:** Component tests — renders inspection list, filters work (VIN, date, status), empty state shown when no inspections, "New Inspection" button navigates correctly.
-- **Inspection list component:** Component tests — card renders draft vs signed correctly, badge styling, vehicle info display.
-- **Inspector profile page:** Component tests — renders identity card, stats, review summary, report list. Handles missing/empty data.
-- **Search/filter:** Component tests — input triggers filter, results update, clear filter resets list.
+- **Inspection service:** Integration tests — `getInspectionsForNode` returns correct list, filters by status, searches by VIN/make/model, handles empty results.
+- **Dashboard page:** Component tests — renders inspection list, empty state when no inspections, "New Inspection" button navigates to `/dashboard/inspect`.
+- **Inspection list component:** Component tests — card renders draft vs signed correctly (different badges), vehicle info displays, tap navigates to draft edit or signed report.
+- **Search/filter:** Component tests — text input filters results, status toggle works, clear filter restores full list.
 
 ### Deliverable
 
@@ -261,74 +408,253 @@ npm run test:coverage → ≥ 80% line coverage on Phase 3 code
 Inspector logs in → sees dashboard with all inspections
 Filters by VIN or status → results update
 Taps inspection → opens draft (edit) or signed (report)
-Visits their public profile → sees stats and report list
-Public profile accessible without auth at /inspector/{slug}
-npm run test:coverage → ≥ 80% line coverage on Phase 4 code
+Empty state shown when no inspections
+npm run test:coverage → ≥ 80% line coverage on Phase 4A code
 ```
 
 ---
 
-## Phase 5 — Vehicle Page + Reviews + Landing
+## Phase 4B — Inspector Profile
 
-**Goal:** Complete MVP. Vehicle page aggregates events. Buyers can leave reviews. Landing page captures inspector leads.
+**Goal:** Inspectors have a public professional profile showing their identity, stats, and signed report history.
 
 ### Specs to Write Before Implementation
 
-- `specs/flows/post-purchase-review.md` — review submission flow: access mechanism, ternary question, comment, spam prevention, display on report and profile
-- `specs/ui/vehicle-page.md` — vehicle page layout (Shell A), vehicle summary, event timeline, links to individual reports
-- `specs/ui/landing.md` — landing page layout, value proposition, inspector CTA (contact form/email link)
-- `specs/ui/designs/public-pages.pen` — visual mockup for vehicle page + landing (imports `design-system.pen`)
+- `specs/ui/inspector-profile.md` — public profile layout (Shell A), inspector identity, stats (inspection count, detail level, operating since), report list, empty states
 
 ### What Gets Built
 
-- Vehicle page (`src/app/(public)/vehicle/[vin]/`)
-- Vehicle timeline component: chronological list of signed events, each with type label, date, odometer, inspector name, link to report
-- Vehicle service extensions: getVehiclePage, getVehicleEvents
-- Review submission form on report page (no auth required)
-- Review service (`src/lib/services/review.ts`): submitReview, getReviewsForEvent, getReviewsForNode
-- Lightweight spam prevention (rate limiting + review token)
-- Review display on report page and inspector profile
-- Landing page (`src/app/page.tsx`): value proposition, "Are you an inspector?" CTA with contact form or email link
-- Correction flow: "Create Correction" from dashboard on signed events, links original and correction
-- Admin pages (`src/app/admin/`): node list + create, user list + create, basic metrics view
-- Service worker finalization (`public/sw.js`): app shell caching, stale-while-revalidate strategy
+- Inspector profile page (`src/app/(public)/inspector/[slug]/`)
+- Profile components:
+  - Identity card: name, logo, contact email/phone, bio, brand color accent
+  - Stats section: total signed inspections, "inspecting since" date, average detail level (avg photos, avg observations per report)
+  - Signed reports list: chronological, each with vehicle summary + date + link to report
+- Node service (`src/lib/services/node.ts`): `getNodeProfile(slug)`, `getNodeStats(nodeId)`
+- Handles edge cases: zero inspections, missing logo/bio, node not found (404)
 
 ### Test Plan
 
-- **Vehicle service extensions:** Integration tests — `getVehiclePage` returns vehicle + events, `getVehicleEvents` returns chronological list, handles VIN with no events.
-- **Review service:** Integration tests — `submitReview` creates review, rate limiting enforced, `getReviewsForEvent` and `getReviewsForNode` aggregate correctly.
-- **Vehicle page:** Component tests — renders vehicle summary, event timeline, links to reports, empty state.
-- **Review form:** Component tests — renders on report page, validation (required fields), submission, success/error states.
-- **Landing page:** Component tests — renders value proposition, CTA form works, form submission.
-- **Correction flow:** Integration tests — create correction links original event, correction appears in timeline.
-- **Admin pages:** Component tests — node list renders, create node form works, user list renders, create user form works.
-- **Service worker:** Manual or E2E — app shell cached, offline access works (deferred to post-MVP if E2E infra not ready).
+- **Node service:** Integration tests — `getNodeProfile` returns correct node data by slug, returns null for unknown slug. `getNodeStats` calculates inspection count, earliest signed_at, averages correctly. Handles node with zero inspections.
+- **Profile page:** Component tests — renders identity card, stats, report list. Missing logo/bio renders gracefully. Unknown slug shows 404.
+- **Report list:** Component test — renders signed events newest-first, each links to public report.
 
 ### Deliverable
 
 ```
-Visit /vehicle/{vin} → see all signed events for that VIN as timeline
-On report page → "Leave a review" → submit match rating + comment
-Review appears on report and on inspector profile
-Landing page explains value prop, inspector CTA works
-Admin can create nodes and users
-PWA installable: add to home screen, launches standalone
-Full MVP complete — ready for beta inspector onboarding
-npm run test:coverage → ≥ 80% line coverage on all code
+Visit /inspector/{slug} → public profile with identity, stats, report list
+Profile accessible without auth
+Node with zero inspections shows appropriate empty state
+npm run test:coverage → ≥ 80% line coverage on Phase 4B code
+```
+
+---
+
+## Phase 5A — Vehicle Page
+
+**Goal:** A public page per vehicle showing all signed inspection events as a timeline.
+
+### Specs to Write Before Implementation
+
+- `specs/ui/vehicle-page.md` — vehicle page layout (Shell A), vehicle summary, event timeline, links to individual reports, correction markers
+- `specs/ui/designs/vehicle-page.pen` — visual mockup (imports `design-system.pen`)
+
+### What Gets Built
+
+- Vehicle page (`src/app/(public)/vehicle/[vin]/`)
+  - Vehicle summary card (VIN, plate, make, model, year, trim)
+  - Event timeline: chronological list of signed events (newest first), each showing event type, date, odometer, inspector name (links to profile), link to report
+  - Correction markers: original shows "A correction has been issued", correction shows "This corrects [original]"
+  - Empty state: VIN found but no signed events
+  - 404: VIN not found
+- Vehicle timeline component (`src/components/vehicle/vehicle-timeline.tsx`)
+- Vehicle service extensions (`src/lib/services/vehicle.ts`): `getVehiclePage(vin)`, `getVehicleEvents(vin)`
+
+### Test Plan
+
+- **Vehicle service:** Integration tests — `getVehiclePage` returns vehicle + signed events with node info. `getVehicleEvents` returns chronological list, filters out drafts. Handles VIN with no events, unknown VIN.
+- **Vehicle page:** Component tests — renders vehicle summary, event timeline, links to reports. Empty state when no signed events. 404 for unknown VIN.
+- **Timeline component:** Component tests — events in correct order, correction relationships displayed, inspector name links to profile, report link works.
+
+### Deliverable
+
+```
+Visit /vehicle/{vin} → vehicle summary + timeline of all signed events
+Each event links to its public report
+Corrections show relationship to original
+npm run test:coverage → ≥ 80% line coverage on Phase 5A code
+```
+
+---
+
+## Phase 5B — Reviews
+
+**Goal:** Buyers can leave reviews on inspection reports. Reviews display on the report page and the inspector's profile.
+
+### Specs to Write Before Implementation
+
+- `specs/flows/post-purchase-review.md` — review submission flow: access mechanism, ternary question, comment, spam prevention, display on report and profile
+- `specs/ui/designs/reviews.pen` — visual mockup for review form and display (imports `design-system.pen`)
+
+### What Gets Built
+
+- Review service (`src/lib/services/review.ts`): `submitReview`, `getReviewsForEvent`, `getReviewsForNode`
+- Zod validators for review submission (match_rating required, comment optional max 500 chars)
+- Server action for review submission
+- Rate limiting: 1 review per event per IP per 24h
+- Review submission form on public report page (below findings, no auth required):
+  - Ternary match rating radio group ("Sí" / "Parcialmente" / "No")
+  - Optional comment textarea
+  - Submit button with loading/success/error states
+- Review display on report page: rating distribution bar, recent reviews list
+- Review aggregation on inspector profile (extends Phase 4B): total count, match rate, breakdown
+
+### Test Plan
+
+- **Review service:** Integration tests — `submitReview` creates review, rejects duplicate (rate limit), `getReviewsForEvent` returns correct list, `getReviewsForNode` aggregates correctly (count, match rate, breakdown).
+- **Validators:** Unit tests — match_rating required, comment max length, edge cases.
+- **Server action:** Integration test — valid submission succeeds, rate-limited submission fails, return shape.
+- **Review form:** Component tests — renders on report page, validation errors for missing rating, submission flow (loading → success), rate limit error display.
+- **Review display:** Component tests — rating distribution bar renders correctly, review list shows newest first, handles zero reviews.
+- **Profile aggregation:** Component test — match rate and breakdown display correctly on inspector profile.
+
+### Deliverable
+
+```
+On report page → "Dejar una reseña" → submit match rating + comment
+Review appears on report page with rating distribution
+Review aggregation appears on inspector profile
+Rate limiting prevents spam
+npm run test:coverage → ≥ 80% line coverage on Phase 5B code
+```
+
+---
+
+## Phase 5C — Landing Page
+
+**Goal:** A public landing page that explains the value proposition and captures inspector leads.
+
+### Specs to Write Before Implementation
+
+- `specs/ui/landing.md` — landing page layout, hero, value proposition sections, inspector CTA (contact form or email link), footer
+- `specs/ui/designs/landing.pen` — visual mockup (imports `design-system.pen`)
+
+### What Gets Built
+
+- Landing page (`src/app/page.tsx`): replaces placeholder
+  - Hero section: tagline, subheading, background image/illustration
+  - Value proposition sections: for buyers (transparency), for inspectors (easy tools, professional reports, reputation), how it works (1-2-3 flow)
+  - Inspector CTA: "¿Sos inspector? Contactanos" with contact form (name, email, phone, message) or `mailto:` link
+  - Footer: privacy, terms, contact links
+- Form validation (email required, message required) and submission handling
+
+### Test Plan
+
+- **Landing page:** Component tests — renders hero, value prop sections, CTA section, footer.
+- **Contact form:** Component tests — validation (required fields), submission success/error states, form reset after success.
+
+### Deliverable
+
+```
+Visit / → landing page with value prop and inspector CTA
+Contact form validates and submits
+Responsive on mobile and desktop
+npm run test:coverage → ≥ 80% line coverage on Phase 5C code
+```
+
+---
+
+## Phase 5D — Corrections + Admin
+
+**Goal:** Inspectors can issue corrections to signed reports. Platform admins can manage nodes and users.
+
+### Specs to Write Before Implementation
+
+- `specs/flows/correction-flow.md` — create correction from signed event, relationship display, timeline behavior
+- `specs/ui/admin.md` — admin layout (Shell B), node CRUD, user CRUD, basic metrics
+
+### What Gets Built
+
+- Correction flow:
+  - "Create Correction" button on signed report (visible to inspector if node member)
+  - Creates new draft Event with `correction_of_id = original_event_id`
+  - Original report shows "A correction has been issued" notice (extends Phase 3C)
+  - Correction report shows "This corrects [original]" notice
+  - Server action: `createCorrectionAction`
+- Admin pages (`src/app/admin/`):
+  - Route protection: `platform_admin` role only
+  - Node list + create form (display name, type, contact, logo upload, generates slug)
+  - User list + create form (email, name, password, role, link to node)
+  - Basic metrics view: total inspections, nodes, users, reviews
+- Admin service functions in node and user services
+
+### Test Plan
+
+- **Correction flow:** Integration tests — create correction links original event, correction appears as draft, original shows correction notice, both appear on vehicle timeline after signing.
+- **Admin authorization:** Integration tests — non-admin cannot access admin routes/actions, admin can.
+- **Node CRUD:** Integration tests — create node generates slug, list returns all nodes, update works.
+- **User CRUD:** Integration tests — create user hashes password, creates NodeMember if linked, list returns all users.
+- **Admin pages:** Component tests — node list renders, create form validates and submits, user list renders, create form works.
+- **Metrics:** Component test — displays correct counts.
+
+### Deliverable
+
+```
+Inspector views signed report → "Create Correction" → new draft linked to original
+Admin logs in → manages nodes and users
+Admin sees basic metrics
+npm run test:coverage → ≥ 80% line coverage on Phase 5D code
+```
+
+---
+
+## Phase 5E — PWA Finalization
+
+**Goal:** The app is installable as a PWA with proper caching and offline support.
+
+### What Gets Built
+
+- Service worker finalization (`public/sw.js`):
+  - App shell caching on install (HTML, CSS, JS bundles, static assets)
+  - Stale-while-revalidate strategy for app shell
+  - Network-first for API calls with offline queue fallback
+- `public/manifest.json` finalization (icons, theme color, display: standalone)
+- Offline verification: drafts accessible, signing blocked with clear message
+- Add-to-home-screen prompt handling
+
+### Test Plan
+
+- **Manual/E2E testing:** App installs from browser, launches standalone, app shell loads from cache offline, drafts accessible offline, signing shows connectivity required message.
+- **Service worker:** If E2E infra ready — automated tests for cache strategies. Otherwise deferred to post-MVP with manual QA checklist.
+
+### Deliverable
+
+```
+PWA installable: add to home screen → launches standalone
+App shell loads from cache when offline
+Drafts accessible offline, signing requires connectivity
+npm run test:coverage → ≥ 80% line coverage on Phase 5E code (if applicable)
 ```
 
 ---
 
 ## Phase Summary
 
-| Phase | Feature | Specs to Write | .pen Mockup | Key Deliverable |
-|-------|---------|---------------|-------------|-----------------|
-| 0 | Scaffold | (none) | `design-system.pen` (done) | App runs, auth works, DB has schema |
-| 1 | Template Management | flow + UI (2 specs) | `template-editor.pen` | Inspector edits their template |
-| 2 | Inspection Creation | flow + UI (2 specs) | `field-mode.pen` | Inspector fills inspection on mobile, offline |
-| 3 | Signing + Report | flow + UI (2 specs) | `public-report.pen` | Inspector signs, gets shareable verified link |
-| 4 | Dashboard + Profile | UI × 2 (2 specs) | `dashboard.pen` | Inspector has home screen + public identity |
-| 5 | Vehicle Page + Reviews + Landing | flow + UI × 3 (4 specs) | `public-pages.pen` | Complete MVP |
+| Phase | Feature | Specs to Write | Key Deliverable |
+|-------|---------|---------------|-----------------|
+| 0 | Scaffold | (none) | App runs, auth works, DB has schema |
+| 1 | Template Management | flow + UI + `.pen` (3) | Inspector edits their template |
+| 2 | Inspection Creation | flow + UI + `.pen` (3) | Inspector fills inspection on mobile, offline |
+| 3A | Signing Logic | flow (1) | Service signs inspections, enforces immutability |
+| 3B | Review & Sign UI | UI (1) | Inspector reviews summary and signs |
+| 3C | Public Report | UI + `.pen` (2) | Shareable verified report with OG preview |
+| 3D | Vehicle Photos | (spec updates) | photo_type column, vehicle gallery, dedicated field mode section |
+| 4A | Dashboard | UI + `.pen` (2) | Inspector home screen with filters |
+| 4B | Inspector Profile | UI (1) | Public professional profile with stats |
+| 5A | Vehicle Page | UI + `.pen` (2) | Public vehicle timeline |
+| 5B | Reviews | flow + `.pen` (2) | Buyers leave reviews on reports |
+| 5C | Landing Page | UI + `.pen` (2) | Value prop + inspector CTA |
+| 5D | Corrections + Admin | flow + UI (2) | Correction flow + admin CRUD |
+| 5E | PWA Finalization | (none) | Installable PWA with offline support |
 
 ---
 
@@ -337,6 +663,6 @@ npm run test:coverage → ≥ 80% line coverage on all code
 - **Specs are living documents.** If implementation reveals that a flow or schema needs to change, update the relevant spec to reflect reality.
 - **Cosmetic/UX tweaks don't need spec updates.** Adjust directly during the REVIEW + ITERATE steps of each phase.
 - **Phase boundaries are soft.** If Phase 2 reveals that a template schema change is needed, update the entity spec and the template editor — don't wait for a future phase.
-- **Each phase ends with a commit** of working, tested code.
+- **Each sub-phase ends with a commit** of working, tested code.
 - **Design token changes go to `design-system.pen` first.** If a color, radius, or component changes during implementation, update the `.pen` source of truth. All importing screen mockups inherit the change automatically.
 - **`.pen` mockups are reference, not pixel-perfect contracts.** The running app is the final authority. Mockups exist to align on layout, hierarchy, and component usage before coding.

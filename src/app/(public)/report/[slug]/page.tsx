@@ -1,4 +1,69 @@
+import type { Metadata } from "next";
 import { ShellPublic } from "@/components/layout/shell-public";
+import { getPublicReport } from "@/lib/services/inspection";
+import { VerificationBadge } from "@/components/report/verification-badge";
+import { VehicleSummaryCard } from "@/components/report/vehicle-summary-card";
+import { InspectorCard } from "@/components/report/inspector-card";
+import { SummaryCard } from "@/components/report/summary-card";
+import { ReportFindings } from "@/components/report/report-findings";
+import { CorrectionNotice } from "@/components/report/correction-notice";
+import { ReportNotFound } from "@/components/report/report-not-found";
+
+// ─── OG Metadata ────────────────────────────────────────────────────────────
+
+const inspectionTypeLabels: Record<string, string> = {
+  pre_purchase: "pre-compra",
+  intake: "recepción",
+  periodic: "periódica",
+  other: "inspección",
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const report = await getPublicReport(slug);
+
+  if (!report) {
+    return { title: "Reporte no encontrado | VinDex" };
+  }
+
+  const { vehicle, node, findings, detail } = report;
+  const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
+    .filter(Boolean)
+    .join(" ");
+
+  const good = findings.filter((f) => f.status === "good").length;
+  const attention = findings.filter((f) => f.status === "attention").length;
+  const critical = findings.filter((f) => f.status === "critical").length;
+
+  const typeLabel = inspectionTypeLabels[detail.inspectionType] ?? "inspección";
+  const description = `Inspección ${typeLabel} verificada. ${good} items bien, ${attention} atención, ${critical} crítico. Firmada por ${node.displayName}.`;
+
+  const title = `Inspección — ${vehicleName} | VinDex`;
+  const ogImageUrl = `/api/og/${slug}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      images: [{ url: ogImageUrl, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImageUrl],
+    },
+  };
+}
+
+// ─── Page ───────────────────────────────────────────────────────────────────
 
 export default async function ReportPage({
   params,
@@ -6,17 +71,62 @@ export default async function ReportPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const report = await getPublicReport(slug);
+
+  if (!report) {
+    return (
+      <ShellPublic>
+        <ReportNotFound />
+      </ShellPublic>
+    );
+  }
+
+  const {
+    event,
+    vehicle,
+    node,
+    detail,
+    signerName,
+    findings,
+    photos,
+    templateSnapshot,
+    correction,
+    correctionOf,
+  } = report;
 
   return (
     <ShellPublic>
-      <div className="bg-white rounded-md border border-gray-200 shadow-sm p-8 text-center">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">
-          Informe de Inspección
-        </h1>
-        <p className="text-sm text-gray-500 mb-4">Reporte: {slug}</p>
-        <p className="text-gray-400">
-          El reporte público se implementará en Phase 3
-        </p>
+      <div className="flex flex-col gap-4">
+        {/* Correction notices */}
+        {correction && (
+          <CorrectionNotice type="has_correction" linkedSlug={correction.slug} />
+        )}
+        {correctionOf && (
+          <CorrectionNotice type="is_correction" linkedSlug={correctionOf.slug} />
+        )}
+
+        {/* Verification badge */}
+        <VerificationBadge
+          signedAt={event.signedAt!}
+          signerName={signerName}
+          nodeName={node.displayName}
+        />
+
+        {/* Vehicle summary */}
+        <VehicleSummaryCard vehicle={vehicle} event={event} detail={detail} />
+
+        {/* Inspector identity */}
+        <InspectorCard node={node} />
+
+        {/* Summary card */}
+        <SummaryCard findings={findings} photos={photos} />
+
+        {/* Findings by section + general photos + lightbox */}
+        <ReportFindings
+          templateSnapshot={templateSnapshot}
+          findings={findings}
+          photos={photos}
+        />
       </div>
     </ShellPublic>
   );

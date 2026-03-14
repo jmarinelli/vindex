@@ -210,6 +210,11 @@ This is the most critical screen. Optimized for one-handed mobile use in field c
 ├──────────────────────────────────────┤
 │                                      │
 │  ┌────────────────────────────────┐  │
+│  │ 📷 Fotos del vehículo (3)  ▾ │  │ ← collapsible vehicle photos
+│  │ [img1] [img2] [img3] [ + ]   │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
 │  │▌Carrocería y pintura          │  │
 │  │ [✓ Bien][⚠ Att][✕ Cri][— N/E]│  │ ← status buttons, 56px
 │  │                                │  │
@@ -251,7 +256,37 @@ This is the most critical screen. Optimized for one-handed mobile use in field c
 | Completed indicator | Small ✓ icon after section name, `success` color, `text-xs` | Shown when all items in section have status ≠ not_evaluated |
 | Touch target | 44px height, text width + 32px horizontal padding | Scrollable |
 
+### Vehicle Photos Section (Top of Scrollable Content)
+
+A dedicated, collapsible section at the **top of the item area**, above the first item card. This is where the inspector captures vehicle overview photos (exterior, VIN plate, odometer, interior). It mirrors the position these photos will have in the public report (just below the vehicle summary).
+
+Photos are stored with `photo_type = 'vehicle'` and `finding_id = null`.
+
+```
+┌─────────────────────────────────────────┐
+│ 📷 Fotos del vehículo (3)           ▾  │ ← collapsible header
+├─────────────────────────────────────────┤
+│ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐   │
+│ │ img1 │ │ img2 │ │ img3 │ │  +   │   │ ← 2-col grid + add button
+│ └──────┘ └──────┘ └──────┘ └──────┘   │
+└─────────────────────────────────────────┘
+```
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | `white` bg, `border-default`, `radius-md`, `shadow-sm` | Positioned above the first item card in the scrollable area |
+| Header | `text-sm`, `font-medium`, `gray-700`, with 📷 icon, full-width tap target | Tap toggles expand/collapse. Shows photo count: "Fotos del vehículo ({n})" |
+| Chevron | 16x16, `gray-400` | ▾ expanded, ▸ collapsed. Rotates with 150ms transition. |
+| Photo grid | 2-column grid, `space-2` gap, `space-3` padding | 80x80 thumbnails, `radius-sm`, `border-default`, `object-fit: cover` |
+| Add button | 80x80, dashed `gray-300` border, `radius-sm`, camera icon `gray-400` | Opens device camera for new vehicle photo |
+| Thumbnail tap | Opens full-screen viewer | Same as finding photo viewer |
+| Thumbnail long-press | Delete photo (draft only) | Confirmation: removes from Dexie and grid |
+| Collapse default | **Collapsed** when 0 photos, **expanded** when ≥ 1 | Auto-expands when first vehicle photo is captured |
+| Bottom bar camera | Same bottom bar camera button | Shortcut: adds vehicle photo AND auto-expands this section if collapsed |
+
 ### Item Cards
+
+Items are displayed as vertically stacked cards within the active section, below the vehicle photos section.
 
 #### Checklist Item Card
 
@@ -336,7 +371,7 @@ The most critical interaction component. Four equal-width buttons in a row.
 |---------|-------|----------|
 | Container | `white` bg, `shadow-top`, `padding` 8px 16px | Fixed bottom |
 | Previous button | Ghost button, `gray-600` text, "◀ Anterior" | Navigate to previous section. Disabled (gray-300) on first section. |
-| Camera button | `brand-primary` icon, 48x48, center | Adds general event photo (not tied to finding) |
+| Camera button | `brand-primary` icon, 48x48, center | Adds vehicle photo (`photo_type = 'vehicle'`, not tied to finding). Auto-expands vehicle photos section if collapsed. |
 | Next button | Ghost button, `brand-primary` text, "Siguiente ▶" | Navigate to next section. On last section: "Revisar ▶" |
 | Touch targets | 48px minimum height | All buttons |
 
@@ -395,6 +430,11 @@ The single-column layout is preserved — no side panels or multi-column grids. 
 ├──────────────────────────────────────────────────────────────────────────┤
 │      [Ext] [Motor] [Int] [Tren] [Mec.] [Ruta] [Elec.] [Doc.] [Concl.] │ ← tabs, centered
 ├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│              ┌────────────────────────────────────────────┐              │
+│              │ 📷 Fotos del vehículo (3)              ▾  │              │
+│              │ [img1] [img2] [img3] [ + ]                │              │
+│              └────────────────────────────────────────────┘              │
 │                                                                          │
 │              ┌────────────────────────────────────────────┐              │
 │              │▌Carrocería y pintura                       │              │
@@ -570,7 +610,7 @@ From `specs/ui/design-system.md`:
 | Deselect status | Tap already-selected status | Returns to not_evaluated |
 | Write observation | Type in textarea | Auto-expand, debounced 500ms auto-save |
 | Take finding photo | Tap 📷 on item card | Device camera → compress → save blob → upload in bg |
-| Take general photo | Tap 📷 in bottom bar | Same, but photo not tied to any finding |
+| Take vehicle photo | Tap 📷 in bottom bar or "+" in vehicle photos section | Adds photo with `photo_type = 'vehicle'`, auto-expands section |
 | Navigate prev/next | Tap ◀/▶ in bottom bar | Section changes, tabs scroll |
 | Close inspection | Tap ✕ in top bar | Draft saved, navigate to dashboard |
 | View photo | Tap thumbnail | Full-screen photo viewer |
@@ -595,9 +635,10 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Step 3 — Section tabs** | Tabs render from template · Active tab highlighted · Tap switches content · Scroll behavior · Completed sections show ✓ |
 | **Step 3 — Status buttons** | 4 buttons render per checklist item · Tap selects · Tap selected deselects · Correct colors per status · Auto-save on change |
 | **Step 3 — Observation** | Textarea renders with placeholder · Auto-expands · Debounced 500ms save · Text persists on section switch |
-| **Step 3 — Photos** | Camera button triggers file input · Thumbnail appears after capture · Upload indicator states · Long-press to delete · General photo via bottom bar |
+| **Step 3 — Vehicle photos section** | Section renders collapsed when empty · Expands when photos exist · Add photo via section button works · Add photo via bottom bar camera expands section · Remove photo works (draft only) · Photo grid displays correct thumbnails |
+| **Step 3 — Finding photos** | Camera button on item card triggers file input · Thumbnail appears after capture · Upload indicator states · Long-press to delete |
 | **Step 3 — Free text card** | No status buttons · Larger textarea · Photo row works |
-| **Step 3 — Bottom bar** | Previous disabled on first section · Next disabled on last (or label "Revisar") · Camera adds general photo |
+| **Step 3 — Bottom bar** | Previous disabled on first section · Next disabled on last (or label "Revisar") · Camera adds vehicle photo and expands vehicle photos section |
 | **Step 3 — Sync indicator** | Shows saved/syncing/synced/offline correctly |
 | **Step 3 — Offline** | Status changes saved to Dexie · Observations saved · Photos saved as blobs · Sync indicator shows offline · Reconnect triggers sync |
 | **Step 3 — Draft resume** | Navigating away and back restores state · Browser refresh restores from Dexie |

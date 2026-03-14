@@ -8,21 +8,23 @@ Photos attached to findings or to the event as a whole. Named `EventPhoto` (not 
 |--------|------|-------------|
 | id | UUID | PK, default `crypto.randomUUID()` |
 | event_id | UUID | FK → events(id), NOT NULL |
-| finding_id | UUID | FK → inspection_findings(id), nullable — null if general event photo |
+| finding_id | UUID | FK → inspection_findings(id), nullable — null for vehicle photos |
+| photo_type | ENUM(`'finding'`, `'vehicle'`) | NOT NULL — discriminates the two photo categories explicitly |
 | url | VARCHAR(500) | NOT NULL — Cloudinary URL |
 | caption | VARCHAR(500) | nullable — optional description |
-| order | INTEGER | NOT NULL — display order within the finding or event |
+| order | INTEGER | NOT NULL — display order within the finding (for `finding`) or within the vehicle gallery (for `vehicle`) |
 | created_at | TIMESTAMP | default `now()`, NOT NULL |
 
 ## Behavior
 
-- **Two types of photos:**
-  - **Finding photos** (`finding_id` is set): attached to a specific finding as per-item evidence. Displayed under that finding in the report.
-  - **General event photos** (`finding_id` is null): vehicle overview shots (exterior, VIN plate, odometer). Displayed in a separate section on the report.
+- **Two types of photos (discriminated by `photo_type`):**
+  - **Finding photos** (`photo_type = 'finding'`, `finding_id` is set): attached to a specific finding as per-item evidence. Displayed under that finding in the report.
+  - **Vehicle photos** (`photo_type = 'vehicle'`, `finding_id` is null): vehicle overview shots (exterior, VIN plate, odometer, interior). Displayed as a prominent photo gallery near the top of the public report, just below the vehicle summary.
+- **`photo_type` is the primary discriminator**, not `finding_id` nullability. Queries should filter by `photo_type` rather than checking `finding_id IS NULL`.
 - **Upload flow (online):** client compresses photo → uploads directly to Cloudinary → receives URL → saves URL to event_photo record via server action.
 - **Upload flow (offline):** client captures photo → saves blob to IndexedDB → displays local thumbnail → queues for Cloudinary upload when connectivity returns → on successful upload, updates the record with the Cloudinary URL.
 - **Photos cannot be modified or replaced after the event is signed.** Immutability extends to photos.
-- **Order** determines display sequence within the finding or within the general photos section.
+- **Order** determines display sequence within the finding or within the vehicle photos gallery.
 - **Cloudinary URL stored** is the base URL. Responsive variants are derived at render time via URL transformation parameters.
 
 ## Example Data
@@ -54,10 +56,12 @@ Full:      https://res.cloudinary.com/vindex/image/upload/{public_id}.jpg
 
 ## Acceptance Criteria
 
-- [ ] Photos with finding_id display under the corresponding finding in the report
-- [ ] Photos without finding_id display in a general photos section
+- [ ] Photos with `photo_type = 'finding'` display under the corresponding finding in the report
+- [ ] Photos with `photo_type = 'vehicle'` display in the vehicle photos gallery (below vehicle summary card on public report)
+- [ ] `photo_type` column is NOT NULL and has no default — must be explicitly set on insert
+- [ ] Queries use `photo_type` (not `finding_id IS NULL`) to filter photo categories
 - [ ] Photos are immutable after the parent event is signed
 - [ ] Cloudinary upload works from mobile browser
 - [ ] Local blob display works immediately after capture (before upload completes)
 - [ ] Upload queue retries on failure with exponential backoff
-- [ ] Order determines display sequence
+- [ ] Order determines display sequence within each photo_type group

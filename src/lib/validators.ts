@@ -97,6 +97,12 @@ export const updateFindingSchema = z.object({
   observation: z.string().optional().nullable(),
 });
 
+// ─── Signing Schemas ───────────────────────────────────────────────────────
+
+export const signInspectionSchema = z.object({
+  eventId: z.string().uuid("ID de inspección inválido."),
+});
+
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export type TemplateItem = z.infer<typeof templateItemSchema>;
@@ -105,3 +111,4 @@ export type UpdateTemplateInput = z.infer<typeof updateTemplateSchema>;
 export type VehicleEntryInput = z.infer<typeof vehicleEntrySchema>;
 export type CreateInspectionInput = z.infer<typeof createInspectionSchema>;
 export type UpdateFindingInput = z.infer<typeof updateFindingSchema>;
+export type SignInspectionInput = z.infer<typeof signInspectionSchema>;

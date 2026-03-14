@@ -85,8 +85,8 @@ Next.js 15 (App Router) · TypeScript (strict) · PostgreSQL 16 · Drizzle ORM �
 
 ## Current Phase
 
-**Phase 0 — Scaffold** (not started)
+**Phase 3D — Vehicle Photos** (specs written, not implemented)
 
-Next: Initialize project, install dependencies, create DB schema, seed data, implement auth, create layout shells.
+Phases 0–3C are complete. Next: implement `photo_type` schema change, vehicle photos gallery in public report, dedicated section in field mode, and thumbnail preview in review & sign.
 
 See specs/implementation-plan.md for the full build order.

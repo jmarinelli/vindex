@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { Camera } from "lucide-react";
 import { toast } from "sonner";
 import { ShellField } from "@/components/layout/shell-field";
@@ -22,6 +22,7 @@ export default function FieldModePage() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
+  const searchParams = useSearchParams();
 
   const isOnline = useOfflineStatus();
 
@@ -31,7 +32,8 @@ export default function FieldModePage() {
   const [findings, setFindings] = useState<DraftFinding[]>([]);
   const [photos, setPhotos] = useState<DraftPhoto[]>([]);
   const [vehicleName, setVehicleName] = useState("");
-  const [activeSectionIndex, setActiveSectionIndex] = useState(0);
+  const initialSection = Number(searchParams.get("section") ?? 0);
+  const [activeSectionIndex, setActiveSectionIndex] = useState(initialSection);
 
   // Draft & auto-save
   const { draft, setDraft } = useDraft(eventId);
@@ -239,14 +241,12 @@ export default function FieldModePage() {
   };
 
   const handleFinishReview = async () => {
-    // Phase 3 will add Review & Sign flow here.
-    // For now, save draft and return to dashboard.
+    // Save draft locally, then navigate to review & sign page (Step 4)
     if (draft) {
       const updated = { ...draft, findings, updatedAt: new Date().toISOString() };
       await saveLocalDraft(updated);
     }
-    toast.success("Borrador guardado. La firma estará disponible próximamente.");
-    router.push("/dashboard");
+    router.push(`/dashboard/inspect/${eventId}/sign`);
   };
 
   // Update lastSectionIndex in local draft & scroll to top
