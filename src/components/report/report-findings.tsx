@@ -4,7 +4,6 @@ import { useState, useCallback } from "react";
 import type { InspectionFinding, EventPhoto } from "@/db/schema";
 import type { TemplateSnapshot } from "@/types/inspection";
 import { FindingsSection } from "./findings-section";
-import { GeneralPhotos } from "./general-photos";
 import { PhotoLightbox } from "./photo-lightbox";
 
 interface ReportFindingsProps {
@@ -22,8 +21,6 @@ export function ReportFindings({
     photos: EventPhoto[];
     currentIndex: number;
   } | null>(null);
-
-  const generalPhotos = photos.filter((p) => !p.findingId);
 
   const handlePhotoClick = useCallback(
     (photoUrl: string, photoList: EventPhoto[]) => {
@@ -51,8 +48,6 @@ export function ReportFindings({
           onPhotoClick={handlePhotoClick}
         />
       ))}
-
-      <GeneralPhotos photos={generalPhotos} onPhotoClick={handlePhotoClick} />
 
       {lightbox && (
         <PhotoLightbox

@@ -27,6 +27,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
+import { uuid } from "@/lib/utils";
 import type { TemplateSection, TemplateItem } from "@/lib/validators";
 
 interface SectionCardProps {
@@ -77,7 +78,7 @@ export function SectionCard({
 
   function addItem() {
     const newItem: TemplateItem = {
-      id: crypto.randomUUID(),
+      id: uuid(),
       name: "Nuevo item",
       order: section.items.length,
       type: "checklist_item",

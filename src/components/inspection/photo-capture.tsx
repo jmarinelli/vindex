@@ -57,6 +57,11 @@ export function PhotoCapture({ photos, onCapture, onDelete }: PhotoCaptureProps)
       >
         <Camera className="h-5 w-5" />
       </button>
+      {photos.length === 0 && (
+        <button type="button" onClick={handleClick} className="text-[13px] text-gray-500">
+          Agregar foto
+        </button>
+      )}
       <input
         ref={fileInputRef}
         type="file"
@@ -74,7 +79,7 @@ export function PhotoCapture({ photos, onCapture, onDelete }: PhotoCaptureProps)
         return (
           <div
             key={photo.id}
-            className="w-16 h-16 shrink-0 rounded-sm border border-gray-200 overflow-hidden relative group"
+            className="w-12 h-12 shrink-0 rounded-sm border border-gray-200 overflow-hidden relative group"
           >
             <img
               src={url}

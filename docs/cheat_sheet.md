@@ -17,17 +17,14 @@ Phase 1 ya está implementada. Seguí las convenciones de specs/architecture.md.
 
 ---
 
-Ejecutá el paso de specs de Phase 2 (Inspection Creation) según specs/implementation-plan.md:
+Ejecutá el paso de specs de Phase 4A (Dashboard) según specs/implementation-plan.md:
 
-1. Escribí el flow spec: specs/flows/inspection-creation.md
-2. Escribí el UI spec: specs/ui/inspection-form.md
-3. Diseñá el mockup en specs/ui/designs/field-mode.pen (importando specs/ui/designs/design-system.pen)
+1. Escribí el flow spec: specs/flows/xxx.md
+2. Escribí el UI spec: specs/ui/xxx.md
+3. Diseñá el mockup en specs/ui/designs/xxx.pen (importando specs/ui/designs/design-system.pen)
 
-Usá como referencia de formato los specs y mockup de Phase 1:
-- specs/flows/template-management.md
-- specs/ui/template-editor.md
-- specs/ui/designs/template-editor.pen
+Usá como referencia de formato los specs (.md) y mockups (.pen) que existen en la carpeta specs
 
-Consultá specs/implementation-plan.md (Phase 2), specs/architecture.md y specs/entities/ para el contenido y cualquier otra documentación referenciada en CLAUDE.md
+Consultá specs/implementation-plan.md (Phase 4A), specs/architecture.md y specs/entities/ para el contenido y cualquier otra documentación referenciada en CLAUDE.md
 
 NO implementes código. Solo generá specs y mockup.

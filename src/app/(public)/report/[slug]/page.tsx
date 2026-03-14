@@ -6,6 +6,7 @@ import { VehicleSummaryCard } from "@/components/report/vehicle-summary-card";
 import { InspectorCard } from "@/components/report/inspector-card";
 import { SummaryCard } from "@/components/report/summary-card";
 import { ReportFindings } from "@/components/report/report-findings";
+import { VehiclePhotos } from "@/components/report/vehicle-photos";
 import { CorrectionNotice } from "@/components/report/correction-notice";
 import { ReportNotFound } from "@/components/report/report-not-found";
 
@@ -115,13 +116,18 @@ export default async function ReportPage({
         {/* Vehicle summary */}
         <VehicleSummaryCard vehicle={vehicle} event={event} detail={detail} />
 
+        {/* Vehicle photos gallery */}
+        <VehiclePhotos
+          photos={photos.filter((p) => p.photoType === "vehicle")}
+        />
+
         {/* Inspector identity */}
         <InspectorCard node={node} />
 
         {/* Summary card */}
         <SummaryCard findings={findings} photos={photos} />
 
-        {/* Findings by section + general photos + lightbox */}
+        {/* Findings by section + lightbox */}
         <ReportFindings
           templateSnapshot={templateSnapshot}
           findings={findings}

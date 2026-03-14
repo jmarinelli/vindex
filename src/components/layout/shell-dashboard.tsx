@@ -28,7 +28,10 @@ export function ShellDashboard({
             {session?.user?.name ?? ""}
           </span>
           <button
-            onClick={() => signOut({ callbackUrl: "/login" })}
+            onClick={async () => {
+              await signOut({ redirect: false });
+              window.location.href = "/login";
+            }}
             className="text-sm text-gray-500 hover:text-gray-700"
           >
             Salir

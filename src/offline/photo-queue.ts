@@ -1,6 +1,7 @@
 "use client";
 
 import { savePhoto, getPhotosByEvent } from "./dexie";
+import { uuid } from "@/lib/utils";
 import type { DraftPhoto } from "@/types/inspection";
 
 /**
@@ -63,22 +64,24 @@ export async function capturePhoto(params: {
   file: File;
   eventId: string;
   findingId: string | null;
+  photoType: "finding" | "vehicle";
 }): Promise<DraftPhoto> {
   const blob = await compressImage(params.file);
 
   const photos = await getPhotosByEvent(params.eventId);
-  const findingPhotos = params.findingId
+  const sameTypePhotos = params.photoType === "finding"
     ? photos.filter((p) => p.findingId === params.findingId)
-    : photos.filter((p) => !p.findingId);
+    : photos.filter((p) => p.photoType === "vehicle");
 
   const photo: DraftPhoto = {
-    id: crypto.randomUUID(),
+    id: uuid(),
     eventId: params.eventId,
     findingId: params.findingId,
+    photoType: params.photoType,
     blob,
     url: null,
     caption: null,
-    order: findingPhotos.length,
+    order: sameTypePhotos.length,
     uploaded: false,
   };
 

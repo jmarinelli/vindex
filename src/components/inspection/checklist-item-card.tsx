@@ -7,10 +7,10 @@ import { PhotoCapture } from "./photo-capture";
 import type { DraftFinding, DraftPhoto, FindingStatus } from "@/types/inspection";
 
 const STATUS_BORDER_COLORS: Record<FindingStatus, string> = {
-  good: "border-l-status-good",
-  attention: "border-l-status-attention",
-  critical: "border-l-status-critical",
-  not_evaluated: "border-l-gray-200",
+  good: "border-t-status-good",
+  attention: "border-t-status-attention",
+  critical: "border-t-status-critical",
+  not_evaluated: "border-t-gray-200",
 };
 
 interface ChecklistItemCardProps {
@@ -75,7 +75,7 @@ export function ChecklistItemCard({
   return (
     <div
       className={cn(
-        "bg-white border border-gray-200 rounded-md shadow-sm p-4 space-y-3 border-l-[3px]",
+        "bg-white border border-gray-200 rounded-md shadow-sm p-4 space-y-3 border-t-[3px]",
         STATUS_BORDER_COLORS[finding.status]
       )}
     >

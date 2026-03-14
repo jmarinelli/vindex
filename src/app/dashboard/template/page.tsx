@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getTemplate } from "@/lib/services/template";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
-import { TemplateEditor } from "./template-editor";
+import { TemplateEditorWrapper } from "./template-editor-wrapper";
 import { TemplateNotFound } from "./template-not-found";
 import { TemplateSkeleton } from "./template-skeleton";
 import { Suspense } from "react";
@@ -31,7 +31,7 @@ async function TemplateLoader({ nodeId }: { nodeId: string }) {
   }
 
   return (
-    <TemplateEditor
+    <TemplateEditorWrapper
       templateId={template.id}
       initialName={template.name}
       initialSections={template.sections}

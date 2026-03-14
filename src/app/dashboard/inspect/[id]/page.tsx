@@ -1,22 +1,20 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
-import { Camera } from "lucide-react";
+import { Camera, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { ShellField } from "@/components/layout/shell-field";
 import { SectionTabs } from "@/components/inspection/section-tabs";
 import { SyncIndicator } from "@/components/inspection/sync-indicator";
 import { ChecklistItemCard } from "@/components/inspection/checklist-item-card";
 import { FreeTextItemCard } from "@/components/inspection/free-text-item-card";
-import { PhotoCapture } from "@/components/inspection/photo-capture";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDraftAction, updateFindingAction } from "@/lib/actions/inspection";
 import { useOfflineStatus, useAutoSave, useDraft } from "@/offline/hooks";
-import { saveDraft as saveLocalDraft, saveFinding as saveLocalFinding, getPhotosByEvent } from "@/offline/dexie";
+import { saveDraft as saveLocalDraft, getPhotosByEvent, deletePhoto } from "@/offline/dexie";
 import { capturePhoto } from "@/offline/photo-queue";
 import type { DraftInspection, DraftFinding, DraftPhoto, FindingStatus, TemplateSnapshot } from "@/types/inspection";
-import type { TemplateSection } from "@/lib/validators";
 
 export default function FieldModePage() {
   const router = useRouter();
@@ -35,9 +33,16 @@ export default function FieldModePage() {
   const initialSection = Number(searchParams.get("section") ?? 0);
   const [activeSectionIndex, setActiveSectionIndex] = useState(initialSection);
 
+  // Vehicle photos section state
+  const [vehiclePhotosExpanded, setVehiclePhotosExpanded] = useState(false);
+
   // Draft & auto-save
   const { draft, setDraft } = useDraft(eventId);
   const { syncStatus, saveFindingStatus, saveObservation } = useAutoSave(draft, isOnline);
+
+  // Refs
+  const vehiclePhotoInputRef = useRef<HTMLInputElement>(null);
+
 
   // Load inspection data
   useEffect(() => {
@@ -51,6 +56,9 @@ export default function FieldModePage() {
         // Load photos from Dexie photos table (blobs aren't stored in drafts)
         const localPhotos = await getPhotosByEvent(eventId);
         setPhotos(localPhotos);
+        // Auto-expand if vehicle photos exist
+        const hasVehiclePhotos = localPhotos.some((p) => p.photoType === "vehicle");
+        setVehiclePhotosExpanded(hasVehiclePhotos);
         setLoading(false);
         return;
       }
@@ -102,6 +110,8 @@ export default function FieldModePage() {
       // Load any previously captured photos from Dexie
       const localPhotos = await getPhotosByEvent(eventId);
       setPhotos(localPhotos);
+      const hasVehiclePhotos = localPhotos.some((p) => p.photoType === "vehicle");
+      setVehiclePhotosExpanded(hasVehiclePhotos);
       setVehicleName(name);
       setLoading(false);
     }
@@ -141,9 +151,9 @@ export default function FieldModePage() {
     [photos]
   );
 
-  // General photos (not tied to any finding)
-  const generalPhotos = useMemo(
-    () => photos.filter((p) => !p.findingId),
+  // Vehicle photos
+  const vehiclePhotos = useMemo(
+    () => photos.filter((p) => p.photoType === "vehicle"),
     [photos]
   );
 
@@ -188,7 +198,7 @@ export default function FieldModePage() {
     [findings, saveObservation, isOnline]
   );
 
-  // Handle photo capture
+  // Handle finding photo capture
   const handlePhotoCapture = useCallback(
     async (findingId: string, file: File) => {
       try {
@@ -196,6 +206,7 @@ export default function FieldModePage() {
           file,
           eventId,
           findingId,
+          photoType: "finding",
         });
         setPhotos((prev) => [...prev, photo]);
       } catch {
@@ -205,21 +216,32 @@ export default function FieldModePage() {
     [eventId]
   );
 
-  // Handle general photo (from bottom bar)
-  const handleGeneralPhoto = useCallback(
+  // Handle vehicle photo capture
+  const handleVehiclePhoto = useCallback(
     async (file: File) => {
       try {
         const photo = await capturePhoto({
           file,
           eventId,
           findingId: null,
+          photoType: "vehicle",
         });
         setPhotos((prev) => [...prev, photo]);
+        setVehiclePhotosExpanded(true);
       } catch {
         toast.error("Error al capturar la foto.");
       }
     },
     [eventId]
+  );
+
+  // Handle vehicle photo deletion (draft only)
+  const handleDeleteVehiclePhoto = useCallback(
+    async (photoId: string) => {
+      await deletePhoto(photoId);
+      setPhotos((prev) => prev.filter((p) => p.id !== photoId));
+    },
+    []
   );
 
   // Section navigation
@@ -278,9 +300,6 @@ export default function FieldModePage() {
   const isFirstSection = activeSectionIndex === 0;
   const isLastSection = activeSectionIndex === totalSections - 1;
 
-  // General photo file input ref
-  let generalPhotoInput: HTMLInputElement | null = null;
-
   return (
     <ShellField
       title={vehicleName}
@@ -299,36 +318,16 @@ export default function FieldModePage() {
           <button
             onClick={goToPrevSection}
             disabled={isFirstSection}
-            className={`text-sm h-12 px-4 ${
-              isFirstSection ? "text-gray-300" : "text-gray-600"
+            className={`text-sm h-12 px-4 font-medium ${
+              isFirstSection ? "text-gray-300" : "text-gray-700"
             }`}
           >
             ← Anterior
           </button>
 
           <button
-            onClick={() => generalPhotoInput?.click()}
-            className="text-brand-accent h-12 px-4 flex items-center gap-1 text-sm"
-          >
-            <Camera className="h-4 w-4" />
-            Foto
-          </button>
-          <input
-            ref={(el) => { generalPhotoInput = el; }}
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleGeneralPhoto(file);
-              e.target.value = "";
-            }}
-            className="hidden"
-          />
-
-          <button
             onClick={isLastSection ? handleFinishReview : goToNextSection}
-            className="text-sm h-12 px-4 text-brand-accent font-medium"
+            className="text-sm h-12 px-4 text-gray-700 font-medium"
           >
             {isLastSection ? "Revisar →" : "Siguiente →"}
           </button>
@@ -345,6 +344,72 @@ export default function FieldModePage() {
 
       {/* Item cards */}
       <div className="p-4 space-y-4 max-w-3xl mx-auto sm:p-6">
+        {/* Vehicle Photos Section — collapsible, top of item area */}
+        <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setVehiclePhotosExpanded(!vehiclePhotosExpanded)}
+            className="w-full flex items-center gap-2 p-3 text-left"
+          >
+            <Camera className="h-4 w-4 text-gray-500 shrink-0" />
+            <span className="text-sm font-medium text-gray-700 flex-1">
+              Fotos del vehículo{vehiclePhotos.length > 0 ? ` (${vehiclePhotos.length})` : ""}
+            </span>
+            <ChevronDown
+              className={`h-4 w-4 text-gray-400 transition-transform duration-150 ${
+                vehiclePhotosExpanded ? "" : "-rotate-90"
+              }`}
+            />
+          </button>
+
+          {vehiclePhotosExpanded && (
+            <div className="px-3 pb-3">
+              <div className="flex flex-wrap gap-2">
+                {vehiclePhotos.map((photo) => (
+                  <button
+                    key={photo.id}
+                    type="button"
+                    className="relative w-[76px] h-[76px] sm:w-[88px] sm:h-[88px] rounded-sm border border-gray-200 overflow-hidden shrink-0"
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      if (confirm("¿Eliminar esta foto?")) {
+                        handleDeleteVehiclePhoto(photo.id);
+                      }
+                    }}
+                  >
+                    <img
+                      src={photo.url ?? (photo.blob ? URL.createObjectURL(photo.blob) : "")}
+                      alt="Foto del vehículo"
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+
+                {/* Add photo button */}
+                <button
+                  type="button"
+                  onClick={() => vehiclePhotoInputRef.current?.click()}
+                  className="w-[76px] h-[76px] sm:w-[88px] sm:h-[88px] rounded-sm border border-dashed border-gray-300 flex items-center justify-center shrink-0"
+                >
+                  <Camera className="h-5 w-5 text-gray-400" />
+                </button>
+              </div>
+              <input
+                ref={vehiclePhotoInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleVehiclePhoto(file);
+                  e.target.value = "";
+                }}
+                className="hidden"
+              />
+            </div>
+          )}
+        </div>
+
         {activeSection && activeSection.items.length === 0 && (
           <p className="text-sm text-gray-500 text-center py-8">
             Esta sección no tiene items.
@@ -381,17 +446,6 @@ export default function FieldModePage() {
             />
           );
         })}
-
-        {/* General photos (from footer camera button) */}
-        {generalPhotos.length > 0 && (
-          <div className="bg-white border border-gray-200 rounded-md shadow-sm p-4 space-y-2">
-            <p className="text-sm font-medium text-gray-600">Fotos generales</p>
-            <PhotoCapture
-              photos={generalPhotos}
-              onCapture={(file) => handleGeneralPhoto(file)}
-            />
-          </div>
-        )}
       </div>
     </ShellField>
   );

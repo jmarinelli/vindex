@@ -21,10 +21,13 @@ export interface DraftFinding {
   observation: string | null;
 }
 
+export type PhotoType = "finding" | "vehicle";
+
 export interface DraftPhoto {
   id: string;
   eventId: string;
   findingId: string | null;
+  photoType: PhotoType;
   blob?: Blob;
   url: string | null;
   caption: string | null;

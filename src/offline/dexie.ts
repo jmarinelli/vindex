@@ -26,6 +26,19 @@ class VindexDB extends Dexie {
       photos: "id, eventId, findingId",
       syncQueue: "++id, type, createdAt",
     });
+
+    this.version(2).stores({
+      drafts: "id, nodeId, updatedAt",
+      findings: "id, eventId, [eventId+sectionId]",
+      photos: "id, eventId, findingId, photoType",
+      syncQueue: "++id, type, createdAt",
+    }).upgrade((tx) => {
+      return tx.table("photos").toCollection().modify((photo) => {
+        if (!photo.photoType) {
+          photo.photoType = photo.findingId ? "finding" : "vehicle";
+        }
+      });
+    });
   }
 }
 
@@ -55,6 +68,10 @@ export async function savePhoto(photo: DraftPhoto): Promise<void> {
 
 export async function getPhotosByEvent(eventId: string): Promise<DraftPhoto[]> {
   return localDb.photos.where("eventId").equals(eventId).toArray();
+}
+
+export async function deletePhoto(photoId: string): Promise<void> {
+  await localDb.photos.delete(photoId);
 }
 
 export async function enqueueSyncItem(item: Omit<SyncQueueItem, "id">): Promise<void> {

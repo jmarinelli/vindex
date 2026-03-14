@@ -217,7 +217,7 @@ export default function SignedConfirmationPage() {
             onClick={() =>
               window.open(`/report/${event.slug}`, "_blank")
             }
-            className="h-12 text-base flex-1 gap-2"
+            className="h-12 px-6 text-base flex-1 gap-2"
           >
             <ExternalLink className="h-4 w-4" />
             Ver Reporte Público
@@ -225,7 +225,7 @@ export default function SignedConfirmationPage() {
           <Button
             variant="ghost"
             onClick={() => router.push("/dashboard")}
-            className="h-12 text-base flex-1 text-gray-600"
+            className="h-12 px-6 text-base flex-1 text-gray-600"
           >
             Volver al Dashboard
           </Button>

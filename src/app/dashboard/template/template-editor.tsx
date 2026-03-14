@@ -20,6 +20,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { uuid } from "@/lib/utils";
 import { SectionCard } from "./section-card";
 import { InlineEdit } from "./inline-edit";
 import { updateTemplateAction } from "@/lib/actions/template";
@@ -73,7 +74,7 @@ export function TemplateEditor({
 
   // Section operations
   function addSection() {
-    const newId = crypto.randomUUID();
+    const newId = uuid();
     const newSection: TemplateSection = {
       id: newId,
       name: "Nueva sección",

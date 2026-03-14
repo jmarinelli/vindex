@@ -1,0 +1,2346 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "3wGKW",
+      "x": 0,
+      "y": -200,
+      "name": "Logo/Compact",
+      "reusable": true,
+      "gap": 1,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "HFBuF",
+          "name": "Badge",
+          "width": 52,
+          "height": 28,
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "vnTOI",
+              "x": 0,
+              "y": 0,
+              "name": "Parallelogram",
+              "geometry": "M8 0l48 0-8 28-48 0z",
+              "fill": "$brand-accent",
+              "width": 56,
+              "height": 28
+            },
+            {
+              "type": "text",
+              "id": "hriKi",
+              "x": 10,
+              "y": 4,
+              "name": "vinText",
+              "fill": "$white",
+              "content": "VIN",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "800",
+              "letterSpacing": 1
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "OeXDM",
+          "name": "dexText",
+          "fill": "$brand-primary",
+          "content": "dex",
+          "fontFamily": "Inter",
+          "fontSize": 22,
+          "fontWeight": "500"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2YCPV",
+      "x": 0,
+      "y": 0,
+      "name": "Mobile — Dashboard (With Inspections)",
+      "width": 390,
+      "height": 844,
+      "fill": "$gray-50",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "pqS58",
+          "name": "topBar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "9nf8J",
+              "type": "ref",
+              "ref": "3wGKW",
+              "name": "logo",
+              "width": "fit_content",
+              "height": "fit_content",
+              "x": 16,
+              "y": 14
+            },
+            {
+              "type": "text",
+              "id": "h1St2",
+              "name": "navTitle",
+              "fill": "$gray-700",
+              "content": "Dashboard",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "ellipse",
+              "id": "GtItY",
+              "name": "avatar",
+              "fill": "$gray-300",
+              "width": 32,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "o2X5y",
+          "name": "content",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "wKHQU",
+              "name": "greeting",
+              "fill": "$gray-800",
+              "content": "Bienvenido, Juan",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "kjaoz",
+              "name": "newInspBtn",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "uaOyD",
+                  "name": "plusIcon",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "plus",
+                  "iconFontFamily": "lucide",
+                  "fill": "$white"
+                },
+                {
+                  "type": "text",
+                  "id": "x78zL",
+                  "name": "btnLabel",
+                  "fill": "$white",
+                  "content": "Nueva Inspección",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nrTbf",
+              "name": "searchFilterRow",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "2hAzl",
+                  "name": "searchBox",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "gap": 8,
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "bSztI",
+                      "name": "searchIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "search",
+                      "iconFontFamily": "lucide",
+                      "fill": "$gray-400"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RLEA1",
+                      "name": "searchPlaceholder",
+                      "fill": "$gray-400",
+                      "content": "Buscar por VIN, marca, modelo...",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tZwsY",
+                  "name": "filterRow",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "foHdO",
+                      "name": "filterAll",
+                      "height": 32,
+                      "fill": "$brand-primary",
+                      "cornerRadius": "$radius-full",
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "T1pxl",
+                          "name": "filterAllTxt",
+                          "fill": "$white",
+                          "content": "Todos",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "2T7rM",
+                      "name": "filterDraft",
+                      "height": 32,
+                      "fill": "$gray-100",
+                      "cornerRadius": "$radius-full",
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "PU5cB",
+                          "name": "filterDraftTxt",
+                          "fill": "$gray-600",
+                          "content": "Borrador",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "11IcB",
+                      "name": "filterSigned",
+                      "height": 32,
+                      "fill": "$gray-100",
+                      "cornerRadius": "$radius-full",
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "6ZFUR",
+                          "name": "filterSignedTxt",
+                          "fill": "$gray-600",
+                          "content": "Firmados",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "cFZU2",
+              "name": "sectionHeader",
+              "fill": "$gray-700",
+              "content": "Mis Inspecciones (3)",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "l6HLg",
+              "name": "card-draft",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Cskb3",
+                  "name": "cardBody",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "7vQa7",
+                      "name": "nameRow",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "7QKca",
+                          "name": "vehName",
+                          "fill": "$gray-800",
+                          "content": "Nissan Sentra 2019",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "nUbyq",
+                          "name": "statusBadge",
+                          "height": 22,
+                          "fill": "$status-attention-bg",
+                          "cornerRadius": "$radius-full",
+                          "padding": [
+                            0,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "LMVfr",
+                              "name": "card1badgeTxt",
+                              "fill": "$status-attention",
+                              "content": "BORRADOR",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "sMtRY",
+                      "name": "vin",
+                      "fill": "$gray-500",
+                      "content": "VIN: 3N1AB7AP5KY250312",
+                      "fontFamily": "monospace",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "0YVgr",
+                      "name": "dateMeta",
+                      "fill": "$gray-500",
+                      "content": "12 Mar 2026 · 87.500 km",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jH7vM",
+                      "name": "typeMeta",
+                      "fill": "$gray-500",
+                      "content": "Pre-compra · Comprador",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "clsZZ",
+                  "name": "cardFooter",
+                  "width": "fill_container",
+                  "fill": "$gray-50",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$gray-100"
+                  },
+                  "padding": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "JSu30",
+                      "name": "progress",
+                      "fill": "$gray-500",
+                      "content": "18/23 items · 4 fotos · 12 obs",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PonSV",
+              "name": "card-signed",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "drShF",
+                  "name": "cardBody",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "0nC45",
+                      "name": "nameRow",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rMJac",
+                          "name": "vehName",
+                          "fill": "$gray-800",
+                          "content": "Toyota Corolla 2020",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "QSOAd",
+                          "name": "statusBadge",
+                          "height": 22,
+                          "fill": "$status-good-bg",
+                          "cornerRadius": "$radius-full",
+                          "padding": [
+                            0,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Qebil",
+                              "name": "card2badgeTxt",
+                              "fill": "$status-good",
+                              "content": "FIRMADO",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "KXy14",
+                      "name": "vin",
+                      "fill": "$gray-500",
+                      "content": "VIN: JTDKN3DU5A0123456",
+                      "fontFamily": "monospace",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "76QKx",
+                      "name": "dateMeta",
+                      "fill": "$gray-500",
+                      "content": "10 Mar 2026 · 45.200 km",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "QqZoW",
+                      "name": "typeMeta",
+                      "fill": "$gray-500",
+                      "content": "Pre-compra · Vendedor",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "9nmhD",
+                  "name": "cardFooter",
+                  "width": "fill_container",
+                  "fill": "$gray-50",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$gray-100"
+                  },
+                  "gap": 4,
+                  "padding": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SwBp6",
+                      "name": "statusLine",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SNNSr",
+                          "name": "s1",
+                          "fill": "$status-good",
+                          "content": "✓ 18 Bien",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Zu6z7",
+                          "name": "s2",
+                          "fill": "$gray-400",
+                          "content": " · ",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "1UU59",
+                          "name": "s3",
+                          "fill": "$status-attention",
+                          "content": "⚠ 3 Att",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "h8kJV",
+                          "name": "s4",
+                          "fill": "$gray-400",
+                          "content": " · ",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "4MMPo",
+                          "name": "s5",
+                          "fill": "$status-critical",
+                          "content": "✕ 1 Crit",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "81ZAE",
+                          "name": "s6",
+                          "fill": "$gray-500",
+                          "content": " · 6 fotos",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fxKYO",
+              "name": "card-signed-2",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HUCoO",
+                  "name": "cardBody",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xbKCy",
+                      "name": "nameRow",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "sQyXu",
+                          "name": "card3name",
+                          "fill": "$gray-800",
+                          "content": "Ford Focus 2018",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "4fHrL",
+                          "name": "statusBadge",
+                          "height": 22,
+                          "fill": "$status-good-bg",
+                          "cornerRadius": "$radius-full",
+                          "padding": [
+                            0,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "rKHsC",
+                              "name": "card3badgeTxt",
+                              "fill": "$status-good",
+                              "content": "FIRMADO",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "rCKHG",
+                      "name": "card3vin",
+                      "fill": "$gray-500",
+                      "content": "VIN: WF0XXXGCDX8123456",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "32lFW",
+                      "name": "card3meta",
+                      "fill": "$gray-500",
+                      "content": "05 Mar 2026 · 112.300 km",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cfiRZ",
+                      "name": "card3type",
+                      "fill": "$gray-500",
+                      "content": "Periódica · Agencia",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1sWGb",
+                  "name": "cardFooter",
+                  "width": "fill_container",
+                  "fill": "$gray-50",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$gray-100"
+                  },
+                  "padding": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "WHBsb",
+                      "name": "statusLine",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "2RKIG",
+                          "name": "c3s1",
+                          "fill": "$status-good",
+                          "content": "✓ 15 Bien",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UqQmz",
+                          "name": "c3s2",
+                          "fill": "$gray-400",
+                          "content": " · ",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "8b2Bq",
+                          "name": "c3s3",
+                          "fill": "$status-attention",
+                          "content": "⚠ 5 Att",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Kam6T",
+                          "name": "c3s4",
+                          "fill": "$gray-400",
+                          "content": " · ",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XTfgp",
+                          "name": "c3s5",
+                          "fill": "$status-critical",
+                          "content": "✕ 3 Crit",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "B2qIX",
+                          "name": "c3s6",
+                          "fill": "$gray-500",
+                          "content": " · 8 fotos",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xJtUp",
+              "name": "quickLinks",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "7qmiw",
+                  "name": "qlLabel",
+                  "fill": "$gray-400",
+                  "content": "ENLACES RÁPIDOS",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "LwjQY",
+                  "name": "qlRow",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nzSxl",
+                      "name": "qlTemplate",
+                      "width": "fill_container",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "t4x1H",
+                          "name": "qlTemplateIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "pencil",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "cVl77",
+                          "name": "qlTemplateTxt",
+                          "fill": "$brand-accent",
+                          "content": "Editor de Template",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hbdBv",
+                      "name": "qlProfile",
+                      "width": "fill_container",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "R1lDN",
+                          "name": "qlProfileIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "user",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "268HV",
+                          "name": "qlProfileTxt",
+                          "fill": "$brand-accent",
+                          "content": "Mi Perfil Público",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "pcmdP",
+      "x": 490,
+      "y": 0,
+      "name": "Mobile — Dashboard (Empty State)",
+      "width": 390,
+      "height": 844,
+      "fill": "$gray-50",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Y9hyO",
+          "name": "topBar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "WMbbj",
+              "type": "ref",
+              "ref": "3wGKW",
+              "name": "logo",
+              "width": "fit_content",
+              "height": "fit_content",
+              "x": 16,
+              "y": 14
+            },
+            {
+              "type": "text",
+              "id": "ow7Ll",
+              "name": "eNavTitle",
+              "fill": "$gray-700",
+              "content": "Dashboard",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "ellipse",
+              "id": "EhLmN",
+              "name": "eAvatar",
+              "fill": "$gray-300",
+              "width": 32,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eQ9CM",
+          "name": "content",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "CFiPC",
+              "name": "eGreeting",
+              "fill": "$gray-800",
+              "content": "Bienvenido, Juan",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "ijaJH",
+              "name": "newInspBtn",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "eIqR4",
+                  "name": "ePlusIcon",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "plus",
+                  "iconFontFamily": "lucide",
+                  "fill": "$white"
+                },
+                {
+                  "type": "text",
+                  "id": "9KZ8n",
+                  "name": "eBtnLabel",
+                  "fill": "$white",
+                  "content": "Nueva Inspección",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "3R5pw",
+              "name": "emptyState",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "34qHW",
+                  "name": "emptyIcon",
+                  "width": 48,
+                  "height": 48,
+                  "iconFontName": "clipboard-list",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-300"
+                },
+                {
+                  "type": "text",
+                  "id": "fL7gE",
+                  "name": "emptyTitle",
+                  "fill": "$gray-700",
+                  "content": "No tenés inspecciones",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "wzs5h",
+                  "name": "emptySubtitle",
+                  "fill": "$gray-500",
+                  "content": "Creá tu primera inspección para empezar.",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "4vcI9",
+              "name": "quickLinks",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Pv7nM",
+                  "name": "eQLlabel",
+                  "fill": "$gray-400",
+                  "content": "ENLACES RÁPIDOS",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "1EEpb",
+                  "name": "qlRow",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "B4S7L",
+                      "name": "eQLt",
+                      "width": "fill_container",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "XykSg",
+                          "name": "eQLtI",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "pencil",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "w41hD",
+                          "name": "eQLtTxt",
+                          "fill": "$brand-accent",
+                          "content": "Editor de Template",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YzsaD",
+                      "name": "eQLp",
+                      "width": "fill_container",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "58PaL",
+                          "name": "eQLpI",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "user",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "phqta",
+                          "name": "eQLpTxt",
+                          "fill": "$brand-accent",
+                          "content": "Mi Perfil Público",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "tlIXp",
+      "x": 0,
+      "y": 1000,
+      "name": "Desktop — Dashboard",
+      "width": 1440,
+      "height": 900,
+      "fill": "$gray-50",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "nzEwh",
+          "name": "topBar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "jQC7S",
+              "type": "ref",
+              "ref": "3wGKW",
+              "name": "logo",
+              "width": "fit_content",
+              "height": "fit_content",
+              "x": 24,
+              "y": 14
+            },
+            {
+              "type": "text",
+              "id": "1B28Q",
+              "name": "dNavTitle",
+              "fill": "$gray-700",
+              "content": "Dashboard",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "ellipse",
+              "id": "kesKd",
+              "name": "dAvatar",
+              "fill": "$gray-300",
+              "width": 32,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nOoSt",
+          "name": "bodyWrap",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "padding": [
+            32,
+            24
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MxZ4v",
+              "name": "content",
+              "width": 1024,
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "TExti",
+                  "name": "dGreeting",
+                  "fill": "$gray-800",
+                  "content": "Bienvenido, Juan",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "eATic",
+                  "name": "topActions",
+                  "width": "fill_container",
+                  "gap": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "HC6Ay",
+                      "name": "newInspBtn",
+                      "height": 48,
+                      "fill": "$brand-primary",
+                      "cornerRadius": "$radius-sm",
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "5O8bG",
+                          "name": "dPlusIcon",
+                          "width": 20,
+                          "height": 20,
+                          "iconFontName": "plus",
+                          "iconFontFamily": "lucide",
+                          "fill": "$white"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Xk7kK",
+                          "name": "dBtnLabel",
+                          "fill": "$white",
+                          "content": "Nueva Inspección",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IwoCT",
+                      "name": "searchBox",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "NKY6T",
+                          "name": "dSearchIcon",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "search",
+                          "iconFontFamily": "lucide",
+                          "fill": "$gray-400"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PQ4IS",
+                          "name": "dSearchTxt",
+                          "fill": "$gray-400",
+                          "content": "Buscar por VIN, marca, modelo...",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uo4yC",
+                      "name": "filterRow",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XOfiq",
+                          "name": "dFA",
+                          "height": 32,
+                          "fill": "$brand-primary",
+                          "cornerRadius": "$radius-full",
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "V5Tsv",
+                              "name": "dFATxt",
+                              "fill": "$white",
+                              "content": "Todos",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "l6UCq",
+                          "name": "dFD",
+                          "height": 32,
+                          "fill": "$gray-100",
+                          "cornerRadius": "$radius-full",
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "t23i4",
+                              "name": "dFDTxt",
+                              "fill": "$gray-600",
+                              "content": "Borrador",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "VaMM7",
+                          "name": "dFS",
+                          "height": 32,
+                          "fill": "$gray-100",
+                          "cornerRadius": "$radius-full",
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "gJ9Rx",
+                              "name": "dFSTxt",
+                              "fill": "$gray-600",
+                              "content": "Firmados",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "dv6oX",
+                  "name": "dSectionHead",
+                  "fill": "$gray-700",
+                  "content": "Mis Inspecciones (3)",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "cokHl",
+                  "name": "card-draft",
+                  "width": "fill_container",
+                  "fill": "$white",
+                  "cornerRadius": "$radius-md",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000000D",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "w5oSD",
+                      "name": "cardBody",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XISv1",
+                          "name": "nameRow",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "LIrCr",
+                              "name": "dC1name",
+                              "fill": "$gray-800",
+                              "content": "Nissan Sentra 2019",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "RRJ4o",
+                              "name": "dC1badge",
+                              "height": 22,
+                              "fill": "$status-attention-bg",
+                              "cornerRadius": "$radius-full",
+                              "padding": [
+                                0,
+                                10
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "RC4D3",
+                                  "name": "dC1badgeTxt",
+                                  "fill": "$status-attention",
+                                  "content": "BORRADOR",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hB1SP",
+                          "name": "dC1metaRow",
+                          "width": "fill_container",
+                          "gap": 16,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tf6lw",
+                              "name": "dC1vin",
+                              "fill": "$gray-500",
+                              "content": "VIN: 3N1AB7AP5KY250312",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "L64Sb",
+                              "name": "dC1date",
+                              "fill": "$gray-500",
+                              "content": "12 Mar 2026 · 87.500 km",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Vt3gc",
+                              "name": "dC1type",
+                              "fill": "$gray-500",
+                              "content": "Pre-compra · Comprador",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MXEao",
+                      "name": "cardFooter",
+                      "width": "fill_container",
+                      "fill": "$gray-50",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": {
+                          "top": 1
+                        },
+                        "fill": "$gray-100"
+                      },
+                      "padding": [
+                        12,
+                        20
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "p12RF",
+                          "name": "dC1prog",
+                          "fill": "$gray-500",
+                          "content": "18/23 items · 4 fotos · 12 obs",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SFltE",
+                  "name": "card-signed",
+                  "width": "fill_container",
+                  "fill": "$white",
+                  "cornerRadius": "$radius-md",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000000D",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "2SrcV",
+                      "name": "dC2body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "gpt8X",
+                          "name": "dC2row1",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kdpMm",
+                              "name": "dC2name",
+                              "fill": "$gray-800",
+                              "content": "Toyota Corolla 2020",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "3H84G",
+                              "name": "dC2badge",
+                              "height": 22,
+                              "fill": "$status-good-bg",
+                              "cornerRadius": "$radius-full",
+                              "padding": [
+                                0,
+                                10
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "8VcqJ",
+                                  "name": "dC2badgeTxt",
+                                  "fill": "$status-good",
+                                  "content": "FIRMADO",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "WMNTt",
+                          "name": "dC2metaRow",
+                          "width": "fill_container",
+                          "gap": 16,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "wmqjd",
+                              "name": "dC2vin",
+                              "fill": "$gray-500",
+                              "content": "VIN: JTDKN3DU5A0123456",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "RQgXl",
+                              "name": "dC2date",
+                              "fill": "$gray-500",
+                              "content": "10 Mar 2026 · 45.200 km",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ML61K",
+                              "name": "dC2type",
+                              "fill": "$gray-500",
+                              "content": "Pre-compra · Vendedor",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "M67Kv",
+                      "name": "dC2footer",
+                      "width": "fill_container",
+                      "fill": "$gray-50",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": {
+                          "top": 1
+                        },
+                        "fill": "$gray-100"
+                      },
+                      "padding": [
+                        12,
+                        20
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Yjvkr",
+                          "name": "dC2fLine",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "xWj4y",
+                              "name": "d2s1",
+                              "fill": "$status-good",
+                              "content": "✓ 18 Bien",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "yzEqW",
+                              "name": "d2s2",
+                              "fill": "$gray-400",
+                              "content": " · ",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "mdITD",
+                              "name": "d2s3",
+                              "fill": "$status-attention",
+                              "content": "⚠ 3 Att",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "qTZDM",
+                              "name": "d2s4",
+                              "fill": "$gray-400",
+                              "content": " · ",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "FZ2Qj",
+                              "name": "d2s5",
+                              "fill": "$status-critical",
+                              "content": "✕ 1 Crit",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "LGmel",
+                              "name": "d2s6",
+                              "fill": "$gray-500",
+                              "content": " · 6 fotos",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M64LT",
+                  "name": "card-signed-2",
+                  "width": "fill_container",
+                  "fill": "$white",
+                  "cornerRadius": "$radius-md",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000000D",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vGLZG",
+                      "name": "dC3body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FBVs8",
+                          "name": "dC3row1",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cZ9wa",
+                              "name": "dC3name",
+                              "fill": "$gray-800",
+                              "content": "Ford Focus 2018",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "V8Bg2",
+                              "name": "dC3badge",
+                              "height": 22,
+                              "fill": "$status-good-bg",
+                              "cornerRadius": "$radius-full",
+                              "padding": [
+                                0,
+                                10
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "dIXLT",
+                                  "name": "dC3badgeTxt",
+                                  "fill": "$status-good",
+                                  "content": "FIRMADO",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "dQLZl",
+                          "name": "dC3metaRow",
+                          "width": "fill_container",
+                          "gap": 16,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Jy0T0",
+                              "name": "dC3vin",
+                              "fill": "$gray-500",
+                              "content": "VIN: WF0XXXGCDX8123456",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "trH40",
+                              "name": "dC3date",
+                              "fill": "$gray-500",
+                              "content": "05 Mar 2026 · 112.300 km",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "AOjWc",
+                              "name": "dC3type",
+                              "fill": "$gray-500",
+                              "content": "Periódica · Agencia",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BS5WM",
+                      "name": "dC3footer",
+                      "width": "fill_container",
+                      "fill": "$gray-50",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": {
+                          "top": 1
+                        },
+                        "fill": "$gray-100"
+                      },
+                      "padding": [
+                        12,
+                        20
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Qr8dE",
+                          "name": "dC3fLine",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Swn1n",
+                              "name": "d3s1",
+                              "fill": "$status-good",
+                              "content": "✓ 15 Bien",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "9HY3o",
+                              "name": "d3s2",
+                              "fill": "$gray-400",
+                              "content": " · ",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "YvB3I",
+                              "name": "d3s3",
+                              "fill": "$status-attention",
+                              "content": "⚠ 5 Att",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "oEXOe",
+                              "name": "d3s4",
+                              "fill": "$gray-400",
+                              "content": " · ",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "K16ir",
+                              "name": "d3s5",
+                              "fill": "$status-critical",
+                              "content": "✕ 3 Crit",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "OOc1E",
+                              "name": "d3s6",
+                              "fill": "$gray-500",
+                              "content": " · 8 fotos",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Immaq",
+                  "name": "quickLinks",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pHtzA",
+                      "name": "dQLlabel",
+                      "fill": "$gray-400",
+                      "content": "ENLACES RÁPIDOS",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ECdzn",
+                      "name": "dQLt",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "tpjuz",
+                          "name": "dQLtI",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "pencil",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "xTgi1",
+                          "name": "dQLtTxt",
+                          "fill": "$brand-accent",
+                          "content": "Editor de Template",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hnaU4",
+                      "name": "dQLp",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "otKgH",
+                          "name": "dQLpI",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "user",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "W0gFf",
+                          "name": "dQLpTxt",
+                          "fill": "$brand-accent",
+                          "content": "Mi Perfil Público",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "brand-accent": {
+      "type": "color",
+      "value": "#0EA5E9"
+    },
+    "brand-primary": {
+      "type": "color",
+      "value": "#1E293B"
+    },
+    "brand-primary-hover": {
+      "type": "color",
+      "value": "#0F172A"
+    },
+    "error": {
+      "type": "color",
+      "value": "#DC2626"
+    },
+    "gray-100": {
+      "type": "color",
+      "value": "#F3F4F6"
+    },
+    "gray-200": {
+      "type": "color",
+      "value": "#E5E7EB"
+    },
+    "gray-300": {
+      "type": "color",
+      "value": "#D1D5DB"
+    },
+    "gray-400": {
+      "type": "color",
+      "value": "#9CA3AF"
+    },
+    "gray-50": {
+      "type": "color",
+      "value": "#F9FAFB"
+    },
+    "gray-500": {
+      "type": "color",
+      "value": "#6B7280"
+    },
+    "gray-600": {
+      "type": "color",
+      "value": "#4B5563"
+    },
+    "gray-700": {
+      "type": "color",
+      "value": "#374151"
+    },
+    "gray-800": {
+      "type": "color",
+      "value": "#1F2937"
+    },
+    "gray-900": {
+      "type": "color",
+      "value": "#111827"
+    },
+    "info": {
+      "type": "color",
+      "value": "#0EA5E9"
+    },
+    "radius-full": {
+      "type": "number",
+      "value": 9999
+    },
+    "radius-lg": {
+      "type": "number",
+      "value": 12
+    },
+    "radius-md": {
+      "type": "number",
+      "value": 8
+    },
+    "radius-sm": {
+      "type": "number",
+      "value": 6
+    },
+    "space-1": {
+      "type": "number",
+      "value": 4
+    },
+    "space-10": {
+      "type": "number",
+      "value": 40
+    },
+    "space-12": {
+      "type": "number",
+      "value": 48
+    },
+    "space-2": {
+      "type": "number",
+      "value": 8
+    },
+    "space-3": {
+      "type": "number",
+      "value": 12
+    },
+    "space-4": {
+      "type": "number",
+      "value": 16
+    },
+    "space-5": {
+      "type": "number",
+      "value": 20
+    },
+    "space-6": {
+      "type": "number",
+      "value": 24
+    },
+    "space-8": {
+      "type": "number",
+      "value": 32
+    },
+    "status-attention": {
+      "type": "color",
+      "value": "#D97706"
+    },
+    "status-attention-bg": {
+      "type": "color",
+      "value": "#FFFBEB"
+    },
+    "status-critical": {
+      "type": "color",
+      "value": "#DC2626"
+    },
+    "status-critical-bg": {
+      "type": "color",
+      "value": "#FEF2F2"
+    },
+    "status-good": {
+      "type": "color",
+      "value": "#16A34A"
+    },
+    "status-good-bg": {
+      "type": "color",
+      "value": "#F0FDF4"
+    },
+    "status-not-evaluated": {
+      "type": "color",
+      "value": "#6B7280"
+    },
+    "status-not-evaluated-bg": {
+      "type": "color",
+      "value": "#F9FAFB"
+    },
+    "success": {
+      "type": "color",
+      "value": "#16A34A"
+    },
+    "warning": {
+      "type": "color",
+      "value": "#D97706"
+    },
+    "white": {
+      "type": "color",
+      "value": "#FFFFFF"
+    }
+  }
+}

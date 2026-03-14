@@ -84,7 +84,7 @@ export default function ReviewSignPage() {
   const [event, setEvent] = useState<Event | null>(null);
   const [detail, setDetail] = useState<InspectionDetail | null>(null);
   const [findings, setFindings] = useState<InspectionFinding[]>([]);
-  const [photos, setPhotos] = useState<Array<{ id: string; findingId: string | null }>>([]);
+  const [photos, setPhotos] = useState<Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null }>>([]);
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [templateSnapshot, setTemplateSnapshot] = useState<TemplateSnapshot | null>(null);
 
@@ -108,11 +108,11 @@ export default function ReviewSignPage() {
       const localPhotos = await getPhotosByEvent(eventId);
 
       const serverIds = new Set(serverPhotos.map((p) => p.id));
-      const merged: Array<{ id: string; findingId: string | null }> = [
-        ...serverPhotos.map((p) => ({ id: p.id, findingId: p.findingId })),
+      const merged: Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null }> = [
+        ...serverPhotos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url })),
         ...localPhotos
           .filter((p) => !serverIds.has(p.id))
-          .map((p) => ({ id: p.id, findingId: p.findingId })),
+          .map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url ?? (p.blob ? URL.createObjectURL(p.blob) : null) })),
       ];
       setPhotos(merged);
       setLoading(false);
@@ -154,8 +154,8 @@ export default function ReviewSignPage() {
   const totalChecklist = statusCounts.good + statusCounts.attention + statusCounts.critical + statusCounts.not_evaluated;
   const isComplete = statusCounts.not_evaluated === 0;
 
-  const generalPhotoCount = useMemo(
-    () => photos.filter((p) => !p.findingId).length,
+  const vehiclePhotos = useMemo(
+    () => photos.filter((p) => p.photoType === "vehicle"),
     [photos]
   );
 
@@ -333,6 +333,44 @@ export default function ReviewSignPage() {
           </div>
         )}
 
+        {/* Vehicle Photos Preview */}
+        {vehiclePhotos.length > 0 && (
+          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 space-y-2">
+            <div className="flex items-center gap-2">
+              <Camera className="h-4 w-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-700">
+                Fotos del vehículo ({vehiclePhotos.length})
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {vehiclePhotos.slice(0, 6).map((photo, idx) => {
+                const isLast = idx === 5 && vehiclePhotos.length > 6;
+                return (
+                  <div
+                    key={photo.id}
+                    className="relative w-16 h-16 rounded-sm border border-gray-200 overflow-hidden shrink-0"
+                  >
+                    {photo.url && (
+                      <img
+                        src={photo.url}
+                        alt={`Foto del vehículo ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                    {isLast && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                        <span className="text-white text-xs font-semibold">
+                          +{vehiclePhotos.length - 6} más
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Section Groups */}
         {sectionData.map((sd, sectionIndex) => (
           <div key={sd.section.id}>
@@ -390,14 +428,6 @@ export default function ReviewSignPage() {
             </div>
           </div>
         ))}
-
-        {/* General Photos Summary */}
-        <div className="flex items-center gap-2 p-3 text-sm text-gray-600">
-          <Camera className="h-4 w-4 text-gray-500" />
-          {generalPhotoCount > 0
-            ? `Fotos generales: ${generalPhotoCount} fotos`
-            : "Sin fotos generales"}
-        </div>
 
         {/* Sign Button — desktop inline */}
         <div className="hidden sm:block">

@@ -95,7 +95,17 @@
               "ref": "Cdk8l",
               "name": "logo",
               "x": 16,
-              "y": 14
+              "y": 14,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "U9LLi": {
+                  "y": 0
+                },
+                "phibl": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",
@@ -476,7 +486,17 @@
               "ref": "Cdk8l",
               "name": "logo",
               "x": 16,
-              "y": 14
+              "y": 14,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "U9LLi": {
+                  "y": 0
+                },
+                "phibl": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",
@@ -1461,6 +1481,207 @@
           "children": [
             {
               "type": "frame",
+              "id": "nQUnC",
+              "name": "VehiclePhotosSection",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "gdWs7",
+                  "name": "vpHeader",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$gray-200"
+                  },
+                  "padding": [
+                    10,
+                    12
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "HJPSy",
+                      "name": "vpCameraIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "camera",
+                      "iconFontFamily": "lucide",
+                      "fill": "$gray-500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Gc3GR",
+                      "name": "vpLabel",
+                      "fill": "$gray-700",
+                      "content": "Fotos del vehículo (3)",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1hTss",
+                      "name": "vpSpacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "8SDTr",
+                      "name": "vpChevron",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "chevron-down",
+                      "iconFontFamily": "lucide",
+                      "fill": "$gray-400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lfd94",
+                  "name": "vpPhotoGrid",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "padding": [
+                    8,
+                    12,
+                    12,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "YTEwP",
+                      "name": "vpThumb1",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "alexandr_bendus",
+                        "link": "https://unsplash.com/@alexandr_bendus",
+                        "author": "Александр Бендус"
+                      },
+                      "width": 76,
+                      "height": 76,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1758228674135-ccb8865f1b02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0NDUzNDl8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Ulr48",
+                      "name": "vpThumb2",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "sebastiaanstam",
+                        "link": "https://unsplash.com/@sebastiaanstam",
+                        "author": "sebastiaan stam"
+                      },
+                      "width": 76,
+                      "height": 76,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1543171165-6ec6ede147ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0NDUzNTB8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T5Ysr",
+                      "name": "vpThumb3",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "philhearing",
+                        "link": "https://unsplash.com/@philhearing",
+                        "author": "Phil Hearing"
+                      },
+                      "width": 76,
+                      "height": 76,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1541794574556-f84b8ab37baa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0NDUzNTF8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "birAq",
+                      "name": "vpAddBtn",
+                      "width": 76,
+                      "height": 76,
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-300"
+                      },
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "yobXX",
+                          "name": "vpAddIcon",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "plus",
+                          "iconFontFamily": "lucide",
+                          "fill": "$gray-400"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
               "id": "Um5Fq",
               "name": "card-carroceria",
               "width": "fill_container",
@@ -2139,43 +2360,14 @@
                   "height": 16,
                   "iconFontName": "chevron-left",
                   "iconFontFamily": "lucide",
-                  "fill": "$gray-500"
+                  "fill": "$gray-700"
                 },
                 {
                   "type": "text",
                   "id": "PAj0w",
                   "name": "prevTxt",
-                  "fill": "$gray-500",
+                  "fill": "$gray-700",
                   "content": "Anterior",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "1CIjm",
-              "name": "generalCamera",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "szqtX",
-                  "name": "genCamIco",
-                  "width": 20,
-                  "height": 20,
-                  "iconFontName": "camera",
-                  "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
-                },
-                {
-                  "type": "text",
-                  "id": "E2ZtL",
-                  "name": "genCamTxt",
-                  "fill": "$brand-primary",
-                  "content": "Foto",
                   "fontFamily": "Inter",
                   "fontSize": 14,
                   "fontWeight": "500"
@@ -2193,7 +2385,7 @@
                   "type": "text",
                   "id": "eJXUv",
                   "name": "nextTxt",
-                  "fill": "$brand-primary",
+                  "fill": "$gray-700",
                   "content": "Siguiente",
                   "fontFamily": "Inter",
                   "fontSize": 14,
@@ -2207,7 +2399,7 @@
                   "height": 16,
                   "iconFontName": "chevron-right",
                   "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
+                  "fill": "$gray-700"
                 }
               ]
             }
@@ -3190,43 +3382,14 @@
                   "height": 16,
                   "iconFontName": "chevron-left",
                   "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
+                  "fill": "$gray-700"
                 },
                 {
                   "type": "text",
                   "id": "I4jJT",
                   "name": "pfPrevT",
-                  "fill": "$brand-primary",
+                  "fill": "$gray-700",
                   "content": "Anterior",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "EBvdS",
-              "name": "pfGCam",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "lfj5M",
-                  "name": "pfGCI",
-                  "width": 20,
-                  "height": 20,
-                  "iconFontName": "camera",
-                  "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
-                },
-                {
-                  "type": "text",
-                  "id": "h702C",
-                  "name": "pfGCT",
-                  "fill": "$brand-primary",
-                  "content": "Foto",
                   "fontFamily": "Inter",
                   "fontSize": 14,
                   "fontWeight": "500"
@@ -3244,7 +3407,7 @@
                   "type": "text",
                   "id": "3CnRT",
                   "name": "pfNextT",
-                  "fill": "$brand-primary",
+                  "fill": "$gray-700",
                   "content": "Siguiente",
                   "fontFamily": "Inter",
                   "fontSize": 14,
@@ -3258,7 +3421,7 @@
                   "height": 16,
                   "iconFontName": "chevron-right",
                   "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
+                  "fill": "$gray-700"
                 }
               ]
             }
@@ -3940,43 +4103,14 @@
                   "height": 16,
                   "iconFontName": "chevron-left",
                   "iconFontFamily": "lucide",
-                  "fill": "$gray-500"
+                  "fill": "$gray-700"
                 },
                 {
                   "type": "text",
                   "id": "Nke0T",
                   "name": "ofPrevT",
-                  "fill": "$gray-500",
+                  "fill": "$gray-700",
                   "content": "Anterior",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "sRo4R",
-              "name": "ofGCam",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "rg7VD",
-                  "name": "ofGCI",
-                  "width": 20,
-                  "height": 20,
-                  "iconFontName": "camera",
-                  "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
-                },
-                {
-                  "type": "text",
-                  "id": "mhK0K",
-                  "name": "ofGCT",
-                  "fill": "$brand-primary",
-                  "content": "Foto",
                   "fontFamily": "Inter",
                   "fontSize": 14,
                   "fontWeight": "500"
@@ -3994,7 +4128,7 @@
                   "type": "text",
                   "id": "pQnlp",
                   "name": "ofNextT",
-                  "fill": "$brand-primary",
+                  "fill": "$gray-700",
                   "content": "Siguiente",
                   "fontFamily": "Inter",
                   "fontSize": 14,
@@ -4008,7 +4142,7 @@
                   "height": 16,
                   "iconFontName": "chevron-right",
                   "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
+                  "fill": "$gray-700"
                 }
               ]
             }
@@ -4054,7 +4188,17 @@
               "ref": "Cdk8l",
               "name": "logo1",
               "x": 24,
-              "y": 14
+              "y": 14,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "U9LLi": {
+                  "y": 0
+                },
+                "phibl": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",
@@ -4419,7 +4563,17 @@
               "ref": "Cdk8l",
               "name": "logo2",
               "x": 24,
-              "y": 14
+              "y": 14,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "U9LLi": {
+                  "y": 0
+                },
+                "phibl": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",
@@ -5423,6 +5577,207 @@
               "children": [
                 {
                   "type": "frame",
+                  "id": "avvRx",
+                  "name": "VehiclePhotosSection",
+                  "width": "fill_container",
+                  "fill": "$white",
+                  "cornerRadius": "$radius-md",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000000D",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "9rLJz",
+                      "name": "dtVpHeader",
+                      "width": "fill_container",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": {
+                          "bottom": 1
+                        },
+                        "fill": "$gray-200"
+                      },
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "iH0Fh",
+                          "name": "dtVpCamIcon",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "camera",
+                          "iconFontFamily": "lucide",
+                          "fill": "$gray-500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "oRFtu",
+                          "name": "dtVpLabel",
+                          "fill": "$gray-700",
+                          "content": "Fotos del vehículo (3)",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "falfz",
+                          "name": "dtVpSpacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "ug3CS",
+                          "name": "dtVpChevron",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "chevron-down",
+                          "iconFontFamily": "lucide",
+                          "fill": "$gray-400"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IUfs1",
+                      "name": "dtVpPhotoGrid",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        16,
+                        16,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "deAa4",
+                          "name": "dtVpThumb1",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "dr_omelette",
+                            "link": "https://unsplash.com/@dr_omelette",
+                            "author": "Marc Woolf"
+                          },
+                          "width": 88,
+                          "height": 88,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1770085612298-958e4a6e08fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0NDUzNzZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                            "mode": "fill"
+                          },
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zM7u8",
+                          "name": "dtVpThumb2",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "haberdoedas",
+                            "link": "https://unsplash.com/@haberdoedas",
+                            "author": "Haberdoedas"
+                          },
+                          "width": 88,
+                          "height": 88,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1741088676526-e7065623767d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0NDUzNzd8&ixlib=rb-4.1.0&q=80&w=1080",
+                            "mode": "fill"
+                          },
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OHDMx",
+                          "name": "dtVpThumb3",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "jeffcooperdesign",
+                            "link": "https://unsplash.com/@jeffcooperdesign",
+                            "author": "Jeff Cooper"
+                          },
+                          "width": 88,
+                          "height": 88,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1758620320792-08af6f1f4f35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0NDUzNzd8&ixlib=rb-4.1.0&q=80&w=1080",
+                            "mode": "fill"
+                          },
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "QZ0Ud",
+                          "name": "dtVpAddBtn",
+                          "width": 88,
+                          "height": 88,
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-300"
+                          },
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "qrRM7",
+                              "name": "dtVpAddIcon",
+                              "width": 24,
+                              "height": 24,
+                              "iconFontName": "plus",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
                   "id": "cIgTV",
                   "name": "card-asientos",
                   "width": "fill_container",
@@ -6123,46 +6478,17 @@
                   "height": 16,
                   "iconFontName": "chevron-left",
                   "iconFontFamily": "lucide",
-                  "fill": "$gray-600"
+                  "fill": "$gray-700"
                 },
                 {
                   "type": "text",
                   "id": "6Bx1F",
                   "name": "prevTx3",
-                  "fill": "$gray-600",
+                  "fill": "$gray-700",
                   "content": "Anterior",
                   "fontFamily": "Inter",
                   "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "zs48y",
-              "name": "camBtn",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "MODI0",
-                  "name": "camIc3",
-                  "width": 20,
-                  "height": 20,
-                  "iconFontName": "camera",
-                  "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
-                },
-                {
-                  "type": "text",
-                  "id": "kIZND",
-                  "name": "camTx3",
-                  "fill": "$brand-primary",
-                  "content": "Foto",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
+                  "fontWeight": "500"
                 }
               ]
             },
@@ -6177,7 +6503,7 @@
                   "type": "text",
                   "id": "W9GDV",
                   "name": "nextTx3",
-                  "fill": "$brand-primary",
+                  "fill": "$gray-700",
                   "content": "Siguiente",
                   "fontFamily": "Inter",
                   "fontSize": 14,
@@ -6191,7 +6517,7 @@
                   "height": 16,
                   "iconFontName": "chevron-right",
                   "iconFontFamily": "lucide",
-                  "fill": "$brand-primary"
+                  "fill": "$gray-700"
                 }
               ]
             }

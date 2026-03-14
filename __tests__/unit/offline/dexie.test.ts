@@ -32,12 +32,13 @@ vi.mock("dexie", () => {
     default: class FakeDexie {
       drafts = { put: mockPut, get: mockGet };
       findings = { put: mockPut, where: mockWhere };
-      photos = { put: mockPut, where: mockWhere };
+      photos = { put: mockPut, where: mockWhere, delete: mockDelete };
       syncQueue = { add: mockAdd, toArray: mockToArray, delete: mockDelete };
 
       constructor() {}
       version() {
-        return { stores: () => {} };
+        const versionObj = { stores: () => versionObj, upgrade: () => versionObj };
+        return versionObj;
       }
     },
   };
@@ -95,6 +96,7 @@ function makePhoto(overrides?: Partial<DraftPhoto>): DraftPhoto {
     id: "p-1",
     eventId: "evt-1",
     findingId: "f-1",
+    photoType: "finding",
     url: null,
     caption: null,
     order: 0,

@@ -54,6 +54,8 @@ export const findingStatusEnum = pgEnum("finding_status", [
   "not_evaluated",
 ]);
 
+export const photoTypeEnum = pgEnum("photo_type", ["finding", "vehicle"]);
+
 export const matchRatingEnum = pgEnum("match_rating", [
   "yes",
   "partially",
@@ -228,6 +230,7 @@ export const eventPhotos = pgTable("event_photos", {
     .notNull()
     .references(() => events.id),
   findingId: uuid("finding_id").references(() => inspectionFindings.id),
+  photoType: photoTypeEnum("photo_type").notNull(),
   url: varchar("url", { length: 500 }).notNull(),
   caption: varchar("caption", { length: 500 }),
   order: integer("order").notNull(),

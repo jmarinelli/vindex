@@ -78,6 +78,20 @@ export const createInspectionSchema = z.object({
   eventDate: z.string().min(1, "La fecha es requerida."),
 });
 
+// ─── Photo Schemas ─────────────────────────────────────────────────────────
+
+export const photoTypeValues = ["finding", "vehicle"] as const;
+
+export const uploadPhotoSchema = z.object({
+  eventId: z.string().uuid("ID de evento inválido."),
+  findingId: z.string().uuid("ID de hallazgo inválido.").optional().nullable(),
+  photoType: z.enum(photoTypeValues, {
+    error: "Tipo de foto inválido.",
+  }),
+  url: z.string().url("URL de foto inválida."),
+  caption: z.string().max(500).optional().nullable(),
+});
+
 // ─── Finding Schemas ────────────────────────────────────────────────────────
 
 export const findingStatusValues = [
@@ -112,3 +126,4 @@ export type VehicleEntryInput = z.infer<typeof vehicleEntrySchema>;
 export type CreateInspectionInput = z.infer<typeof createInspectionSchema>;
 export type UpdateFindingInput = z.infer<typeof updateFindingSchema>;
 export type SignInspectionInput = z.infer<typeof signInspectionSchema>;
+export type UploadPhotoInput = z.infer<typeof uploadPhotoSchema>;

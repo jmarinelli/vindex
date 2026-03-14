@@ -263,7 +263,7 @@ describe("ChecklistItemCard", () => {
       />
     );
     const card = container.firstChild as HTMLElement;
-    expect(card.className).toContain("border-l-status-critical");
+    expect(card.className).toContain("border-t-status-critical");
   });
 
   it("applies not_evaluated border for not_evaluated status", () => {
@@ -278,7 +278,7 @@ describe("ChecklistItemCard", () => {
       />
     );
     const card = container.firstChild as HTMLElement;
-    expect(card.className).toContain("border-l-gray-200");
+    expect(card.className).toContain("border-t-gray-200");
   });
 
   it("handles null observation as empty string", () => {

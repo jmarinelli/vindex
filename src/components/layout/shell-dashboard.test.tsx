@@ -106,6 +106,6 @@ describe("ShellDashboard", () => {
     );
 
     await user.click(screen.getByText("Salir"));
-    expect(mockSignOut).toHaveBeenCalledWith({ callbackUrl: "/login" });
+    expect(mockSignOut).toHaveBeenCalledWith({ redirect: false });
   });
 });

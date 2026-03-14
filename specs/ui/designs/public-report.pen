@@ -293,6 +293,125 @@
               ]
             },
             {
+              "type": "text",
+              "id": "WEDlb",
+              "name": "VehiclePhotosHeader",
+              "fill": "$gray-800",
+              "content": "Fotos del vehículo",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "tYsyH",
+              "name": "VehiclePhotosGrid",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HFbr7",
+                  "name": "PhotoCol1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "NfOST",
+                      "name": "GenPhoto1",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "christianw",
+                        "link": "https://unsplash.com/@christianw",
+                        "author": "Christian Wiediger"
+                      },
+                      "width": "fill_container",
+                      "height": 160,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1610739359588-52b9ef31478a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTJ8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": "$radius-sm"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VrvhE",
+                      "name": "GenPhoto2",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "wesleyphotography",
+                        "link": "https://unsplash.com/@wesleyphotography",
+                        "author": "Wesley Tingey"
+                      },
+                      "width": "fill_container",
+                      "height": 160,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1765211003306-91e25f6add9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTN8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": "$radius-sm"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "8nx66",
+                  "name": "PhotoCol2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "0RUv7",
+                      "name": "GenPhoto3",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "zacherynielson",
+                        "link": "https://unsplash.com/@zacherynielson",
+                        "author": "Zac Nielson"
+                      },
+                      "width": "fill_container",
+                      "height": 160,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1708805282682-93c45d1d3a3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTR8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": "$radius-sm"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wxklY",
+                      "name": "GenPhoto4",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "quattrografie",
+                        "link": "https://unsplash.com/@quattrografie",
+                        "author": "Manuel"
+                      },
+                      "width": "fill_container",
+                      "height": 160,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1685646362973-bbe858c317dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTR8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": "$radius-sm"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "type": "frame",
               "id": "Yv8x3",
               "name": "InspectorCard",
@@ -1315,125 +1434,6 @@
               ]
             },
             {
-              "type": "text",
-              "id": "WEDlb",
-              "name": "SectionHeader-Photos",
-              "fill": "$gray-800",
-              "content": "Fotos generales",
-              "fontFamily": "Inter",
-              "fontSize": 16,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "tYsyH",
-              "name": "GeneralPhotosGrid",
-              "width": "fill_container",
-              "gap": 8,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "HFbr7",
-                  "name": "PhotoCol1",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 8,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "NfOST",
-                      "name": "GenPhoto1",
-                      "metadata": {
-                        "type": "unsplash",
-                        "username": "christianw",
-                        "link": "https://unsplash.com/@christianw",
-                        "author": "Christian Wiediger"
-                      },
-                      "width": "fill_container",
-                      "height": 160,
-                      "fill": {
-                        "type": "image",
-                        "enabled": true,
-                        "url": "https://images.unsplash.com/photo-1610739359588-52b9ef31478a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTJ8&ixlib=rb-4.1.0&q=80&w=1080",
-                        "mode": "fill"
-                      },
-                      "cornerRadius": "$radius-sm"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "VrvhE",
-                      "name": "GenPhoto2",
-                      "metadata": {
-                        "type": "unsplash",
-                        "username": "wesleyphotography",
-                        "link": "https://unsplash.com/@wesleyphotography",
-                        "author": "Wesley Tingey"
-                      },
-                      "width": "fill_container",
-                      "height": 160,
-                      "fill": {
-                        "type": "image",
-                        "enabled": true,
-                        "url": "https://images.unsplash.com/photo-1765211003306-91e25f6add9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTN8&ixlib=rb-4.1.0&q=80&w=1080",
-                        "mode": "fill"
-                      },
-                      "cornerRadius": "$radius-sm"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "8nx66",
-                  "name": "PhotoCol2",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 8,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "0RUv7",
-                      "name": "GenPhoto3",
-                      "metadata": {
-                        "type": "unsplash",
-                        "username": "zacherynielson",
-                        "link": "https://unsplash.com/@zacherynielson",
-                        "author": "Zac Nielson"
-                      },
-                      "width": "fill_container",
-                      "height": 160,
-                      "fill": {
-                        "type": "image",
-                        "enabled": true,
-                        "url": "https://images.unsplash.com/photo-1708805282682-93c45d1d3a3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTR8&ixlib=rb-4.1.0&q=80&w=1080",
-                        "mode": "fill"
-                      },
-                      "cornerRadius": "$radius-sm"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "wxklY",
-                      "name": "GenPhoto4",
-                      "metadata": {
-                        "type": "unsplash",
-                        "username": "quattrografie",
-                        "link": "https://unsplash.com/@quattrografie",
-                        "author": "Manuel"
-                      },
-                      "width": "fill_container",
-                      "height": 160,
-                      "fill": {
-                        "type": "image",
-                        "enabled": true,
-                        "url": "https://images.unsplash.com/photo-1685646362973-bbe858c317dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0Mzc2OTR8&ixlib=rb-4.1.0&q=80&w=1080",
-                        "mode": "fill"
-                      },
-                      "cornerRadius": "$radius-sm"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "type": "line",
               "id": "fxCF2",
               "name": "sep",
@@ -1994,6 +1994,85 @@
                       ]
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "76lC3",
+              "name": "dtVehiclePhotosHeader",
+              "fill": "$gray-800",
+              "content": "Fotos del vehículo",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "Mgmfd",
+              "name": "VehiclePhotosGrid",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "vSGdx",
+                  "name": "dtGPC1",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "shlows6",
+                    "link": "https://unsplash.com/@shlows6",
+                    "author": "ShlowS6"
+                  },
+                  "width": "fill_container",
+                  "height": 180,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1772429875535-9d1ac35a66c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0MzgwMDF8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": "$radius-sm"
+                },
+                {
+                  "type": "frame",
+                  "id": "cMWhg",
+                  "name": "dtGPC2",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "stanbezukh",
+                    "link": "https://unsplash.com/@stanbezukh",
+                    "author": "Stas Bezukh"
+                  },
+                  "width": "fill_container",
+                  "height": 180,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1759832216984-29a9e3f101df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0MzgwMDF8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": "$radius-sm"
+                },
+                {
+                  "type": "frame",
+                  "id": "XgNqY",
+                  "name": "dtGPC3",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "shot_by_cooper",
+                    "link": "https://unsplash.com/@shot_by_cooper",
+                    "author": "Cooper White"
+                  },
+                  "width": "fill_container",
+                  "height": 180,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1762295098676-1fdae4317e8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0MzgwMDF8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": "$radius-sm"
                 }
               ]
             },
@@ -2988,85 +3067,6 @@
                       ]
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "76lC3",
-              "name": "dtGPHdr",
-              "fill": "$gray-800",
-              "content": "Fotos generales",
-              "fontFamily": "Inter",
-              "fontSize": 16,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "Mgmfd",
-              "name": "GeneralPhotosGrid",
-              "width": "fill_container",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "vSGdx",
-                  "name": "dtGPC1",
-                  "metadata": {
-                    "type": "unsplash",
-                    "username": "shlows6",
-                    "link": "https://unsplash.com/@shlows6",
-                    "author": "ShlowS6"
-                  },
-                  "width": "fill_container",
-                  "height": 180,
-                  "fill": {
-                    "type": "image",
-                    "enabled": true,
-                    "url": "https://images.unsplash.com/photo-1772429875535-9d1ac35a66c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0MzgwMDF8&ixlib=rb-4.1.0&q=80&w=1080",
-                    "mode": "fill"
-                  },
-                  "cornerRadius": "$radius-sm"
-                },
-                {
-                  "type": "frame",
-                  "id": "cMWhg",
-                  "name": "dtGPC2",
-                  "metadata": {
-                    "type": "unsplash",
-                    "username": "stanbezukh",
-                    "link": "https://unsplash.com/@stanbezukh",
-                    "author": "Stas Bezukh"
-                  },
-                  "width": "fill_container",
-                  "height": 180,
-                  "fill": {
-                    "type": "image",
-                    "enabled": true,
-                    "url": "https://images.unsplash.com/photo-1759832216984-29a9e3f101df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0MzgwMDF8&ixlib=rb-4.1.0&q=80&w=1080",
-                    "mode": "fill"
-                  },
-                  "cornerRadius": "$radius-sm"
-                },
-                {
-                  "type": "frame",
-                  "id": "XgNqY",
-                  "name": "dtGPC3",
-                  "metadata": {
-                    "type": "unsplash",
-                    "username": "shot_by_cooper",
-                    "link": "https://unsplash.com/@shot_by_cooper",
-                    "author": "Cooper White"
-                  },
-                  "width": "fill_container",
-                  "height": 180,
-                  "fill": {
-                    "type": "image",
-                    "enabled": true,
-                    "url": "https://images.unsplash.com/photo-1762295098676-1fdae4317e8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM0MzgwMDF8&ixlib=rb-4.1.0&q=80&w=1080",
-                    "mode": "fill"
-                  },
-                  "cornerRadius": "$radius-sm"
                 }
               ]
             },

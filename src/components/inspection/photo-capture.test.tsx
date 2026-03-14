@@ -8,6 +8,7 @@ function makePhoto(overrides?: Partial<DraftPhoto>): DraftPhoto {
     id: "p-1",
     eventId: "ev-1",
     findingId: "f-1",
+    photoType: "finding",
     blob: undefined,
     url: null,
     caption: null,
