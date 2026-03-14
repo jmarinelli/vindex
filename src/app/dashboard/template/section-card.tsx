@@ -115,20 +115,6 @@ export function SectionCard({
     });
   }
 
-  function handleItemReorder(activeId: string, overId: string) {
-    const oldIndex = section.items.findIndex((i) => i.id === activeId);
-    const newIndex = section.items.findIndex((i) => i.id === overId);
-    if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return;
-
-    const items = [...section.items];
-    const [moved] = items.splice(oldIndex, 1);
-    items.splice(newIndex, 0, moved);
-    onUpdate({
-      ...section,
-      items: items.map((item, i) => ({ ...item, order: i })),
-    });
-  }
-
   return (
     <div
       ref={setNodeRef}

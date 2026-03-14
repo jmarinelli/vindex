@@ -74,6 +74,7 @@ export function PhotoLightbox({
       )}
 
       {/* Image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={photo.url}
         alt={photo.caption || "Foto de inspección"}

@@ -1,7 +1,7 @@
 // VinDex Service Worker — placeholder
 // Full implementation in Phase 5
 
-self.addEventListener("install", (event) => {
+self.addEventListener("install", (_event) => {
   self.skipWaiting();
 });
 

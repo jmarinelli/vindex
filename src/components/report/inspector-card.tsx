@@ -16,6 +16,7 @@ export function InspectorCard({ node }: InspectorCardProps) {
     >
       {/* Logo or fallback */}
       {node.logoUrl ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src={node.logoUrl}
           alt={`Logo de ${node.displayName}`}

@@ -7,7 +7,7 @@ import {
   saveFinding,
   enqueueSyncItem,
 } from "./dexie";
-import type { DraftInspection, DraftFinding, FindingStatus } from "@/types/inspection";
+import type { DraftInspection, DraftFinding } from "@/types/inspection";
 
 // ─── useOfflineStatus ───────────────────────────────────────────────────────
 
@@ -36,11 +36,10 @@ export function useOfflineStatus() {
 
 export function useDraft(eventId: string | null) {
   const [draft, setDraft] = useState<DraftInspection | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !!eventId);
 
   useEffect(() => {
     if (!eventId) {
-      setLoading(false);
       return;
     }
 
@@ -68,12 +67,15 @@ export function useDraft(eventId: string | null) {
 export type SyncStatus = "saved" | "syncing" | "synced" | "offline";
 
 export function useAutoSave(draft: DraftInspection | null, isOnline: boolean) {
-  const [syncStatus, setSyncStatus] = useState<SyncStatus>("saved");
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>(() =>
+    isOnline ? "saved" : "offline"
+  );
   const syncedTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Update status based on connectivity
   useEffect(() => {
     if (!isOnline) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing external navigator.onLine state
       setSyncStatus("offline");
     }
   }, [isOnline]);

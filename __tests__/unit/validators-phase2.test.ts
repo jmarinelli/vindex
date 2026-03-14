@@ -134,7 +134,8 @@ describe("createInspectionSchema", () => {
   });
 
   it("rejects missing vehicleId", () => {
-    const { vehicleId, ...rest } = validInput;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { vehicleId: _vehicleId, ...rest } = validInput;
     const result = createInspectionSchema.safeParse(rest);
     expect(result.success).toBe(false);
   });

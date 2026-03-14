@@ -4,7 +4,6 @@ import { useRef, useEffect } from "react";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TemplateSection } from "@/lib/validators";
-import type { FindingStatus } from "@/types/inspection";
 
 interface SectionTabsProps {
   sections: TemplateSection[];

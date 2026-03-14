@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TemplateEditor } from "./template-editor";
 import {
@@ -8,11 +8,14 @@ import {
 } from "../../../../__tests__/helpers/factories";
 
 // Capture the onDragEnd handler so we can simulate DnD in tests
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const { capturedDragEnd } = vi.hoisted(() => ({
   capturedDragEnd: { current: null as ((event: any) => void) | null },
 }));
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // Mock @dnd-kit
+/* eslint-disable @typescript-eslint/no-explicit-any */
 vi.mock("@dnd-kit/core", () => ({
   DndContext: ({ children, onDragEnd }: { children: React.ReactNode; onDragEnd?: any }) => {
     capturedDragEnd.current = onDragEnd ?? null;
@@ -81,6 +84,7 @@ vi.mock("@base-ui/react/alert-dialog", () => {
   };
   return { AlertDialog };
 });
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // Use vi.hoisted to create mock variables that are available in hoisted vi.mock factories
 const { mockToast, mockUpdateTemplateAction } = vi.hoisted(() => ({
@@ -102,6 +106,7 @@ vi.mock("@/lib/actions/template", () => ({
 
 // Mock @base-ui/react/button
 vi.mock("@base-ui/react/button", () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Button: ({ children, className, ...props }: any) => (
     <button className={className} {...props}>
       {children}
@@ -415,7 +420,7 @@ describe("TemplateEditor", () => {
   });
 
   it("handles section drag end by reordering sections", () => {
-    const { act } = require("react");
+    // act imported from @testing-library/react
     render(<TemplateEditor {...defaultProps} />);
 
     // Simulate a section drag
@@ -434,7 +439,7 @@ describe("TemplateEditor", () => {
   });
 
   it("handles item drag end by reordering items within section", () => {
-    const { act } = require("react");
+    // act imported from @testing-library/react
     // Need sections with items
     render(<TemplateEditor {...defaultProps} />);
 
@@ -456,7 +461,7 @@ describe("TemplateEditor", () => {
   });
 
   it("drag end with same active and over id does nothing", () => {
-    const { act } = require("react");
+    // act imported from @testing-library/react
     render(<TemplateEditor {...defaultProps} />);
 
     act(() => {
@@ -474,7 +479,7 @@ describe("TemplateEditor", () => {
   });
 
   it("drag end with no over target does nothing", () => {
-    const { act } = require("react");
+    // act imported from @testing-library/react
     render(<TemplateEditor {...defaultProps} />);
 
     act(() => {

@@ -351,6 +351,7 @@ export default function ReviewSignPage() {
                     className="relative w-16 h-16 rounded-sm border border-gray-200 overflow-hidden shrink-0"
                   >
                     {photo.url && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={photo.url}
                         alt={`Foto del vehículo ${idx + 1}`}

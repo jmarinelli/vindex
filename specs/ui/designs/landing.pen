@@ -1,0 +1,3621 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "X9fLG",
+      "x": 0,
+      "y": 0,
+      "name": "Mobile — Landing Page",
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "9rKtY",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$brand-primary",
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "UAPZJ",
+              "name": "Logo",
+              "gap": 2,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dhSS3",
+                  "name": "Badge",
+                  "width": 28,
+                  "height": 24,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "Fmv04",
+                      "x": 0,
+                      "y": 0,
+                      "name": "P",
+                      "geometry": "M0 24l0-24 22 0c3.3137 0 6 2.68629 6 6l0 0c0 3.31371-2.6863 6-6 6l-16 0 0 12-6 0z",
+                      "fill": "$brand-accent",
+                      "width": 28,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "BkFzR",
+                      "x": 8,
+                      "y": 2,
+                      "name": "vText",
+                      "fill": "$white",
+                      "content": "V",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "RUZsX",
+                  "name": "dexText",
+                  "fill": "$white",
+                  "content": "dex",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "77oej",
+              "name": "LoginBtn",
+              "height": 36,
+              "cornerRadius": "$radius-sm",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#FFFFFF40"
+              },
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1ZwrX",
+                  "name": "loginText",
+                  "fill": "$white",
+                  "content": "Login",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "l4C5R",
+          "name": "Hero",
+          "width": "fill_container",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "$brand-primary",
+                "position": 0
+              },
+              {
+                "color": "#0F172A",
+                "position": 1
+              }
+            ]
+          },
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            64,
+            24,
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "uEpjx",
+              "name": "tagline",
+              "fill": "$white",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "El historial que cada auto debería tener",
+              "lineHeight": 1.2,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 26,
+              "fontWeight": "800",
+              "letterSpacing": -0.5
+            },
+            {
+              "type": "text",
+              "id": "wtxK4",
+              "name": "subheading",
+              "fill": "$gray-400",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "VinDex construye identidad vehicular documentada — un servicio profesional a la vez.",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "z8hiR",
+              "name": "ctaRow",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Fb4Ht",
+                  "name": "ctaPrimary",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "$brand-accent",
+                  "cornerRadius": "$radius-sm",
+                  "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7jnet",
+                      "name": "ctaPText",
+                      "fill": "$white",
+                      "content": "Cómo funciona",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ww262",
+                  "name": "ctaSecondary",
+                  "width": "fill_container",
+                  "height": 48,
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#FFFFFF80"
+                  },
+                  "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "wtczv",
+                      "name": "ctaSText",
+                      "fill": "$white",
+                      "content": "¿Sos inspector? Contactanos",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "VgAdR",
+              "name": "trustIndicator",
+              "fill": "#FFFFFF60",
+              "content": "Identidad vehicular documentada · Inmutable · Profesional",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "SR4tv",
+          "name": "TheIdea",
+          "width": "fill_container",
+          "fill": "$white",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "KB4Xs",
+              "name": "ideaStatement",
+              "fill": "$gray-800",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Hoy, comprar un usado es un acto de fe",
+              "lineHeight": 1.3,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "uS5uw",
+              "name": "ideaBody",
+              "fill": "$gray-500",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "No hay forma confiable de saber qué le hicieron al auto que estás viendo. VinDex cambia eso: documenta desde la fuente, con quienes lo ven y trabajan en él directamente.",
+              "lineHeight": 1.7,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hnL5q",
+          "name": "HowItWorks",
+          "width": "fill_container",
+          "fill": "$gray-50",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ZRm0W",
+              "name": "howTitle",
+              "fill": "$gray-800",
+              "content": "Cómo funciona",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "itT6x",
+              "name": "howSub",
+              "enabled": false,
+              "fill": "$gray-500",
+              "content": "En tres simples pasos",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "JNesL",
+              "name": "Step1",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EItq8",
+                  "name": "stepNum1",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "$brand-accent",
+                  "cornerRadius": "$radius-full",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fzpvF",
+                      "x": 18,
+                      "y": 12,
+                      "name": "step1NumText",
+                      "fill": "$white",
+                      "content": "1",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "CLXTH",
+                  "name": "step1Icon",
+                  "width": 32,
+                  "height": 32,
+                  "iconFontName": "clipboard-check",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-600"
+                },
+                {
+                  "type": "text",
+                  "id": "2LG5U",
+                  "name": "step1Title",
+                  "fill": "$gray-800",
+                  "content": "Un profesional evalúa el vehículo",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "ZJOWw",
+                  "name": "step1Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": 260,
+                  "content": "Un inspector o taller registrado evalúa el vehículo y documenta su estado real, punto por punto.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "3hFhc",
+              "name": "Step2",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xK8HF",
+                  "name": "stepNum2",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "$brand-accent",
+                  "cornerRadius": "$radius-full",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Zhz2s",
+                      "x": 17,
+                      "y": 12,
+                      "name": "step2NumText",
+                      "fill": "$white",
+                      "content": "2",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "u012u",
+                  "name": "step2Icon",
+                  "width": 32,
+                  "height": 32,
+                  "iconFontName": "stamp",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-600"
+                },
+                {
+                  "type": "text",
+                  "id": "phfGU",
+                  "name": "step2Title",
+                  "fill": "$gray-800",
+                  "content": "El resultado queda sellado al VIN",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "mRZIK",
+                  "name": "step2Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": 260,
+                  "content": "Firmado digitalmente, inmutable, anclado a la identidad del vehículo para siempre.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pYGiF",
+              "name": "Step3",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "w0XKW",
+                  "name": "stepNum3",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "$brand-accent",
+                  "cornerRadius": "$radius-full",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gHlYp",
+                      "x": 17,
+                      "y": 12,
+                      "name": "step3NumText",
+                      "fill": "$white",
+                      "content": "3",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "ZimuQ",
+                  "name": "step3Icon",
+                  "width": 32,
+                  "height": 32,
+                  "iconFontName": "file-check",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-600"
+                },
+                {
+                  "type": "text",
+                  "id": "lTTPu",
+                  "name": "step3Title",
+                  "fill": "$gray-800",
+                  "content": "El cliente recibe un informe profesional",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "HXiNj",
+                  "name": "step3Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": 260,
+                  "content": "Un link con preview visual, listo para compartir en publicaciones o por WhatsApp.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "6Njw1",
+              "name": "Step4",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kK7Lf",
+                  "name": "stepNum4",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "$brand-accent",
+                  "cornerRadius": "$radius-full",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IUqgT",
+                      "x": 17,
+                      "y": 12,
+                      "name": "step4numT",
+                      "fill": "$white",
+                      "content": "4",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "eR4f6",
+                  "name": "step4Icon",
+                  "width": 32,
+                  "height": 32,
+                  "iconFontName": "layers",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-600"
+                },
+                {
+                  "type": "text",
+                  "id": "pNIeD",
+                  "name": "step4Title",
+                  "fill": "$gray-800",
+                  "content": "El vehículo acumula su historia",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "7Tutz",
+                  "name": "step4Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": 260,
+                  "content": "Cada servicio profesional se ancla al VIN. Cuando alguien quiera saber qué pasó con ese auto, la información va a estar.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "WpoQ6",
+          "name": "Buyers",
+          "width": "fill_container",
+          "fill": "$white",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "WFAUv",
+              "name": "buyersTitle",
+              "fill": "$gray-800",
+              "content": "Confianza con evidencia",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "enB6r",
+              "name": "buyersSub",
+              "fill": "$gray-500",
+              "textGrowth": "fixed-width",
+              "width": 320,
+              "content": "Consultá el historial documentado de un vehículo antes de tomar una decisión.",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "vyO1L",
+              "name": "FeatureCard1",
+              "width": "fill_container",
+              "fill": "$gray-50",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "enabled": false,
+                "color": "#000000"
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "oQjwF",
+                  "name": "card1Icon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "search",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-accent"
+                },
+                {
+                  "type": "text",
+                  "id": "IQSn8",
+                  "name": "card1Title",
+                  "fill": "$gray-800",
+                  "content": "Consultá el historial",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "TZtE7",
+                  "name": "card1Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Accedé a todo lo documentado sobre un vehículo por su VIN. Cada inspección y servicio registrado, en un solo lugar.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "A1qM1",
+              "name": "FeatureCard2",
+              "width": "fill_container",
+              "fill": "$gray-50",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "enabled": false,
+                "color": "#000000"
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "0QNQS",
+                  "name": "card2Icon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "shield-check",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-accent"
+                },
+                {
+                  "type": "text",
+                  "id": "juQJB",
+                  "name": "card2Title",
+                  "fill": "$gray-800",
+                  "content": "Inmutable por diseño",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "gTZ30",
+                  "name": "card2Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Una vez firmado, nadie puede alterar lo que el profesional encontró. Lo que ves es lo que se documentó.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dnrXf",
+              "name": "FeatureCard3",
+              "width": "fill_container",
+              "fill": "$gray-50",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "enabled": false,
+                "color": "#000000"
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "qv8K0",
+                  "name": "card3Icon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "eye",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-accent"
+                },
+                {
+                  "type": "text",
+                  "id": "ZF6IE",
+                  "name": "card3Title",
+                  "fill": "$gray-800",
+                  "content": "Transparencia total",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "XXk1r",
+                  "name": "card3Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Sabé quién pidió la inspección, quién la hizo, cuándo, y a qué kilometraje. Sin zonas grises.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "6ad25",
+          "name": "Inspectors",
+          "width": "fill_container",
+          "fill": "$gray-50",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "I4g4U",
+              "name": "inspTitle",
+              "fill": "$gray-800",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Tu herramienta, tu marca, tu historial",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "TtGJP",
+              "name": "inspSub",
+              "fill": "$gray-500",
+              "textGrowth": "fixed-width",
+              "width": 320,
+              "content": "Todo lo que necesitás para ofrecer inspecciones profesionales.",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "RQah8",
+              "name": "InspCard1",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "NUO2D",
+                  "name": "icard1Icon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "smartphone",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-accent"
+                },
+                {
+                  "type": "text",
+                  "id": "ZgcEa",
+                  "name": "icard1Title",
+                  "fill": "$gray-800",
+                  "content": "Una herramienta superior",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "jvtBp",
+                  "name": "icard1Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Formularios estructurados, fotos integradas, funciona offline. Más rápido y profesional que tu método actual.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CE7yt",
+              "name": "InspCard2",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "tOL11",
+                  "name": "ic2Icon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "palette",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-accent"
+                },
+                {
+                  "type": "text",
+                  "id": "ltIhY",
+                  "name": "ic2Title",
+                  "fill": "$gray-800",
+                  "content": "Tu marca, no la nuestra",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "LeaJs",
+                  "name": "ic2Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Reportes white-label con tu identidad prominente. La plataforma es infraestructura invisible.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WrLBZ",
+              "name": "InspCard3",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "PmCXl",
+                  "name": "ic3Icon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "trending-up",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-accent"
+                },
+                {
+                  "type": "text",
+                  "id": "5ZcWS",
+                  "name": "ic3Title",
+                  "fill": "$gray-800",
+                  "content": "Reputación que se acumula",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "aofZx",
+                  "name": "ic3Desc",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Cada inspección construye tu perfil profesional: cantidad de inspecciones, nivel de detalle, reseñas de compradores.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JK2Fv",
+          "name": "VehicleTimeline",
+          "width": "fill_container",
+          "fill": "$brand-primary",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Qpa0v",
+              "name": "tlTitle",
+              "fill": "$white",
+              "content": "Un VIN, toda su vida documentada",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "QWC5C",
+              "name": "tlBody",
+              "fill": "$gray-400",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Inspecciones, servicios y reparaciones se anclan al VIN. Con el tiempo, se construye un registro profesional que habla por sí solo.",
+              "lineHeight": 1.7,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "2Ig7m",
+              "name": "TimelineEvents",
+              "width": "fill_container",
+              "layout": "vertical",
+              "padding": [
+                8,
+                0,
+                0,
+                16
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "VjqXe",
+                  "name": "Event1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    0,
+                    0,
+                    20,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "6yMxz",
+                      "name": "ev1date",
+                      "fill": "$gray-400",
+                      "content": "Mar 2026",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "EOovs",
+                      "name": "ev1desc",
+                      "fill": "$white",
+                      "content": "Inspección pre-compra",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "NCzCw",
+                      "name": "ev1meta",
+                      "fill": "$gray-400",
+                      "content": "78.400 km · Insp. Martínez",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "m7utz",
+                  "name": "Event2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    0,
+                    0,
+                    20,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rqzVn",
+                      "name": "ev2date",
+                      "fill": "$gray-400",
+                      "content": "Sep 2026",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "T56Lh",
+                      "name": "ev2desc",
+                      "fill": "$white",
+                      "content": "Cambio de aceite y filtros",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dMKNJ",
+                      "name": "ev2meta",
+                      "fill": "$gray-400",
+                      "content": "87.000 km · Taller López",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "g7lcr",
+                  "name": "Event3",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    0,
+                    0,
+                    20,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "an3qw",
+                      "name": "ev3date",
+                      "fill": "$gray-400",
+                      "content": "Dic 2026",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sONDA",
+                      "name": "ev3desc",
+                      "fill": "$white",
+                      "content": "Alineación y balanceo",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "n9FPr",
+                      "name": "ev3meta",
+                      "fill": "$gray-400",
+                      "content": "93.200 km · Taller López",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "8q1vc",
+                  "name": "Event4",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    0,
+                    0,
+                    0,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "NOXrB",
+                      "name": "ev4date",
+                      "fill": "$gray-400",
+                      "content": "Mar 2027",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "r2lNr",
+                      "name": "ev4desc",
+                      "fill": "$white",
+                      "content": "Inspección periódica",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "2yKqj",
+                      "name": "ev4meta",
+                      "fill": "$gray-400",
+                      "content": "104.800 km · Insp. Martínez",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "FTXVf",
+          "name": "Contact",
+          "width": "fill_container",
+          "fill": "$gray-50",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "VnRY0",
+              "name": "contactTitle",
+              "fill": "$gray-800",
+              "content": "¿Sos inspector?",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "wNDxN",
+              "name": "contactSub",
+              "fill": "$gray-500",
+              "content": "Contactanos para empezar a usar VinDex.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "dqlhJ",
+              "name": "FormCard",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RSzCQ",
+                  "name": "FieldNombre",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tEi9H",
+                      "name": "field1Label",
+                      "fill": "$gray-700",
+                      "content": "Nombre",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Jp9Nj",
+                      "name": "inputNombre",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SPycd",
+                          "name": "field1Placeholder",
+                          "fill": "$gray-400",
+                          "content": "Tu nombre",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "E8hbI",
+                  "name": "FieldEmail",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "m2pVC",
+                      "name": "field2Label",
+                      "fill": "$gray-700",
+                      "content": "Email",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "e9QEM",
+                      "name": "inputEmail",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "3lPHz",
+                          "name": "field2Ph",
+                          "fill": "$gray-400",
+                          "content": "tu@email.com",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iXkbW",
+                  "name": "FieldTel",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IYF7B",
+                      "name": "field3Label",
+                      "fill": "$gray-700",
+                      "content": "Teléfono (opcional)",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zzXWF",
+                      "name": "inputTel",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ELIUY",
+                          "name": "field3Ph",
+                          "fill": "$gray-400",
+                          "content": "+54 11 1234-5678",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xipy9",
+                  "name": "FieldMsg",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "e7bvS",
+                      "name": "field4Label",
+                      "fill": "$gray-700",
+                      "content": "Mensaje",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BUuht",
+                      "name": "inputMsg",
+                      "width": "fill_container",
+                      "height": 96,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "aNwZi",
+                          "name": "field4Ph",
+                          "fill": "$gray-400",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Contanos sobre tu taller o servicio de inspección...",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yUaTw",
+                  "name": "SubmitBtn",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "$brand-primary",
+                  "cornerRadius": "$radius-sm",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Bmyqj",
+                      "name": "submitText",
+                      "fill": "$white",
+                      "content": "Enviar mensaje",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uKzko",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "$brand-primary",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            32,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "PoYZr",
+              "name": "FooterLogo",
+              "gap": 2,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IquCF",
+                  "name": "Badge",
+                  "width": 28,
+                  "height": 24,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "rzqqi",
+                      "x": 0,
+                      "y": 0,
+                      "name": "P",
+                      "geometry": "M0 24l0-24 22 0c3.3137 0 6 2.68629 6 6l0 0c0 3.31371-2.6863 6-6 6l-16 0 0 12-6 0z",
+                      "fill": "$brand-accent",
+                      "width": 28,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "emulA",
+                      "x": 8,
+                      "y": 2,
+                      "name": "vText",
+                      "fill": "$white",
+                      "content": "V",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "yBSl7",
+                  "name": "dexText",
+                  "fill": "$white",
+                  "content": "dex",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IgX8n",
+              "name": "FooterLinks",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Of7pT",
+                  "name": "link1",
+                  "fill": "$gray-400",
+                  "content": "Privacidad",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "UKC33",
+                  "name": "linkDot1",
+                  "fill": "$gray-500",
+                  "content": "·",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "UOqfo",
+                  "name": "link2",
+                  "fill": "$gray-400",
+                  "content": "Términos",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "7Udh5",
+                  "name": "linkDot2",
+                  "fill": "$gray-500",
+                  "content": "·",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "sLm32",
+                  "name": "link3",
+                  "fill": "$gray-400",
+                  "content": "contacto@vindex.app",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "mPKNF",
+              "name": "footerCopy",
+              "fill": "$gray-500",
+              "content": "© 2026 VinDex. Todos los derechos reservados.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Kl3MX",
+      "x": 490,
+      "y": 0,
+      "name": "Desktop — Landing Page",
+      "width": 1440,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "UXqBW",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 64,
+          "fill": "$brand-primary",
+          "padding": [
+            0,
+            48
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "x1Zye",
+              "name": "Logo",
+              "gap": 2,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "KTHEk",
+                  "name": "Badge",
+                  "width": 36,
+                  "height": 30,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "y8LAT",
+                      "x": 0,
+                      "y": 0,
+                      "name": "P",
+                      "geometry": "M0 30l0-30 28 0c4 0 8 3.5 8 7.5l0 0c0 4-4 7.5-8 7.5l-21 0 0 15-7 0z",
+                      "fill": "$brand-accent",
+                      "width": 36,
+                      "height": 30
+                    },
+                    {
+                      "type": "text",
+                      "id": "29sKO",
+                      "x": 10,
+                      "y": 3,
+                      "name": "vText",
+                      "fill": "$white",
+                      "content": "V",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "tDcM3",
+                  "name": "dexText",
+                  "fill": "$white",
+                  "content": "dex",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "QgKFQ",
+              "name": "NavLinks",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1UGfL",
+                  "name": "dNav1",
+                  "fill": "#FFFFFFCC",
+                  "content": "Cómo funciona",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "fLfHO",
+                  "name": "dNav2",
+                  "fill": "#FFFFFFCC",
+                  "content": "Para compradores",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "Bfc80",
+                  "name": "dNav3",
+                  "fill": "#FFFFFFCC",
+                  "content": "Para inspectores",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7qIq7",
+              "name": "LoginBtn",
+              "height": 40,
+              "cornerRadius": "$radius-sm",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#FFFFFF40"
+              },
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "jT0db",
+                  "name": "dLoginText",
+                  "fill": "$white",
+                  "content": "Login",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "EqjWi",
+          "name": "Hero",
+          "width": "fill_container",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "$brand-primary",
+                "position": 0
+              },
+              {
+                "color": "#0F172A",
+                "position": 1
+              }
+            ]
+          },
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            96,
+            120,
+            80,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "y2FDK",
+              "name": "tagline",
+              "fill": "$white",
+              "textGrowth": "fixed-width",
+              "width": 700,
+              "content": "El historial que cada auto debería tener",
+              "lineHeight": 1.1,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 48,
+              "fontWeight": "800",
+              "letterSpacing": -1
+            },
+            {
+              "type": "text",
+              "id": "Ne4nS",
+              "name": "subheading",
+              "fill": "$gray-400",
+              "textGrowth": "fixed-width",
+              "width": 560,
+              "content": "VinDex construye identidad vehicular documentada — un servicio profesional a la vez.",
+              "lineHeight": 1.6,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "Efq5R",
+              "name": "ctaRow",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HYyPi",
+                  "name": "ctaPrimary",
+                  "height": 52,
+                  "fill": "$brand-accent",
+                  "cornerRadius": "$radius-sm",
+                  "padding": [
+                    0,
+                    32
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "NPkrn",
+                      "name": "dCtaPText",
+                      "fill": "$white",
+                      "content": "Cómo funciona",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YcN1W",
+                  "name": "ctaSecondary",
+                  "height": 52,
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#FFFFFF80"
+                  },
+                  "padding": [
+                    0,
+                    32
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "0DY7R",
+                      "name": "dCtaSText",
+                      "fill": "$white",
+                      "content": "¿Sos inspector? Contactanos",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "3MAx9",
+              "name": "trustIndicator",
+              "fill": "#FFFFFF60",
+              "content": "Identidad vehicular documentada · Inmutable · Profesional",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "m0l12",
+          "name": "TheIdea",
+          "width": "fill_container",
+          "fill": "$white",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            80,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "0nap9",
+              "name": "IdeaInner",
+              "width": 640,
+              "layout": "vertical",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kiFis",
+                  "name": "dIdeaStatement",
+                  "fill": "$gray-800",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Hoy, comprar un usado es un acto de fe",
+                  "lineHeight": 1.3,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 30,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "mrmo3",
+                  "name": "dIdeaBody",
+                  "fill": "$gray-500",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "No hay forma confiable de saber qué le hicieron al auto que estás viendo. VinDex cambia eso: documenta desde la fuente, con quienes lo ven y trabajan en él directamente.",
+                  "lineHeight": 1.7,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "UrtHG",
+          "name": "HowItWorks",
+          "width": "fill_container",
+          "fill": "$gray-50",
+          "layout": "vertical",
+          "gap": 40,
+          "padding": [
+            64,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "hxpzo",
+              "name": "dHowTitle",
+              "fill": "$gray-800",
+              "content": "Cómo funciona",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "oZxpr",
+              "name": "dHowSub",
+              "enabled": false,
+              "fill": "$gray-500",
+              "content": "En tres simples pasos",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "CbYbF",
+              "name": "StepsRow",
+              "width": "fill_container",
+              "gap": 32,
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Nswgn",
+                  "name": "Step1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VX0i7",
+                      "name": "ds1Num",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$brand-accent",
+                      "cornerRadius": "$radius-full",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "UK7wK",
+                          "x": 18,
+                          "y": 12,
+                          "name": "ds1NumT",
+                          "fill": "$white",
+                          "content": "1",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "jnsvE",
+                      "name": "ds1Icon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "clipboard-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$gray-600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sGNKp",
+                      "name": "ds1Title",
+                      "fill": "$gray-800",
+                      "content": "Un profesional evalúa el vehículo",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "v8H1O",
+                      "name": "ds1Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Un inspector o taller registrado evalúa el vehículo y documenta su estado real, punto por punto.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pNWFo",
+                  "name": "Step2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nVaqo",
+                      "name": "ds2Num",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$brand-accent",
+                      "cornerRadius": "$radius-full",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "H2nRn",
+                          "x": 17,
+                          "y": 12,
+                          "name": "ds2NumT",
+                          "fill": "$white",
+                          "content": "2",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "eqdO4",
+                      "name": "ds2Icon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "stamp",
+                      "iconFontFamily": "lucide",
+                      "fill": "$gray-600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jhltH",
+                      "name": "ds2Title",
+                      "fill": "$gray-800",
+                      "content": "El resultado queda sellado al VIN",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "KHgZj",
+                      "name": "ds2Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Firmado digitalmente, inmutable, anclado a la identidad del vehículo para siempre.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "E1QMX",
+                  "name": "Step3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "UvSO4",
+                      "name": "ds3Num",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$brand-accent",
+                      "cornerRadius": "$radius-full",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OfmHW",
+                          "x": 17,
+                          "y": 12,
+                          "name": "ds3NumT",
+                          "fill": "$white",
+                          "content": "3",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "d77Dj",
+                      "name": "ds3Icon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "file-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$gray-600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "1ynn0",
+                      "name": "ds3Title",
+                      "fill": "$gray-800",
+                      "content": "El cliente recibe un informe profesional",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cYs0E",
+                      "name": "ds3Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Un link con preview visual, listo para compartir en publicaciones o por WhatsApp.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Eytvq",
+                  "name": "Step4",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "S1aRA",
+                      "name": "ds4Num",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$brand-accent",
+                      "cornerRadius": "$radius-full",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QLXol",
+                          "x": 17,
+                          "y": 12,
+                          "name": "ds4numT",
+                          "fill": "$white",
+                          "content": "4",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "BsBd3",
+                      "name": "ds4Icon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "layers",
+                      "iconFontFamily": "lucide",
+                      "fill": "$gray-600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "vCiBU",
+                      "name": "ds4Title",
+                      "fill": "$gray-800",
+                      "content": "El vehículo acumula su historia",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "NWmBu",
+                      "name": "ds4Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cada servicio profesional se ancla al VIN. Cuando alguien quiera saber qué pasó con ese auto, la información va a estar.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eRgFj",
+          "name": "Buyers",
+          "width": "fill_container",
+          "fill": "$white",
+          "layout": "vertical",
+          "gap": 40,
+          "padding": [
+            64,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "sDrCk",
+              "name": "dBTitle",
+              "fill": "$gray-800",
+              "content": "Confianza con evidencia",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "W7wmX",
+              "name": "dBSub",
+              "fill": "$gray-500",
+              "content": "Consultá el historial documentado de un vehículo antes de tomar una decisión.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "tGoBY",
+              "name": "BuyerCards",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rRVu1",
+                  "name": "Card1",
+                  "width": "fill_container",
+                  "fill": "$gray-50",
+                  "cornerRadius": "$radius-md",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "enabled": false,
+                    "color": "#000000"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "6d0iC",
+                      "name": "dBc1Icon",
+                      "width": 40,
+                      "height": 40,
+                      "iconFontName": "search",
+                      "iconFontFamily": "lucide",
+                      "fill": "$brand-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "XTbzT",
+                      "name": "dBc1Title",
+                      "fill": "$gray-800",
+                      "content": "Consultá el historial",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uS4XC",
+                      "name": "dBc1Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Accedé a todo lo documentado sobre un vehículo por su VIN. Cada inspección y servicio registrado, en un solo lugar.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LPvv7",
+                  "name": "Card2",
+                  "width": "fill_container",
+                  "fill": "$gray-50",
+                  "cornerRadius": "$radius-md",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "enabled": false,
+                    "color": "#000000"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "gl10x",
+                      "name": "dBc2Icon",
+                      "width": 40,
+                      "height": 40,
+                      "iconFontName": "shield-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$brand-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "rTfDi",
+                      "name": "dBc2Title",
+                      "fill": "$gray-800",
+                      "content": "Inmutable por diseño",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dmeZo",
+                      "name": "dBc2Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Una vez firmado, nadie puede alterar lo que el profesional encontró. Lo que ves es lo que se documentó.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nYQsF",
+                  "name": "Card3",
+                  "width": "fill_container",
+                  "fill": "$gray-50",
+                  "cornerRadius": "$radius-md",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "enabled": false,
+                    "color": "#000000"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "X6L9z",
+                      "name": "dBc3Icon",
+                      "width": 40,
+                      "height": 40,
+                      "iconFontName": "eye",
+                      "iconFontFamily": "lucide",
+                      "fill": "$brand-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "JDWmZ",
+                      "name": "dBc3Title",
+                      "fill": "$gray-800",
+                      "content": "Transparencia total",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Pxdbs",
+                      "name": "dBc3Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Sabé quién pidió la inspección, quién la hizo, cuándo, y a qué kilometraje. Sin zonas grises.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Ajvuk",
+          "name": "Inspectors",
+          "width": "fill_container",
+          "fill": "$gray-50",
+          "layout": "vertical",
+          "gap": 40,
+          "padding": [
+            64,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "cWUA5",
+              "name": "dITitle",
+              "fill": "$gray-800",
+              "content": "Tu herramienta, tu marca, tu historial",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "12DiV",
+              "name": "dISub",
+              "fill": "$gray-500",
+              "content": "Todo lo que necesitás para ofrecer inspecciones profesionales.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "0ReMd",
+              "name": "InspCards",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "0CGR7",
+                  "name": "ICard1",
+                  "width": "fill_container",
+                  "fill": "$white",
+                  "cornerRadius": "$radius-md",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000000D",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "fsXJu",
+                      "name": "dIc1Icon",
+                      "width": 40,
+                      "height": 40,
+                      "iconFontName": "smartphone",
+                      "iconFontFamily": "lucide",
+                      "fill": "$brand-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "j5X9L",
+                      "name": "dIc1Title",
+                      "fill": "$gray-800",
+                      "content": "Una herramienta superior",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "M9JFI",
+                      "name": "dIc1Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Formularios estructurados, fotos integradas, funciona offline. Más rápido y profesional que tu método actual.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PYoUz",
+                  "name": "ICard2",
+                  "width": "fill_container",
+                  "fill": "$white",
+                  "cornerRadius": "$radius-md",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000000D",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "dSyOd",
+                      "name": "dIc2Icon",
+                      "width": 40,
+                      "height": 40,
+                      "iconFontName": "palette",
+                      "iconFontFamily": "lucide",
+                      "fill": "$brand-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "UIXNw",
+                      "name": "dIc2Title",
+                      "fill": "$gray-800",
+                      "content": "Tu marca, no la nuestra",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "GPvDq",
+                      "name": "dIc2Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Reportes white-label con tu identidad prominente. La plataforma es infraestructura invisible.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "84JnZ",
+                  "name": "ICard3",
+                  "width": "fill_container",
+                  "fill": "$white",
+                  "cornerRadius": "$radius-md",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000000D",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "JTL8s",
+                      "name": "dIc3Icon",
+                      "width": 40,
+                      "height": 40,
+                      "iconFontName": "trending-up",
+                      "iconFontFamily": "lucide",
+                      "fill": "$brand-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "eq2RD",
+                      "name": "dIc3Title",
+                      "fill": "$gray-800",
+                      "content": "Reputación que se acumula",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "clkAI",
+                      "name": "dIc3Desc",
+                      "fill": "$gray-500",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cada inspección construye tu perfil profesional: cantidad de inspecciones, nivel de detalle, reseñas de compradores.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "4obdC",
+          "name": "VehicleTimeline",
+          "width": "fill_container",
+          "fill": "$brand-primary",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            80,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "VPxcn",
+              "name": "dtlTitle",
+              "fill": "$white",
+              "content": "Un VIN, toda su vida documentada",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "V3Gta",
+              "name": "dtlBody",
+              "fill": "$gray-400",
+              "textGrowth": "fixed-width",
+              "width": 560,
+              "content": "Inspecciones, servicios y reparaciones se anclan al VIN. Con el tiempo, se construye un registro profesional que habla por sí solo.",
+              "lineHeight": 1.7,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "bimUL",
+              "name": "TimelineEvents",
+              "width": "fill_container",
+              "padding": [
+                8,
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "DnNkL",
+                  "name": "Event1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    0,
+                    24,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "UBuxm",
+                      "name": "de1date",
+                      "fill": "$gray-400",
+                      "content": "Mar 2026",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "P0S4O",
+                      "name": "de1desc",
+                      "fill": "$white",
+                      "content": "Inspección pre-compra",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tQo6C",
+                      "name": "de1meta",
+                      "fill": "$gray-400",
+                      "content": "78.400 km · Insp. Martínez",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "o0WYH",
+                  "name": "Event2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    0,
+                    24,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "I4Fw7",
+                      "name": "de2date",
+                      "fill": "$gray-400",
+                      "content": "Sep 2026",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "3JWXH",
+                      "name": "de2desc",
+                      "fill": "$white",
+                      "content": "Cambio de aceite y filtros",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "t88QU",
+                      "name": "de2meta",
+                      "fill": "$gray-400",
+                      "content": "87.000 km · Taller López",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dZxCz",
+                  "name": "Event3",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    0,
+                    24,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "OjxOB",
+                      "name": "de3date",
+                      "fill": "$gray-400",
+                      "content": "Dic 2026",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hpuCn",
+                      "name": "de3desc",
+                      "fill": "$white",
+                      "content": "Alineación y balanceo",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "SXEtb",
+                      "name": "de3meta",
+                      "fill": "$gray-400",
+                      "content": "93.200 km · Taller López",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xBJfI",
+                  "name": "Event4",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 2
+                    },
+                    "fill": "#FFFFFF20"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    0,
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "2kVtv",
+                      "name": "de4date",
+                      "fill": "$gray-400",
+                      "content": "Mar 2027",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "iBLwa",
+                      "name": "de4desc",
+                      "fill": "$white",
+                      "content": "Inspección periódica",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "brCU9",
+                      "name": "de4meta",
+                      "fill": "$gray-400",
+                      "content": "104.800 km · Insp. Martínez",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DP4Q4",
+          "name": "Contact",
+          "width": "fill_container",
+          "fill": "$gray-50",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            64,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "fvnbA",
+              "name": "dCTitle",
+              "fill": "$gray-800",
+              "content": "¿Sos inspector?",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "3YOnw",
+              "name": "dCSub",
+              "fill": "$gray-500",
+              "content": "Contactanos para empezar a usar VinDex.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "k73kU",
+              "name": "FormCard",
+              "width": 560,
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 32,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "bQEmk",
+                  "name": "FieldNombre",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "j82LG",
+                      "name": "df1L",
+                      "fill": "$gray-700",
+                      "content": "Nombre",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mGSG0",
+                      "name": "df1I",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "avdx7",
+                          "name": "df1P",
+                          "fill": "$gray-400",
+                          "content": "Tu nombre",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "HvSx7",
+                  "name": "FieldEmail",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "OpGk0",
+                      "name": "df2L",
+                      "fill": "$gray-700",
+                      "content": "Email",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yxwXo",
+                      "name": "df2I",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "KNsvi",
+                          "name": "df2P",
+                          "fill": "$gray-400",
+                          "content": "tu@email.com",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Bp4q4",
+                  "name": "FieldTel",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mXMDv",
+                      "name": "df3L",
+                      "fill": "$gray-700",
+                      "content": "Teléfono (opcional)",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xhmSg",
+                      "name": "df3I",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RVxNj",
+                          "name": "df3P",
+                          "fill": "$gray-400",
+                          "content": "+54 11 1234-5678",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EUpX5",
+                  "name": "FieldMsg",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Dhmqy",
+                      "name": "df4L",
+                      "fill": "$gray-700",
+                      "content": "Mensaje",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6z0nH",
+                      "name": "df4I",
+                      "width": "fill_container",
+                      "height": 96,
+                      "fill": "$white",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$gray-200"
+                      },
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "atNY8",
+                          "name": "df4P",
+                          "fill": "$gray-400",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Contanos sobre tu taller o servicio de inspección...",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "B8MC1",
+                  "name": "SubmitBtn",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "$brand-primary",
+                  "cornerRadius": "$radius-sm",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "P4avE",
+                      "name": "dSubmitT",
+                      "fill": "$white",
+                      "content": "Enviar mensaje",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AeWIC",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "$brand-primary",
+          "padding": [
+            32,
+            120
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "OAEAu",
+              "name": "FooterLogo",
+              "gap": 2,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "g0vOP",
+                  "name": "dFBadge",
+                  "width": 28,
+                  "height": 24,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "7Hhlk",
+                      "x": 0,
+                      "y": 0,
+                      "name": "dFP",
+                      "geometry": "M0 24l0-24 22 0c3.3137 0 6 2.68629 6 6l0 0c0 3.31371-2.6863 6-6 6l-16 0 0 12-6 0z",
+                      "fill": "$brand-accent",
+                      "width": 28,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "D4Kgv",
+                      "x": 8,
+                      "y": 2,
+                      "name": "dFV",
+                      "fill": "$white",
+                      "content": "V",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "bEig9",
+                  "name": "dFDex",
+                  "fill": "$white",
+                  "content": "dex",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PRSzt",
+              "name": "dFLinks",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "l5v8Y",
+                  "name": "dFL1",
+                  "fill": "$gray-400",
+                  "content": "Privacidad",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "AFUQV",
+                  "name": "dFL2",
+                  "fill": "$gray-400",
+                  "content": "Términos",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "Asw6X",
+                  "name": "dFL3",
+                  "fill": "$gray-400",
+                  "content": "contacto@vindex.app",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "jBz9K",
+              "name": "dFCopy",
+              "fill": "$gray-500",
+              "content": "© 2026 VinDex",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "brand-accent": {
+      "type": "color",
+      "value": "#0EA5E9"
+    },
+    "brand-primary": {
+      "type": "color",
+      "value": "#1E293B"
+    },
+    "brand-primary-hover": {
+      "type": "color",
+      "value": "#0F172A"
+    },
+    "error": {
+      "type": "color",
+      "value": "#DC2626"
+    },
+    "gray-100": {
+      "type": "color",
+      "value": "#F3F4F6"
+    },
+    "gray-200": {
+      "type": "color",
+      "value": "#E5E7EB"
+    },
+    "gray-300": {
+      "type": "color",
+      "value": "#D1D5DB"
+    },
+    "gray-400": {
+      "type": "color",
+      "value": "#9CA3AF"
+    },
+    "gray-50": {
+      "type": "color",
+      "value": "#F9FAFB"
+    },
+    "gray-500": {
+      "type": "color",
+      "value": "#6B7280"
+    },
+    "gray-600": {
+      "type": "color",
+      "value": "#4B5563"
+    },
+    "gray-700": {
+      "type": "color",
+      "value": "#374151"
+    },
+    "gray-800": {
+      "type": "color",
+      "value": "#1F2937"
+    },
+    "gray-900": {
+      "type": "color",
+      "value": "#111827"
+    },
+    "radius-full": {
+      "type": "number",
+      "value": 9999
+    },
+    "radius-lg": {
+      "type": "number",
+      "value": 12
+    },
+    "radius-md": {
+      "type": "number",
+      "value": 8
+    },
+    "radius-sm": {
+      "type": "number",
+      "value": 6
+    },
+    "status-attention": {
+      "type": "color",
+      "value": "#D97706"
+    },
+    "status-attention-bg": {
+      "type": "color",
+      "value": "#FFFBEB"
+    },
+    "status-critical": {
+      "type": "color",
+      "value": "#DC2626"
+    },
+    "status-critical-bg": {
+      "type": "color",
+      "value": "#FEF2F2"
+    },
+    "status-good": {
+      "type": "color",
+      "value": "#16A34A"
+    },
+    "status-good-bg": {
+      "type": "color",
+      "value": "#F0FDF4"
+    },
+    "success": {
+      "type": "color",
+      "value": "#16A34A"
+    },
+    "white": {
+      "type": "color",
+      "value": "#FFFFFF"
+    }
+  }
+}

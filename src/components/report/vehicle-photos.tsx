@@ -43,6 +43,7 @@ export function VehiclePhotos({ photos }: VehiclePhotosProps) {
                 className="relative aspect-[4/3] rounded-sm border border-gray-200 overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={() => handlePhotoClick(idx)}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={photo.url}
                   alt={`Foto del vehículo ${idx + 1}`}

@@ -26,6 +26,7 @@ export function FreeTextItemCard({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing local state from prop change
     setText(finding.observation ?? "");
   }, [finding.observation]);
 

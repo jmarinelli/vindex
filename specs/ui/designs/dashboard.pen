@@ -97,7 +97,15 @@
               "width": "fit_content",
               "height": "fit_content",
               "x": 16,
-              "y": 14
+              "y": 14,
+              "descendants": {
+                "HFBuF": {
+                  "y": 0
+                },
+                "OeXDM": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",
@@ -1008,7 +1016,15 @@
               "width": "fit_content",
               "height": "fit_content",
               "x": 16,
-              "y": 14
+              "y": 14,
+              "descendants": {
+                "HFBuF": {
+                  "y": 0
+                },
+                "OeXDM": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",
@@ -1273,7 +1289,15 @@
               "width": "fit_content",
               "height": "fit_content",
               "x": 24,
-              "y": 14
+              "y": 14,
+              "descendants": {
+                "HFBuF": {
+                  "y": 0
+                },
+                "OeXDM": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",

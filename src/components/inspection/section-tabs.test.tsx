@@ -82,7 +82,7 @@ describe("SectionTabs", () => {
   });
 
   it("shows check icon for fully evaluated sections", () => {
-    const { container } = render(
+    render(
       <SectionTabs
         sections={mockSections}
         activeIndex={0}

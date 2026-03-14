@@ -38,6 +38,7 @@ export function ChecklistItemCard({
 
   // Sync observation from props
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing local state from prop change
     setObservation(finding.observation ?? "");
   }, [finding.observation]);
 

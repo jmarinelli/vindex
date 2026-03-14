@@ -117,6 +117,37 @@ export const signInspectionSchema = z.object({
   eventId: z.string().uuid("ID de inspección inválido."),
 });
 
+// ─── Review Schemas ───────────────────────────────────────────────────────
+
+export const matchRatingValues = ["yes", "partially", "no"] as const;
+
+export const submitReviewSchema = z.object({
+  eventId: z.string().uuid("ID de inspección inválido."),
+  matchRating: z.enum(matchRatingValues, {
+    error: "Seleccioná una opción válida.",
+  }),
+  comment: z
+    .string()
+    .max(500, "El comentario no puede superar los 500 caracteres.")
+    .optional()
+    .or(z.literal("")),
+});
+
+// ─── Contact Form Schemas ────────────────────────────────────────────────────
+
+export const contactFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, "El nombre debe tener al menos 2 caracteres.")
+    .max(100),
+  email: z.string().email("Ingresá un email válido."),
+  phone: z.string().max(30).optional().or(z.literal("")),
+  message: z
+    .string()
+    .min(10, "El mensaje debe tener al menos 10 caracteres.")
+    .max(500, "El mensaje no puede superar los 500 caracteres."),
+});
+
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export type TemplateItem = z.infer<typeof templateItemSchema>;
@@ -127,3 +158,5 @@ export type CreateInspectionInput = z.infer<typeof createInspectionSchema>;
 export type UpdateFindingInput = z.infer<typeof updateFindingSchema>;
 export type SignInspectionInput = z.infer<typeof signInspectionSchema>;
 export type UploadPhotoInput = z.infer<typeof uploadPhotoSchema>;
+export type SubmitReviewInput = z.infer<typeof submitReviewSchema>;
+export type ContactFormInput = z.infer<typeof contactFormSchema>;

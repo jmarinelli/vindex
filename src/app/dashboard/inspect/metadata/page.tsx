@@ -37,7 +37,11 @@ const REQUESTED_BY_OPTIONS = [
 export default function MetadataPage() {
   const router = useRouter();
 
-  const [vehicle, setVehicle] = useState<VehicleData | null>(null);
+  const [vehicle] = useState<VehicleData | null>(() => {
+    if (typeof window === "undefined") return null;
+    const stored = sessionStorage.getItem("vindex_inspect_vehicle");
+    return stored ? (JSON.parse(stored) as VehicleData) : null;
+  });
   const [inspectionType, setInspectionType] = useState<string>("pre_purchase");
   const [requestedBy, setRequestedBy] = useState<string>("buyer");
   const [odometerKm, setOdometerKm] = useState("");
@@ -47,13 +51,10 @@ export default function MetadataPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("vindex_inspect_vehicle");
-    if (!stored) {
+    if (!vehicle) {
       router.replace("/dashboard/inspect");
-      return;
     }
-    setVehicle(JSON.parse(stored));
-  }, [router]);
+  }, [vehicle, router]);
 
   const vehicleName = vehicle
     ? [vehicle.make, vehicle.model, vehicle.year].filter(Boolean).join(" ")

@@ -13,6 +13,7 @@ export function PhotoThumbnail({ photo, alt, onClick }: PhotoThumbnailProps) {
       className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 lg:w-[100px] lg:h-[100px] rounded-sm border border-gray-200 overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
       onClick={onClick}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={photo.url}
         alt={alt}

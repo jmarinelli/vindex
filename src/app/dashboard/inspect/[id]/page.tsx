@@ -377,6 +377,7 @@ export default function FieldModePage() {
                       }
                     }}
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={photo.url ?? (photo.blob ? URL.createObjectURL(photo.blob) : "")}
                       alt="Foto del vehículo"

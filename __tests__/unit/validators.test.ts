@@ -166,6 +166,7 @@ describe("updateTemplateSchema", () => {
       items: [{ id: "x", name: "", order: 0, type: "bad" }],
     };
     const input = createUpdateTemplateInput({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       sections: [badSection as any],
     });
     const result = updateTemplateSchema.safeParse(input);

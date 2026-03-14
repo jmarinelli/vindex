@@ -24,6 +24,7 @@ export function PhotoCapture({ photos, onCapture, onDelete }: PhotoCaptureProps)
         urls[photo.id] = photo.url;
       }
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- blob URLs must be created/revoked in effect lifecycle
     setBlobUrls(urls);
 
     return () => {
@@ -81,6 +82,7 @@ export function PhotoCapture({ photos, onCapture, onDelete }: PhotoCaptureProps)
             key={photo.id}
             className="w-12 h-12 shrink-0 rounded-sm border border-gray-200 overflow-hidden relative group"
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={url}
               alt={photo.caption || "Foto de inspección"}

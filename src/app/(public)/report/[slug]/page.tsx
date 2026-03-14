@@ -9,6 +9,8 @@ import { ReportFindings } from "@/components/report/report-findings";
 import { VehiclePhotos } from "@/components/report/vehicle-photos";
 import { CorrectionNotice } from "@/components/report/correction-notice";
 import { ReportNotFound } from "@/components/report/report-not-found";
+import { ReviewSection } from "@/components/review/review-section";
+import { getReviewsForEvent } from "@/lib/services/review";
 
 // ─── OG Metadata ────────────────────────────────────────────────────────────
 
@@ -95,6 +97,8 @@ export default async function ReportPage({
     correctionOf,
   } = report;
 
+  const reviewData = await getReviewsForEvent(event.id);
+
   return (
     <ShellPublic>
       <div className="flex flex-col gap-4">
@@ -132,6 +136,13 @@ export default async function ReportPage({
           templateSnapshot={templateSnapshot}
           findings={findings}
           photos={photos}
+        />
+
+        {/* Reviews */}
+        <ReviewSection
+          eventId={event.id}
+          reviews={reviewData.reviews}
+          aggregation={reviewData.aggregation}
         />
       </div>
     </ShellPublic>

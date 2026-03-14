@@ -26,6 +26,7 @@ vi.mock("@dnd-kit/utilities", () => ({
 }));
 
 // Mock @base-ui/react/alert-dialog to render simple HTML
+/* eslint-disable @typescript-eslint/no-explicit-any */
 vi.mock("@base-ui/react/alert-dialog", () => {
   const AlertDialog = {
     Root: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -45,6 +46,7 @@ vi.mock("@base-ui/react/alert-dialog", () => {
   };
   return { AlertDialog };
 });
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 import React from "react";
 

@@ -27,9 +27,14 @@ export default defineConfig({
         "src/lib/actions/**/*.ts",
         "src/components/layout/**/*.tsx",
         "src/components/inspection/**/*.tsx",
+        "src/components/profile/**/*.tsx",
+        "src/components/vehicle/**/*.tsx",
+        "src/components/review/**/*.tsx",
         "src/app/(auth)/login/**/*.tsx",
         "src/app/dashboard/template/**/*.tsx",
         "src/app/dashboard/inspect/**/*.tsx",
+        "src/components/landing/**/*.tsx",
+        "src/lib/actions/contact.ts",
         "src/offline/**/*.ts",
       ],
       exclude: [
@@ -40,6 +45,7 @@ export default defineConfig({
         "src/app/dashboard/inspect/page.tsx",
         "src/app/dashboard/inspect/metadata/page.tsx",
         "src/app/dashboard/inspect/\\[id\\]/page.tsx",
+        "src/app/dashboard/page.tsx",
       ],
       thresholds: {
         lines: 80,

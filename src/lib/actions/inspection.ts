@@ -7,6 +7,9 @@ import {
   signInspectionSchema,
 } from "@/lib/validators";
 import * as inspectionService from "@/lib/services/inspection";
+import { db } from "@/db";
+import { nodes } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 type ActionResult<T = unknown> = {
   success: boolean;
@@ -133,6 +136,28 @@ export async function signInspectionAction(
   }
 }
 
+export async function getInspectionsAction(
+  params?: { search?: string; status?: "draft" | "signed" | "all" }
+): Promise<ActionResult<inspectionService.InspectionListItem[]>> {
+  const session = await auth();
+  if (!session?.user?.id || !session.user.nodeId) {
+    return { success: false, error: "No autenticado." };
+  }
+
+  try {
+    const items = await inspectionService.getInspectionsForNode({
+      nodeId: session.user.nodeId,
+      search: params?.search,
+      status: params?.status,
+    });
+    return { success: true, data: items };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al obtener las inspecciones.";
+    return { success: false, error: message };
+  }
+}
+
 export async function getInspectionForReviewAction(
   eventId: string
 ): Promise<ActionResult<inspectionService.InspectionReviewData>> {
@@ -179,4 +204,23 @@ export async function getSignedInspectionAction(
       err instanceof Error ? err.message : "Error al obtener la inspección.";
     return { success: false, error: message };
   }
+}
+
+export async function getNodeSlugAction(): Promise<ActionResult<string>> {
+  const session = await auth();
+  if (!session?.user?.nodeId) {
+    return { success: false, error: "No autenticado." };
+  }
+
+  const [node] = await db
+    .select({ slug: nodes.slug })
+    .from(nodes)
+    .where(eq(nodes.id, session.user.nodeId))
+    .limit(1);
+
+  if (!node) {
+    return { success: false, error: "Nodo no encontrado." };
+  }
+
+  return { success: true, data: node.slug };
 }

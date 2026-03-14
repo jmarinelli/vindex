@@ -50,6 +50,7 @@ export function TemplateEditor({
     const changed =
       name !== initialRef.current.name ||
       JSON.stringify(sections) !== JSON.stringify(initialRef.current.sections);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- derived state from comparing current vs initial
     setHasChanges(changed);
   }, [name, sections]);
 

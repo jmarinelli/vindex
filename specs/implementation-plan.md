@@ -421,6 +421,7 @@ npm run test:coverage → ≥ 80% line coverage on Phase 4A code
 ### Specs to Write Before Implementation
 
 - `specs/ui/inspector-profile.md` — public profile layout (Shell A), inspector identity, stats (inspection count, detail level, operating since), report list, empty states
+- `specs/ui/designs/inspector-profile.pen` — visual mockup (imports `design-system.pen`)
 
 ### What Gets Built
 
@@ -571,6 +572,7 @@ npm run test:coverage → ≥ 80% line coverage on Phase 5C code
 
 - `specs/flows/correction-flow.md` — create correction from signed event, relationship display, timeline behavior
 - `specs/ui/admin.md` — admin layout (Shell B), node CRUD, user CRUD, basic metrics
+- `specs/ui/designs/admin.pen` — visual mockup (imports `design-system.pen`)
 
 ### What Gets Built
 

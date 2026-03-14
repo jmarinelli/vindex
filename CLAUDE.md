@@ -4,7 +4,7 @@
 
 - Product requirements: docs/prd.md
 - One-pager: docs/one-pager.md
-- Validation plan: docs/90-day-plan.md
+- Validation plan: docs/90-day-validation-plan.md
 - Architectural decisions: docs/decisions/
 
 ## Specs
