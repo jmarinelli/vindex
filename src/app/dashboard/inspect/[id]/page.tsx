@@ -119,18 +119,26 @@ export default function FieldModePage() {
     load();
   }, [eventId]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const sections = templateSnapshot?.sections ?? [];
+
   // Compute evaluated counts per section
+  // Checklist items count when status !== "not_evaluated"
+  // Free text items count when they have observation content
   const evaluatedCounts = useMemo(() => {
+    const freeTextItemIds = new Set(
+      sections.flatMap((s) =>
+        s.items.filter((item) => item.type === "free_text").map((item) => item.id)
+      )
+    );
     const counts: Record<string, number> = {};
     for (const f of findings) {
-      if (f.status !== "not_evaluated") {
+      const isFreeText = freeTextItemIds.has(f.itemId);
+      if (isFreeText ? f.observation?.trim() : f.status !== "not_evaluated") {
         counts[f.sectionId] = (counts[f.sectionId] ?? 0) + 1;
       }
     }
     return counts;
-  }, [findings]);
-
-  const sections = templateSnapshot?.sections ?? [];
+  }, [findings, sections]);
   const activeSection = sections[activeSectionIndex];
   const totalSections = sections.length;
 

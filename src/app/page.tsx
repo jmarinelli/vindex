@@ -29,16 +29,16 @@ export default function LandingPage() {
       <LandingHeader />
 
       {/* Hero */}
-      <section className="w-full min-h-[70vh] sm:min-h-[80vh] bg-gradient-to-b from-brand-primary to-[#0F172A] flex items-center justify-center px-6 pt-16">
-        <div className="max-w-[768px] text-center flex flex-col items-center gap-5 sm:gap-6 py-12 sm:py-24">
-          <h1 className="text-3xl sm:text-[48px] sm:leading-[1.1] font-extrabold text-white max-w-[600px] tracking-tight">
+      <section className="w-full min-h-[70vh] min-[900px]:min-h-[80vh] bg-gradient-to-b from-brand-primary to-[#0F172A] flex items-center justify-center px-6 pt-16">
+        <div className="max-w-[768px] text-center flex flex-col items-center gap-5 min-[900px]:gap-6 py-12 min-[900px]:py-24">
+          <h1 className="text-3xl min-[900px]:text-[48px] min-[900px]:leading-[1.1] font-extrabold text-white max-w-[600px] tracking-tight">
             El historial que cada auto debería tener.
           </h1>
           <p className="text-lg text-gray-400 max-w-[500px]">
             VinDex construye identidad vehicular documentada — un servicio
             profesional a la vez.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto mt-4">
+          <div className="flex flex-col min-[900px]:flex-row gap-3 min-[900px]:gap-4 w-full min-[900px]:w-auto mt-4">
             <a
               href="#como-funciona"
               className="inline-flex items-center justify-center h-12 px-8 rounded-sm bg-brand-accent text-white font-semibold text-base hover:bg-brand-accent/90 transition-colors"
@@ -60,9 +60,9 @@ export default function LandingPage() {
       </section>
 
       {/* The Idea */}
-      <section className="w-full bg-white py-12 sm:py-16">
+      <section className="w-full bg-white py-12 min-[900px]:py-16">
         <div className="max-w-[640px] mx-auto px-6 text-center">
-          <h2 className="text-2xl sm:text-[30px] sm:leading-snug font-bold text-gray-800">
+          <h2 className="text-2xl min-[900px]:text-[30px] min-[900px]:leading-snug font-bold text-gray-800">
             Hoy, comprar un usado es un acto de fe
           </h2>
           <p className="text-base text-gray-500 leading-relaxed mt-6">
@@ -74,15 +74,15 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section id="como-funciona" className="w-full bg-gray-50 py-12 sm:py-16 scroll-mt-16">
+      <section id="como-funciona" className="w-full bg-gray-50 py-12 min-[900px]:py-16 scroll-mt-16">
         <div className="max-w-[1024px] mx-auto px-6 text-center">
-          <h2 className="text-2xl sm:text-[32px] font-bold text-gray-800">
+          <h2 className="text-2xl min-[900px]:text-[32px] font-bold text-gray-800">
             Cómo funciona
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 sm:gap-6 mt-10 relative">
+          <div className="grid grid-cols-1 min-[900px]:grid-cols-4 gap-8 min-[900px]:gap-6 mt-10 relative">
             {/* Connecting line — desktop only */}
-            <div className="hidden sm:block absolute top-12 left-[12.5%] right-[12.5%] border-t-2 border-dashed border-gray-300" />
+            <div className="hidden min-[900px]:block absolute top-12 left-[12.5%] right-[12.5%] border-t-2 border-dashed border-gray-300" />
 
             <StepCard
               number={1}
@@ -113,9 +113,9 @@ export default function LandingPage() {
       </section>
 
       {/* Buyers Section */}
-      <section id="compradores" className="w-full bg-white py-12 sm:py-16 scroll-mt-16">
+      <section id="compradores" className="w-full bg-white py-12 min-[900px]:py-16 scroll-mt-16">
         <div className="max-w-[1024px] mx-auto px-6 text-center">
-          <h2 className="text-2xl sm:text-[32px] font-bold text-gray-800">
+          <h2 className="text-2xl min-[900px]:text-[32px] font-bold text-gray-800">
             Confianza con evidencia
           </h2>
           <p className="text-base text-gray-500 mt-2">
@@ -123,7 +123,7 @@ export default function LandingPage() {
             decisión.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
+          <div className="grid grid-cols-1 min-[900px]:grid-cols-3 gap-6 mt-10">
             <FeatureCard
               icon={<Search className="size-9 text-brand-accent" />}
               title="Consultá el historial"
@@ -147,16 +147,16 @@ export default function LandingPage() {
       </section>
 
       {/* Inspectors Section */}
-      <section id="inspectores" className="w-full bg-gray-50 py-12 sm:py-16 scroll-mt-16">
+      <section id="inspectores" className="w-full bg-gray-50 py-12 min-[900px]:py-16 scroll-mt-16">
         <div className="max-w-[1024px] mx-auto px-6 text-center">
-          <h2 className="text-2xl sm:text-[32px] font-bold text-gray-800">
+          <h2 className="text-2xl min-[900px]:text-[32px] font-bold text-gray-800">
             Tu herramienta, tu marca, tu historial
           </h2>
           <p className="text-base text-gray-500 mt-2">
             Todo lo que necesitás para ofrecer inspecciones profesionales.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
+          <div className="grid grid-cols-1 min-[900px]:grid-cols-3 gap-6 mt-10">
             <FeatureCard
               icon={<Smartphone className="size-9 text-brand-accent" />}
               title="Una herramienta superior"
@@ -179,11 +179,11 @@ export default function LandingPage() {
       {/* Vehicle Timeline */}
       <section
         id="historial"
-        className="w-full bg-brand-primary py-12 sm:py-16 scroll-mt-16"
+        className="w-full bg-brand-primary py-12 min-[900px]:py-16 scroll-mt-16"
       >
-        <div className="max-w-[768px] mx-auto px-6 text-center flex flex-col items-center gap-8">
+        <div className="max-w-[1024px] mx-auto px-6 text-center flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-4">
-            <h2 className="text-2xl sm:text-[32px] font-bold text-white">
+            <h2 className="text-2xl min-[900px]:text-[32px] font-bold text-white">
               Un VIN, toda su vida documentada
             </h2>
             <p className="text-base text-gray-400 leading-relaxed max-w-[560px]">
@@ -193,7 +193,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <ol className="w-full sm:max-w-none max-w-[520px] sm:grid sm:grid-cols-4 sm:items-stretch flex flex-col text-left pt-2">
+          <ol className="w-full max-w-[520px] min-[900px]:max-w-none min-[900px]:grid min-[900px]:grid-cols-4 min-[900px]:items-start min-[900px]:gap-0 flex flex-col text-left pt-2">
             <TimelineEvent
               date="Mar 2026"
               description="Inspección pre-compra"
@@ -220,16 +220,16 @@ export default function LandingPage() {
       </section>
 
       {/* Contact Section */}
-      <section id="contacto" className="w-full bg-gray-50 py-12 sm:py-16 scroll-mt-16">
+      <section id="contacto" className="w-full bg-gray-50 py-12 min-[900px]:py-16 scroll-mt-16">
         <div className="max-w-[560px] mx-auto px-6 text-center">
-          <h2 className="text-2xl sm:text-[32px] font-bold text-gray-800">
+          <h2 className="text-2xl min-[900px]:text-[32px] font-bold text-gray-800">
             ¿Sos inspector?
           </h2>
           <p className="text-base text-gray-500 mt-2">
             Contactanos para empezar a usar VinDex.
           </p>
 
-          <div className="bg-white rounded-md shadow-sm p-6 sm:p-8 mt-8 text-left">
+          <div className="bg-white rounded-md shadow-sm p-6 min-[900px]:p-8 mt-8 text-left">
             <ContactForm />
           </div>
         </div>
@@ -237,12 +237,12 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="w-full bg-brand-primary py-8 px-6">
-        <div className="max-w-[1024px] mx-auto grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-center gap-4 justify-items-center">
+        <div className="max-w-[1024px] mx-auto grid grid-cols-1 min-[900px]:grid-cols-[1fr_auto_1fr] items-center gap-4 justify-items-center">
           <Logo
             size="sm"
-            className="[&>span]:text-white sm:justify-self-start"
+            className="[&>span]:text-white min-[900px]:justify-self-start"
           />
-          <div className="flex items-center gap-4 text-sm text-gray-300 sm:justify-self-center">
+          <div className="flex items-center gap-4 text-sm text-gray-300 min-[900px]:justify-self-center">
             <Link href="#" className="hover:text-white transition-colors">
               Privacidad
             </Link>
@@ -256,7 +256,7 @@ export default function LandingPage() {
               contacto@vindex.app
             </a>
           </div>
-          <p className="text-xs text-gray-500 sm:justify-self-end">
+          <p className="text-xs text-gray-500 min-[900px]:justify-self-end">
             &copy; 2026 VinDex. Todos los derechos reservados.
           </p>
         </div>
@@ -324,16 +324,14 @@ function TimelineEvent({
   isLast?: boolean;
 }) {
   return (
-    <li
-      className={`border-l-2 border-white/20 pl-5 flex flex-col gap-1 ${
-        isLast ? "pb-0 sm:pb-0" : "pb-6 sm:pb-6"
-      }`}
-    >
-      <p className="text-sm font-semibold text-gray-400">{date}</p>
-      <p className="text-base font-medium text-white leading-snug">
-        {description}
-      </p>
-      <p className="text-sm text-gray-400">{meta}</p>
+    <li className={`pr-3 min-[900px]:pr-4 ${isLast ? "" : "pb-6 min-[900px]:pb-0"}`}>
+      <div className="border-l-2 border-white/20 pl-5 flex flex-col gap-1">
+        <p className="text-[13px] font-semibold text-gray-400">{date}</p>
+        <p className="text-base font-medium text-white leading-snug">
+          {description}
+        </p>
+        <p className="text-[13px] text-gray-400">{meta}</p>
+      </div>
     </li>
   );
 }

@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { compareSync } from "bcryptjs";
 import { db } from "@/db";
 import { users, nodeMembers } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -33,7 +33,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const [membership] = await db
           .select()
           .from(nodeMembers)
-          .where(eq(nodeMembers.userId, user.id))
+          .where(
+            and(
+              eq(nodeMembers.userId, user.id),
+              eq(nodeMembers.status, "active")
+            )
+          )
           .limit(1);
 
         return {

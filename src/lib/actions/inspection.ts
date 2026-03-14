@@ -5,6 +5,7 @@ import {
   createInspectionSchema,
   updateFindingSchema,
   signInspectionSchema,
+  createCorrectionSchema,
 } from "@/lib/validators";
 import * as inspectionService from "@/lib/services/inspection";
 import { db } from "@/db";
@@ -223,4 +224,38 @@ export async function getNodeSlugAction(): Promise<ActionResult<string>> {
   }
 
   return { success: true, data: node.slug };
+}
+
+export async function createCorrectionAction(
+  input: unknown
+): Promise<ActionResult<{ event: { id: string; slug: string } }>> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return {
+      success: false,
+      error: "Debés iniciar sesión para crear una corrección.",
+    };
+  }
+
+  const parsed = createCorrectionSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    const event = await inspectionService.createCorrection(
+      parsed.data.eventId,
+      session.user.id
+    );
+
+    return {
+      success: true,
+      data: { event: { id: event.id, slug: event.slug } },
+    };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al crear la corrección.";
+    return { success: false, error: message };
+  }
 }

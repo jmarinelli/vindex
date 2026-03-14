@@ -403,7 +403,7 @@
                       "id": "jUwHj",
                       "name": "sneN",
                       "fill": "$gray-600",
-                      "content": "Not Evaluated #6B7280",
+                      "content": "Not Applicable #6B7280",
                       "fontFamily": "Inter",
                       "fontSize": 11,
                       "fontWeight": "normal"
@@ -1455,7 +1455,7 @@
                       "id": "bTXrX",
                       "name": "ubNeIcon",
                       "fill": "$gray-600",
-                      "content": "—",
+                      "content": "ø",
                       "fontFamily": "Inter",
                       "fontSize": 16,
                       "fontWeight": "normal"
@@ -1465,7 +1465,7 @@
                       "id": "iYbwy",
                       "name": "ubNeText",
                       "fill": "$gray-600",
-                      "content": "N/E",
+                      "content": "N/A",
                       "fontFamily": "Inter",
                       "fontSize": 14,
                       "fontWeight": "500"
@@ -1625,7 +1625,7 @@
                       "id": "gPO4S",
                       "name": "sbNeIcon",
                       "fill": "$status-not-evaluated",
-                      "content": "—",
+                      "content": "ø",
                       "fontFamily": "Inter",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -1635,7 +1635,7 @@
                       "id": "lG7ZI",
                       "name": "sbNeText",
                       "fill": "$status-not-evaluated",
-                      "content": "N/E",
+                      "content": "N/A",
                       "fontFamily": "Inter",
                       "fontSize": 14,
                       "fontWeight": "700"
@@ -3248,7 +3248,7 @@
         {
           "type": "frame",
           "id": "DnhWI",
-          "name": "StatusBtn/NotEvaluated",
+          "name": "StatusBtn/NotApplicable",
           "reusable": true,
           "width": "fill_container",
           "height": 56,
@@ -3267,7 +3267,7 @@
               "id": "n2ESb",
               "name": "sbNeIcon",
               "fill": "$gray-600",
-              "content": "—",
+              "content": "ø",
               "fontFamily": "Inter",
               "fontSize": 16,
               "fontWeight": "normal"
@@ -3277,7 +3277,7 @@
               "id": "k9KbG",
               "name": "sbNeText",
               "fill": "$gray-600",
-              "content": "N/E",
+              "content": "N/A",
               "fontFamily": "Inter",
               "fontSize": 14,
               "fontWeight": "500"
@@ -3410,11 +3410,11 @@
               "y": 0,
               "descendants": {
                 "n2ESb": {
-                  "x": 30,
+                  "x": 32.5,
                   "y": 18.5
                 },
                 "k9KbG": {
-                  "x": 54,
+                  "x": 50.5,
                   "y": 19.5
                 }
               }
@@ -3608,11 +3608,11 @@
                       "x": 303
                     },
                     "uENRH/n2ESb": {
-                      "x": 26,
+                      "x": 28.5,
                       "y": 18.5
                     },
                     "uENRH/k9KbG": {
-                      "x": 50,
+                      "x": 46.5,
                       "y": 19.5
                     }
                   }

@@ -605,6 +605,107 @@ export async function getPublicReport(
 }
 
 /**
+ * Create a correction draft linked to a signed original event.
+ * Copies template snapshot, findings (status + observation), and metadata.
+ * Does NOT copy photos.
+ */
+export async function createCorrection(
+  originalEventId: string,
+  userId: string
+): Promise<Event> {
+  // 1. Fetch original event
+  const [originalEvent] = await db
+    .select()
+    .from(events)
+    .where(eq(events.id, originalEventId))
+    .limit(1);
+
+  if (!originalEvent) {
+    throw new Error("La inspección no fue encontrada.");
+  }
+
+  if (originalEvent.status !== "signed") {
+    throw new Error("Solo se pueden corregir inspecciones firmadas.");
+  }
+
+  if (originalEvent.eventType !== "inspection") {
+    throw new Error("Solo se pueden corregir inspecciones.");
+  }
+
+  // 2. Authorization — user must be active node member
+  const [membership] = await db
+    .select()
+    .from(nodeMembers)
+    .where(
+      and(
+        eq(nodeMembers.nodeId, originalEvent.nodeId),
+        eq(nodeMembers.userId, userId),
+        eq(nodeMembers.status, "active")
+      )
+    )
+    .limit(1);
+
+  if (!membership) {
+    throw new Error("No tenés permisos para corregir esta inspección.");
+  }
+
+  // 3. Fetch original detail and findings
+  const [originalDetail] = await db
+    .select()
+    .from(inspectionDetails)
+    .where(eq(inspectionDetails.eventId, originalEventId))
+    .limit(1);
+
+  if (!originalDetail) {
+    throw new Error("La inspección no tiene detalle asociado.");
+  }
+
+  const originalFindings = await db
+    .select()
+    .from(inspectionFindings)
+    .where(eq(inspectionFindings.eventId, originalEventId));
+
+  // 4. Generate unique slug
+  const slug = generateSlug(8);
+
+  // 5. Create correction event, detail, and findings
+  const [correctionEvent] = await db
+    .insert(events)
+    .values({
+      vehicleId: originalEvent.vehicleId,
+      nodeId: originalEvent.nodeId,
+      eventType: "inspection",
+      odometerKm: originalEvent.odometerKm,
+      eventDate: originalEvent.eventDate,
+      status: "draft",
+      slug,
+      correctionOfId: originalEventId,
+    })
+    .returning();
+
+  await db.insert(inspectionDetails).values({
+    eventId: correctionEvent.id,
+    templateSnapshot: originalDetail.templateSnapshot,
+    inspectionType: originalDetail.inspectionType,
+    requestedBy: originalDetail.requestedBy,
+  });
+
+  if (originalFindings.length > 0) {
+    await db.insert(inspectionFindings).values(
+      originalFindings.map((f) => ({
+        eventId: correctionEvent.id,
+        sectionId: f.sectionId,
+        itemId: f.itemId,
+        status: f.status,
+        observation: f.observation,
+      }))
+    );
+  }
+
+  return correctionEvent;
+}
+
+/**
  * Get all inspections for a node, with optional search and status filter.
  * Returns inspection list items sorted: drafts first (by updated_at desc),
  * then signed (by signed_at desc).

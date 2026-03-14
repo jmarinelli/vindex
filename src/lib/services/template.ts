@@ -13,6 +13,44 @@ export interface TemplateData {
   updatedAt: Date;
 }
 
+// ─── Starter Template ────────────────────────────────────────────────────────
+
+function buildStarterSections() {
+  return {
+    sections: [
+      {
+        id: crypto.randomUUID(),
+        name: "Sección de ejemplo 1",
+        order: 1,
+        items: [
+          { id: crypto.randomUUID(), name: "Punto de verificación (checklist)", order: 1, type: "checklist_item" },
+          { id: crypto.randomUUID(), name: "Observación en texto libre", order: 2, type: "free_text" },
+        ],
+      },
+      {
+        id: crypto.randomUUID(),
+        name: "Sección de ejemplo 2",
+        order: 2,
+        items: [
+          { id: crypto.randomUUID(), name: "Otro punto de verificación", order: 1, type: "checklist_item" },
+          { id: crypto.randomUUID(), name: "Otra observación en texto libre", order: 2, type: "free_text" },
+        ],
+      },
+    ],
+  };
+}
+
+/**
+ * Create a starter inspection template for a newly created node.
+ */
+export async function createStarterTemplate(nodeId: string): Promise<void> {
+  await db.insert(inspectionTemplates).values({
+    nodeId,
+    name: "Inspección Pre-Compra Completa",
+    sections: buildStarterSections(),
+  });
+}
+
 // ─── Service Functions ──────────────────────────────────────────────────────
 
 /**

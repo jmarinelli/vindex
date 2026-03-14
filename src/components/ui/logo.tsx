@@ -36,7 +36,7 @@ export function Logo({
           className="fill-brand-accent"
         />
         <text
-          x={badgeWidth / 2 - 1}
+          x={badgeWidth / 2 + 1}
           y={s.badge / 2}
           dominantBaseline="central"
           textAnchor="middle"

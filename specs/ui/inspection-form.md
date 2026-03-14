@@ -216,7 +216,7 @@ This is the most critical screen. Optimized for one-handed mobile use in field c
 │                                      │
 │  ┌────────────────────────────────┐  │
 │  │▌Carrocería y pintura          │  │
-│  │ [✓ Bien][⚠ Att][✕ Cri][— N/E]│  │ ← status buttons, 56px
+│  │ [✓ Bien][⚠ Att][✕ Cri][ø N/A]│  │ ← status buttons, 56px
 │  │                                │  │
 │  │ Observación:                   │  │
 │  │ ┌──────────────────────────┐   │  │
@@ -227,7 +227,7 @@ This is the most critical screen. Optimized for one-handed mobile use in field c
 │                                      │
 │  ┌────────────────────────────────┐  │
 │  │▌Vidrios y espejos             │  │ ← scrollable item list
-│  │ [✓ Bien][⚠ Att][✕ Cri][— N/E]│  │
+│  │ [✓ Bien][⚠ Att][✕ Cri][ø N/A]│  │
 │  │ ...                            │  │
 │  └────────────────────────────────┘  │
 │                                      │
@@ -253,7 +253,7 @@ This is the most critical screen. Optimized for one-handed mobile use in field c
 | Tab container | `white` bg, `border-default` bottom, `overflow-x: auto`, no visible scrollbar | Horizontal scroll |
 | Active tab | `brand-accent` text, `font-medium`, 2px bottom border `brand-accent` | Highlighted |
 | Inactive tab | `gray-500` text, no border | Tappable, 44px height, `padding` 0 16px |
-| Completed indicator | Small ✓ icon after section name, `success` color, `text-xs` | Shown when all items in section have status ≠ not_evaluated |
+| Completed indicator | Progress fraction after section name (e.g., "3/4"), `text-[10px]` `tabular-nums` `gray-400`; when complete: `font-semibold` `brand-accent` | Shown when section has items. Checklist items count when status ≠ `not_evaluated`; free text items count when observation has content |
 | Touch target | 44px height, text width + 32px horizontal padding | Scrollable |
 
 ### Vehicle Photos Section (Top of Scrollable Content)
@@ -294,7 +294,7 @@ Items are displayed as vertically stacked cards within the active section, below
 ┌─────────────────────────────────────────┐
 │▌Estado de carrocería y pintura         │ ← item name + status border
 ├─────────────────────────────────────────┤
-│ [✓ Bien] [⚠ Att ] [✕ Crit] [— N/E ]  │ ← status buttons
+│ [✓ Bien] [⚠ Att ] [✕ Crit] [ø N/A ]  │ ← status buttons
 │                                         │
 │ Observación:                            │
 │ ┌─────────────────────────────────────┐ │
@@ -347,7 +347,7 @@ The most critical interaction component. Four equal-width buttons in a row.
 
 ```
 ┌──────────┬──────────┬──────────┬──────────┐
-│ ✓ Bien   │ ⚠ Att    │ ✕ Crit   │ — N/E    │
+│ ✓ Bien   │ ⚠ Att    │ ✕ Crit   │ ø N/A    │
 └──────────┴──────────┴──────────┴──────────┘
 ```
 
@@ -357,12 +357,13 @@ The most critical interaction component. Four equal-width buttons in a row.
 | Good (selected) | `status-good-bg` | 2px `status-good` | `status-good` | 600 |
 | Attention (selected) | `status-attention-bg` | 2px `status-attention` | `status-attention` | 600 |
 | Critical (selected) | `status-critical-bg` | 2px `status-critical` | `status-critical` | 600 |
-| Not Evaluated (selected) | `status-not-evaluated-bg` | 2px `status-not-evaluated` | `status-not-evaluated` | 600 |
+| Not Applicable (selected) | `status-not-evaluated-bg` | 2px `status-not-evaluated` | `status-not-evaluated` | 600 |
 
 - **Height:** 56px minimum.
 - **Radius:** `radius-sm` on outer edges of first and last button.
-- **Icons:** small icon left of text label. ✓, ⚠, ✕, — respectively.
-- **Touch behavior:** single tap selects. Tapping the already-selected button deselects (returns to `not_evaluated`).
+- **Icons:** small icon left of text label. ✓, ⚠, ✕, ø respectively.
+- **Touch behavior:** single tap selects. Tapping the already-selected button deselects (returns to `not_evaluated`). `not_evaluated` is an implicit state — there is no button for it; it is the default when no button is selected.
+- **Not Applicable (N/A):** used when a checklist item does not apply to the vehicle being inspected (e.g., "clutch condition" on an automatic). Counts as "evaluated" for section completion.
 - **Immediate save:** status change writes to Dexie immediately (no debounce).
 
 ### Bottom Bar (Fixed, 56px)
@@ -437,7 +438,7 @@ The single-column layout is preserved — no side panels or multi-column grids. 
 │                                                                          │
 │              ┌────────────────────────────────────────────┐              │
 │              │▌Carrocería y pintura                       │              │
-│              │ [✓ Bien] [⚠ Att ] [✕ Crit] [— N/E ]      │              │
+│              │ [✓ Bien] [⚠ Att ] [✕ Crit] [ø N/A ]      │              │
 │              │                                            │              │
 │              │ Observación:                               │              │
 │              │ ┌────────────────────────────────────────┐ │              │
@@ -448,7 +449,7 @@ The single-column layout is preserved — no side panels or multi-column grids. 
 │                                                                          │
 │              ┌────────────────────────────────────────────┐              │
 │              │▌Vidrios y espejos                         │              │
-│              │ [✓ Bien] [⚠ Att ] [✕ Crit] [— N/E ]      │              │
+│              │ [✓ Bien] [⚠ Att ] [✕ Crit] [ø N/A ]      │              │
 │              │ ...                                        │              │
 │              └────────────────────────────────────────────┘              │
 │                                                                          │

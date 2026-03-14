@@ -133,6 +133,87 @@ export const submitReviewSchema = z.object({
     .or(z.literal("")),
 });
 
+// ─── Correction Schemas ─────────────────────────────────────────────────────
+
+export const createCorrectionSchema = z.object({
+  eventId: z.string().uuid("ID de inspección inválido."),
+});
+
+// ─── Admin Node Schemas ─────────────────────────────────────────────────────
+
+export const createNodeSchema = z.object({
+  displayName: z
+    .string()
+    .min(1, "El nombre es obligatorio.")
+    .max(255, "El nombre no puede superar los 255 caracteres."),
+  type: z.enum(["inspector"]).default("inspector"),
+  contactEmail: z
+    .string()
+    .min(1, "El email es obligatorio.")
+    .email("Ingresá un email válido."),
+  contactPhone: z.string().max(50, "El teléfono no puede superar los 50 caracteres.").optional().or(z.literal("")),
+  address: z.string().max(500).optional().or(z.literal("")),
+  bio: z.string().max(1000).optional().or(z.literal("")),
+  brandColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
+    .optional()
+    .or(z.literal("")),
+  logoUrl: z.string().url().optional().or(z.literal("")),
+});
+
+export const updateNodeSchema = z.object({
+  nodeId: z.string().uuid("ID de nodo inválido."),
+  displayName: z
+    .string()
+    .min(1, "El nombre es obligatorio.")
+    .max(255, "El nombre no puede superar los 255 caracteres.")
+    .optional(),
+  contactEmail: z.string().email("Ingresá un email válido.").optional(),
+  contactPhone: z.string().max(50).optional().or(z.literal("")),
+  address: z.string().max(500).optional().or(z.literal("")),
+  bio: z.string().max(1000).optional().or(z.literal("")),
+  brandColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
+    .optional()
+    .or(z.literal("")),
+  logoUrl: z.string().url().optional().or(z.literal("")),
+  status: z.enum(["active", "suspended"]).optional(),
+});
+
+// ─── Admin User Schemas ─────────────────────────────────────────────────────
+
+export const createUserSchema = z.object({
+  displayName: z
+    .string()
+    .min(1, "El nombre es obligatorio.")
+    .max(255, "El nombre no puede superar los 255 caracteres."),
+  email: z
+    .string()
+    .min(1, "El email es obligatorio.")
+    .email("Ingresá un email válido."),
+  password: z
+    .string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres."),
+  role: z.enum(["user", "platform_admin"], {
+    error: "El rol es obligatorio.",
+  }),
+  nodeId: z.string().uuid().optional().nullable(),
+});
+
+export const updateUserSchema = z.object({
+  userId: z.string().uuid("ID de usuario inválido."),
+  displayName: z
+    .string()
+    .min(1, "El nombre es obligatorio.")
+    .max(255)
+    .optional(),
+  email: z.string().email("Ingresá un email válido.").optional(),
+  role: z.enum(["user", "platform_admin"]).optional(),
+  nodeId: z.string().uuid().optional().nullable(),
+});
+
 // ─── Contact Form Schemas ────────────────────────────────────────────────────
 
 export const contactFormSchema = z.object({
@@ -160,3 +241,8 @@ export type SignInspectionInput = z.infer<typeof signInspectionSchema>;
 export type UploadPhotoInput = z.infer<typeof uploadPhotoSchema>;
 export type SubmitReviewInput = z.infer<typeof submitReviewSchema>;
 export type ContactFormInput = z.infer<typeof contactFormSchema>;
+export type CreateCorrectionInput = z.infer<typeof createCorrectionSchema>;
+export type CreateNodeInput = z.infer<typeof createNodeSchema>;
+export type UpdateNodeInput = z.infer<typeof updateNodeSchema>;
+export type CreateUserInput = z.infer<typeof createUserSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;

@@ -10,6 +10,7 @@ import { VehiclePhotos } from "@/components/report/vehicle-photos";
 import { CorrectionNotice } from "@/components/report/correction-notice";
 import { ReportNotFound } from "@/components/report/report-not-found";
 import { ReviewSection } from "@/components/review/review-section";
+import { CorrectionButton } from "@/components/report/correction-button";
 import { getReviewsForEvent } from "@/lib/services/review";
 
 // ─── OG Metadata ────────────────────────────────────────────────────────────
@@ -144,6 +145,9 @@ export default async function ReportPage({
           reviews={reviewData.reviews}
           aggregation={reviewData.aggregation}
         />
+
+        {/* Correction button — only visible to authenticated node members */}
+        <CorrectionButton eventId={event.id} nodeId={event.nodeId} />
       </div>
     </ShellPublic>
   );

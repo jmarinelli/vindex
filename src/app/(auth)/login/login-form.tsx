@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/ui/logo";
@@ -8,7 +8,7 @@ import { Logo } from "@/components/ui/logo";
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +31,14 @@ export function LoginForm() {
       setError("Email o contraseña incorrectos");
       setLoading(false);
     } else {
-      router.push(callbackUrl);
+      if (callbackUrl) {
+        router.push(callbackUrl);
+      } else {
+        const session = await getSession();
+        router.push(
+          session?.user?.role === "platform_admin" ? "/admin" : "/dashboard"
+        );
+      }
     }
   }
 
