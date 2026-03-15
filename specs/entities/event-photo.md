@@ -21,8 +21,10 @@ Photos attached to findings or to the event as a whole. Named `EventPhoto` (not 
   - **Finding photos** (`photo_type = 'finding'`, `finding_id` is set): attached to a specific finding as per-item evidence. Displayed under that finding in the report.
   - **Vehicle photos** (`photo_type = 'vehicle'`, `finding_id` is null): vehicle overview shots (exterior, VIN plate, odometer, interior). Displayed as a prominent photo gallery near the top of the public report, just below the vehicle summary.
 - **`photo_type` is the primary discriminator**, not `finding_id` nullability. Queries should filter by `photo_type` rather than checking `finding_id IS NULL`.
-- **Upload flow (online):** client compresses photo → uploads directly to Cloudinary → receives URL → saves URL to event_photo record via server action.
-- **Upload flow (offline):** client captures photo → saves blob to IndexedDB → displays local thumbnail → queues for Cloudinary upload when connectivity returns → on successful upload, updates the record with the Cloudinary URL.
+- **Upload flow (online):** client compresses photo → uploads directly to Cloudinary (unsigned preset) → receives URL → creates event_photo record via server action. The DB row is only created **after** a successful Cloudinary upload — there are no rows with `url = null`.
+- **Upload flow (offline):** client captures photo → saves blob to IndexedDB (Dexie) → displays local thumbnail with cloud-off overlay → queues for Cloudinary upload when connectivity returns → on successful upload, creates the event_photo record with the Cloudinary URL.
+- **Cloudinary folder structure:** `events/{eventId}/{photoType}-{order}` (e.g., `events/abc123/vehicle-0`, `events/abc123/finding-2`).
+- **Pending uploads block signing.** Since signed events are immutable, photos must finish uploading before the event can be signed. See `specs/flows/cloudinary-upload.md`.
 - **Photos cannot be modified or replaced after the event is signed.** Immutability extends to photos.
 - **Order** determines display sequence within the finding or within the vehicle photos gallery.
 - **Cloudinary URL stored** is the base URL. Responsive variants are derived at render time via URL transformation parameters.

@@ -160,6 +160,21 @@ A mini thumbnail grid showing the vehicle photos that will appear in the public 
 | Text | `text-sm`, `info` color | "Se requiere conexión para firmar" |
 | Sign button | Disabled | Cannot sign while offline |
 
+### Pending Photo Uploads
+
+Shown when there are photos in Dexie with `uploaded = false`. Pending uploads **block signing** because signed events are immutable and cannot accept new photo records after the fact.
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | `warning` bg tint, `radius-sm`, `space-3` padding | Shown when pendingCount > 0 |
+| Icon (uploading) | Upload-cloud icon + spinner, `warning` color | When uploads are in progress |
+| Icon (failed) | Alert-triangle icon, `error` color | When uploads have failed |
+| Text (uploading) | `text-sm`, `warning` color | "Subiendo {n} foto(s)... Esperá a que termine la subida para firmar." |
+| Text (failed) | `text-sm`, `error` color | "Hay {n} foto(s) que no se pudieron subir. Reintentá la subida o eliminá las fotos para continuar." |
+| Text (offline + pending) | `text-sm`, `info` color | "Se requiere conexión para subir fotos y firmar." |
+| Retry button | `text-sm`, underlined, `brand-accent` | "Reintentar subida" — shown only when failedCount > 0. Triggers `retryFailed()`. |
+| Sign button | Disabled | Cannot sign while uploads are pending or failed |
+
 ---
 
 ## Step 4B: Confirmation Screen
@@ -321,6 +336,21 @@ A mini thumbnail grid showing the vehicle photos that will appear in the public 
 - Sign button disabled.
 - Review content still fully visible (loaded from Dexie if needed).
 - Online detection restores sign button.
+
+#### 7. Pending Photo Uploads
+
+- Upload progress banner visible (warning style).
+- Sign button disabled.
+- Message: "Subiendo {n} foto(s)... Esperá a que termine la subida para firmar."
+- When all uploads complete: banner disappears, sign button enabled (if also online and complete).
+
+#### 8. Failed Photo Uploads
+
+- Error banner visible with retry action.
+- Sign button disabled.
+- Message: "Hay {n} foto(s) que no se pudieron subir. Reintentá la subida o eliminá las fotos para continuar."
+- "Reintentar subida" link triggers retry of all failed photos.
+- Inspector can also go back to Field Mode and delete the failed photos.
 
 ### Step 4B States
 

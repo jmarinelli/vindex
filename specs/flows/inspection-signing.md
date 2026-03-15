@@ -59,7 +59,7 @@ The inspection must be sufficiently complete before signing. Completeness is eva
   - The finding must exist (it was pre-created at inspection creation).
   - The finding `status` must be one of: `good`, `attention`, or `critical`. A status of `not_evaluated` means the item was skipped.
 - Items where `type = 'free_text'` are **exempt** from completeness checks. They have no `status` field (status is `null`). An empty observation on a free-text item does not block signing.
-- **Photos are not required** for completeness. An item with zero photos can still be signed.
+- **Photos are not required** for completeness. An item with zero photos can still be signed. However, if photos have been captured but not yet uploaded to Cloudinary, signing is blocked until uploads complete (see `specs/flows/cloudinary-upload.md`).
 - **Observations are not required** for completeness. An evaluated checklist item with an empty observation is valid.
 
 #### What Counts as Incomplete
@@ -239,7 +239,7 @@ All errors are caught at the server action level and returned as `{ success: fal
 | **Event with zero findings** | Should not happen if creation logic is correct. Defensively: if no findings exist, signing fails with `INCOMPLETE` because there are zero evaluated items against the template. |
 | **Event with only free_text items** | All items are exempt from completeness checks. Signing succeeds — free_text items have no status to evaluate. |
 | **Template snapshot has empty sections** | Sections with zero items contribute nothing to completeness. If all sections are empty, there are no checklist items to evaluate, so signing succeeds. |
-| **Photo uploads still pending (in Dexie queue)** | Signing is not blocked. Photos are not required for completeness. The inspector can sign before all photos finish uploading. Pending uploads continue in the background — the photo records already have the Cloudinary URL once uploaded. |
+| **Photo uploads still pending (in Dexie queue)** | Signing is **blocked**. The client checks for photos with `uploaded = false` in Dexie before enabling the sign button. The inspector must wait for all uploads to complete, retry failed uploads, or delete pending photos before signing. This is enforced client-side (not a server precondition) since the server never sees un-uploaded photos. See `specs/flows/cloudinary-upload.md §Interaction with Signing`. |
 | **Network lost during signing** | The server action fails. The client shows an error toast. The event remains in `draft`. The inspector retries when connectivity returns. |
 | **User signs from a different device** | Allowed, as long as the user has an active NodeMember for the event's node. The Dexie draft on the original device becomes stale (last-write-wins on next sync). |
 | **Event belongs to a different node than user's** | Authorization check fails with `FORBIDDEN`. |
