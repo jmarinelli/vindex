@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <meta name="theme-color" content="#1E293B" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className="antialiased">
