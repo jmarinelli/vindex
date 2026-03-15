@@ -52,6 +52,7 @@ export const findingStatusEnum = pgEnum("finding_status", [
   "attention",
   "critical",
   "not_evaluated",
+  "not_applicable",
 ]);
 
 export const photoTypeEnum = pgEnum("photo_type", ["finding", "vehicle"]);

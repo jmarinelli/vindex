@@ -244,10 +244,6 @@ export function UsersTab() {
   const [view, setView] = useState<"list" | "create" | "edit">("list");
   const [editUser, setEditUser] = useState<UserWithNode | null>(null);
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
   async function loadUsers() {
     setLoading(true);
     setError(null);
@@ -259,6 +255,11 @@ export function UsersTab() {
     }
     setLoading(false);
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- loadUsers is also used as onClick handler
+    loadUsers();
+  }, []);
 
   async function handleEdit(userId: string) {
     const result = await getUserAction(userId);

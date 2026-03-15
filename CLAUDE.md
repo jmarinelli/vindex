@@ -85,8 +85,8 @@ Next.js 15 (App Router) · TypeScript (strict) · PostgreSQL 16 · Drizzle ORM �
 
 ## Current Phase
 
-**Phase 3D — Vehicle Photos** (specs written, not implemented)
+**Phase 5E — PWA Finalization** (not started)
 
-Phases 0–3C are complete. Next: implement `photo_type` schema change, vehicle photos gallery in public report, dedicated section in field mode, and thumbnail preview in review & sign.
+Phases 0–5D are complete. Next: finalize service worker caching, manifest, offline support, and add-to-home-screen prompt.
 
 See specs/implementation-plan.md for the full build order.

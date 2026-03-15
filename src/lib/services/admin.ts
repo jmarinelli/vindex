@@ -1,4 +1,4 @@
-import { eq, sql, count, and } from "drizzle-orm";
+import { eq, count } from "drizzle-orm";
 import { db } from "@/db";
 import {
   nodes,
@@ -83,8 +83,6 @@ export async function listNodes(): Promise<NodeWithStats[]> {
   const allNodes = await db.select().from(nodes);
 
   if (allNodes.length === 0) return [];
-
-  const nodeIds = allNodes.map((n) => n.id);
 
   // Count members per node
   const memberCounts = await db

@@ -10,7 +10,7 @@ export interface TemplateSnapshot {
 
 // ─── Draft types (used by Dexie and UI) ─────────────────────────────────────
 
-export type FindingStatus = "good" | "attention" | "critical" | "not_evaluated";
+export type FindingStatus = "good" | "attention" | "critical" | "not_evaluated" | "not_applicable";
 
 export interface DraftFinding {
   id: string;

@@ -119,7 +119,7 @@ export default function FieldModePage() {
     load();
   }, [eventId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const sections = templateSnapshot?.sections ?? [];
+  const sections = useMemo(() => templateSnapshot?.sections ?? [], [templateSnapshot]);
 
   // Compute evaluated counts per section
   // Checklist items count when status !== "not_evaluated"

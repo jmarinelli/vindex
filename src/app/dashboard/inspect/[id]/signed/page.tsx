@@ -72,6 +72,7 @@ export default function SignedConfirmationPage() {
       attention: 0,
       critical: 0,
       not_evaluated: 0,
+      not_applicable: 0,
     };
     if (!templateSnapshot) return counts;
 
@@ -208,6 +209,12 @@ export default function SignedConfirmationPage() {
             <span className="text-amber-600">⚠ {statusCounts.attention} Atención</span>
             {" · "}
             <span className="text-red-600">✕ {statusCounts.critical} Crítico</span>
+            {statusCounts.not_applicable > 0 && (
+              <>
+                {" · "}
+                <span className="text-gray-500">ø {statusCounts.not_applicable} N/A</span>
+              </>
+            )}
           </p>
         </div>
 

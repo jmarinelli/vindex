@@ -81,7 +81,7 @@ describe("SectionTabs", () => {
     expect(onSelect).toHaveBeenCalledWith(1);
   });
 
-  it("shows check icon for fully evaluated sections", () => {
+  it("shows progress fraction for sections with items", () => {
     render(
       <SectionTabs
         sections={mockSections}
@@ -91,14 +91,13 @@ describe("SectionTabs", () => {
       />
     );
 
-    // Exterior (s1) has 2 items and 2 evaluated → check icon present
-    // The Check icon from lucide renders as an SVG
-    const exteriorTab = screen.getByText("Exterior").closest("button");
-    const svg = exteriorTab?.querySelector("svg");
-    expect(svg).toBeTruthy();
+    // Exterior (s1) has 2 items and 2 evaluated → "2/2"
+    expect(screen.getByText("2/2")).toBeInTheDocument();
+    // Motor (s2) has 1 item and 0 evaluated → "0/1"
+    expect(screen.getByText("0/1")).toBeInTheDocument();
   });
 
-  it("does not show check icon for partially evaluated sections", () => {
+  it("shows partial progress for partially evaluated sections", () => {
     render(
       <SectionTabs
         sections={mockSections}
@@ -108,9 +107,8 @@ describe("SectionTabs", () => {
       />
     );
 
-    const exteriorTab = screen.getByText("Exterior").closest("button");
-    const svg = exteriorTab?.querySelector("svg");
-    expect(svg).toBeFalsy();
+    // Exterior (s1) has 2 items, 1 evaluated → "1/2"
+    expect(screen.getByText("1/2")).toBeInTheDocument();
   });
 
   it("has tablist role", () => {

@@ -5,6 +5,7 @@ import {
   CircleCheck,
   TriangleAlert,
   CircleX,
+  Slash,
   ChevronDown,
   ChevronRight,
   Pencil,
@@ -39,6 +40,14 @@ const statusConfig = {
     border: "bg-status-critical",
     label: "Crítico",
     symbol: "✕",
+  },
+  not_applicable: {
+    icon: Slash,
+    color: "text-gray-500",
+    bg: "bg-gray-100",
+    border: "bg-gray-400",
+    label: "N/A",
+    symbol: "ø",
   },
 } as const;
 
@@ -82,7 +91,7 @@ export function FindingsSection({
   }
 
   // Count statuses for this section
-  const counts: Record<EvaluatedStatus, number> = { good: 0, attention: 0, critical: 0 };
+  const counts: Record<EvaluatedStatus, number> = { good: 0, attention: 0, critical: 0, not_applicable: 0 };
   for (const item of section.items) {
     const finding = findingMap.get(item.id);
     if (finding?.status && finding.status in counts) {
@@ -116,7 +125,7 @@ export function FindingsSection({
             {section.name}
           </span>
           <div className="flex items-center gap-1.5">
-            {(["good", "attention", "critical"] as const).map((status) =>
+            {(["good", "attention", "critical", "not_applicable"] as const).map((status) =>
               counts[status] > 0 ? (
                 <span
                   key={status}
@@ -148,7 +157,7 @@ export function FindingsSection({
             const finding = findingMap.get(item.id);
             const findingPhotos = finding ? photoMap.get(finding.id) || [] : [];
             const isLast = idx === section.items.length - 1;
-            const status = finding?.status as EvaluatedStatus | "not_evaluated" | null;
+            const status = finding?.status as EvaluatedStatus | "not_evaluated" | null | undefined;
             const isChecklist = item.type === "checklist_item";
 
             const config = status && status in statusConfig

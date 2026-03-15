@@ -11,6 +11,7 @@ const STATUS_BORDER_COLORS: Record<FindingStatus, string> = {
   attention: "border-t-status-attention",
   critical: "border-t-status-critical",
   not_evaluated: "border-t-gray-200",
+  not_applicable: "border-t-gray-400",
 };
 
 interface ChecklistItemCardProps {

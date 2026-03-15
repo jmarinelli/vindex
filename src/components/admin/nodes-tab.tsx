@@ -27,6 +27,7 @@ function NodeCard({
     >
       <div className="w-10 h-10 rounded-lg bg-brand-primary flex items-center justify-center shrink-0">
         {node.logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={node.logoUrl}
             alt={node.displayName}
@@ -128,7 +129,7 @@ function NodeForm({
         onSubmit={handleSubmit}
         className="bg-white rounded-lg border border-gray-200 shadow-sm p-5 flex flex-col gap-4"
       >
-        <FormField label="Nombre *" required>
+        <FormField label="Nombre *">
           <input
             type="text"
             value={form.displayName}
@@ -150,7 +151,7 @@ function NodeForm({
           </select>
         </FormField>
 
-        <FormField label="Email de contacto *" required>
+        <FormField label="Email de contacto *">
           <input
             type="email"
             value={form.contactEmail}
@@ -244,11 +245,9 @@ function NodeForm({
 
 function FormField({
   label,
-  required,
   children,
 }: {
   label: string;
-  required?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -268,10 +267,6 @@ export function NodesTab() {
   const [view, setView] = useState<"list" | "create" | "edit">("list");
   const [editNode, setEditNode] = useState<Node | null>(null);
 
-  useEffect(() => {
-    loadNodes();
-  }, []);
-
   async function loadNodes() {
     setLoading(true);
     setError(null);
@@ -283,6 +278,11 @@ export function NodesTab() {
     }
     setLoading(false);
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- loadNodes is also used as onClick handler
+    loadNodes();
+  }, []);
 
   async function handleEdit(nodeId: string) {
     const result = await getNodeAction(nodeId);

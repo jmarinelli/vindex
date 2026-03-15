@@ -14,7 +14,7 @@ describe("StatusButtons", () => {
     expect(screen.getByText("Bien")).toBeInTheDocument();
     expect(screen.getByText("Att")).toBeInTheDocument();
     expect(screen.getByText("Crit")).toBeInTheDocument();
-    expect(screen.getByText("N/E")).toBeInTheDocument();
+    expect(screen.getByText("N/A")).toBeInTheDocument();
   });
 
   it("marks the selected button as checked", () => {
@@ -53,6 +53,22 @@ describe("StatusButtons", () => {
 
     fireEvent.click(screen.getByText("Crit"));
     expect(onChange).toHaveBeenCalledWith("critical");
+  });
+
+  it("selects not_applicable status", () => {
+    const onChange = vi.fn();
+    render(<StatusButtons value="not_evaluated" onChange={onChange} />);
+
+    fireEvent.click(screen.getByText("N/A"));
+    expect(onChange).toHaveBeenCalledWith("not_applicable");
+  });
+
+  it("deselects N/A back to not_evaluated", () => {
+    const onChange = vi.fn();
+    render(<StatusButtons value="not_applicable" onChange={onChange} />);
+
+    fireEvent.click(screen.getByText("N/A"));
+    expect(onChange).toHaveBeenCalledWith("not_evaluated");
   });
 
   it("has proper ARIA radiogroup role", () => {

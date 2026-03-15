@@ -99,6 +99,7 @@ export const findingStatusValues = [
   "attention",
   "critical",
   "not_evaluated",
+  "not_applicable",
 ] as const;
 
 export const updateFindingSchema = z.object({

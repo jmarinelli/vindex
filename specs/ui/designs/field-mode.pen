@@ -1869,7 +1869,7 @@
                         {
                           "type": "frame",
                           "id": "sZk3s",
-                          "name": "btnNE",
+                          "name": "btnNA",
                           "width": "fill_container",
                           "height": 48,
                           "fill": "$white",
@@ -1888,7 +1888,7 @@
                               "id": "dmh8k",
                               "name": "btnNEIco",
                               "fill": "$gray-600",
-                              "content": "—",
+                              "content": "ø",
                               "fontFamily": "Inter",
                               "fontSize": 14,
                               "fontWeight": "normal"
@@ -1898,7 +1898,7 @@
                               "id": "IRRaP",
                               "name": "btnNETxt",
                               "fill": "$gray-600",
-                              "content": "N/E",
+                              "content": "N/A",
                               "fontFamily": "Inter",
                               "fontSize": 12,
                               "fontWeight": "normal"
@@ -2188,7 +2188,7 @@
                         {
                           "type": "frame",
                           "id": "5MPJJ",
-                          "name": "c2b4",
+                          "name": "btnNA",
                           "width": "fill_container",
                           "height": 48,
                           "fill": "$white",
@@ -2207,7 +2207,7 @@
                               "id": "toj0v",
                               "name": "c2b4i",
                               "fill": "$gray-600",
-                              "content": "—",
+                              "content": "ø",
                               "fontFamily": "Inter",
                               "fontSize": 14,
                               "fontWeight": "normal"
@@ -2217,7 +2217,7 @@
                               "id": "04KcF",
                               "name": "c2b4t",
                               "fill": "$gray-600",
-                              "content": "N/E",
+                              "content": "N/A",
                               "fontFamily": "Inter",
                               "fontSize": 12,
                               "fontWeight": "normal"
@@ -3214,7 +3214,7 @@
                         {
                           "type": "frame",
                           "id": "6UVJU",
-                          "name": "pfC2b4",
+                          "name": "pfBtnNA",
                           "width": "fill_container",
                           "height": 48,
                           "fill": "$white",
@@ -3233,7 +3233,7 @@
                               "id": "XFsTm",
                               "name": "pfC2b4i",
                               "fill": "$gray-600",
-                              "content": "—",
+                              "content": "ø",
                               "fontFamily": "Inter",
                               "fontSize": 14,
                               "fontWeight": "normal"
@@ -3243,7 +3243,7 @@
                               "id": "6nHew",
                               "name": "pfC2b4t",
                               "fill": "$gray-600",
-                              "content": "N/E",
+                              "content": "N/A",
                               "fontFamily": "Inter",
                               "fontSize": 12,
                               "fontWeight": "normal"
@@ -5948,7 +5948,7 @@
                             {
                               "type": "frame",
                               "id": "yqV9v",
-                              "name": "btnNE",
+                              "name": "btnNA",
                               "width": "fill_container",
                               "height": 48,
                               "fill": "$white",
@@ -5968,7 +5968,7 @@
                                   "name": "bnIc",
                                   "width": 16,
                                   "height": 16,
-                                  "iconFontName": "minus",
+                                  "iconFontName": "slash",
                                   "iconFontFamily": "lucide",
                                   "fill": "$gray-600"
                                 },
@@ -5977,7 +5977,7 @@
                                   "id": "gxhYY",
                                   "name": "bnTx",
                                   "fill": "$gray-600",
-                                  "content": "N/E",
+                                  "content": "N/A",
                                   "fontFamily": "Inter",
                                   "fontSize": 14,
                                   "fontWeight": "normal"
@@ -6282,7 +6282,7 @@
                             {
                               "type": "frame",
                               "id": "PzOGp",
-                              "name": "c2b4",
+                              "name": "btnNA",
                               "width": "fill_container",
                               "height": 48,
                               "fill": "$white",
@@ -6302,7 +6302,7 @@
                                   "name": "c2b4ic",
                                   "width": 16,
                                   "height": 16,
-                                  "iconFontName": "minus",
+                                  "iconFontName": "slash",
                                   "iconFontFamily": "lucide",
                                   "fill": "$gray-600"
                                 },
@@ -6311,7 +6311,7 @@
                                   "id": "1Y6dV",
                                   "name": "c2b4tx",
                                   "fill": "$gray-600",
-                                  "content": "N/E",
+                                  "content": "N/A",
                                   "fontFamily": "Inter",
                                   "fontSize": 14,
                                   "fontWeight": "normal"

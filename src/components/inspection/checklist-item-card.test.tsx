@@ -281,6 +281,21 @@ describe("ChecklistItemCard", () => {
     expect(card.className).toContain("border-t-gray-200");
   });
 
+  it("applies not_applicable border for not_applicable status", () => {
+    const { container } = render(
+      <ChecklistItemCard
+        finding={makeFinding({ status: "not_applicable" })}
+        itemName="Motor"
+        photos={defaultPhotos}
+        onStatusChange={vi.fn()}
+        onObservationChange={vi.fn()}
+        onPhotoCapture={vi.fn()}
+      />
+    );
+    const card = container.firstChild as HTMLElement;
+    expect(card.className).toContain("border-t-gray-400");
+  });
+
   it("handles null observation as empty string", () => {
     render(
       <ChecklistItemCard

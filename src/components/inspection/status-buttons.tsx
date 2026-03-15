@@ -3,8 +3,10 @@
 import { cn } from "@/lib/utils";
 import type { FindingStatus } from "@/types/inspection";
 
+type SelectableStatus = Exclude<FindingStatus, "not_evaluated">;
+
 const STATUS_CONFIG: Record<
-  FindingStatus,
+  SelectableStatus,
   { label: string; icon: string; bg: string; border: string; text: string }
 > = {
   good: {
@@ -28,20 +30,20 @@ const STATUS_CONFIG: Record<
     border: "border-status-critical",
     text: "text-status-critical",
   },
-  not_evaluated: {
-    label: "N/E",
-    icon: "—",
-    bg: "bg-status-not-evaluated-bg",
-    border: "border-status-not-evaluated",
-    text: "text-status-not-evaluated",
+  not_applicable: {
+    label: "N/A",
+    icon: "ø",
+    bg: "bg-gray-100",
+    border: "border-gray-400",
+    text: "text-gray-500",
   },
 };
 
-const STATUS_ORDER: FindingStatus[] = [
+const STATUS_ORDER: SelectableStatus[] = [
   "good",
   "attention",
   "critical",
-  "not_evaluated",
+  "not_applicable",
 ];
 
 interface StatusButtonsProps {
@@ -63,7 +65,7 @@ export function StatusButtons({ value, onChange }: StatusButtonsProps) {
             role="radio"
             aria-checked={isSelected}
             onClick={() => {
-              // Toggle: tap selected → return to not_evaluated
+              // Toggle: tap selected → return to not_evaluated (implicit default)
               onChange(isSelected ? "not_evaluated" : status);
             }}
             className={cn(

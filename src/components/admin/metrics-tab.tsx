@@ -31,10 +31,6 @@ export function MetricsTab() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadMetrics();
-  }, []);
-
   async function loadMetrics() {
     setLoading(true);
     setError(null);
@@ -46,6 +42,11 @@ export function MetricsTab() {
     }
     setLoading(false);
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- loadMetrics is also used as onClick handler
+    loadMetrics();
+  }, []);
 
   if (loading) return <MetricsSkeleton />;
 

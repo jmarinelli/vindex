@@ -5,8 +5,10 @@ import { LoginForm } from "./login-form";
 
 // Mock next-auth/react
 const mockSignIn = vi.fn();
+const mockGetSession = vi.fn();
 vi.mock("next-auth/react", () => ({
   signIn: (...args: unknown[]) => mockSignIn(...args),
+  getSession: (...args: unknown[]) => mockGetSession(...args),
 }));
 
 // Mock next/navigation
@@ -52,6 +54,7 @@ describe("LoginForm", () => {
   it("calls signIn with credentials on submit", async () => {
     const user = userEvent.setup();
     mockSignIn.mockResolvedValue({ error: null });
+    mockGetSession.mockResolvedValue({ user: { role: "user" } });
     render(<LoginForm />);
 
     await user.type(screen.getByLabelText("Email"), "admin@vindex.app");
@@ -68,6 +71,7 @@ describe("LoginForm", () => {
   it("redirects to /dashboard on successful login", async () => {
     const user = userEvent.setup();
     mockSignIn.mockResolvedValue({ error: null });
+    mockGetSession.mockResolvedValue({ user: { role: "user" } });
     render(<LoginForm />);
 
     await user.type(screen.getByLabelText("Email"), "admin@vindex.app");

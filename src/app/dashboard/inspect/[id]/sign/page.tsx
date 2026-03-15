@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Check, AlertTriangle, X, Minus, Pencil, Camera, CloudOff, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, AlertTriangle, X, Slash, Minus, Pencil, Camera, CloudOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { Button } from "@/components/ui/button";
@@ -45,6 +45,12 @@ const STATUS_CONFIG: Record<
     label: "N/E",
     color: "text-gray-400",
     bgColor: "bg-gray-300",
+  },
+  not_applicable: {
+    icon: <Slash className="h-4 w-4" />,
+    label: "N/A",
+    color: "text-gray-500",
+    bgColor: "bg-gray-400",
   },
 };
 
@@ -128,6 +134,7 @@ export default function ReviewSignPage() {
       attention: 0,
       critical: 0,
       not_evaluated: 0,
+      not_applicable: 0,
     };
     if (!templateSnapshot) return counts;
 
@@ -151,7 +158,7 @@ export default function ReviewSignPage() {
     return counts;
   }, [findings, templateSnapshot]);
 
-  const totalChecklist = statusCounts.good + statusCounts.attention + statusCounts.critical + statusCounts.not_evaluated;
+  const totalChecklist = statusCounts.good + statusCounts.attention + statusCounts.critical + statusCounts.not_evaluated + statusCounts.not_applicable;
   const isComplete = statusCounts.not_evaluated === 0;
 
   const vehiclePhotos = useMemo(
@@ -178,7 +185,7 @@ export default function ReviewSignPage() {
       const checklistItems = section.items.filter((i) => i.type === "checklist_item");
       const evaluatedCount = checklistItems.filter((item) => {
         const f = findings.find(
-          (f) => f.sectionId === section.id && f.itemId === item.id
+          (fi) => fi.sectionId === section.id && fi.itemId === item.id
         );
         return f && f.status !== "not_evaluated";
       }).length;
@@ -279,7 +286,7 @@ export default function ReviewSignPage() {
           {/* Segmented bar */}
           {totalChecklist > 0 && (
             <div className="h-2 rounded-full overflow-hidden flex">
-              {(["good", "attention", "critical", "not_evaluated"] as const).map(
+              {(["good", "attention", "critical", "not_applicable", "not_evaluated"] as const).map(
                 (status) =>
                   statusCounts[status] > 0 && (
                     <div
@@ -296,7 +303,7 @@ export default function ReviewSignPage() {
           )}
           {/* Count labels */}
           <div className="flex flex-wrap gap-x-4 gap-y-1">
-            {(["good", "attention", "critical", "not_evaluated"] as const).map(
+            {(["good", "attention", "critical", "not_applicable", "not_evaluated"] as const).map(
               (status) => (
                 <span
                   key={status}
