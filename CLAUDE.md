@@ -120,13 +120,17 @@ Present a summary of what you wrote/changed and what you flagged.
 - Services, components, validators, server actions
 - Test plan (what to test, expected coverage)
 
+Save the plan to `specs/plans/<feature-name>.md`. This file is the handoff artifact — it must be self-contained enough that a new conversation can implement it by reading only this file, the specs it references, and CLAUDE.md.
+
 Do NOT start coding.
 → **Stop. Wait for my approval of the plan.**
 
-**5. IMPLEMENT** — Execute the approved plan. Write code and tests. Run tests. Report results and coverage.
+**5. IMPLEMENT** — Execute the approved plan. Read the plan from `specs/plans/<feature-name>.md` and the specs it references. Write code and tests. Run tests. Report results and coverage.
+
+Note: this phase will typically run in a **new conversation** to maximize available context. When I say "implement the plan for <feature>" or "implement `specs/plans/<feature-name>.md`", read the plan file and execute it.
 → **Stop. Wait for my review.**
 
-**6. CLOSE** — After I approve: update `specs/implementation-plan.md` if needed, update "Current Phase" below.
+**6. CLOSE** — After I approve: update `specs/implementation-plan.md` if needed, update "Current Phase" below, and delete the plan file from `specs/plans/`.
 
 ### Rules
 - Never skip a phase or combine phases.
@@ -134,6 +138,7 @@ Do NOT start coding.
 - If I say "go back to SPEC" or "redo the plan", do it.
 - If I say "just do it" or "run it all", you may execute remaining phases without stopping — but ONLY if I explicitly say so.
 - Keep phase outputs concise. I'll ask for detail if I need it.
+- PLAN is the natural handoff point between conversations. Always save the plan to disk.
 
 ## Current Phase
 
