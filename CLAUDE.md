@@ -83,6 +83,58 @@ From specs/architecture.md — follow these strictly:
 
 Next.js 15 (App Router) · TypeScript (strict) · PostgreSQL 16 · Drizzle ORM · Auth.js v5 · shadcn/ui + Radix UI · Tailwind CSS 4 · Dexie.js · Cloudinary · Vercel · Neon · PostHog
 
+## Backlog
+
+GitHub Project: https://github.com/users/jmarinelli/projects/2
+
+All planned work lives as GitHub Issues in this project. Do not maintain a backlog in the codebase.
+
+## Feature Workflow
+
+When I say "let's work on <feature>", reference a GitHub issue, or ask to start a new feature, follow this phased workflow. **Complete only ONE phase at a time, then STOP and wait for my feedback before proceeding.**
+
+### Phases
+
+**1. UNDERSTAND** — Read the GitHub issue (if referenced). Read all related existing specs (flows, UI, entities). Summarize back to me:
+- What the feature is
+- What existing specs and code it touches
+- Open questions or ambiguities
+
+Ask me to clarify anything. Do NOT write any specs yet.
+→ **Stop. Wait for my go-ahead.**
+
+**2. SPEC** — Write or update the relevant specs:
+- Flow spec (`specs/flows/`)
+- UI spec (`specs/ui/`)
+- Entity spec updates (`specs/entities/`) if schema changes are needed
+- Cross-reference against ALL existing specs and flag any conflicts or dependencies
+
+Present a summary of what you wrote/changed and what you flagged.
+→ **Stop. Wait for my review.** I may ask for changes before approving.
+
+**3. DESIGN** — If the feature has UI, create or update the `.pen` mockup (importing `design-system.pen`). If no UI, tell me and ask if I want to skip to PLAN.
+→ **Stop. Wait for my review.**
+
+**4. PLAN** — Write the implementation plan:
+- Specific files to create or modify
+- Services, components, validators, server actions
+- Test plan (what to test, expected coverage)
+
+Do NOT start coding.
+→ **Stop. Wait for my approval of the plan.**
+
+**5. IMPLEMENT** — Execute the approved plan. Write code and tests. Run tests. Report results and coverage.
+→ **Stop. Wait for my review.**
+
+**6. CLOSE** — After I approve: update `specs/implementation-plan.md` if needed, update "Current Phase" below.
+
+### Rules
+- Never skip a phase or combine phases.
+- Never start coding before PLAN is approved.
+- If I say "go back to SPEC" or "redo the plan", do it.
+- If I say "just do it" or "run it all", you may execute remaining phases without stopping — but ONLY if I explicitly say so.
+- Keep phase outputs concise. I'll ask for detail if I need it.
+
 ## Current Phase
 
 **Phase 5E — PWA Finalization** (not started)
