@@ -33,6 +33,9 @@ export interface DraftPhoto {
   caption: string | null;
   order: number;
   uploaded: boolean;
+  retries: number;
+  /** Server-side event_photos.id — set after successful upload+save */
+  serverPhotoId?: string;
 }
 
 export interface DraftInspection {

@@ -11,6 +11,9 @@ interface FreeTextItemCardProps {
   onObservationChange: (findingId: string, observation: string) => void;
   onPhotoCapture: (findingId: string, file: File) => void;
   onPhotoDelete?: (photoId: string) => void;
+  onPhotoRetry?: (photoId: string) => void;
+  isOnline?: boolean;
+  uploadingPhotoIds?: Set<string>;
 }
 
 export function FreeTextItemCard({
@@ -20,6 +23,9 @@ export function FreeTextItemCard({
   onObservationChange,
   onPhotoCapture,
   onPhotoDelete,
+  onPhotoRetry,
+  isOnline,
+  uploadingPhotoIds,
 }: FreeTextItemCardProps) {
   const [text, setText] = useState(finding.observation ?? "");
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -75,6 +81,9 @@ export function FreeTextItemCard({
         photos={photos}
         onCapture={(file) => onPhotoCapture(finding.id, file)}
         onDelete={onPhotoDelete}
+        onRetry={onPhotoRetry}
+        isOnline={isOnline}
+        uploadingPhotoIds={uploadingPhotoIds}
       />
     </div>
   );

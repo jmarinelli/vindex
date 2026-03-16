@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { Camera, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
@@ -9,12 +9,13 @@ import { SectionTabs } from "@/components/inspection/section-tabs";
 import { SyncIndicator } from "@/components/inspection/sync-indicator";
 import { ChecklistItemCard } from "@/components/inspection/checklist-item-card";
 import { FreeTextItemCard } from "@/components/inspection/free-text-item-card";
+import { PhotoCapture } from "@/components/inspection/photo-capture";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getDraftAction, updateFindingAction } from "@/lib/actions/inspection";
-import { useOfflineStatus, useAutoSave, useDraft } from "@/offline/hooks";
-import { saveDraft as saveLocalDraft, getPhotosByEvent, deletePhoto } from "@/offline/dexie";
+import { getDraftAction, updateFindingAction, deleteEventPhotoAction } from "@/lib/actions/inspection";
+import { useOfflineStatus, useAutoSave, useDraft, usePhotoUpload } from "@/offline/hooks";
+import { saveDraft as saveLocalDraft, deletePhoto, savePhoto } from "@/offline/dexie";
 import { capturePhoto } from "@/offline/photo-queue";
-import type { DraftInspection, DraftFinding, DraftPhoto, FindingStatus, TemplateSnapshot } from "@/types/inspection";
+import type { DraftInspection, DraftFinding, FindingStatus, TemplateSnapshot } from "@/types/inspection";
 
 export default function FieldModePage() {
   const router = useRouter();
@@ -28,7 +29,6 @@ export default function FieldModePage() {
   const [loading, setLoading] = useState(true);
   const [templateSnapshot, setTemplateSnapshot] = useState<TemplateSnapshot | null>(null);
   const [findings, setFindings] = useState<DraftFinding[]>([]);
-  const [photos, setPhotos] = useState<DraftPhoto[]>([]);
   const [vehicleName, setVehicleName] = useState("");
   const initialSection = Number(searchParams.get("section") ?? 0);
   const [activeSectionIndex, setActiveSectionIndex] = useState(initialSection);
@@ -40,8 +40,14 @@ export default function FieldModePage() {
   const { draft, setDraft } = useDraft(eventId);
   const { syncStatus, saveFindingStatus, saveObservation } = useAutoSave(draft, isOnline);
 
-  // Refs
-  const vehiclePhotoInputRef = useRef<HTMLInputElement>(null);
+  // Photo upload
+  const {
+    photos,
+    uploadingPhotoIds,
+    uploadPhoto,
+    retryPhoto,
+    refreshPhotos,
+  } = usePhotoUpload(eventId, isOnline);
 
 
   // Load inspection data
@@ -53,11 +59,8 @@ export default function FieldModePage() {
         setFindings(draft.findings);
         setVehicleName(draft.vehicleName);
         setActiveSectionIndex(draft.lastSectionIndex ?? 0);
-        // Load photos from Dexie photos table (blobs aren't stored in drafts)
-        const localPhotos = await getPhotosByEvent(eventId);
-        setPhotos(localPhotos);
-        // Auto-expand if vehicle photos exist
-        const hasVehiclePhotos = localPhotos.some((p) => p.photoType === "vehicle");
+        // Photos are loaded by usePhotoUpload hook
+        const hasVehiclePhotos = photos.some((p) => p.photoType === "vehicle");
         setVehiclePhotosExpanded(hasVehiclePhotos);
         setLoading(false);
         return;
@@ -71,9 +74,9 @@ export default function FieldModePage() {
         return;
       }
 
-      const { event, detail, findings: serverFindings, templateSnapshot: snapshot } = result.data;
+      const { event, detail, findings: serverFindings, photos: serverPhotos, vehicle, templateSnapshot: snapshot } = result.data;
 
-      const name = sessionStorage.getItem("vindex_inspect_vehicleName") ?? "Vehículo";
+      const name = [vehicle.make, vehicle.model, vehicle.year].filter(Boolean).join(" ");
 
       const draftFindings: DraftFinding[] = serverFindings.map((f) => ({
         id: f.id,
@@ -104,13 +107,28 @@ export default function FieldModePage() {
 
       // Save to local DB
       await saveLocalDraft(localDraft);
+
+      // Seed server photos into Dexie so usePhotoUpload picks them up
+      for (const sp of serverPhotos) {
+        await savePhoto({
+          id: sp.id,
+          eventId: sp.eventId,
+          findingId: sp.findingId,
+          photoType: (sp.photoType as "finding" | "vehicle") ?? "finding",
+          url: sp.url,
+          caption: sp.caption,
+          order: sp.order,
+          uploaded: true,
+          retries: 0,
+          serverPhotoId: sp.id,
+        });
+      }
+
       setDraft(localDraft);
       setTemplateSnapshot(snapshot);
       setFindings(draftFindings);
-      // Load any previously captured photos from Dexie
-      const localPhotos = await getPhotosByEvent(eventId);
-      setPhotos(localPhotos);
-      const hasVehiclePhotos = localPhotos.some((p) => p.photoType === "vehicle");
+      await refreshPhotos();
+      const hasVehiclePhotos = serverPhotos.some((p) => p.photoType === "vehicle");
       setVehiclePhotosExpanded(hasVehiclePhotos);
       setVehicleName(name);
       setLoading(false);
@@ -216,12 +234,13 @@ export default function FieldModePage() {
           findingId,
           photoType: "finding",
         });
-        setPhotos((prev) => [...prev, photo]);
+        await refreshPhotos();
+        if (isOnline) uploadPhoto(photo);
       } catch {
         toast.error("Error al capturar la foto.");
       }
     },
-    [eventId]
+    [eventId, refreshPhotos, isOnline, uploadPhoto]
   );
 
   // Handle vehicle photo capture
@@ -234,22 +253,28 @@ export default function FieldModePage() {
           findingId: null,
           photoType: "vehicle",
         });
-        setPhotos((prev) => [...prev, photo]);
+        await refreshPhotos();
         setVehiclePhotosExpanded(true);
+        if (isOnline) uploadPhoto(photo);
       } catch {
         toast.error("Error al capturar la foto.");
       }
     },
-    [eventId]
+    [eventId, refreshPhotos, isOnline, uploadPhoto]
   );
 
-  // Handle vehicle photo deletion (draft only)
-  const handleDeleteVehiclePhoto = useCallback(
+  // Handle photo deletion — removes from Dexie and server (if uploaded)
+  const handleDeletePhoto = useCallback(
     async (photoId: string) => {
+      const photo = photos.find((p) => p.id === photoId);
       await deletePhoto(photoId);
-      setPhotos((prev) => prev.filter((p) => p.id !== photoId));
+      await refreshPhotos();
+      // Also delete from server if it was already uploaded
+      if (photo?.serverPhotoId && isOnline) {
+        deleteEventPhotoAction({ photoId: photo.serverPhotoId }).catch(() => {});
+      }
     },
-    []
+    [photos, refreshPhotos, isOnline]
   );
 
   // Section navigation
@@ -372,48 +397,13 @@ export default function FieldModePage() {
 
           {vehiclePhotosExpanded && (
             <div className="px-3 pb-3">
-              <div className="flex flex-wrap gap-2">
-                {vehiclePhotos.map((photo) => (
-                  <button
-                    key={photo.id}
-                    type="button"
-                    className="relative w-[76px] h-[76px] sm:w-[88px] sm:h-[88px] rounded-sm border border-gray-200 overflow-hidden shrink-0"
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      if (confirm("¿Eliminar esta foto?")) {
-                        handleDeleteVehiclePhoto(photo.id);
-                      }
-                    }}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photo.url ?? (photo.blob ? URL.createObjectURL(photo.blob) : "")}
-                      alt="Foto del vehículo"
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-
-                {/* Add photo button */}
-                <button
-                  type="button"
-                  onClick={() => vehiclePhotoInputRef.current?.click()}
-                  className="w-[76px] h-[76px] sm:w-[88px] sm:h-[88px] rounded-sm border border-dashed border-gray-300 flex items-center justify-center shrink-0"
-                >
-                  <Camera className="h-5 w-5 text-gray-400" />
-                </button>
-              </div>
-              <input
-                ref={vehiclePhotoInputRef}
-                type="file"
-                accept="image/*"
-                capture="environment"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) handleVehiclePhoto(file);
-                  e.target.value = "";
-                }}
-                className="hidden"
+              <PhotoCapture
+                photos={vehiclePhotos}
+                onCapture={(file) => handleVehiclePhoto(file)}
+                onDelete={handleDeletePhoto}
+                onRetry={retryPhoto}
+                isOnline={isOnline}
+                uploadingPhotoIds={uploadingPhotoIds}
               />
             </div>
           )}
@@ -439,6 +429,10 @@ export default function FieldModePage() {
                 photos={itemPhotos}
                 onObservationChange={handleObservationChange}
                 onPhotoCapture={handlePhotoCapture}
+                onPhotoDelete={handleDeletePhoto}
+                onPhotoRetry={retryPhoto}
+                isOnline={isOnline}
+                uploadingPhotoIds={uploadingPhotoIds}
               />
             );
           }
@@ -452,6 +446,10 @@ export default function FieldModePage() {
               onStatusChange={handleStatusChange}
               onObservationChange={handleObservationChange}
               onPhotoCapture={handlePhotoCapture}
+              onPhotoDelete={handleDeletePhoto}
+              onPhotoRetry={retryPhoto}
+              isOnline={isOnline}
+              uploadingPhotoIds={uploadingPhotoIds}
             />
           );
         })}

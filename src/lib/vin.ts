@@ -13,6 +13,18 @@ const TRANSLITERATION: Record<string, number> = {
 
 const POSITION_WEIGHTS = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
 
+// Regions that mandate check digit at position 9 (mod-11)
+const CHECK_DIGIT_PREFIXES = new Set([
+  "1", "4", "5",  // USA
+  "2",             // Canada
+  "3",             // Mexico
+  "L",             // China
+]);
+
+function requiresCheckDigit(vin: string): boolean {
+  return CHECK_DIGIT_PREFIXES.has(vin[0].toUpperCase());
+}
+
 function charValue(c: string): number {
   const n = parseInt(c, 10);
   if (!isNaN(n)) return n;
@@ -50,9 +62,11 @@ export function validateVin(vin: string): VinValidationResult {
     return { valid: false, error: "El VIN no puede contener las letras I, O o Q." };
   }
 
-  const expected = computeCheckDigit(vin);
-  if (vin[8].toUpperCase() !== expected) {
-    return { valid: false, error: "El dígito verificador del VIN es inválido." };
+  if (requiresCheckDigit(vin)) {
+    const expected = computeCheckDigit(vin);
+    if (vin[8].toUpperCase() !== expected) {
+      return { valid: false, error: "El dígito verificador del VIN es inválido." };
+    }
   }
 
   return { valid: true };

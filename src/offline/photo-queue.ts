@@ -83,6 +83,7 @@ export async function capturePhoto(params: {
     caption: null,
     order: sameTypePhotos.length,
     uploaded: false,
+    retries: 0,
   };
 
   await savePhoto(photo);

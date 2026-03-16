@@ -101,6 +101,7 @@ function makePhoto(overrides?: Partial<DraftPhoto>): DraftPhoto {
     caption: null,
     order: 0,
     uploaded: false,
+    retries: 0,
     ...overrides,
   };
 }

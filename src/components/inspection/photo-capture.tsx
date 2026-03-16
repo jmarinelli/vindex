@@ -1,16 +1,26 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Camera, X } from "lucide-react";
+import { Camera, X, RotateCcw, CloudOff, Loader2 } from "lucide-react";
 import type { DraftPhoto } from "@/types/inspection";
 
 interface PhotoCaptureProps {
   photos: DraftPhoto[];
   onCapture: (file: File) => void;
   onDelete?: (photoId: string) => void;
+  onRetry?: (photoId: string) => void;
+  isOnline?: boolean;
+  uploadingPhotoIds?: Set<string>;
 }
 
-export function PhotoCapture({ photos, onCapture, onDelete }: PhotoCaptureProps) {
+export function PhotoCapture({
+  photos,
+  onCapture,
+  onDelete,
+  onRetry,
+  isOnline = true,
+  uploadingPhotoIds,
+}: PhotoCaptureProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [blobUrls, setBlobUrls] = useState<Record<string, string>>({});
 
@@ -48,7 +58,7 @@ export function PhotoCapture({ photos, onCapture, onDelete }: PhotoCaptureProps)
   };
 
   return (
-    <div className="flex items-center gap-2 overflow-x-auto">
+    <div className="flex items-center gap-3 overflow-x-auto py-1 px-1">
       {/* Camera button */}
       <button
         type="button"
@@ -77,30 +87,52 @@ export function PhotoCapture({ photos, onCapture, onDelete }: PhotoCaptureProps)
         const url = blobUrls[photo.id];
         if (!url) return null;
 
+        const isFailed = !photo.uploaded && photo.retries >= 3;
+        const isUploadingThis = !photo.uploaded && uploadingPhotoIds?.has(photo.id);
+        const isOfflineLocal = !photo.uploaded && !isOnline;
+
         return (
           <div
             key={photo.id}
-            className="w-12 h-12 shrink-0 rounded-sm border border-gray-200 overflow-hidden relative group"
+            className={`w-12 h-12 shrink-0 rounded-sm relative ${
+              isFailed ? "border-2 border-red-400" : "border border-gray-200"
+            }`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={url}
               alt={photo.caption || "Foto de inspección"}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-sm"
             />
-            {onDelete && (
+            {/* Upload status overlays */}
+            {isUploadingThis && (
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-sm">
+                <Loader2 className="h-4 w-4 text-white animate-spin" />
+              </div>
+            )}
+            {isFailed && !isUploadingThis && (
               <button
                 type="button"
-                onClick={() => onDelete(photo.id)}
-                className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={() => onRetry?.(photo.id)}
+                className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-sm"
+                aria-label="Reintentar subida"
+              >
+                <RotateCcw className="h-4 w-4 text-white" />
+              </button>
+            )}
+            {onDelete && !isUploadingThis && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); onDelete(photo.id); }}
+                className="absolute -top-1.5 -right-1.5 z-10 w-5 h-5 bg-black/60 rounded-full flex items-center justify-center"
                 aria-label="Eliminar foto"
               >
                 <X className="h-3 w-3 text-white" />
               </button>
             )}
-            {!photo.uploaded && photo.blob && (
+            {isOfflineLocal && !isFailed && !isUploadingThis && (
               <div className="absolute bottom-0.5 right-0.5">
-                <span className="text-[10px] text-gray-400">local</span>
+                <CloudOff className="h-3 w-3 text-gray-400" />
               </div>
             )}
           </div>

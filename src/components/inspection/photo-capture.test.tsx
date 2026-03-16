@@ -14,6 +14,7 @@ function makePhoto(overrides?: Partial<DraftPhoto>): DraftPhoto {
     caption: null,
     order: 0,
     uploaded: false,
+    retries: 0,
     ...overrides,
   };
 }
@@ -139,23 +140,28 @@ describe("PhotoCapture", () => {
     expect(screen.getByAltText("Vista frontal")).toBeInTheDocument();
   });
 
-  it("shows 'local' indicator for non-uploaded blob photos", () => {
+  it("shows offline indicator for non-uploaded blob photos when offline", () => {
     const blob = new Blob(["data"], { type: "image/png" });
     const photo = makePhoto({ id: "p-4", blob, uploaded: false });
 
-    render(<PhotoCapture photos={[photo]} onCapture={vi.fn()} />);
-    expect(screen.getByText("local")).toBeInTheDocument();
+    const { container } = render(
+      <PhotoCapture photos={[photo]} onCapture={vi.fn()} isOnline={false} />
+    );
+    // CloudOff icon rendered as SVG with lucide class
+    expect(container.querySelector(".lucide-cloud-off")).toBeInTheDocument();
   });
 
-  it("does not show 'local' indicator for uploaded photos", () => {
+  it("does not show offline indicator for uploaded photos", () => {
     const photo = makePhoto({
       id: "p-5",
       url: "https://cdn.example.com/photo.jpg",
       uploaded: true,
     });
 
-    render(<PhotoCapture photos={[photo]} onCapture={vi.fn()} />);
-    expect(screen.queryByText("local")).not.toBeInTheDocument();
+    const { container } = render(
+      <PhotoCapture photos={[photo]} onCapture={vi.fn()} isOnline={false} />
+    );
+    expect(container.querySelector(".lucide-cloud-off")).not.toBeInTheDocument();
   });
 
   it("renders delete button when onDelete is provided", () => {

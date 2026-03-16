@@ -88,8 +88,13 @@ export const uploadPhotoSchema = z.object({
   photoType: z.enum(photoTypeValues, {
     error: "Tipo de foto inválido.",
   }),
-  url: z.string().url("URL de foto inválida."),
+  url: z.string().url("URL de foto inválida.").max(500),
   caption: z.string().max(500).optional().nullable(),
+  order: z.number().int().min(0, "Orden inválido."),
+});
+
+export const deleteEventPhotoSchema = z.object({
+  photoId: z.string().uuid("ID de foto inválido."),
 });
 
 // ─── Finding Schemas ────────────────────────────────────────────────────────
@@ -240,6 +245,7 @@ export type CreateInspectionInput = z.infer<typeof createInspectionSchema>;
 export type UpdateFindingInput = z.infer<typeof updateFindingSchema>;
 export type SignInspectionInput = z.infer<typeof signInspectionSchema>;
 export type UploadPhotoInput = z.infer<typeof uploadPhotoSchema>;
+export type DeleteEventPhotoInput = z.infer<typeof deleteEventPhotoSchema>;
 export type SubmitReviewInput = z.infer<typeof submitReviewSchema>;
 export type ContactFormInput = z.infer<typeof contactFormSchema>;
 export type CreateCorrectionInput = z.infer<typeof createCorrectionSchema>;

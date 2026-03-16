@@ -11,10 +11,9 @@ import {
   getInspectionForReviewAction,
   signInspectionAction,
 } from "@/lib/actions/inspection";
-import { useOfflineStatus } from "@/offline/hooks";
-import { getPhotosByEvent } from "@/offline/dexie";
+import { useOfflineStatus, usePhotoUpload, useDraft } from "@/offline/hooks";
 import type { FindingStatus, TemplateSnapshot } from "@/types/inspection";
-import type { InspectionFinding, Vehicle, Event, InspectionDetail } from "@/db/schema";
+import type { InspectionFinding, Vehicle, Event, InspectionDetail, EventPhoto } from "@/db/schema";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -85,12 +84,20 @@ export default function ReviewSignPage() {
   const eventId = params.id as string;
   const isOnline = useOfflineStatus();
 
+  const { draft } = useDraft(eventId);
+  const {
+    photos: dexiePhotos,
+    pendingCount,
+    failedCount,
+    retryFailed,
+  } = usePhotoUpload(eventId, isOnline);
+
   const [loading, setLoading] = useState(true);
   const [signing, setSigning] = useState(false);
   const [event, setEvent] = useState<Event | null>(null);
   const [detail, setDetail] = useState<InspectionDetail | null>(null);
   const [findings, setFindings] = useState<InspectionFinding[]>([]);
-  const [photos, setPhotos] = useState<Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null }>>([]);
+  const [serverPhotos, setServerPhotos] = useState<EventPhoto[]>([]);
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [templateSnapshot, setTemplateSnapshot] = useState<TemplateSnapshot | null>(null);
 
@@ -105,26 +112,23 @@ export default function ReviewSignPage() {
       setEvent(result.data.event);
       setDetail(result.data.detail);
       setFindings(result.data.findings);
+      setServerPhotos(result.data.photos);
       setVehicle(result.data.vehicle);
       setTemplateSnapshot(result.data.templateSnapshot);
-
-      // Merge photos from server and local Dexie (photos live in IndexedDB
-      // until uploaded, so server alone may be incomplete)
-      const serverPhotos = result.data.photos;
-      const localPhotos = await getPhotosByEvent(eventId);
-
-      const serverIds = new Set(serverPhotos.map((p) => p.id));
-      const merged: Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null }> = [
-        ...serverPhotos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url })),
-        ...localPhotos
-          .filter((p) => !serverIds.has(p.id))
-          .map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url ?? (p.blob ? URL.createObjectURL(p.blob) : null) })),
-      ];
-      setPhotos(merged);
       setLoading(false);
     }
     load();
   }, [eventId, router]);
+
+  // Photos source of truth: Dexie if a local draft exists, server otherwise
+  const photos: Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null; blob?: Blob }> = useMemo(() => {
+    if (draft) {
+      // Local draft exists → Dexie is authoritative (respects local deletions)
+      return dexiePhotos;
+    }
+    // No local draft → user is viewing from another browser, use server photos
+    return serverPhotos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }));
+  }, [draft, dexiePhotos, serverPhotos]);
 
   // ─── Computed values ────────────────────────────────────────────────────
 
@@ -202,8 +206,10 @@ export default function ReviewSignPage() {
 
   // ─── Handlers ───────────────────────────────────────────────────────────
 
+  const canSign = isComplete && isOnline && pendingCount === 0;
+
   const handleSign = async () => {
-    if (!isComplete || !isOnline || signing) return;
+    if (!canSign || signing) return;
     setSigning(true);
     try {
       const result = await signInspectionAction({ eventId });
@@ -328,7 +334,7 @@ export default function ReviewSignPage() {
         )}
 
         {/* Offline Warning */}
-        {!isOnline && (
+        {!isOnline && pendingCount === 0 && (
           <div
             className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-center gap-2"
             role="alert"
@@ -336,6 +342,42 @@ export default function ReviewSignPage() {
             <CloudOff className="h-4 w-4 text-blue-600 shrink-0" />
             <span className="text-sm text-blue-700">
               Se requiere conexión para firmar
+            </span>
+          </div>
+        )}
+
+        {/* Pending uploads warning */}
+        {pendingCount > 0 && isOnline && (
+          <div className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2">
+            {failedCount > 0 ? (
+              <>
+                <AlertTriangle className="h-4 w-4 text-red-600 shrink-0" />
+                <div className="flex-1">
+                  <span className="text-sm text-red-700">
+                    Hay {failedCount} foto(s) que no se pudieron subir. Reintentá la subida o eliminá las fotos para continuar.
+                  </span>
+                  <button onClick={retryFailed} className="block text-sm text-blue-600 underline mt-1">
+                    Reintentar subida
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <Loader2 className="h-4 w-4 text-amber-600 animate-spin shrink-0" />
+                <span className="text-sm text-amber-700">
+                  Subiendo {pendingCount} foto(s)... Esperá a que termine la subida para firmar.
+                </span>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Offline + pending photos */}
+        {!isOnline && pendingCount > 0 && (
+          <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-center gap-2" role="alert">
+            <CloudOff className="h-4 w-4 text-blue-600 shrink-0" />
+            <span className="text-sm text-blue-700">
+              Se requiere conexión para subir fotos y firmar.
             </span>
           </div>
         )}
@@ -357,10 +399,10 @@ export default function ReviewSignPage() {
                     key={photo.id}
                     className="relative w-16 h-16 rounded-sm border border-gray-200 overflow-hidden shrink-0"
                   >
-                    {photo.url && (
+                    {(photo.url || photo.blob) && (
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
-                        src={photo.url}
+                        src={photo.url ?? (photo.blob ? URL.createObjectURL(photo.blob) : "")}
                         alt={`Foto del vehículo ${idx + 1}`}
                         className="w-full h-full object-cover"
                       />
@@ -441,9 +483,9 @@ export default function ReviewSignPage() {
         <div className="hidden sm:block">
           <Button
             onClick={handleSign}
-            disabled={!isComplete || !isOnline || signing}
+            disabled={!canSign || signing}
             className="w-full h-12 text-base"
-            aria-disabled={!isComplete || !isOnline}
+            aria-disabled={!canSign}
           >
             {signing ? (
               <>

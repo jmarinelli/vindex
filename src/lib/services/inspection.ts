@@ -39,6 +39,8 @@ export interface InspectionDraft {
   event: Event;
   detail: InspectionDetail;
   findings: InspectionFinding[];
+  photos: EventPhoto[];
+  vehicle: Vehicle;
   templateSnapshot: TemplateSnapshot;
 }
 
@@ -224,7 +226,17 @@ export async function createInspection(
       .returning();
   }
 
-  return { event, detail, findings, templateSnapshot };
+  const [vehicle] = await db
+    .select()
+    .from(vehicles)
+    .where(eq(vehicles.id, params.vehicleId))
+    .limit(1);
+
+  if (!vehicle) {
+    throw new Error("Vehículo no encontrado.");
+  }
+
+  return { event, detail, findings, photos: [], vehicle, templateSnapshot };
 }
 
 /**
@@ -251,14 +263,22 @@ export async function getDraft(
 
   if (!detail) return null;
 
-  const findings = await db
+  const [vehicle] = await db
     .select()
-    .from(inspectionFindings)
-    .where(eq(inspectionFindings.eventId, eventId));
+    .from(vehicles)
+    .where(eq(vehicles.id, event.vehicleId))
+    .limit(1);
+
+  if (!vehicle) return null;
+
+  const [findings, photos] = await Promise.all([
+    db.select().from(inspectionFindings).where(eq(inspectionFindings.eventId, eventId)),
+    db.select().from(eventPhotos).where(eq(eventPhotos.eventId, eventId)),
+  ]);
 
   const templateSnapshot = detail.templateSnapshot as TemplateSnapshot;
 
-  return { event, detail, findings, templateSnapshot };
+  return { event, detail, findings, photos, vehicle, templateSnapshot };
 }
 
 /**
@@ -703,6 +723,68 @@ export async function createCorrection(
   }
 
   return correctionEvent;
+}
+
+/**
+ * Save an event photo after successful Cloudinary upload.
+ * Enforces immutability and node ownership.
+ */
+export async function saveEventPhoto(params: {
+  eventId: string;
+  findingId: string | null;
+  photoType: "finding" | "vehicle";
+  url: string;
+  caption: string | null;
+  order: number;
+  nodeId: string;
+}): Promise<EventPhoto> {
+  const event = await assertEventIsMutable(params.eventId);
+
+  if (event.nodeId !== params.nodeId) {
+    throw new Error("No tenés permiso para agregar fotos a este evento.");
+  }
+
+  const [photo] = await db
+    .insert(eventPhotos)
+    .values({
+      eventId: params.eventId,
+      findingId: params.findingId,
+      photoType: params.photoType,
+      url: params.url,
+      caption: params.caption,
+      order: params.order,
+    })
+    .returning();
+
+  return photo;
+}
+
+/**
+ * Delete an event photo.
+ * Enforces immutability and node ownership.
+ * Does NOT delete from Cloudinary (orphans acceptable for MVP).
+ */
+export async function deleteEventPhoto(params: {
+  photoId: string;
+  nodeId: string;
+}): Promise<void> {
+  const [photo] = await db
+    .select()
+    .from(eventPhotos)
+    .where(eq(eventPhotos.id, params.photoId))
+    .limit(1);
+
+  if (!photo) {
+    throw new Error("Foto no encontrada.");
+  }
+
+  const event = await assertEventIsMutable(photo.eventId);
+
+  if (event.nodeId !== params.nodeId) {
+    throw new Error("No tenés permiso para eliminar esta foto.");
+  }
+
+  await db.delete(eventPhotos).where(eq(eventPhotos.id, params.photoId));
 }
 
 /**

@@ -6,6 +6,8 @@ import {
   updateFindingSchema,
   signInspectionSchema,
   createCorrectionSchema,
+  uploadPhotoSchema,
+  deleteEventPhotoSchema,
 } from "@/lib/validators";
 import * as inspectionService from "@/lib/services/inspection";
 import { db } from "@/db";
@@ -256,6 +258,67 @@ export async function createCorrectionAction(
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Error al crear la corrección.";
+    return { success: false, error: message };
+  }
+}
+
+export async function saveEventPhotoAction(
+  input: unknown
+): Promise<ActionResult<{ eventPhoto: { id: string } }>> {
+  const session = await auth();
+  if (!session?.user?.id || !session.user.nodeId) {
+    return { success: false, error: "No autenticado." };
+  }
+
+  const parsed = uploadPhotoSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    const photo = await inspectionService.saveEventPhoto({
+      ...parsed.data,
+      findingId: parsed.data.findingId ?? null,
+      caption: parsed.data.caption ?? null,
+      nodeId: session.user.nodeId,
+    });
+
+    return {
+      success: true,
+      data: { eventPhoto: { id: photo.id } },
+    };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al guardar la foto.";
+    return { success: false, error: message };
+  }
+}
+
+export async function deleteEventPhotoAction(
+  input: unknown
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id || !session.user.nodeId) {
+    return { success: false, error: "No autenticado." };
+  }
+
+  const parsed = deleteEventPhotoSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    await inspectionService.deleteEventPhoto({
+      ...parsed.data,
+      nodeId: session.user.nodeId,
+    });
+
+    return { success: true };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al eliminar la foto.";
     return { success: false, error: message };
   }
 }

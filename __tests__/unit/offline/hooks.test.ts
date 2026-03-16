@@ -14,6 +14,13 @@ vi.mock("@/offline/dexie", () => ({
   getDraft: (...args: unknown[]) => mockGetDraft(...args),
   saveFinding: (...args: unknown[]) => mockSaveFinding(...args),
   enqueueSyncItem: (...args: unknown[]) => mockEnqueueSyncItem(...args),
+  getPhotosByEvent: vi.fn().mockResolvedValue([]),
+  localDb: { photos: { update: vi.fn().mockResolvedValue(undefined) } },
+}));
+
+vi.mock("@/offline/photo-upload", () => ({
+  processPhotoQueue: vi.fn().mockResolvedValue(undefined),
+  uploadAndSavePhoto: vi.fn().mockResolvedValue(true),
 }));
 
 import { useOfflineStatus, useDraft, useAutoSave } from "@/offline/hooks";

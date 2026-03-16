@@ -78,6 +78,12 @@ vi.mock("@/db/schema", () => ({
     nodeId: "node_id",
     userId: "user_id",
   },
+  vehicles: {
+    id: "id",
+  },
+  eventPhotos: {
+    eventId: "event_id",
+  },
 }));
 
 vi.mock("drizzle-orm", () => ({
@@ -185,18 +191,24 @@ describe("createInspection", () => {
       createdAt: new Date(),
     }));
 
+    const vehicle = { id: "vehicle-1", make: "Toyota", model: "Corolla", year: 2020 };
+
     // event insert
     insertReturns = [[event]];
     // detail insert
     insertReturns.push([detail]);
     // findings insert
     insertReturns.push(findings);
+    // vehicle query (after inserts)
+    queryResults.push([vehicle]);
 
     const result = await createInspection(baseParams);
 
     expect(result.event).toEqual(event);
     expect(result.detail).toEqual(detail);
     expect(result.findings).toEqual(findings);
+    expect(result.photos).toEqual([]);
+    expect(result.vehicle).toEqual(vehicle);
     expect(result.templateSnapshot).toEqual({
       templateId: "template-1",
       templateName: "Test Template",
@@ -267,12 +279,18 @@ describe("getDraft", () => {
       },
     ];
 
+    const vehicle = { id: "v1", make: "Toyota", model: "Corolla", year: 2020, vehicleId: "v1" };
+    const photos = [{ id: "p1", eventId: "event-1", photoType: "vehicle", url: "https://example.com/photo.jpg" }];
+
     // event query
     queryResults = [[event]];
     // detail query
     queryResults.push([detail]);
-    // findings query (no .limit(), uses thenable)
+    // vehicle query
+    queryResults.push([vehicle]);
+    // Promise.all: findings query, photos query
     queryResults.push(findings);
+    queryResults.push(photos);
 
     const result = await getDraft("event-1", "node-1");
 
@@ -280,6 +298,8 @@ describe("getDraft", () => {
     expect(result!.event).toEqual(event);
     expect(result!.detail).toEqual(detail);
     expect(result!.findings).toEqual(findings);
+    expect(result!.photos).toEqual(photos);
+    expect(result!.vehicle).toEqual(vehicle);
     expect(result!.templateSnapshot).toEqual(templateSnapshot);
   });
 });

@@ -19,7 +19,7 @@ The central entity in the system. All events, inspection reports, and identity d
 ## Behavior
 
 - **Created as a side effect.** Vehicles are not created directly. They are created when an inspector starts an inspection for a VIN not yet in the system.
-- **VIN validation:** exactly 17 alphanumeric characters, no I/O/Q (per ISO 3779). Reject with a clear, specific error message.
+- **VIN validation:** exactly 17 alphanumeric characters, no I/O/Q (per ISO 3779). Check digit (position 9, mod-11) validated only for regions that mandate it: USA (first char 1/4/5), Canada (2), Mexico (3), China (L). For all other WMI prefixes, position 9 is a manufacturer descriptor and check digit validation is skipped. Reject with a clear, specific error message.
 - **VIN decoding:** on creation, attempt to decode make/model/year/trim via NHTSA vPIC API (`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/{vin}?format=json`). If decode fails or returns incomplete data, the inspector enters these fields manually. Decoding is best-effort convenience, not a blocker.
 - **VIN is immutable after creation.** The VIN cannot be changed. Other fields (plate, make, model, year, trim) can be updated if initially blank or incorrect.
 - **No owner concept.** The vehicle is a data container identified by VIN, not an owned entity. No ownership claims in Phase 1.

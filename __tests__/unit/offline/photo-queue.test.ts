@@ -210,8 +210,8 @@ describe("capturePhoto", () => {
 
   it("sets order based on existing photos for the same finding", async () => {
     const existingPhotos: DraftPhoto[] = [
-      { id: "p-1", eventId: "evt-1", findingId: "f-1", photoType: "finding", url: null, caption: null, order: 0, uploaded: false },
-      { id: "p-2", eventId: "evt-1", findingId: "f-1", photoType: "finding", url: null, caption: null, order: 1, uploaded: false },
+      { id: "p-1", eventId: "evt-1", findingId: "f-1", photoType: "finding", url: null, caption: null, order: 0, uploaded: false, retries: 0 },
+      { id: "p-2", eventId: "evt-1", findingId: "f-1", photoType: "finding", url: null, caption: null, order: 1, uploaded: false, retries: 0 },
     ];
     mockGetPhotosByEvent.mockResolvedValueOnce(existingPhotos);
 
@@ -228,8 +228,8 @@ describe("capturePhoto", () => {
 
   it("counts only event-level photos when findingId is null", async () => {
     const existingPhotos: DraftPhoto[] = [
-      { id: "p-1", eventId: "evt-1", findingId: null, photoType: "vehicle", url: null, caption: null, order: 0, uploaded: false },
-      { id: "p-2", eventId: "evt-1", findingId: "f-1", photoType: "finding", url: null, caption: null, order: 0, uploaded: false },
+      { id: "p-1", eventId: "evt-1", findingId: null, photoType: "vehicle", url: null, caption: null, order: 0, uploaded: false, retries: 0 },
+      { id: "p-2", eventId: "evt-1", findingId: "f-1", photoType: "finding", url: null, caption: null, order: 0, uploaded: false, retries: 0 },
     ];
     mockGetPhotosByEvent.mockResolvedValueOnce(existingPhotos);
 

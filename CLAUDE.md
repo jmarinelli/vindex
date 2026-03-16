@@ -128,9 +128,19 @@ Do NOT start coding.
 **5. IMPLEMENT** — Execute the approved plan. Read the plan from `specs/plans/<feature-name>.md` and the specs it references. Write code and tests. Run tests. Report results and coverage.
 
 Note: this phase will typically run in a **new conversation** to maximize available context. When I say "implement the plan for <feature>" or "implement `specs/plans/<feature-name>.md`", read the plan file and execute it.
-→ **Stop. Wait for my review.**
+→ **Stop. Wait for my review.** After reporting, remind me that the next step is `/close`.
 
-**6. CLOSE** — After I approve: update `specs/implementation-plan.md` if needed, update "Current Phase" below, and delete the plan file from `specs/plans/`.
+**6. CLOSE** — After I approve: close the GitHub issue (if referenced in the plan file) and delete the plan file from `specs/plans/`.
+
+### Issue tracking across conversations
+
+If a feature originates from a GitHub issue, the issue number (e.g. `#42`) must be included at the top of every spec and plan file generated for that feature. This ensures any conversation can trace back to the issue. `/close` reads the issue number from the plan file and closes it. If there is no GitHub issue (feature was described in conversation), omit the reference — all phases work the same.
+
+### Entering mid-workflow
+
+If I say "implement `specs/plans/<name>.md`" or reference an existing plan file, you are entering at phase 5 (IMPLEMENT). After implementation is approved, proceed to phase 6 (CLOSE) — remind me that closing is the next step.
+
+The existence of a file in `specs/plans/` means that feature is in-progress. Phases 1–4 were completed in a prior conversation.
 
 ### Rules
 - Never skip a phase or combine phases.

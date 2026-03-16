@@ -78,6 +78,32 @@ describe("validateVin", () => {
     const result = validateVin(VALID_VIN);
     expect(result.valid).toBe(true);
   });
+
+  it("accepts non-North-American VIN without check digit validation (Argentina)", () => {
+    // 8A = Argentina; position 9 is not a check digit in this region
+    const result = validateVin("8AGBN68W0KR112794");
+    expect(result.valid).toBe(true);
+  });
+
+  it("accepts European VIN without check digit validation", () => {
+    // W = Germany; position 9 is a manufacturer descriptor
+    const result = validateVin("WVWZZZ3CZWE123456");
+    expect(result.valid).toBe(true);
+  });
+
+  it("still rejects North American VIN with invalid check digit", () => {
+    // Starts with 1 (USA) — check digit must be validated
+    const result = validateVin("1G1YY22G065104015");
+    expect(result.valid).toBe(false);
+    expect(result.error).toContain("dígito verificador");
+  });
+
+  it("still rejects Chinese VIN with invalid check digit", () => {
+    // Starts with L (China) — check digit must be validated
+    const result = validateVin("LSGJA52U0AH012345");
+    expect(result.valid).toBe(false);
+    expect(result.error).toContain("dígito verificador");
+  });
 });
 
 describe("decodeVin", () => {
