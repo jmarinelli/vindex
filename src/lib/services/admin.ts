@@ -1,4 +1,4 @@
-import { eq, count } from "drizzle-orm";
+import { eq, and, count } from "drizzle-orm";
 import { db } from "@/db";
 import {
   nodes,
