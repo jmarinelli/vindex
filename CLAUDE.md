@@ -89,52 +89,27 @@ GitHub Project: https://github.com/users/jmarinelli/projects/2
 
 All planned work lives as GitHub Issues in this project. Do not maintain a backlog in the codebase.
 
+## Quick Fix
+
+Use `/fix` for small, well-scoped changes that don't require spec updates (bug fixes, copy changes, small UI tweaks). `/fix` reads the issue/description, proposes the change, waits for confirmation, implements, and suggests a commit. No specs, plans, or changes files. If the change turns out to be complex, `/fix` will suggest switching to the full workflow.
+
 ## Feature Workflow
 
-When I say "let's work on <feature>", reference a GitHub issue, or ask to start a new feature, follow this phased workflow. **Complete only ONE phase at a time, then STOP and wait for my feedback before proceeding.**
+When I say "let's work on <feature>", reference a GitHub issue, or ask to start a new feature, follow the phased workflow defined in `.claude/commands/`. **Complete only ONE phase at a time, then STOP and wait for my feedback before proceeding.**
 
-### Phases
+When advancing to the next phase — whether via a slash command or a natural language prompt like "ok", "dale", "next" — always read and follow the corresponding command file in `.claude/commands/` for detailed instructions.
 
-**1. UNDERSTAND** — Read the GitHub issue (if referenced). Read all related existing specs (flows, UI, entities). Summarize back to me:
-- What the feature is
-- What existing specs and code it touches
-- Open questions or ambiguities
-
-Ask me to clarify anything. Do NOT write any specs yet.
-→ **Stop. Wait for my go-ahead.**
-
-**2. SPEC** — Write or update the relevant specs:
-- Flow spec (`specs/flows/`)
-- UI spec (`specs/ui/`)
-- Entity spec updates (`specs/entities/`) if schema changes are needed
-- Cross-reference against ALL existing specs and flag any conflicts or dependencies
-
-Present a summary of what you wrote/changed and what you flagged.
-→ **Stop. Wait for my review.** I may ask for changes before approving.
-
-**3. DESIGN** — If the feature has UI, create or update the `.pen` mockup (importing `design-system.pen`). If no UI, tell me and ask if I want to skip to PLAN.
-→ **Stop. Wait for my review.**
-
-**4. PLAN** — Write the implementation plan:
-- Specific files to create or modify
-- Services, components, validators, server actions
-- Test plan (what to test, expected coverage)
-
-Save the plan to `specs/plans/<feature-name>.md`. This file is the handoff artifact — it must be self-contained enough that a new conversation can implement it by reading only this file, the specs it references, and CLAUDE.md.
-
-Do NOT start coding.
-→ **Stop. Wait for my approval of the plan.**
-
-**5. IMPLEMENT** — Execute the approved plan. Read the plan from `specs/plans/<feature-name>.md` and the specs it references. Write code and tests. Run tests. Report results and coverage.
-
-Note: this phase will typically run in a **new conversation** to maximize available context. When I say "implement the plan for <feature>" or "implement `specs/plans/<feature-name>.md`", read the plan file and execute it.
-→ **Stop. Wait for my review.** After reporting, remind me that the next step is `/close`.
-
-**6. CLOSE** — After I approve: close the GitHub issue (if referenced in the plan file) and delete the plan file from `specs/plans/`.
+Phases in order:
+1. `/understand` — Analyze the feature, summarize, ask questions
+2. `/spec` — Write or update specs (flow, UI, entity)
+3. `/design` — Create or update visual mockups (skip if no UI)
+4. `/plan` — Write implementation plan to `specs/plans/<feature-name>.md`
+5. `/implement` — Execute the plan (typically in a new conversation)
+6. `/close` — Close GitHub issue (if applicable), delete plan file
 
 ### Issue tracking across conversations
 
-If a feature originates from a GitHub issue, the issue number (e.g. `#42`) must be included at the top of every spec and plan file generated for that feature. This ensures any conversation can trace back to the issue. `/close` reads the issue number from the plan file and closes it. If there is no GitHub issue (feature was described in conversation), omit the reference — all phases work the same.
+If a feature originates from a GitHub issue, the issue number (e.g. `#42`) is tracked in the **changes file** (`specs/plans/<feature-name>.changes.md`) and the **plan file** (`specs/plans/<feature-name>.md`). Do NOT add issue references to spec files — specs are permanent documents that outlive any single issue. `/close` reads the issue number from the plan file and closes it. If there is no GitHub issue (feature was described in conversation), omit the reference — all phases work the same.
 
 ### Entering mid-workflow
 

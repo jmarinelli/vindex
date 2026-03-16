@@ -35,6 +35,13 @@ export const updateTemplateSchema = z.object({
 
 // ─── Vehicle Schemas ────────────────────────────────────────────────────────
 
+export const lookupVehicleSchema = z.object({
+  vin: z
+    .string()
+    .length(17, "El VIN debe tener 17 caracteres.")
+    .regex(/^[A-HJ-NPR-Z0-9]+$/i, "El VIN contiene caracteres inválidos."),
+});
+
 export const vehicleEntrySchema = z.object({
   vin: z
     .string()
@@ -240,6 +247,7 @@ export const contactFormSchema = z.object({
 export type TemplateItem = z.infer<typeof templateItemSchema>;
 export type TemplateSection = z.infer<typeof templateSectionSchema>;
 export type UpdateTemplateInput = z.infer<typeof updateTemplateSchema>;
+export type LookupVehicleInput = z.infer<typeof lookupVehicleSchema>;
 export type VehicleEntryInput = z.infer<typeof vehicleEntrySchema>;
 export type CreateInspectionInput = z.infer<typeof createInspectionSchema>;
 export type UpdateFindingInput = z.infer<typeof updateFindingSchema>;

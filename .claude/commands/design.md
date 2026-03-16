@@ -14,7 +14,8 @@ $ARGUMENTS — optional design direction or constraints from the user. If empty,
    - If the project uses `.pen` files (Pencil), create/update the `.pen` mockup importing the design system.
    - If the project uses another tool, follow that convention.
    - If no design tooling exists, describe the layout in detail (component tree, spacing, responsive breakpoints) as a section in the UI spec.
-4. **Present what you designed** — describe the key screens/states and any design decisions.
+4. **Append to the changes file** (`specs/plans/<feature-name>.changes.md`). Add a `## DESIGN` section listing all mockup files created or modified and what changed in each.
+5. **Present what you designed** — describe the key screens/states and any design decisions.
 
 ## Rules
 

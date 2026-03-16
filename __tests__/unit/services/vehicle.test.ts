@@ -247,13 +247,13 @@ describe("countVehicleInspections", () => {
     queryResults = [];
   });
 
-  it("returns 0 when no inspections exist", async () => {
+  it("returns 0 when no signed inspections exist", async () => {
     queryResults = [[]];
     const count = await countVehicleInspections("vehicle-1");
     expect(count).toBe(0);
   });
 
-  it("returns the count of inspection events", async () => {
+  it("returns the count of signed inspection events", async () => {
     queryResults = [[{ id: "e1" }, { id: "e2" }, { id: "e3" }]];
     const count = await countVehicleInspections("vehicle-1");
     expect(count).toBe(3);

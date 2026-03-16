@@ -24,4 +24,5 @@ $ARGUMENTS — a feature description, GitHub issue number, or issue URL.
 - Keep the summary concise — bullet points, not essays.
 - If no existing specs are related, say so explicitly.
 - If the feature comes from a GitHub issue, note the issue number (e.g. `#42`). This number must be included in all specs and plans generated for this feature so it can be tracked across conversations.
+- If the feature looks simple enough that it doesn't need spec changes (bug fix, copy change, small UI tweak), suggest: "This looks like a quick fix — want to switch to `/fix`?"
 - End your response with: "Ready to proceed to SPEC when you are."

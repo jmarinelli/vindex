@@ -62,7 +62,7 @@
       "id": "pxta8",
       "x": 0,
       "y": 0,
-      "name": "Mobile — Step 1: Vehicle Identification",
+      "name": "Mobile — Step 1: Mode A (Existing Vehicle)",
       "width": 390,
       "height": 844,
       "fill": "$gray-50",
@@ -259,87 +259,305 @@
             },
             {
               "type": "frame",
-              "id": "GkbC1",
-              "name": "vehicleCard",
+              "id": "d5zmP",
+              "name": "vehicleDataSection",
               "width": "fill_container",
-              "fill": "$white",
-              "cornerRadius": "$radius-md",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$gray-200"
-              },
               "layout": "vertical",
-              "gap": 8,
-              "padding": 16,
+              "gap": 16,
               "children": [
                 {
                   "type": "frame",
-                  "id": "PQ5N9",
-                  "name": "vehicleHeader",
+                  "id": "qUTtK",
+                  "name": "infoBanner",
                   "width": "fill_container",
+                  "fill": "#EFF6FF",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BFDBFE"
+                  },
                   "gap": 8,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "1NdhQ",
-                      "name": "carIcon",
-                      "fill": "$gray-800",
-                      "content": "🚗",
-                      "fontFamily": "Inter",
-                      "fontSize": 20,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "text",
-                      "id": "OB9G3",
-                      "name": "vehicleName",
-                      "fill": "$gray-800",
-                      "content": "Nissan Sentra 2019 — SR",
-                      "fontFamily": "Inter",
-                      "fontSize": 16,
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "8K77e",
-                  "name": "vinEcho",
-                  "fill": "$gray-500",
-                  "content": "VIN: 3N1AB7AP5KY250312",
-                  "fontFamily": "Inter",
-                  "fontSize": 13,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "OenRO",
-                  "name": "infoRow",
-                  "width": "fill_container",
-                  "gap": 6,
+                  "padding": [
+                    10,
+                    12
+                  ],
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon_font",
-                      "id": "wK5YY",
-                      "name": "infoIcon",
-                      "width": 14,
-                      "height": 14,
+                      "id": "zkMCo",
+                      "name": "bnrIcon",
+                      "width": 16,
+                      "height": 16,
                       "iconFontName": "info",
                       "iconFontFamily": "lucide",
                       "fill": "$info"
                     },
                     {
                       "type": "text",
-                      "id": "qPFP0",
-                      "name": "infoText",
-                      "fill": "$info",
-                      "content": "Este vehículo ya tiene 2 inspecciones",
+                      "id": "neFSc",
+                      "name": "bnrText",
+                      "fill": "#1E40AF",
+                      "content": "Vehículo registrado — 2 inspección(es).",
                       "fontFamily": "Inter",
                       "fontSize": 13,
-                      "fontWeight": "normal"
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "eTOFm",
+                  "name": "row1",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "wIFls",
+                      "name": "makeGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "3UHv7",
+                          "name": "makeLbl",
+                          "fill": "$gray-700",
+                          "content": "Marca",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "6A5QA",
+                          "name": "makeInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$gray-100",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "RGie7",
+                              "name": "makeVal",
+                              "fill": "$gray-500",
+                              "content": "Nissan",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "zqXTJ",
+                              "name": "makeLck",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "B86Y0",
+                      "name": "modelGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FEyyq",
+                          "name": "modelLbl",
+                          "fill": "$gray-700",
+                          "content": "Modelo",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "7jZTN",
+                          "name": "modelInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$gray-100",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uJqoj",
+                              "name": "modelVal",
+                              "fill": "$gray-500",
+                              "content": "Sentra",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "nZkgu",
+                              "name": "modelLck",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iJ648",
+                  "name": "row2",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vFsr8",
+                      "name": "yearGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mHEBQ",
+                          "name": "yearLbl",
+                          "fill": "$gray-700",
+                          "content": "Año",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FpxbY",
+                          "name": "yearInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$gray-100",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sLntQ",
+                              "name": "yearVal",
+                              "fill": "$gray-500",
+                              "content": "2019",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "mZsxL",
+                              "name": "yearLck",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VTu0S",
+                      "name": "trimGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "sQppw",
+                          "name": "trimLbl",
+                          "fill": "$gray-700",
+                          "content": "Versión",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kblML",
+                          "name": "trimInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Gy491",
+                              "name": "trimPlc",
+                              "fill": "$gray-400",
+                              "content": "Ej: SR",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4155,7 +4373,7 @@
       "id": "cpKZ8",
       "x": 0,
       "y": 1000,
-      "name": "Desktop — Step 1: Vehicle Identification",
+      "name": "Desktop — Step 1: Mode A (Existing Vehicle)",
       "width": 1440,
       "height": 900,
       "fill": "$gray-50",
@@ -4361,85 +4579,305 @@
                 },
                 {
                   "type": "frame",
-                  "id": "mFClE",
-                  "name": "vehicleCard",
+                  "id": "zzbXG",
+                  "name": "vehicleDataSection",
                   "width": "fill_container",
-                  "fill": "$white",
-                  "cornerRadius": "$radius-md",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$gray-200"
-                  },
                   "layout": "vertical",
-                  "gap": 8,
-                  "padding": 20,
+                  "gap": 16,
                   "children": [
                     {
                       "type": "frame",
-                      "id": "qOtkU",
-                      "name": "vehRow",
+                      "id": "vaWvy",
+                      "name": "infoBanner",
+                      "width": "fill_container",
+                      "fill": "#EFF6FF",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#BFDBFE"
+                      },
                       "gap": 8,
+                      "padding": [
+                        10,
+                        12
+                      ],
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "icon_font",
-                          "id": "qGDnB",
-                          "name": "vIcon1",
-                          "width": 20,
-                          "height": 20,
-                          "iconFontName": "car",
-                          "iconFontFamily": "lucide",
-                          "fill": "$gray-600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "ht2SB",
-                          "name": "vName1",
-                          "fill": "$gray-800",
-                          "content": "Nissan Sentra 2019 — SR",
-                          "fontFamily": "Inter",
-                          "fontSize": 18,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "id": "tU3gx",
-                      "name": "vVin1",
-                      "fill": "$gray-500",
-                      "content": "VIN: 3N1AB7AP5KY250312",
-                      "fontFamily": "Inter",
-                      "fontSize": 14,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "yInGZ",
-                      "name": "infoRow",
-                      "gap": 6,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "sQS6o",
-                          "name": "vInfoIc1",
-                          "width": 14,
-                          "height": 14,
+                          "id": "oIODD",
+                          "name": "dBIcon",
+                          "width": 16,
+                          "height": 16,
                           "iconFontName": "info",
                           "iconFontFamily": "lucide",
                           "fill": "$info"
                         },
                         {
                           "type": "text",
-                          "id": "FUVHb",
-                          "name": "vInfoTxt1",
-                          "fill": "$info",
-                          "content": "Este vehículo ya tiene 2 inspecciones previas",
+                          "id": "V8GIA",
+                          "name": "dBText",
+                          "fill": "#1E40AF",
+                          "content": "Vehículo registrado — 2 inspección(es).",
                           "fontFamily": "Inter",
                           "fontSize": 13,
-                          "fontWeight": "normal"
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "7iCwi",
+                      "name": "row1",
+                      "width": "fill_container",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ivSbF",
+                          "name": "dMakeGrp",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "yxjJM",
+                              "name": "dMakeLbl",
+                              "fill": "$gray-700",
+                              "content": "Marca",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "NqJzc",
+                              "name": "dMakeInp",
+                              "width": "fill_container",
+                              "height": 44,
+                              "fill": "$gray-100",
+                              "cornerRadius": "$radius-sm",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "$gray-200"
+                              },
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "rvORl",
+                                  "name": "dMakeVal",
+                                  "fill": "$gray-500",
+                                  "content": "Nissan",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "icon_font",
+                                  "id": "6Bsz4",
+                                  "name": "dMakeLck",
+                                  "width": 14,
+                                  "height": 14,
+                                  "iconFontName": "lock",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "$gray-400"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ppGcr",
+                          "name": "dModelGrp",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "YQiny",
+                              "name": "dModelLbl",
+                              "fill": "$gray-700",
+                              "content": "Modelo",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "yuML9",
+                              "name": "dModelInp",
+                              "width": "fill_container",
+                              "height": 44,
+                              "fill": "$gray-100",
+                              "cornerRadius": "$radius-sm",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "$gray-200"
+                              },
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "CAVX4",
+                                  "name": "dModelVal",
+                                  "fill": "$gray-500",
+                                  "content": "Sentra",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "icon_font",
+                                  "id": "3FaX2",
+                                  "name": "dModelLck",
+                                  "width": 14,
+                                  "height": 14,
+                                  "iconFontName": "lock",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "$gray-400"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JNYnd",
+                      "name": "row2",
+                      "width": "fill_container",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bcCDN",
+                          "name": "dYearGrp",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "MV1E1",
+                              "name": "dYearLbl",
+                              "fill": "$gray-700",
+                              "content": "Año",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "juTeJ",
+                              "name": "dYearInp",
+                              "width": "fill_container",
+                              "height": 44,
+                              "fill": "$gray-100",
+                              "cornerRadius": "$radius-sm",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "$gray-200"
+                              },
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "O59EN",
+                                  "name": "dYearVal",
+                                  "fill": "$gray-500",
+                                  "content": "2019",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "icon_font",
+                                  "id": "re4ff",
+                                  "name": "dYearLck",
+                                  "width": 14,
+                                  "height": 14,
+                                  "iconFontName": "lock",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "$gray-400"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "RhHwq",
+                          "name": "dTrimGrp",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "0KC53",
+                              "name": "dTrimLbl",
+                              "fill": "$gray-700",
+                              "content": "Versión",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "7zQWS",
+                              "name": "dTrimInp",
+                              "width": "fill_container",
+                              "height": 44,
+                              "fill": "$white",
+                              "cornerRadius": "$radius-sm",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "$gray-200"
+                              },
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "amVZT",
+                                  "name": "dTrimPlc",
+                                  "fill": "$gray-400",
+                                  "content": "Ej: SR",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -6518,6 +6956,1191 @@
                   "iconFontName": "chevron-right",
                   "iconFontFamily": "lucide",
                   "fill": "$gray-700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3B48G",
+      "x": 2400,
+      "y": 0,
+      "name": "Mobile — Step 1: Mode B (New + Decoded)",
+      "width": 390,
+      "height": 844,
+      "fill": "$gray-50",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "CGjE3",
+          "name": "topBar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "uPH93",
+              "type": "ref",
+              "ref": "Cdk8l",
+              "name": "logo",
+              "x": 16,
+              "y": 14,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "U9LLi": {
+                  "y": 0
+                },
+                "phibl": {
+                  "x": 53
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "Dg4yE",
+              "name": "navTitle",
+              "fill": "$gray-700",
+              "content": "Nueva Inspección",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "ellipse",
+              "id": "PmQne",
+              "name": "avatar",
+              "fill": "$gray-300",
+              "width": 32,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1rNzp",
+          "name": "content",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "gCBdj",
+              "name": "backRow",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "HTiu7",
+                  "name": "backIcon",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "0V0Y7",
+                  "name": "backText",
+                  "fill": "$brand-primary",
+                  "content": "Dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "BQ7IC",
+              "name": "stepLabel",
+              "fill": "$gray-500",
+              "content": "Paso 1 de 2 — Vehículo",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "Y88dx",
+              "name": "vinSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GS917",
+                  "name": "vinLabel",
+                  "fill": "$gray-700",
+                  "content": "Número de VIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "GxxuH",
+                  "name": "vinInput",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 2,
+                    "fill": "$brand-accent"
+                  },
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "6oBF6",
+                      "name": "vinText",
+                      "fill": "$gray-800",
+                      "content": "JN1TBNT30Z0000180",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VBKUy",
+                  "name": "vinCounterRow",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "wsrIC",
+                      "name": "counterText",
+                      "fill": "$gray-500",
+                      "content": "17/17 caracteres",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "KNx26",
+                      "name": "validText",
+                      "fill": "$success",
+                      "content": "✓ Válido",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "vpBPt",
+              "name": "vehicleDataSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rXGy7",
+                  "name": "row1",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "6p898",
+                      "name": "makeGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "VkbHk",
+                          "name": "makeLbl",
+                          "fill": "$gray-700",
+                          "content": "Marca",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hPSZU",
+                          "name": "makeInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hMYoO",
+                              "name": "makeVal",
+                              "fill": "$gray-800",
+                              "content": "Nissan",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "IAL3q",
+                              "name": "makeLck",
+                              "enabled": false,
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nmXvU",
+                      "name": "modelGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "J2t1n",
+                          "name": "modelLbl",
+                          "fill": "$gray-700",
+                          "content": "Modelo",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "9rx8R",
+                          "name": "modelInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Qq6Hm",
+                              "name": "modelVal",
+                              "fill": "$gray-800",
+                              "content": "Sentra",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "9LN5W",
+                              "name": "modelLck",
+                              "enabled": false,
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zCY2I",
+                  "name": "row2",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ekd0v",
+                      "name": "yearGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i7Fkv",
+                          "name": "yearLbl",
+                          "fill": "$gray-700",
+                          "content": "Año",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XXVcN",
+                          "name": "yearInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "mlS2q",
+                              "name": "yearVal",
+                              "fill": "$gray-800",
+                              "content": "2019",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "vYiuP",
+                              "name": "yearLck",
+                              "enabled": false,
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hQcx9",
+                      "name": "trimGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Qy4nS",
+                          "name": "trimLbl",
+                          "fill": "$gray-700",
+                          "content": "Versión",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "VyL3J",
+                          "name": "trimInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "nFd5n",
+                              "name": "trimPlc",
+                              "fill": "$gray-800",
+                              "content": "SR",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kfqfB",
+              "name": "plateSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bpnY1",
+                  "name": "plateLabel",
+                  "fill": "$gray-700",
+                  "content": "Patente (opcional)",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "Y1LDV",
+                  "name": "plateInput",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "4Yhlt",
+                      "name": "plateText",
+                      "fill": "$gray-800",
+                      "content": "AC123BD",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "W6YEU",
+          "name": "saveBar",
+          "width": "fill_container",
+          "height": 72,
+          "fill": "$white",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0000000D",
+            "offset": {
+              "x": 0,
+              "y": -2
+            },
+            "blur": 4
+          },
+          "padding": [
+            12,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "8J9XP",
+              "name": "continueBtn",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qcH9n",
+                  "name": "continueTxt",
+                  "fill": "$white",
+                  "content": "Continuar",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "OWG2f",
+      "x": 2840,
+      "y": 0,
+      "name": "Mobile — Step 1: Mode C (New + Decode Failed)",
+      "width": 390,
+      "height": 844,
+      "fill": "$gray-50",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "NHR0S",
+          "name": "topBar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "MW0cZ",
+              "type": "ref",
+              "ref": "Cdk8l",
+              "name": "logo",
+              "x": 16,
+              "y": 14,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "U9LLi": {
+                  "y": 0
+                },
+                "phibl": {
+                  "x": 53
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "Lzk4e",
+              "name": "navTitle",
+              "fill": "$gray-700",
+              "content": "Nueva Inspección",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "ellipse",
+              "id": "mJxQL",
+              "name": "avatar",
+              "fill": "$gray-300",
+              "width": 32,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "X82pX",
+          "name": "content",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "jiGRN",
+              "name": "backRow",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "t1qjS",
+                  "name": "backIcon",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "$brand-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "0T4X8",
+                  "name": "backText",
+                  "fill": "$brand-primary",
+                  "content": "Dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "4PnIz",
+              "name": "stepLabel",
+              "fill": "$gray-500",
+              "content": "Paso 1 de 2 — Vehículo",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "xMVdS",
+              "name": "vinSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Br7NE",
+                  "name": "vinLabel",
+                  "fill": "$gray-700",
+                  "content": "Número de VIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "0v2uH",
+                  "name": "vinInput",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 2,
+                    "fill": "$brand-accent"
+                  },
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "1MTB9",
+                      "name": "vinText",
+                      "fill": "$gray-800",
+                      "content": "WVWZZZ3CZWE123456",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "d8hf2",
+                  "name": "vinCounterRow",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "felkR",
+                      "name": "counterText",
+                      "fill": "$gray-500",
+                      "content": "17/17 caracteres",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IwleE",
+                      "name": "validText",
+                      "fill": "$success",
+                      "content": "✓ Válido",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ZqlDq",
+              "name": "vehicleDataSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TEkmf",
+                  "name": "warnBanner",
+                  "width": "fill_container",
+                  "fill": "#FFFBEB",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#FDE68A"
+                  },
+                  "gap": 8,
+                  "padding": [
+                    10,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "HwhtM",
+                      "name": "wIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "triangle-alert",
+                      "iconFontFamily": "lucide",
+                      "fill": "$warning"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ezPcJ",
+                      "name": "wText",
+                      "fill": "#92400E",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "No se pudo decodificar el VIN. Podés ingresar los datos manualmente.",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nEyET",
+                  "name": "row1",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "MjIq8",
+                      "name": "makeGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "IUCAB",
+                          "name": "makeLbl",
+                          "fill": "$gray-700",
+                          "content": "Marca",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "1B7BP",
+                          "name": "makeInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "xg0D4",
+                              "name": "makeVal",
+                              "fill": "$gray-400",
+                              "content": "Ej: Nissan",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "hDCMF",
+                              "name": "makeLck",
+                              "enabled": false,
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "m0bNU",
+                      "name": "modelGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "D7TS9",
+                          "name": "modelLbl",
+                          "fill": "$gray-700",
+                          "content": "Modelo",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kfsWN",
+                          "name": "modelInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "rOgRY",
+                              "name": "modelVal",
+                              "fill": "$gray-400",
+                              "content": "Ej: Sentra",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "f69PV",
+                              "name": "modelLck",
+                              "enabled": false,
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dkz3N",
+                  "name": "row2",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jEMtQ",
+                      "name": "yearGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Txe9S",
+                          "name": "yearLbl",
+                          "fill": "$gray-700",
+                          "content": "Año",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZnxE8",
+                          "name": "yearInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NSXDA",
+                              "name": "yearVal",
+                              "fill": "$gray-400",
+                              "content": "Ej: 2019",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "DeQib",
+                              "name": "yearLck",
+                              "enabled": false,
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "lock",
+                              "iconFontFamily": "lucide",
+                              "fill": "$gray-400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "7pIc5",
+                      "name": "trimGrp",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "3QPZv",
+                          "name": "trimLbl",
+                          "fill": "$gray-700",
+                          "content": "Versión",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zzVvG",
+                          "name": "trimInp",
+                          "width": "fill_container",
+                          "height": 40,
+                          "fill": "$white",
+                          "cornerRadius": "$radius-sm",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$gray-200"
+                          },
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "csD2D",
+                              "name": "trimPlc",
+                              "fill": "$gray-400",
+                              "content": "Ej: SR",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ewxLu",
+              "name": "plateSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "FTMmF",
+                  "name": "plateLabel",
+                  "fill": "$gray-700",
+                  "content": "Patente (opcional)",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "0QCP4",
+                  "name": "plateInput",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Suqad",
+                      "name": "plateText",
+                      "fill": "$gray-800",
+                      "content": "AC123BD",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "odxbu",
+          "name": "saveBar",
+          "width": "fill_container",
+          "height": 72,
+          "fill": "$white",
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0000000D",
+            "offset": {
+              "x": 0,
+              "y": -2
+            },
+            "blur": 4
+          },
+          "padding": [
+            12,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "oHiRZ",
+              "name": "continueBtn",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YQ1Hd",
+                  "name": "continueTxt",
+                  "fill": "$white",
+                  "content": "Continuar",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
                 }
               ]
             }

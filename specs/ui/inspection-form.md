@@ -37,11 +37,17 @@ Three-step flow for creating and filling an inspection. Steps 1–2 use **Shell 
 │  └─────────────────────────────────────────────────┘    │
 │  17/17 caracteres                              ✓ Válido │
 │                                                         │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │ 🚗 Nissan Sentra 2019 — SR                     │    │
-│  │    VIN: 3N1AB7AP5KY250312                       │    │
-│  │    ℹ Este vehículo ya tiene 2 inspecciones      │    │
+│  ┌ ℹ Vehículo registrado — 2 inspección(es). ─────┐    │
 │  └─────────────────────────────────────────────────┘    │
+│                                                         │
+│  Marca                          Modelo                  │
+│  ┌──────────────────────┐      ┌──────────────────────┐ │
+│  │ Nissan          🔒   │      │ Sentra          🔒   │ │
+│  └──────────────────────┘      └──────────────────────┘ │
+│  Año                            Versión                 │
+│  ┌──────────────────────┐      ┌──────────────────────┐ │
+│  │ 2019            🔒   │      │ Ej: SR               │ │
+│  └──────────────────────┘      └──────────────────────┘ │
 │                                                         │
 │  Patente (opcional)                                     │
 │  ┌─────────────────────────────────────────────────┐    │
@@ -53,6 +59,8 @@ Three-step flow for creating and filling an inspection. Steps 1–2 use **Shell 
 └─────────────────────────────────────────────────────────┘
 ```
 
+*Note: 🔒 indicates read-only fields (existing vehicle, Mode A). In Mode B (new + decoded), fields are pre-filled but editable. In Mode C (new + decode failed), fields are empty and editable.*
+
 ### VIN Input
 
 | Element | Style | Behavior |
@@ -63,30 +71,35 @@ Three-step flow for creating and filling an inspection. Steps 1–2 use **Shell 
 | Valid indicator | `text-xs`, `success` color, "✓ Válido" | Shown only when VIN passes full validation |
 | Error message | `text-xs`, `error` color | Inline below input: specific error text |
 
-### Decoded Vehicle Card
-
-- Background: `gray-50`, `border-default`, `radius-md`.
-- Icon: car emoji or vehicle icon, `text-2xl`.
-- Vehicle name: `text-lg`, `font-medium`, `gray-800` — "{Make} {Model} {Year} — {Trim}".
-- VIN echo: `text-sm`, `gray-500`, monospace.
-- Existing inspections notice: `text-sm`, `info` color, with ℹ icon.
-
-### Decode Loading State
+### Lookup Loading State
 
 - Spinner icon next to the input field.
-- Text below: `text-sm`, `gray-500`, "Decodificando VIN...".
-- Continue button disabled during decode.
+- Text below: `text-sm`, `gray-500`, "Buscando VIN...".
+- Continue button disabled during lookup.
 
-### Decode Failure State
+### Vehicle Data Fields
 
-- Warning banner: `warning` background tint, `radius-sm`, `text-sm`.
-- Message: "No se pudo decodificar el VIN. Podés ingresar los datos manualmente."
-- Manual entry fields appear below:
-  - Make (text input, optional)
-  - Model (text input, optional)
-  - Year (number input, optional)
-  - Trim (text input, optional)
-- Each field: label + input, standard form styling.
+After VIN lookup completes, vehicle data fields are always visible. Their editability depends on the mode:
+
+**Mode A — Existing vehicle:**
+- Info banner: `info` background tint, `radius-sm`, `text-sm`. Message: "Vehículo registrado — {n} inspección(es)."
+- Fields with values: displayed as **read-only** styled inputs (`bg-gray-50`, `text-gray-500`, `cursor-not-allowed`). The value is visible but not editable.
+- Fields that are `null`: displayed as standard **editable** text inputs (same styling as Mode B/C).
+
+**Mode B — New vehicle, decode success:**
+- All four fields (Make, Model, Year, Trim) shown as **editable** text inputs, pre-filled with decoded values.
+- No banner.
+
+**Mode C — New vehicle, decode failure:**
+- Warning banner: `warning` background tint, `radius-sm`, `text-sm`. Message: "No se pudo decodificar el VIN. Podés ingresar los datos manualmente."
+- All four fields shown as **editable** text inputs, empty.
+
+**Field layout (shared across all modes):**
+- Make (text input, optional) — label: "Marca", placeholder: "Ej: Nissan"
+- Model (text input, optional) — label: "Modelo", placeholder: "Ej: Sentra"
+- Year (number input, optional) — label: "Año", placeholder: "Ej: 2019"
+- Trim (text input, optional) — label: "Versión", placeholder: "Ej: SR"
+- Each field: `text-sm` label, `font-medium`, `gray-700`. Standard input styling.
 
 ### Plate Input
 
@@ -479,25 +492,32 @@ The key principle: **same flow, more breathing room.** No layout changes that wo
 - No validation error yet (only shown after blur or when VIN = 17 chars but invalid).
 - Continue button disabled.
 
-#### 3. VIN Valid + Decoding
+#### 3. VIN Valid + Looking Up
 
 - VIN has 17 valid characters.
-- Spinner next to input, "Decodificando VIN..." below.
-- Continue button disabled during decode.
+- Spinner next to input, "Buscando VIN..." below.
+- Continue button disabled during lookup.
 
-#### 4. VIN Valid + Decoded
+#### 4. VIN Valid + Existing Vehicle (Mode A)
 
-- Decoded vehicle card visible with make/model/year/trim.
+- Info banner with inspection count.
+- Vehicle data fields visible: populated fields read-only, null fields editable.
 - Character counter shows "17/17 caracteres ✓ Válido".
 - Continue button enabled.
 
-#### 5. VIN Valid + Decode Failed
+#### 5. VIN Valid + New Vehicle, Decoded (Mode B)
+
+- All four vehicle data fields visible, editable, pre-filled with decoded values.
+- Character counter shows "17/17 caracteres ✓ Válido".
+- Continue button enabled.
+
+#### 6. VIN Valid + New Vehicle, Decode Failed (Mode C)
 
 - Warning banner visible.
-- Manual entry fields (Make, Model, Year, Trim) visible below.
+- All four vehicle data fields visible, editable, empty.
 - Continue button enabled (manual data is optional).
 
-#### 6. VIN Invalid
+#### 7. VIN Invalid
 
 - Inline error below input with specific message.
 - Continue button disabled.
@@ -599,8 +619,9 @@ From `specs/ui/design-system.md`:
 
 | Action | Trigger | Result |
 |--------|---------|--------|
-| Enter VIN | Type in VIN input | Auto-uppercase, validate, decode on 17 chars |
-| Continue (Step 1) | Tap Continue button | Create/find vehicle, navigate to Step 2 |
+| Enter VIN | Type in VIN input | Auto-uppercase, validate, lookup DB + decode NHTSA on 17 chars |
+| Edit vehicle field | Type in editable vehicle field | Updates local state (Mode B/C: all fields; Mode A: only null fields) |
+| Continue (Step 1) | Tap Continue button | Create/find vehicle (only fills null fields for existing), navigate to Step 2 |
 | Select inspection type | Tap radio option | Radio selected, visual update |
 | Select requested by | Tap radio option | Radio selected, visual update |
 | Enter odometer | Type number | Number input with numeric keyboard |
@@ -625,8 +646,8 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | Component / State | Test Cases |
 |-------------------|------------|
 | **Step 1 — VIN input** | Input renders with placeholder · Auto-uppercase on type · Character counter updates · Valid VIN shows "✓ Válido" · Invalid chars (I, O, Q) show error · Continue disabled when invalid · Continue enabled when valid |
-| **Step 1 — VIN decode** | Decode triggers at 17 chars · Loading spinner shown · Success populates vehicle card · Failure shows warning + manual fields · Existing vehicle shows inspection count |
-| **Step 1 — Continue** | Calls findOrCreateVehicle · Navigates to Step 2 on success · Shows error toast on failure |
+| **Step 1 — VIN lookup** | Lookup triggers at 17 chars · Loading spinner shown · Existing vehicle (Mode A): populated fields read-only, null fields editable, info banner with count · New + decoded (Mode B): all fields editable and pre-filled · New + decode failed (Mode C): warning banner, all fields editable and empty |
+| **Step 1 — Continue** | Calls findOrCreateVehicle · Navigates to Step 2 on success · Shows error toast on failure · Existing vehicle: only sends editable (null) field values |
 | **Step 2 — Radio groups** | Renders 4 options each · Default selections correct · Tap changes selection · Only one selected per group |
 | **Step 2 — Odometer** | Renders number input · Accepts positive numbers · Rejects zero/negative · Shows error for invalid |
 | **Step 2 — Date** | Defaults to today · Accepts valid dates · Native date picker |

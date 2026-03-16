@@ -8,8 +8,9 @@ $ARGUMENTS — optional constraints or scope adjustments from the user.
 
 ## Instructions
 
-1. **Read the approved specs** — flow spec, UI spec, entity spec changes written in the SPEC phase. Also read the design mockup if one was created.
-2. **Read the project conventions** — `CLAUDE.md` and `specs/architecture.md` (or equivalent) for stack, naming, patterns, and testing requirements.
+1. **Read the changes file** — `specs/plans/<feature-name>.changes.md`. This lists all specs and mockups created or modified in the SPEC and DESIGN phases, with summaries of what changed. Use this as your guide for what needs to be implemented.
+2. **Read the referenced specs and mockups** listed in the changes file.
+3. **Read the project conventions** — `CLAUDE.md` and `specs/architecture.md` (or equivalent) for stack, naming, patterns, and testing requirements.
 3. **Write the implementation plan** with these sections:
 
 ### Plan Structure

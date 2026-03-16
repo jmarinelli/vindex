@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { vehicleEntrySchema } from "@/lib/validators";
+import { lookupVehicleSchema, vehicleEntrySchema } from "@/lib/validators";
 import * as vehicleService from "@/lib/services/vehicle";
 
 type ActionResult<T = unknown> = {
@@ -9,6 +9,65 @@ type ActionResult<T = unknown> = {
   data?: T;
   error?: string;
 };
+
+export async function lookupVehicleAction(
+  input: unknown
+): Promise<
+  ActionResult<{
+    vehicle: {
+      id: string;
+      vin: string;
+      make: string | null;
+      model: string | null;
+      year: number | null;
+      trim: string | null;
+      plate: string | null;
+    };
+    inspectionCount: number;
+  } | null>
+> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, error: "No autenticado." };
+  }
+
+  const parsed = lookupVehicleSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    const vehicle = await vehicleService.findVehicleByVin(parsed.data.vin);
+    if (!vehicle) {
+      return { success: true, data: null };
+    }
+
+    const inspectionCount = await vehicleService.countVehicleInspections(
+      vehicle.id
+    );
+
+    return {
+      success: true,
+      data: {
+        vehicle: {
+          id: vehicle.id,
+          vin: vehicle.vin,
+          make: vehicle.make,
+          model: vehicle.model,
+          year: vehicle.year,
+          trim: vehicle.trim,
+          plate: vehicle.plate,
+        },
+        inspectionCount,
+      },
+    };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al buscar el vehículo.";
+    return { success: false, error: message };
+  }
+}
 
 export async function findOrCreateVehicleAction(
   input: unknown

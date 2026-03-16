@@ -3,22 +3,25 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Loader2, Car, Info } from "lucide-react";
+import { Loader2, Info, AlertTriangle, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { validateVin, sanitizeVin, decodeVin } from "@/lib/vin";
-import { findOrCreateVehicleAction } from "@/lib/actions/vehicle";
+import {
+  lookupVehicleAction,
+  findOrCreateVehicleAction,
+} from "@/lib/actions/vehicle";
 
-interface VehicleInfo {
-  id?: string;
-  make: string | null;
-  model: string | null;
-  year: number | null;
-  trim: string | null;
-  inspectionCount?: number;
+type VehicleMode = "idle" | "loading" | "mode-a" | "mode-b" | "mode-c";
+
+interface FieldState {
+  value: string;
+  locked: boolean;
 }
+
+const emptyField = (): FieldState => ({ value: "", locked: false });
 
 export default function InspectPage() {
   const router = useRouter();
@@ -27,17 +30,26 @@ export default function InspectPage() {
   const [vinError, setVinError] = useState<string | null>(null);
   const [vinValid, setVinValid] = useState(false);
 
-  const [decoding, setDecoding] = useState(false);
-  const [decodeFailed, setDecodeFailed] = useState(false);
-  const [vehicleInfo, setVehicleInfo] = useState<VehicleInfo | null>(null);
+  const [mode, setMode] = useState<VehicleMode>("idle");
+  const [inspectionCount, setInspectionCount] = useState(0);
 
-  const [manualMake, setManualMake] = useState("");
-  const [manualModel, setManualModel] = useState("");
-  const [manualYear, setManualYear] = useState("");
-  const [manualTrim, setManualTrim] = useState("");
+  const [make, setMake] = useState<FieldState>(emptyField());
+  const [model, setModel] = useState<FieldState>(emptyField());
+  const [year, setYear] = useState<FieldState>(emptyField());
+  const [trim, setTrim] = useState<FieldState>(emptyField());
 
-  const [plate, setPlate] = useState("");
+  const [plate, setPlate] = useState<FieldState>(emptyField());
   const [submitting, setSubmitting] = useState(false);
+
+  const resetFields = useCallback(() => {
+    setMode("idle");
+    setInspectionCount(0);
+    setMake(emptyField());
+    setModel(emptyField());
+    setYear(emptyField());
+    setTrim(emptyField());
+    setPlate(emptyField());
+  }, []);
 
   const handleVinChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,8 +57,7 @@ export default function InspectPage() {
       if (sanitized.length > 17) return;
       setVin(sanitized);
       setVinError(null);
-      setDecodeFailed(false);
-      setVehicleInfo(null);
+      resetFields();
 
       if (sanitized.length < 17) {
         setVinValid(false);
@@ -61,41 +72,80 @@ export default function InspectPage() {
       }
 
       setVinValid(true);
+      setMode("loading");
 
-      setDecoding(true);
-      const decoded = await decodeVin(sanitized);
-      setDecoding(false);
+      const [dbResult, nhtsaResult] = await Promise.allSettled([
+        lookupVehicleAction({ vin: sanitized }),
+        decodeVin(sanitized),
+      ]);
 
-      if (decoded && (decoded.make || decoded.model)) {
-        setVehicleInfo(decoded);
+      const dbData =
+        dbResult.status === "fulfilled" && dbResult.value.success
+          ? dbResult.value.data
+          : null;
+      const decoded =
+        nhtsaResult.status === "fulfilled" ? nhtsaResult.value : null;
+
+      if (dbData?.vehicle) {
+        // Mode A — existing vehicle
+        const v = dbData.vehicle;
+        setMode("mode-a");
+        setInspectionCount(dbData.inspectionCount);
+        setMake(
+          v.make
+            ? { value: v.make, locked: true }
+            : { value: "", locked: false }
+        );
+        setModel(
+          v.model
+            ? { value: v.model, locked: true }
+            : { value: "", locked: false }
+        );
+        setYear(
+          v.year != null
+            ? { value: String(v.year), locked: true }
+            : { value: "", locked: false }
+        );
+        setTrim(
+          v.trim
+            ? { value: v.trim, locked: true }
+            : { value: "", locked: false }
+        );
+        setPlate(
+          v.plate
+            ? { value: v.plate, locked: true }
+            : { value: "", locked: false }
+        );
+      } else if (decoded && (decoded.make || decoded.model)) {
+        // Mode B — new vehicle, NHTSA decoded
+        setMode("mode-b");
+        setMake({ value: decoded.make ?? "", locked: false });
+        setModel({ value: decoded.model ?? "", locked: false });
+        setYear({
+          value: decoded.year != null ? String(decoded.year) : "",
+          locked: false,
+        });
+        setTrim({ value: decoded.trim ?? "", locked: false });
       } else {
-        setDecodeFailed(true);
+        // Mode C — new vehicle, decode failed
+        setMode("mode-c");
       }
     },
-    []
+    [resetFields]
   );
 
   const handleContinue = async () => {
     if (!vinValid) return;
     setSubmitting(true);
 
-    const vehicleData = decodeFailed
-      ? {
-          vin,
-          make: manualMake || null,
-          model: manualModel || null,
-          year: manualYear ? parseInt(manualYear, 10) : null,
-          trim: manualTrim || null,
-          plate: plate || null,
-        }
-      : {
-          vin,
-          make: vehicleInfo?.make ?? null,
-          model: vehicleInfo?.model ?? null,
-          year: vehicleInfo?.year ?? null,
-          trim: vehicleInfo?.trim ?? null,
-          plate: plate || null,
-        };
+    const vehicleData = {
+      vin,
+      make: make.value || null,
+      model: model.value || null,
+      year: year.value ? parseInt(year.value, 10) : null,
+      trim: trim.value || null,
+      plate: plate.value || null,
+    };
 
     const result = await findOrCreateVehicleAction(vehicleData);
     setSubmitting(false);
@@ -117,11 +167,7 @@ export default function InspectPage() {
     router.push("/dashboard/inspect/metadata");
   };
 
-  const vehicleName = vehicleInfo
-    ? [vehicleInfo.make, vehicleInfo.model, vehicleInfo.year]
-        .filter(Boolean)
-        .join(" ")
-    : null;
+  const showFields = mode === "mode-a" || mode === "mode-b" || mode === "mode-c";
 
   return (
     <ShellDashboard title="Nueva Inspección">
@@ -153,7 +199,7 @@ export default function InspectPage() {
               autoFocus
               autoComplete="off"
             />
-            {decoding && (
+            {mode === "loading" && (
               <Loader2 className="absolute right-3 top-3 h-4 w-4 animate-spin text-gray-400" />
             )}
           </div>
@@ -171,73 +217,72 @@ export default function InspectPage() {
             <p className="text-xs text-error mt-1">{vinError}</p>
           )}
 
-          {decoding && (
-            <p className="text-sm text-gray-500 mt-2">Decodificando VIN...</p>
+          {mode === "loading" && (
+            <p className="text-sm text-gray-500 mt-2">Buscando VIN...</p>
           )}
         </div>
 
-        {/* Decoded Vehicle Card */}
-        {vehicleInfo && !decodeFailed && (
-          <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-md">
-            <div className="flex items-start gap-3">
-              <Car className="h-6 w-6 text-gray-500 mt-0.5 shrink-0" />
-              <div>
-                <p className="text-lg font-medium text-gray-800">
-                  {vehicleName}
-                  {vehicleInfo.trim ? ` — ${vehicleInfo.trim}` : ""}
-                </p>
-                <p className="text-sm text-gray-500 font-mono">{`VIN: ${vin}`}</p>
-                {vehicleInfo.inspectionCount !== undefined &&
-                  vehicleInfo.inspectionCount > 0 && (
-                    <p className="text-sm text-info mt-1 flex items-center gap-1">
-                      <Info className="h-3.5 w-3.5" />
-                      {`Este vehículo ya tiene ${vehicleInfo.inspectionCount} inspección(es)`}
-                    </p>
-                  )}
-              </div>
-            </div>
+        {/* Mode A — Info Banner */}
+        {mode === "mode-a" && inspectionCount > 0 && (
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md text-sm text-blue-800 flex items-center gap-2">
+            <Info className="h-4 w-4 shrink-0" />
+            Vehículo registrado — {inspectionCount} inspección(es).
           </div>
         )}
 
-        {/* Decode Failure — Manual Entry */}
-        {decodeFailed && (
+        {/* Mode C — Warning Banner */}
+        {mode === "mode-c" && (
+          <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md text-sm text-amber-800 flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 shrink-0" />
+            No se pudo decodificar el VIN. Podés ingresar los datos manualmente.
+          </div>
+        )}
+
+        {/* Vehicle Data Fields — always visible after lookup */}
+        {showFields && (
           <div className="mb-6">
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-md text-sm text-amber-800 mb-4">
-              No se pudo decodificar el VIN. Podés ingresar los datos manualmente.
-            </div>
-            <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Marca</label>
-                <Input value={manualMake} onChange={(e) => setManualMake(e.target.value)} placeholder="Ej: Nissan" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
-                <Input value={manualModel} onChange={(e) => setManualModel(e.target.value)} placeholder="Ej: Sentra" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Año</label>
-                <Input type="number" value={manualYear} onChange={(e) => setManualYear(e.target.value)} placeholder="Ej: 2019" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Versión</label>
-                <Input value={manualTrim} onChange={(e) => setManualTrim(e.target.value)} placeholder="Ej: SR" />
-              </div>
+            <div className="grid grid-cols-2 gap-3">
+              <VehicleField
+                id="vehicle-make"
+                label="Marca"
+                placeholder="Ej: Nissan"
+                field={make}
+                onChange={(v) => setMake({ ...make, value: v })}
+              />
+              <VehicleField
+                id="vehicle-model"
+                label="Modelo"
+                placeholder="Ej: Sentra"
+                field={model}
+                onChange={(v) => setModel({ ...model, value: v })}
+              />
+              <VehicleField
+                id="vehicle-year"
+                label="Año"
+                placeholder="Ej: 2019"
+                field={year}
+                type="number"
+                onChange={(v) => setYear({ ...year, value: v })}
+              />
+              <VehicleField
+                id="vehicle-trim"
+                label="Versión"
+                placeholder="Ej: SR"
+                field={trim}
+                onChange={(v) => setTrim({ ...trim, value: v })}
+              />
             </div>
           </div>
         )}
 
         {/* Plate Input */}
         <div className="mb-6">
-          <label htmlFor="plate-input" className="block text-sm font-medium text-gray-700 mb-1">
-            Patente (opcional)
-          </label>
-          <Input
+          <VehicleField
             id="plate-input"
-            value={plate}
-            onChange={(e) => setPlate(e.target.value.toUpperCase())}
+            label="Patente (opcional)"
             placeholder="Ej: AC123BD"
-            maxLength={20}
-            className="uppercase"
+            field={plate}
+            onChange={(v) => setPlate({ ...plate, value: v.toUpperCase() })}
           />
         </div>
 
@@ -245,7 +290,7 @@ export default function InspectPage() {
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 sm:static sm:border-0 sm:bg-transparent sm:p-0">
           <Button
             onClick={handleContinue}
-            disabled={!vinValid || submitting || decoding}
+            disabled={!vinValid || submitting || mode === "loading"}
             className="w-full h-12 text-base"
           >
             {submitting ? (
@@ -262,5 +307,50 @@ export default function InspectPage() {
         <div className="h-20 sm:hidden" />
       </div>
     </ShellDashboard>
+  );
+}
+
+function VehicleField({
+  id,
+  label,
+  placeholder,
+  field,
+  type = "text",
+  onChange,
+}: {
+  id: string;
+  label: string;
+  placeholder: string;
+  field: FieldState;
+  type?: "text" | "number";
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium text-gray-700 mb-1"
+      >
+        {label}
+      </label>
+      <div className="relative">
+        <Input
+          id={id}
+          type={type}
+          value={field.value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={field.locked ? undefined : placeholder}
+          readOnly={field.locked}
+          className={
+            field.locked
+              ? "bg-gray-100 text-gray-500 cursor-not-allowed pr-8"
+              : ""
+          }
+        />
+        {field.locked && (
+          <Lock className="absolute right-2.5 top-2.5 h-4 w-4 text-gray-400" />
+        )}
+      </div>
+    </div>
   );
 }

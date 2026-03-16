@@ -115,13 +115,15 @@ export async function findOrCreateVehicle(params: {
 }
 
 /**
- * Count the number of events (inspections) for a vehicle.
+ * Count the number of signed inspections for a vehicle.
  */
 export async function countVehicleInspections(vehicleId: string): Promise<number> {
   const result = await db
     .select()
     .from(events)
-    .where(eq(events.vehicleId, vehicleId));
+    .where(
+      and(eq(events.vehicleId, vehicleId), eq(events.status, "signed"))
+    );
   return result.length;
 }
 

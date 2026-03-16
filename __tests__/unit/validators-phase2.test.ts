@@ -1,9 +1,41 @@
 import { describe, it, expect } from "vitest";
 import {
+  lookupVehicleSchema,
   vehicleEntrySchema,
   createInspectionSchema,
   updateFindingSchema,
 } from "@/lib/validators";
+
+describe("lookupVehicleSchema", () => {
+  it("accepts valid 17-char VIN", () => {
+    const result = lookupVehicleSchema.safeParse({ vin: "1G1YY22G965104015" });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects VIN too short", () => {
+    const result = lookupVehicleSchema.safeParse({ vin: "123456" });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects VIN too long", () => {
+    const result = lookupVehicleSchema.safeParse({
+      vin: "1G1YY22G965104015X",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects VIN with I, O, Q", () => {
+    const result = lookupVehicleSchema.safeParse({
+      vin: "1G1YY22GI65104015",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects missing VIN", () => {
+    const result = lookupVehicleSchema.safeParse({});
+    expect(result.success).toBe(false);
+  });
+});
 
 describe("vehicleEntrySchema", () => {
   const validEntry = {

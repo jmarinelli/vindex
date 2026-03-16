@@ -11,7 +11,10 @@ $ARGUMENTS — optional: the feature name or plan file path.
 1. **Identify the feature** from arguments or the current conversation context.
 2. **Read the plan file** (`specs/plans/<feature-name>.md`) to check for a `GitHub Issue:` reference.
 3. **Close the GitHub issue** (if one is referenced in the plan file) using `gh issue close <number>`.
-4. **Delete the plan file** from `specs/plans/<feature-name>.md` — the specs and code are the permanent artifacts, the plan was a transient handoff document.
+4. **Delete transient files** from `specs/plans/`:
+   - `specs/plans/<feature-name>.md` (the plan)
+   - `specs/plans/<feature-name>.changes.md` (the changes log)
+   The specs and code are the permanent artifacts; plan and changes were transient handoff documents.
 5. **Report** what was closed and cleaned up.
 
 ## Rules

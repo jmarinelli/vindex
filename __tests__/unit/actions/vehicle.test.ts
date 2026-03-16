@@ -10,15 +10,20 @@ vi.mock("@/lib/auth", () => ({
 
 const mockFindOrCreateVehicle = vi.fn();
 const mockCountVehicleInspections = vi.fn();
+const mockFindVehicleByVin = vi.fn();
 vi.mock("@/lib/services/vehicle", () => ({
   findOrCreateVehicle: (...args: unknown[]) =>
     mockFindOrCreateVehicle(...args),
   countVehicleInspections: (...args: unknown[]) =>
     mockCountVehicleInspections(...args),
+  findVehicleByVin: (...args: unknown[]) => mockFindVehicleByVin(...args),
 }));
 
 // Import after mocking
-import { findOrCreateVehicleAction } from "@/lib/actions/vehicle";
+import {
+  lookupVehicleAction,
+  findOrCreateVehicleAction,
+} from "@/lib/actions/vehicle";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -209,5 +214,83 @@ describe("findOrCreateVehicleAction", () => {
       success: false,
       error: "Error al procesar el vehículo.",
     });
+  });
+});
+
+// ─── lookupVehicleAction ──────────────────────────────────────────────────────
+
+describe("lookupVehicleAction", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns error when not authenticated", async () => {
+    mockAuth.mockResolvedValue(null);
+
+    const result = await lookupVehicleAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({ success: false, error: "No autenticado." });
+  });
+
+  it("returns validation error for invalid VIN", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+
+    const result = await lookupVehicleAction({ vin: "SHORT" });
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+  });
+
+  it("returns null data when vehicle not found", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+    mockFindVehicleByVin.mockResolvedValue(null);
+
+    const result = await lookupVehicleAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({ success: true, data: null });
+    expect(mockFindVehicleByVin).toHaveBeenCalledWith("ABCDE12345678901X");
+  });
+
+  it("returns vehicle data and inspection count when found", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+    const vehicle = {
+      id: "v1",
+      vin: "ABCDE12345678901X",
+      make: "Toyota",
+      model: "Corolla",
+      year: 2020,
+      trim: null,
+      plate: "AB123CD",
+    };
+    mockFindVehicleByVin.mockResolvedValue(vehicle);
+    mockCountVehicleInspections.mockResolvedValue(2);
+
+    const result = await lookupVehicleAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({
+      success: true,
+      data: {
+        vehicle: {
+          id: "v1",
+          vin: "ABCDE12345678901X",
+          make: "Toyota",
+          model: "Corolla",
+          year: 2020,
+          trim: null,
+          plate: "AB123CD",
+        },
+        inspectionCount: 2,
+      },
+    });
+    expect(mockCountVehicleInspections).toHaveBeenCalledWith("v1");
+  });
+
+  it("returns error when service throws", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+    mockFindVehicleByVin.mockRejectedValue(new Error("DB error"));
+
+    const result = await lookupVehicleAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({ success: false, error: "DB error" });
   });
 });

@@ -45,15 +45,28 @@ Required sections:
 
 1. Read existing specs in `specs/` to understand current state and conventions.
 2. Determine which spec types are needed for this feature (may be one or more).
-3. Write or update the relevant specs following the structures above exactly. If the feature originated from a GitHub issue, include `GitHub Issue: #<number>` at the top of every spec file created or updated for this feature.
+3. Write or update the relevant specs following the structures above exactly. Do NOT add issue references or tracking metadata to spec files — specs are permanent documents that outlive any single issue.
 4. **Cross-reference against ALL existing specs.** Specifically check:
    - Entity conflicts: does the new/changed schema break existing relations or invariants?
    - Flow conflicts: does the new flow contradict preconditions or postconditions of existing flows?
    - UI conflicts: does the new screen reuse components in a way that conflicts with existing usage?
-5. Present a summary:
+5. **Write a changes file** to `specs/plans/<feature-name>.changes.md` (create if it doesn't exist, append if it does). Record all files created or modified in this phase under a `## SPEC` section. Include a one-line summary of what changed in each file. If the feature has a GitHub issue, include it at the top.
+6. Present a summary:
    - Files created or updated (with paths)
    - Key decisions made
    - Conflicts or dependencies flagged (if any)
+
+## Changes file format
+
+```markdown
+# Changes: <feature-name>
+GitHub Issue: #<number> (if applicable)
+
+## SPEC
+- Created/Modified `specs/flows/<name>.md` — <what changed>
+- Created/Modified `specs/entities/<name>.md` — <what changed>
+- Created/Modified `specs/ui/<name>.md` — <what changed>
+```
 
 ## Rules
 
