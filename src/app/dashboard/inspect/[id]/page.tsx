@@ -13,7 +13,7 @@ import { PhotoCapture } from "@/components/inspection/photo-capture";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDraftAction, updateFindingAction, deleteEventPhotoAction } from "@/lib/actions/inspection";
 import { useOfflineStatus, useAutoSave, useDraft, usePhotoUpload } from "@/offline/hooks";
-import { saveDraft as saveLocalDraft, deletePhoto, savePhoto, localDb } from "@/offline/dexie";
+import { saveDraft as saveLocalDraft, deletePhoto, savePhoto, getFindingsByEvent, localDb } from "@/offline/dexie";
 import { capturePhoto } from "@/offline/photo-queue";
 import type { DraftInspection, DraftFinding, FindingStatus, TemplateSnapshot } from "@/types/inspection";
 
@@ -56,7 +56,13 @@ export default function FieldModePage() {
       // Try local draft first
       if (draft) {
         setTemplateSnapshot(draft.templateSnapshot);
-        setFindings(draft.findings);
+
+        // Merge findings: draft has the full set, localDb.findings has offline edits (#16)
+        const localFindings = await getFindingsByEvent(eventId);
+        const localMap = new Map(localFindings.map((f) => [f.id, f]));
+        const mergedFindings = draft.findings.map((f) => localMap.get(f.id) ?? f);
+        setFindings(mergedFindings);
+
         setVehicleName(draft.vehicleName);
         setActiveSectionIndex(draft.lastSectionIndex ?? 0);
         // Photos are loaded by usePhotoUpload hook
