@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Loader2, WifiOff } from "lucide-react";
-import type { SyncStatus } from "@/offline/hooks";
+import type { SyncStatus } from "@/offline/sync-provider";
 
 const SYNC_CONFIG: Record<
   SyncStatus,

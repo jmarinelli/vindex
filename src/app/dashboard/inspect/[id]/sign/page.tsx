@@ -12,6 +12,8 @@ import {
   signInspectionAction,
 } from "@/lib/actions/inspection";
 import { useOfflineStatus, usePhotoUpload, useDraft } from "@/offline/hooks";
+import { useSyncStatus } from "@/offline/sync-provider";
+import { clearInspectionData } from "@/offline/dexie";
 import type { FindingStatus, TemplateSnapshot } from "@/types/inspection";
 import type { InspectionFinding, Vehicle, Event, InspectionDetail, EventPhoto } from "@/db/schema";
 
@@ -83,6 +85,7 @@ export default function ReviewSignPage() {
   const params = useParams();
   const eventId = params.id as string;
   const isOnline = useOfflineStatus();
+  const { triggerSync } = useSyncStatus();
 
   const { draft } = useDraft(eventId);
   const {
@@ -90,7 +93,7 @@ export default function ReviewSignPage() {
     pendingCount,
     failedCount,
     retryFailed,
-  } = usePhotoUpload(eventId, isOnline);
+  } = usePhotoUpload(eventId, triggerSync);
 
   const [loading, setLoading] = useState(true);
   const [signing, setSigning] = useState(false);
@@ -214,6 +217,7 @@ export default function ReviewSignPage() {
     try {
       const result = await signInspectionAction({ eventId });
       if (result.success) {
+        await clearInspectionData(eventId);
         router.replace(`/dashboard/inspect/${eventId}/signed`);
       } else {
         toast.error(result.error ?? "Error al firmar. Intentá de nuevo.");

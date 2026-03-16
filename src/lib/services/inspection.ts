@@ -872,10 +872,27 @@ export async function getInspectionsForNode(
   // 5. Build list items
   const items: InspectionListItem[] = filtered.map((r) => {
     const findings = findingsByEvent.get(r.event.id) ?? [];
+
+    // Build set of free_text item IDs from template snapshot
+    const snapshot = r.detail.templateSnapshot as { sections?: Array<{ items?: Array<{ id: string; type: string }> }> } | null;
+    const freeTextItemIds = new Set<string>();
+    if (snapshot?.sections) {
+      for (const section of snapshot.sections) {
+        for (const item of section.items ?? []) {
+          if (item.type === "free_text") freeTextItemIds.add(item.id);
+        }
+      }
+    }
+
+    // Checklist items: evaluated when status !== "not_evaluated"
+    // Free text items: evaluated when they have observation text
     const total = findings.length;
-    const evaluated = findings.filter(
-      (f) => f.status !== "not_evaluated"
-    ).length;
+    const evaluated = findings.filter((f) => {
+      if (freeTextItemIds.has(f.itemId)) {
+        return f.observation && f.observation.trim().length > 0;
+      }
+      return f.status !== "not_evaluated";
+    }).length;
     const good = findings.filter((f) => f.status === "good").length;
     const attention = findings.filter((f) => f.status === "attention").length;
     const critical = findings.filter((f) => f.status === "critical").length;

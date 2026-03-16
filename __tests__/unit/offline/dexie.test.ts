@@ -1,39 +1,38 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { DraftInspection, DraftFinding, DraftPhoto } from "@/types/inspection";
-import type { SyncQueueItem } from "@/offline/dexie";
 
 // ─── Hoisted mocks (available inside vi.mock factory) ────────────────────────
 
 const {
   mockPut,
   mockGet,
-  mockAdd,
   mockDelete,
   mockToArray,
   mockEquals,
   mockWhere,
+  mockDeleteCollection,
 } = vi.hoisted(() => {
+  const mockDeleteCollection = vi.fn().mockResolvedValue(0);
   const mockToArray = vi.fn().mockResolvedValue([]);
-  const mockEquals = vi.fn().mockReturnValue({ toArray: mockToArray });
+  const mockEquals = vi.fn().mockReturnValue({ toArray: mockToArray, delete: mockDeleteCollection });
   const mockWhere = vi.fn().mockReturnValue({ equals: mockEquals });
   return {
     mockPut: vi.fn().mockResolvedValue(undefined),
     mockGet: vi.fn(),
-    mockAdd: vi.fn().mockResolvedValue(undefined),
     mockDelete: vi.fn().mockResolvedValue(undefined),
     mockToArray,
     mockEquals,
     mockWhere,
+    mockDeleteCollection,
   };
 });
 
 vi.mock("dexie", () => {
   return {
     default: class FakeDexie {
-      drafts = { put: mockPut, get: mockGet };
-      findings = { put: mockPut, where: mockWhere };
-      photos = { put: mockPut, where: mockWhere, delete: mockDelete };
-      syncQueue = { add: mockAdd, toArray: mockToArray, delete: mockDelete };
+      drafts = { put: mockPut, get: mockGet, delete: mockDelete };
+      findings = { put: mockPut, where: mockWhere, toArray: mockToArray };
+      photos = { put: mockPut, where: mockWhere, delete: mockDelete, toArray: mockToArray };
 
       constructor() {}
       version() {
@@ -51,9 +50,7 @@ import {
   getFindingsByEvent,
   savePhoto,
   getPhotosByEvent,
-  enqueueSyncItem,
-  dequeueSyncItems,
-  removeSyncItem,
+  clearInspectionData,
 } from "@/offline/dexie";
 
 // ─── Test data factories ─────────────────────────────────────────────────────
@@ -70,8 +67,7 @@ function makeDraft(overrides?: Partial<DraftInspection>): DraftInspection {
     eventDate: "2026-01-01",
     slug: "toyota-corolla-2020",
     templateSnapshot: { templateId: "t-1", templateName: "Standard", sections: [] },
-    findings: [],
-    photos: [],
+    findingsSeeded: true,
     lastSectionIndex: 0,
     updatedAt: new Date().toISOString(),
     syncedAt: null,
@@ -87,6 +83,7 @@ function makeFinding(overrides?: Partial<DraftFinding>): DraftFinding {
     itemId: "i-1",
     status: "good",
     observation: null,
+    syncedAt: null,
     ...overrides,
   };
 }
@@ -112,7 +109,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   // Re-wire mockWhere chain after clearAllMocks
   mockWhere.mockReturnValue({ equals: mockEquals });
-  mockEquals.mockReturnValue({ toArray: mockToArray });
+  mockEquals.mockReturnValue({ toArray: mockToArray, delete: mockDeleteCollection });
 });
 
 describe("saveDraft", () => {
@@ -187,35 +184,12 @@ describe("getPhotosByEvent", () => {
   });
 });
 
-describe("enqueueSyncItem", () => {
-  it("adds item to syncQueue", async () => {
-    const item = {
-      type: "finding" as const,
-      payload: { findingId: "f-1", status: "good" },
-      createdAt: new Date().toISOString(),
-      retries: 0,
-    };
-    await enqueueSyncItem(item);
-    expect(mockAdd).toHaveBeenCalledWith(item);
-  });
-});
+describe("clearInspectionData", () => {
+  it("deletes draft, findings, and photos for eventId", async () => {
+    await clearInspectionData("evt-1");
 
-describe("dequeueSyncItems", () => {
-  it("returns all items from syncQueue", async () => {
-    const items: SyncQueueItem[] = [
-      { id: 1, type: "finding", payload: {}, createdAt: "2026-01-01", retries: 0 },
-      { id: 2, type: "photo", payload: {}, createdAt: "2026-01-01", retries: 1 },
-    ];
-    mockToArray.mockResolvedValueOnce(items);
-
-    const result = await dequeueSyncItems();
-    expect(result).toEqual(items);
-  });
-});
-
-describe("removeSyncItem", () => {
-  it("deletes item by id", async () => {
-    await removeSyncItem(42);
-    expect(mockDelete).toHaveBeenCalledWith(42);
+    expect(mockDelete).toHaveBeenCalledWith("evt-1");
+    expect(mockWhere).toHaveBeenCalledWith("eventId");
+    expect(mockDeleteCollection).toHaveBeenCalled();
   });
 });

@@ -3,19 +3,10 @@ import type { DraftFinding, DraftInspection, DraftPhoto } from "@/types/inspecti
 
 // ─── Dexie Database Definition ──────────────────────────────────────────────
 
-export interface SyncQueueItem {
-  id?: number;
-  type: "finding" | "photo";
-  payload: Record<string, unknown>;
-  createdAt: string;
-  retries: number;
-}
-
 class VindexDB extends Dexie {
   drafts!: EntityTable<DraftInspection, "id">;
   findings!: EntityTable<DraftFinding, "id">;
   photos!: EntityTable<DraftPhoto, "id">;
-  syncQueue!: EntityTable<SyncQueueItem, "id">;
 
   constructor() {
     super("vindex");
@@ -59,6 +50,44 @@ class VindexDB extends Dexie {
       photos: "id, eventId, findingId, photoType, serverPhotoId",
       syncQueue: "++id, type, createdAt",
     });
+
+    this.version(5).stores({
+      drafts: "id, nodeId, updatedAt",
+      findings: "id, eventId, [eventId+sectionId], syncedAt",
+      photos: "id, eventId, findingId, photoType, serverPhotoId",
+      syncQueue: null, // DROP TABLE
+    }).upgrade(async (tx) => {
+      // Migrate embedded findings from drafts to findings table
+      const drafts = await tx.table("drafts").toArray();
+      for (const draft of drafts) {
+        if (draft.findings && Array.isArray(draft.findings)) {
+          for (const f of draft.findings) {
+            const existing = await tx.table("findings").get(f.id);
+            if (!existing) {
+              await tx.table("findings").put({ ...f, syncedAt: null });
+            }
+          }
+          delete draft.findings;
+          delete draft.photos;
+          draft.findingsSeeded = true;
+          await tx.table("drafts").put(draft);
+        }
+      }
+      // Add syncedAt to existing findings
+      await tx.table("findings").toCollection().modify((f: DraftFinding) => {
+        if (f.syncedAt === undefined) f.syncedAt = null;
+      });
+    });
+
+    this.version(6).stores({
+      drafts: "id, nodeId, updatedAt",
+      findings: "id, eventId, [eventId+sectionId], syncedAt",
+      photos: "id, eventId, findingId, photoType, serverPhotoId",
+    }).upgrade((tx) => {
+      return tx.table("photos").toCollection().modify((photo: DraftPhoto) => {
+        if (photo.deletedAt === undefined) photo.deletedAt = null;
+      });
+    });
   }
 }
 
@@ -87,21 +116,41 @@ export async function savePhoto(photo: DraftPhoto): Promise<void> {
 }
 
 export async function getPhotosByEvent(eventId: string): Promise<DraftPhoto[]> {
-  return localDb.photos.where("eventId").equals(eventId).toArray();
+  const all = await localDb.photos.where("eventId").equals(eventId).toArray();
+  return all.filter((p) => !p.deletedAt);
 }
 
 export async function deletePhoto(photoId: string): Promise<void> {
-  await localDb.photos.delete(photoId);
+  const photo = await localDb.photos.get(photoId);
+  if (!photo) return;
+  // If never uploaded to server, hard-delete immediately
+  if (!photo.serverPhotoId) {
+    await localDb.photos.delete(photoId);
+  } else {
+    // Soft-delete — sync worker will handle server deletion
+    await localDb.photos.update(photoId, { deletedAt: new Date().toISOString() });
+  }
 }
 
-export async function enqueueSyncItem(item: Omit<SyncQueueItem, "id">): Promise<void> {
-  await localDb.syncQueue.add(item);
+// ─── Sync Helpers ───────────────────────────────────────────────────────────
+
+export async function clearInspectionData(eventId: string): Promise<void> {
+  await localDb.drafts.delete(eventId);
+  await localDb.findings.where("eventId").equals(eventId).delete();
+  await localDb.photos.where("eventId").equals(eventId).delete();
 }
 
-export async function dequeueSyncItems(): Promise<SyncQueueItem[]> {
-  return localDb.syncQueue.toArray();
+export async function getUnsyncedFindings(): Promise<DraftFinding[]> {
+  const all = await localDb.findings.toArray();
+  return all.filter((f) => f.syncedAt === null);
 }
 
-export async function removeSyncItem(id: number): Promise<void> {
-  await localDb.syncQueue.delete(id);
+export async function getUnsyncedPhotos(): Promise<DraftPhoto[]> {
+  const all = await localDb.photos.toArray();
+  return all.filter((p) => !p.uploaded && !p.deletedAt && p.blob && p.retries < 3);
+}
+
+export async function getPendingPhotoDeletions(): Promise<DraftPhoto[]> {
+  const all = await localDb.photos.toArray();
+  return all.filter((p) => !!p.deletedAt && !!p.serverPhotoId);
 }

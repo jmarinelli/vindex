@@ -11,9 +11,10 @@ import { ChecklistItemCard } from "@/components/inspection/checklist-item-card";
 import { FreeTextItemCard } from "@/components/inspection/free-text-item-card";
 import { PhotoCapture } from "@/components/inspection/photo-capture";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getDraftAction, updateFindingAction, deleteEventPhotoAction } from "@/lib/actions/inspection";
-import { useOfflineStatus, useAutoSave, useDraft, usePhotoUpload } from "@/offline/hooks";
-import { saveDraft as saveLocalDraft, deletePhoto, savePhoto, getFindingsByEvent, localDb } from "@/offline/dexie";
+import { getDraftAction } from "@/lib/actions/inspection";
+import { useOfflineStatus, useDraft, usePhotoUpload } from "@/offline/hooks";
+import { useSyncStatus } from "@/offline/sync-provider";
+import { saveDraft as saveLocalDraft, saveFinding, deletePhoto, savePhoto, getFindingsByEvent, localDb } from "@/offline/dexie";
 import { capturePhoto } from "@/offline/photo-queue";
 import type { DraftInspection, DraftFinding, FindingStatus, TemplateSnapshot } from "@/types/inspection";
 
@@ -24,6 +25,7 @@ export default function FieldModePage() {
   const searchParams = useSearchParams();
 
   const isOnline = useOfflineStatus();
+  const { syncStatus, triggerSync } = useSyncStatus();
 
   // Core state
   const [loading, setLoading] = useState(true);
@@ -36,32 +38,29 @@ export default function FieldModePage() {
   // Vehicle photos section state
   const [vehiclePhotosExpanded, setVehiclePhotosExpanded] = useState(false);
 
-  // Draft & auto-save
-  const { draft, setDraft } = useDraft(eventId);
-  const { syncStatus, saveFindingStatus, saveObservation } = useAutoSave(draft, isOnline);
+  // Draft
+  const { draft, loading: draftLoading, setDraft } = useDraft(eventId);
 
-  // Photo upload
+  // Photos
   const {
     photos,
-    uploadingPhotoIds,
-    uploadPhoto,
     retryPhoto,
     refreshPhotos,
-  } = usePhotoUpload(eventId, isOnline);
+  } = usePhotoUpload(eventId, triggerSync);
 
 
   // Load inspection data
   useEffect(() => {
+    if (draftLoading) return;  // Wait for Dexie lookup to finish
+
     async function load() {
       // Try local draft first
       if (draft) {
         setTemplateSnapshot(draft.templateSnapshot);
 
-        // Merge findings: draft has the full set, localDb.findings has offline edits (#16)
+        // Load findings from findings table (single source of truth)
         const localFindings = await getFindingsByEvent(eventId);
-        const localMap = new Map(localFindings.map((f) => [f.id, f]));
-        const mergedFindings = draft.findings.map((f) => localMap.get(f.id) ?? f);
-        setFindings(mergedFindings);
+        setFindings(localFindings);
 
         setVehicleName(draft.vehicleName);
         setActiveSectionIndex(draft.lastSectionIndex ?? 0);
@@ -91,7 +90,13 @@ export default function FieldModePage() {
         itemId: f.itemId,
         status: (f.status as FindingStatus) ?? "not_evaluated",
         observation: f.observation,
+        syncedAt: new Date().toISOString(),
       }));
+
+      // Seed findings into findings table individually
+      for (const f of draftFindings) {
+        await saveFinding(f);
+      }
 
       const localDraft: DraftInspection = {
         id: event.id,
@@ -104,8 +109,7 @@ export default function FieldModePage() {
         eventDate: event.eventDate,
         slug: event.slug,
         templateSnapshot: snapshot,
-        findings: draftFindings,
-        photos: [],
+        findingsSeeded: true,
         lastSectionIndex: 0,
         updatedAt: new Date().toISOString(),
         syncedAt: new Date().toISOString(),
@@ -148,7 +152,7 @@ export default function FieldModePage() {
     }
 
     load();
-  }, [eventId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [eventId, draftLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const sections = useMemo(() => templateSnapshot?.sections ?? [], [templateSnapshot]);
 
@@ -205,16 +209,12 @@ export default function FieldModePage() {
 
       const finding = findings.find((f) => f.id === findingId);
       if (finding) {
-        const updated = { ...finding, status };
-        await saveFindingStatus(updated);
-
-        // Sync to server if online
-        if (isOnline) {
-          updateFindingAction({ findingId, status }).catch(() => {});
-        }
+        const updated = { ...finding, status, syncedAt: null };
+        await saveFinding(updated);
+        triggerSync();
       }
     },
-    [findings, saveFindingStatus, isOnline]
+    [findings, triggerSync]
   );
 
   // Handle observation change (already debounced in the card)
@@ -226,41 +226,38 @@ export default function FieldModePage() {
 
       const finding = findings.find((f) => f.id === findingId);
       if (finding) {
-        const updated = { ...finding, observation };
-        await saveObservation(updated);
-
-        if (isOnline) {
-          updateFindingAction({ findingId, observation }).catch(() => {});
-        }
+        const updated = { ...finding, observation, syncedAt: null };
+        await saveFinding(updated);
+        triggerSync();
       }
     },
-    [findings, saveObservation, isOnline]
+    [findings, triggerSync]
   );
 
   // Handle finding photo capture
   const handlePhotoCapture = useCallback(
     async (findingId: string, file: File) => {
       try {
-        const photo = await capturePhoto({
+        await capturePhoto({
           file,
           eventId,
           findingId,
           photoType: "finding",
         });
         await refreshPhotos();
-        if (isOnline) uploadPhoto(photo);
+        triggerSync();
       } catch {
         toast.error("Error al capturar la foto.");
       }
     },
-    [eventId, refreshPhotos, isOnline, uploadPhoto]
+    [eventId, refreshPhotos, triggerSync]
   );
 
   // Handle vehicle photo capture
   const handleVehiclePhoto = useCallback(
     async (file: File) => {
       try {
-        const photo = await capturePhoto({
+        await capturePhoto({
           file,
           eventId,
           findingId: null,
@@ -268,26 +265,22 @@ export default function FieldModePage() {
         });
         await refreshPhotos();
         setVehiclePhotosExpanded(true);
-        if (isOnline) uploadPhoto(photo);
+        triggerSync();
       } catch {
         toast.error("Error al capturar la foto.");
       }
     },
-    [eventId, refreshPhotos, isOnline, uploadPhoto]
+    [eventId, refreshPhotos, triggerSync]
   );
 
-  // Handle photo deletion — removes from Dexie and server (if uploaded)
+  // Handle photo deletion — soft-deletes in Dexie, sync worker handles server
   const handleDeletePhoto = useCallback(
     async (photoId: string) => {
-      const photo = photos.find((p) => p.id === photoId);
       await deletePhoto(photoId);
       await refreshPhotos();
-      // Also delete from server if it was already uploaded
-      if (photo?.serverPhotoId && isOnline) {
-        deleteEventPhotoAction({ photoId: photo.serverPhotoId }).catch(() => {});
-      }
+      triggerSync();
     },
-    [photos, refreshPhotos, isOnline]
+    [refreshPhotos, triggerSync]
   );
 
   // Section navigation
@@ -308,12 +301,8 @@ export default function FieldModePage() {
     router.push("/dashboard");
   };
 
-  const handleFinishReview = async () => {
-    // Save draft locally, then navigate to review & sign page (Step 4)
-    if (draft) {
-      const updated = { ...draft, findings, updatedAt: new Date().toISOString() };
-      await saveLocalDraft(updated);
-    }
+  const handleFinishReview = () => {
+    // Findings already persisted individually, just navigate
     router.push(`/dashboard/inspect/${eventId}/sign`);
   };
 
@@ -416,7 +405,7 @@ export default function FieldModePage() {
                 onDelete={handleDeletePhoto}
                 onRetry={retryPhoto}
                 isOnline={isOnline}
-                uploadingPhotoIds={uploadingPhotoIds}
+
               />
             </div>
           )}
@@ -445,7 +434,7 @@ export default function FieldModePage() {
                 onPhotoDelete={handleDeletePhoto}
                 onPhotoRetry={retryPhoto}
                 isOnline={isOnline}
-                uploadingPhotoIds={uploadingPhotoIds}
+
               />
             );
           }
@@ -462,7 +451,6 @@ export default function FieldModePage() {
               onPhotoDelete={handleDeletePhoto}
               onPhotoRetry={retryPhoto}
               isOnline={isOnline}
-              uploadingPhotoIds={uploadingPhotoIds}
             />
           );
         })}

@@ -30,6 +30,7 @@ function makeFinding(overrides?: Partial<DraftFinding>): DraftFinding {
     itemId: "item-1",
     status: "not_evaluated",
     observation: null,
+    syncedAt: null,
     ...overrides,
   };
 }

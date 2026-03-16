@@ -19,6 +19,7 @@ export interface DraftFinding {
   itemId: string;
   status: FindingStatus;
   observation: string | null;
+  syncedAt: string | null;
 }
 
 export type PhotoType = "finding" | "vehicle";
@@ -36,6 +37,8 @@ export interface DraftPhoto {
   retries: number;
   /** Server-side event_photos.id — set after successful upload+save */
   serverPhotoId?: string;
+  /** Soft-delete marker — photo pending server deletion via sync worker */
+  deletedAt?: string | null;
 }
 
 export interface DraftInspection {
@@ -49,8 +52,7 @@ export interface DraftInspection {
   eventDate: string;
   slug: string;
   templateSnapshot: TemplateSnapshot;
-  findings: DraftFinding[];
-  photos: DraftPhoto[];
+  findingsSeeded: boolean;
   lastSectionIndex: number;
   updatedAt: string;
   syncedAt: string | null;

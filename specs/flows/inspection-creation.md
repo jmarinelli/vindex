@@ -198,41 +198,35 @@ Items are displayed as vertically stacked cards within the active section.
 
 ### Local-First Data Flow
 
-```
-User action (status change, observation text, photo capture)
-  → Write to Dexie (IndexedDB) immediately
-  → Status changes: saved immediately
-  → Text changes: debounced 500ms
-  → Photo captures: saved as blob immediately
-  → Queue sync operation
-  → If online: sync to server via server action
-  → If offline: queue persists, syncs when connectivity returns
-```
+Every user action writes to Dexie immediately:
+- Status changes → `saveFinding()` with `syncedAt: null`
+- Observations → debounced 500ms, then `saveFinding()` with `syncedAt: null`
+- Photo captures → compressed blob saved to `localDb.photos` with `uploaded: false`
+
+The global sync worker (mounted at dashboard layout) picks up dirty records and syncs to the server. No direct server calls from the form — all server communication goes through the sync worker.
 
 ### Draft Persistence
 
-- Every change is written to Dexie first, then queued for server sync.
-- Closing the browser, refreshing, or device shutdown → draft intact in IndexedDB.
-- Reopening the app → draft loads from Dexie, not the server.
-- Draft list is visible on the dashboard.
+- The `drafts` table stores inspection metadata (vehicle, template snapshot, section index). No embedded findings or photos.
+- The `findings` table stores individual finding records. Each record has a `syncedAt` timestamp — null means unsynced.
+- The `photos` table stores photo metadata and upload state.
+- Closing the browser, refreshing, or device shutdown → all data intact in IndexedDB.
+- Reopening the app → draft metadata loads from `localDb.drafts`, findings from `localDb.findings`.
 
 ### Photo Handling
 
-1. Inspector taps camera → device camera opens (native file input with `capture="environment"`).
-2. Photo captured → client-side compression (canvas API, target ~500KB–1MB).
-3. Compressed blob saved to Dexie immediately → thumbnail displayed in the form.
-4. If online: upload to Cloudinary in background → on success, update the EventPhoto record with the Cloudinary URL.
-5. If offline: blob stays in Dexie → queued for upload when connectivity returns.
-6. Upload indicator on thumbnail:
-   - Uploading: subtle progress overlay.
-   - Failed: red border + retry icon.
-   - Local only (offline): cloud-off icon overlay.
-   - Uploaded: no indicator (clean thumbnail).
+(unchanged from current spec)
+
+### Sync Indicator
+
+- **Saved locally:** data persisted in Dexie, pending sync.
+- **Syncing:** sync worker is processing dirty records.
+- **Synced:** all records synced to server, queue empty.
+- **Offline:** no connectivity. Changes saved locally, will sync on reconnect.
 
 ### Conflict Resolution
 
 - Last-write-wins for all fields.
-- The Dexie draft is the primary copy during editing. Server is the backup.
 - No multi-device concurrent editing expected (inspector uses one phone).
 
 ---
@@ -316,11 +310,12 @@ Inspector selects metadata, taps "Iniciar Inspección"
 ```
 Inspector changes status / types observation / captures photo
   → Write to Dexie immediately (debounced for text)
-  → Queue sync:
-    → Server action: updateFinding({ findingId, status?, observation? })
-    → Server action: uploadPhoto({ eventId, findingId?, photoType, blob })
-  → If online: sync immediately
-  → If offline: queue for later
+  → Mark record as dirty (syncedAt: null for findings, uploaded: false for photos)
+  → Notify sync worker via triggerSync()
+  → Sync worker processes queue:
+    → Findings: updateFindingAction({ findingId, status, observation })
+    → Photos: uploadToCloudinary → saveEventPhotoAction
+  → On success: mark synced (syncedAt = now() / uploaded = true)
 ```
 
 ---
@@ -363,7 +358,8 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 | **Photo capture** | Camera button triggers file input · Thumbnail appears after capture · Upload indicator states · Long-press to delete |
 | **Bottom bar** | Previous/Next navigate sections · Disabled at boundaries |
 | **Sync indicator** | Shows correct state (saved/syncing/synced/offline) · Transitions between states |
-| **Auto-save hooks** | `useAutoSave` debounces text at 500ms · `useDraft` loads from Dexie · `useOfflineStatus` reflects connectivity |
+| **Auto-save hooks** | `useDraft` loads from Dexie with loading state · `useOfflineStatus` reflects connectivity · `usePhotoUpload` manages photo lifecycle |
+| **Sync provider** | `SyncProvider` processes queue on mount · Processes on offline→online · `triggerSync()` nudges worker · `useSyncStatus` returns correct state |
 
 ### Offline Tests
 
@@ -371,7 +367,7 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 |----------|-------|
 | **Dexie persistence** | Draft saved to IndexedDB · Draft loads on page refresh · Finding updates persist locally · Photo blobs persist |
 | **Photo queue** | Photo queued when offline · Upload resumes on reconnect · Failed upload retries with backoff · Queue cleared after successful upload |
-| **Sync queue** | Changes queued when offline · Queue processed on reconnect · Order preserved · Failed syncs retried |
+| **Sync queue** | Findings with `syncedAt: null` are synced on reconnect · Photos with `uploaded: false` are uploaded on reconnect · Order preserved · Failed syncs retried on next cycle |
 
 ---
 

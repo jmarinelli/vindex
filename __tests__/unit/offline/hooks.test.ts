@@ -1,29 +1,25 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act, waitFor } from "@testing-library/react";
-import type { DraftInspection, DraftFinding } from "@/types/inspection";
+import type { DraftInspection } from "@/types/inspection";
 
 // ─── Mock dexie module ──────────────────────────────────────────────────────
 
 const mockSaveDraft = vi.fn().mockResolvedValue(undefined);
 const mockGetDraft = vi.fn().mockResolvedValue(undefined);
-const mockSaveFinding = vi.fn().mockResolvedValue(undefined);
-const mockEnqueueSyncItem = vi.fn().mockResolvedValue(undefined);
 
 vi.mock("@/offline/dexie", () => ({
   saveDraft: (...args: unknown[]) => mockSaveDraft(...args),
   getDraft: (...args: unknown[]) => mockGetDraft(...args),
-  saveFinding: (...args: unknown[]) => mockSaveFinding(...args),
-  enqueueSyncItem: (...args: unknown[]) => mockEnqueueSyncItem(...args),
+  saveFinding: vi.fn().mockResolvedValue(undefined),
   getPhotosByEvent: vi.fn().mockResolvedValue([]),
   localDb: { photos: { update: vi.fn().mockResolvedValue(undefined) } },
 }));
 
 vi.mock("@/offline/photo-upload", () => ({
-  processPhotoQueue: vi.fn().mockResolvedValue(undefined),
   uploadAndSavePhoto: vi.fn().mockResolvedValue(true),
 }));
 
-import { useOfflineStatus, useDraft, useAutoSave } from "@/offline/hooks";
+import { useOfflineStatus, useDraft } from "@/offline/hooks";
 
 // ─── Factories ───────────────────────────────────────────────────────────────
 
@@ -39,23 +35,10 @@ function makeDraft(overrides?: Partial<DraftInspection>): DraftInspection {
     eventDate: "2026-01-01",
     slug: "toyota-corolla-2020",
     templateSnapshot: { templateId: "t-1", templateName: "Standard", sections: [] },
-    findings: [],
-    photos: [],
+    findingsSeeded: true,
     lastSectionIndex: 0,
     updatedAt: "2026-01-01T00:00:00.000Z",
     syncedAt: null,
-    ...overrides,
-  };
-}
-
-function makeFinding(overrides?: Partial<DraftFinding>): DraftFinding {
-  return {
-    id: "f-1",
-    eventId: "evt-1",
-    sectionId: "s-1",
-    itemId: "i-1",
-    status: "good",
-    observation: null,
     ...overrides,
   };
 }
@@ -183,162 +166,5 @@ describe("useDraft", () => {
     });
 
     expect(mockSaveDraft).not.toHaveBeenCalled();
-  });
-});
-
-// ─── useAutoSave ─────────────────────────────────────────────────────────────
-
-describe("useAutoSave", () => {
-  it("returns saved as initial syncStatus", () => {
-    const draft = makeDraft();
-    const { result } = renderHook(() => useAutoSave(draft, true));
-    expect(result.current.syncStatus).toBe("saved");
-  });
-
-  it("sets status to offline when not online", async () => {
-    const draft = makeDraft();
-    const { result, rerender } = renderHook(
-      ({ isOnline }) => useAutoSave(draft, isOnline),
-      { initialProps: { isOnline: true } }
-    );
-
-    rerender({ isOnline: false });
-
-    await waitFor(() => {
-      expect(result.current.syncStatus).toBe("offline");
-    });
-  });
-
-  describe("saveFindingStatus", () => {
-    it("saves finding and enqueues sync when online", async () => {
-      const draft = makeDraft();
-      const finding = makeFinding({ status: "critical" });
-
-      const { result } = renderHook(() => useAutoSave(draft, true));
-
-      await act(async () => {
-        await result.current.saveFindingStatus(finding);
-      });
-
-      expect(mockSaveFinding).toHaveBeenCalledWith(finding);
-      expect(mockEnqueueSyncItem).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: "finding",
-          payload: { findingId: "f-1", status: "critical" },
-          retries: 0,
-        })
-      );
-      expect(result.current.syncStatus).toBe("synced");
-    });
-
-    it("transitions back to saved after 2s timeout", async () => {
-      vi.useFakeTimers();
-      const draft = makeDraft();
-      const finding = makeFinding();
-
-      const { result } = renderHook(() => useAutoSave(draft, true));
-
-      await act(async () => {
-        await result.current.saveFindingStatus(finding);
-      });
-
-      expect(result.current.syncStatus).toBe("synced");
-
-      act(() => {
-        vi.advanceTimersByTime(2000);
-      });
-
-      expect(result.current.syncStatus).toBe("saved");
-      vi.useRealTimers();
-    });
-
-    it("sets status to offline when not online", async () => {
-      const draft = makeDraft();
-      const finding = makeFinding();
-
-      const { result } = renderHook(() => useAutoSave(draft, false));
-
-      await act(async () => {
-        await result.current.saveFindingStatus(finding);
-      });
-
-      expect(mockSaveFinding).toHaveBeenCalledWith(finding);
-      expect(mockEnqueueSyncItem).not.toHaveBeenCalled();
-      expect(result.current.syncStatus).toBe("offline");
-    });
-  });
-
-  describe("saveObservation", () => {
-    it("saves finding and enqueues sync with observation payload", async () => {
-      const draft = makeDraft();
-      const finding = makeFinding({ observation: "Scratch on panel" });
-
-      const { result } = renderHook(() => useAutoSave(draft, true));
-
-      await act(async () => {
-        await result.current.saveObservation(finding);
-      });
-
-      expect(mockSaveFinding).toHaveBeenCalledWith(finding);
-      expect(mockEnqueueSyncItem).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: "finding",
-          payload: { findingId: "f-1", observation: "Scratch on panel" },
-        })
-      );
-    });
-
-    it("sets status to offline when not online", async () => {
-      const draft = makeDraft();
-      const finding = makeFinding({ observation: "Scratch" });
-
-      const { result } = renderHook(() => useAutoSave(draft, false));
-
-      await act(async () => {
-        await result.current.saveObservation(finding);
-      });
-
-      expect(mockEnqueueSyncItem).not.toHaveBeenCalled();
-      expect(result.current.syncStatus).toBe("offline");
-    });
-
-    it("transitions back to saved after 2s timeout", async () => {
-      vi.useFakeTimers();
-      const draft = makeDraft();
-      const finding = makeFinding({ observation: "Note" });
-
-      const { result } = renderHook(() => useAutoSave(draft, true));
-
-      await act(async () => {
-        await result.current.saveObservation(finding);
-      });
-
-      expect(result.current.syncStatus).toBe("synced");
-
-      act(() => {
-        vi.advanceTimersByTime(2000);
-      });
-
-      expect(result.current.syncStatus).toBe("saved");
-      vi.useRealTimers();
-    });
-  });
-
-  it("clears timer on unmount", async () => {
-    vi.useFakeTimers();
-    const clearSpy = vi.spyOn(globalThis, "clearTimeout");
-    const draft = makeDraft();
-    const finding = makeFinding();
-
-    const { result, unmount } = renderHook(() => useAutoSave(draft, true));
-
-    await act(async () => {
-      await result.current.saveFindingStatus(finding);
-    });
-
-    unmount();
-    expect(clearSpy).toHaveBeenCalled();
-    clearSpy.mockRestore();
-    vi.useRealTimers();
   });
 });
