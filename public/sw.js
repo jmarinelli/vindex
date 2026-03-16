@@ -1,11 +1,12 @@
 // VinDex Service Worker
 // Strategies: stale-while-revalidate for app shell, network-first for API/server actions
 // Runtime caching only — no pre-cache of authenticated routes.
-// All cache.match() calls use ignoreVary to work around Next.js App Router
-// Vary headers (RSC, Next-Router-State-Tree, Next-Router-Prefetch) that
-// prevent cache hits on direct navigation.
+//
+// Key design decision: navigation requests are cached using the URL pathname
+// (not the full Request object) to avoid issues with Next.js App Router's
+// Vary headers and streaming responses.
 
-const CACHE_NAME = "vindex-v3";
+const CACHE_NAME = "vindex-v4";
 const MATCH_OPTS = { ignoreVary: true };
 
 // Only pre-cache truly static assets that always return 200
@@ -18,7 +19,6 @@ self.addEventListener("install", (event) => {
     caches
       .open(CACHE_NAME)
       .then((cache) =>
-        // Cache each resource individually so one failure doesn't break install
         Promise.all(
           PRECACHE.map((url) =>
             cache.add(url).catch(() => {
@@ -34,7 +34,6 @@ self.addEventListener("install", (event) => {
 // ─── Activate ────────────────────────────────────────────────────────────────
 
 self.addEventListener("activate", (event) => {
-  // Delete old caches when a new SW version activates
   event.waitUntil(
     caches
       .keys()
@@ -89,9 +88,9 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Navigation requests (HTML pages) — stale-while-revalidate with offline fallback
+  // Navigation requests (HTML pages) — network-first with offline fallback
   if (request.mode === "navigate") {
-    event.respondWith(navigationHandler(request));
+    event.respondWith(navigationHandler(url));
     return;
   }
 
@@ -102,32 +101,51 @@ self.addEventListener("fetch", (event) => {
 // ─── Strategies ──────────────────────────────────────────────────────────────
 
 /**
- * Navigation handler: stale-while-revalidate with offline fallback page.
- * Pages are cached as the user visits them while online.
- * If offline and no cache exists, show the offline fallback.
+ * Navigation handler: network-first with offline fallback.
+ * Uses the URL pathname+origin as the cache key (not the Request object)
+ * to avoid Vary header and streaming issues with Next.js App Router.
  */
-async function navigationHandler(request) {
+async function navigationHandler(url) {
+  // Use a clean URL (no query params) as cache key
+  const cacheKey = url.origin + url.pathname;
   const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request, MATCH_OPTS);
 
-  const fetchPromise = fetch(request)
-    .then((response) => {
-      if (response.ok || response.type === "opaqueredirect") {
-        cache.put(request, response.clone());
-      }
-      return response;
-    })
-    .catch(async () => {
-      // Network failed — return cached version or offline fallback
-      if (cached) return cached;
-      const fallback = await caches.match("/offline.html", MATCH_OPTS);
-      return (
-        fallback ||
-        new Response("Offline", { status: 503, statusText: "Offline" })
-      );
-    });
+  try {
+    // Always try network first for navigation
+    const response = await fetch(cacheKey);
+    if (response.ok) {
+      // Read full body to avoid streaming issues, then cache a complete copy
+      const body = await response.arrayBuffer();
+      const headers = new Headers(response.headers);
+      // Remove Vary to ensure future cache matches work
+      headers.delete("vary");
 
-  return cached || fetchPromise;
+      const cacheResponse = new Response(body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
+      await cache.put(cacheKey, cacheResponse);
+
+      // Return a fresh response with the same body
+      return new Response(body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+      });
+    }
+    return response;
+  } catch {
+    // Network failed — try cache, then offline fallback
+    const cached = await cache.match(cacheKey);
+    if (cached) return cached;
+
+    const fallback = await cache.match("/offline.html");
+    return (
+      fallback ||
+      new Response("Offline", { status: 503, statusText: "Offline" })
+    );
+  }
 }
 
 /**
@@ -171,7 +189,7 @@ async function cacheFirst(request) {
 
 /**
  * Stale-while-revalidate: serve from cache immediately, update cache in background.
- * Used for non-navigation resources.
+ * Used for non-navigation resources (RSC fetches, etc).
  */
 async function staleWhileRevalidate(request) {
   const cache = await caches.open(CACHE_NAME);
