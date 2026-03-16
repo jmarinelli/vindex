@@ -16,11 +16,11 @@ export function ShellDashboard({
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Top bar — 64px */}
-      <header className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4">
+      <header className="relative h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4">
         <Link href="/dashboard">
           <Logo size="sm" />
         </Link>
-        <span className="text-sm font-medium text-gray-700 hidden sm:block">
+        <span className="absolute inset-0 flex items-center justify-center pointer-events-none text-sm font-medium text-gray-700 hidden sm:flex">
           {title}
         </span>
         <div className="flex items-center gap-3">
