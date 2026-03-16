@@ -44,8 +44,8 @@ describe("InstallPrompt", () => {
       }
     });
     removeEventListenerSpy = vi.fn();
-    window.addEventListener = addEventListenerSpy;
-    window.removeEventListener = removeEventListenerSpy;
+    window.addEventListener = addEventListenerSpy as typeof window.addEventListener;
+    window.removeEventListener = removeEventListenerSpy as typeof window.removeEventListener;
   });
 
   afterEach(() => {

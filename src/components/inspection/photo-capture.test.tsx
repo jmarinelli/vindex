@@ -26,8 +26,8 @@ describe("PhotoCapture", () => {
   beforeEach(() => {
     createObjectURLSpy = vi.fn((blob: Blob) => `blob:mock-${blob.size}`);
     revokeObjectURLSpy = vi.fn();
-    globalThis.URL.createObjectURL = createObjectURLSpy;
-    globalThis.URL.revokeObjectURL = revokeObjectURLSpy;
+    globalThis.URL.createObjectURL = createObjectURLSpy as typeof URL.createObjectURL;
+    globalThis.URL.revokeObjectURL = revokeObjectURLSpy as typeof URL.revokeObjectURL;
   });
 
   afterEach(() => {
@@ -239,7 +239,7 @@ describe("PhotoCapture", () => {
     unmount();
     // revokeObjectURL should not be called for https URLs
     const revokedUrls = revokeObjectURLSpy.mock.calls.map(
-      (call: [string]) => call[0]
+      (call: string[]) => call[0]
     );
     const hasNonBlobRevoke = revokedUrls.some(
       (url: string) => !url.startsWith("blob:")

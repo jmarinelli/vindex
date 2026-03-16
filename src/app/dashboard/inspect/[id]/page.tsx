@@ -193,14 +193,20 @@ export default function FieldModePage() {
   // Handle status change
   const handleStatusChange = useCallback(
     async (findingId: string, status: FindingStatus) => {
-      setFindings((prev) =>
-        prev.map((f) => (f.id === findingId ? { ...f, status } : f))
+      const updatedFindings = findings.map((f) =>
+        f.id === findingId ? { ...f, status } : f
       );
+      setFindings(updatedFindings);
 
       const finding = findings.find((f) => f.id === findingId);
       if (finding) {
         const updated = { ...finding, status };
         await saveFindingStatus(updated);
+
+        // Persist findings in draft so they survive reload (#16)
+        if (draft) {
+          await saveLocalDraft({ ...draft, findings: updatedFindings, updatedAt: new Date().toISOString() });
+        }
 
         // Sync to server if online
         if (isOnline) {
@@ -208,27 +214,33 @@ export default function FieldModePage() {
         }
       }
     },
-    [findings, saveFindingStatus, isOnline]
+    [findings, saveFindingStatus, isOnline, draft]
   );
 
   // Handle observation change (already debounced in the card)
   const handleObservationChange = useCallback(
     async (findingId: string, observation: string) => {
-      setFindings((prev) =>
-        prev.map((f) => (f.id === findingId ? { ...f, observation } : f))
+      const updatedFindings = findings.map((f) =>
+        f.id === findingId ? { ...f, observation } : f
       );
+      setFindings(updatedFindings);
 
       const finding = findings.find((f) => f.id === findingId);
       if (finding) {
         const updated = { ...finding, observation };
         await saveObservation(updated);
 
+        // Persist findings in draft so they survive reload (#16)
+        if (draft) {
+          await saveLocalDraft({ ...draft, findings: updatedFindings, updatedAt: new Date().toISOString() });
+        }
+
         if (isOnline) {
           updateFindingAction({ findingId, observation }).catch(() => {});
         }
       }
     },
-    [findings, saveObservation, isOnline]
+    [findings, saveObservation, isOnline, draft]
   );
 
   // Handle finding photo capture
