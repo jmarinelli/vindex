@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
+import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -26,6 +28,8 @@ export default function RootLayout({
         <SessionProvider>
           {children}
           <Toaster position="bottom-right" />
+          <ServiceWorkerRegister />
+          <InstallPrompt />
         </SessionProvider>
       </body>
     </html>

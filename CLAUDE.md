@@ -118,6 +118,8 @@ If I say "implement `specs/plans/<name>.md`" or reference an existing plan file,
 The existence of a file in `specs/plans/` means that feature is in-progress. Phases 1–4 were completed in a prior conversation.
 
 ### Rules
+- Workflow commands (`/understand`, `/spec`, `/design`, `/plan`, `/implement`, `/close`, `/fix`) are ONLY triggered by explicit `/command` invocations. Natural language like "implementá esto" or "fix this bug" is a regular request — do NOT treat it as a workflow command.
+- Within an active workflow, natural language like "ok", "dale", "next" advances to the next phase. Outside of a workflow, these are just conversational responses.
 - Never skip a phase or combine phases.
 - Never start coding before PLAN is approved.
 - If I say "go back to SPEC" or "redo the plan", do it.
@@ -127,8 +129,6 @@ The existence of a file in `specs/plans/` means that feature is in-progress. Pha
 
 ## Current Phase
 
-**Phase 5E — PWA Finalization** (not started)
-
-Phases 0–5D are complete. Next: finalize service worker caching, manifest, offline support, and add-to-home-screen prompt.
+**All MVP phases complete** (0 through 5E).
 
 See specs/implementation-plan.md for the full build order.

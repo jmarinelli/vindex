@@ -36,6 +36,7 @@ export default defineConfig({
         "src/components/landing/**/*.tsx",
         "src/lib/actions/contact.ts",
         "src/offline/**/*.ts",
+        "src/components/pwa/**/*.tsx",
       ],
       exclude: [
         "**/*.test.{ts,tsx}",
