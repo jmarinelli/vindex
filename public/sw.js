@@ -1,8 +1,12 @@
 // VinDex Service Worker
 // Strategies: stale-while-revalidate for app shell, network-first for API/server actions
 // Runtime caching only — no pre-cache of authenticated routes.
+// All cache.match() calls use ignoreVary to work around Next.js App Router
+// Vary headers (RSC, Next-Router-State-Tree, Next-Router-Prefetch) that
+// prevent cache hits on direct navigation.
 
-const CACHE_NAME = "vindex-v2";
+const CACHE_NAME = "vindex-v3";
+const MATCH_OPTS = { ignoreVary: true };
 
 // Only pre-cache truly static assets that always return 200
 const PRECACHE = ["/manifest.json", "/favicon.ico", "/offline.html"];
@@ -104,7 +108,7 @@ self.addEventListener("fetch", (event) => {
  */
 async function navigationHandler(request) {
   const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
+  const cached = await cache.match(request, MATCH_OPTS);
 
   const fetchPromise = fetch(request)
     .then((response) => {
@@ -116,7 +120,7 @@ async function navigationHandler(request) {
     .catch(async () => {
       // Network failed — return cached version or offline fallback
       if (cached) return cached;
-      const fallback = await caches.match("/offline.html");
+      const fallback = await caches.match("/offline.html", MATCH_OPTS);
       return (
         fallback ||
         new Response("Offline", { status: 503, statusText: "Offline" })
@@ -139,7 +143,7 @@ async function networkFirst(request) {
     }
     return response;
   } catch {
-    const cached = await caches.match(request);
+    const cached = await caches.match(request, MATCH_OPTS);
     if (cached) return cached;
     return new Response("Offline", { status: 503, statusText: "Offline" });
   }
@@ -150,7 +154,7 @@ async function networkFirst(request) {
  * Used for immutable static assets (hashed filenames).
  */
 async function cacheFirst(request) {
-  const cached = await caches.match(request);
+  const cached = await caches.match(request, MATCH_OPTS);
   if (cached) return cached;
 
   try {
@@ -171,7 +175,7 @@ async function cacheFirst(request) {
  */
 async function staleWhileRevalidate(request) {
   const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
+  const cached = await cache.match(request, MATCH_OPTS);
 
   const fetchPromise = fetch(request)
     .then((response) => {
