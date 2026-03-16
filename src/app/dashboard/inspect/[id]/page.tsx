@@ -13,7 +13,7 @@ import { PhotoCapture } from "@/components/inspection/photo-capture";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDraftAction, updateFindingAction, deleteEventPhotoAction } from "@/lib/actions/inspection";
 import { useOfflineStatus, useAutoSave, useDraft, usePhotoUpload } from "@/offline/hooks";
-import { saveDraft as saveLocalDraft, deletePhoto, savePhoto } from "@/offline/dexie";
+import { saveDraft as saveLocalDraft, deletePhoto, savePhoto, localDb } from "@/offline/dexie";
 import { capturePhoto } from "@/offline/photo-queue";
 import type { DraftInspection, DraftFinding, FindingStatus, TemplateSnapshot } from "@/types/inspection";
 
@@ -109,7 +109,14 @@ export default function FieldModePage() {
       await saveLocalDraft(localDraft);
 
       // Seed server photos into Dexie so usePhotoUpload picks them up
+      // Dedup by serverPhotoId to avoid duplicates on re-entry (#15)
       for (const sp of serverPhotos) {
+        const existing = await localDb.photos
+          .where("serverPhotoId")
+          .equals(sp.id)
+          .first();
+        if (existing) continue;
+
         await savePhoto({
           id: sp.id,
           eventId: sp.eventId,

@@ -52,6 +52,13 @@ class VindexDB extends Dexie {
         }
       });
     });
+
+    this.version(4).stores({
+      drafts: "id, nodeId, updatedAt",
+      findings: "id, eventId, [eventId+sectionId]",
+      photos: "id, eventId, findingId, photoType, serverPhotoId",
+      syncQueue: "++id, type, createdAt",
+    });
   }
 }
 
