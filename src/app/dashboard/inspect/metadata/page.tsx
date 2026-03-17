@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
@@ -40,29 +40,28 @@ export default function MetadataPage() {
   const router = useRouter();
   const isOnline = useOfflineStatus();
 
-  const [vehicle, setVehicle] = useState<VehicleData | null>(null);
-  const [loaded, setLoaded] = useState(false);
+  const [vehicle] = useState<VehicleData | null>(() => {
+    if (typeof window === "undefined") return null;
+    const stored = sessionStorage.getItem("vindex_inspect_vehicle");
+    return stored ? (JSON.parse(stored) as VehicleData) : null;
+  });
+  const mounted = useRef(false);
   const [inspectionType, setInspectionType] = useState<string>("pre_purchase");
   const [requestedBy, setRequestedBy] = useState<string>("buyer");
   const [odometerKm, setOdometerKm] = useState("");
-  const [eventDate, setEventDate] = useState("");
+  const [eventDate, setEventDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [customerEmail, setCustomerEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("vindex_inspect_vehicle");
-    if (stored) {
-      setVehicle(JSON.parse(stored) as VehicleData);
-    }
-    setEventDate(new Date().toISOString().split("T")[0]);
-    setLoaded(true);
+    mounted.current = true;
   }, []);
 
   useEffect(() => {
-    if (loaded && !vehicle) {
+    if (mounted.current && !vehicle) {
       router.replace("/dashboard/inspect");
     }
-  }, [loaded, vehicle, router]);
+  }, [vehicle, router]);
 
   const vehicleName = vehicle
     ? [vehicle.make, vehicle.model, vehicle.year].filter(Boolean).join(" ")

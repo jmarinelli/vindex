@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { eq, and, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import {
   reviewTokens,
@@ -7,9 +7,7 @@ import {
   events,
   vehicles,
   nodes,
-  inspectionDetails,
   inspectionFindings,
-  users,
 } from "@/db/schema";
 import type { ReviewToken, Review } from "@/db/schema";
 
