@@ -1,22 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ReportList } from "./report-list";
 import type { SignedReportItem } from "@/lib/services/node";
-
-vi.mock("next/link", () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => (
-    <a href={href} {...props}>
-      {children}
-    </a>
-  ),
-}));
 
 function makeReport(overrides?: Partial<SignedReportItem>): SignedReportItem {
   return {
@@ -90,43 +75,11 @@ describe("ReportList", () => {
     expect(screen.getByText("Nissan Sentra 2019")).toBeInTheDocument();
   });
 
-  it("renders VIN", () => {
+  it("renders inspection type", () => {
     render(
       <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
     );
-    expect(screen.getByText("VIN: 3N1AB7AP5KY250312")).toBeInTheDocument();
-  });
-
-  it("renders odometer and type", () => {
-    render(
-      <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
-    );
-    expect(screen.getByText(/87.*500 km · Pre-compra/)).toBeInTheDocument();
-  });
-
-  it("renders status summary with correct counts", () => {
-    render(
-      <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
-    );
-    expect(screen.getByText("✓12")).toBeInTheDocument();
-    expect(screen.getByText("⚠3")).toBeInTheDocument();
-    expect(screen.getByText("✕1")).toBeInTheDocument();
-    expect(screen.getByText("· 6 fotos")).toBeInTheDocument();
-  });
-
-  it("renders report link text", () => {
-    render(
-      <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
-    );
-    expect(screen.getByText("Ver reporte →")).toBeInTheDocument();
-  });
-
-  it("links to /report/{slug}", () => {
-    render(
-      <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
-    );
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/report/abc123");
+    expect(screen.getByText("Pre-compra")).toBeInTheDocument();
   });
 
   it("shows 'Vehículo sin datos' when no vehicle data", () => {
@@ -162,23 +115,15 @@ describe("ReportList", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("renders critical count with gray color when zero", () => {
-    const report = makeReport({
-      findingCounts: { good: 18, attention: 2, critical: 0 },
-    });
-    render(
-      <ReportList initialReports={[report]} total={1} nodeId="n-1" />
-    );
-    const critEl = screen.getByText("✕0");
-    expect(critEl.className).toContain("text-gray-400");
-  });
-
-  it("has accessible aria-label on report items", () => {
+  it("does not render VIN, odometer, findings, photos, or report link", () => {
     render(
       <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
     );
-    const link = screen.getByRole("link");
-    expect(link.getAttribute("aria-label")).toContain("Nissan Sentra 2019");
-    expect(link.getAttribute("aria-label")).toContain("Ver reporte");
+    expect(screen.queryByText(/VIN:/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/87.*500 km/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/✓12/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/fotos/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Ver reporte →")).not.toBeInTheDocument();
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 });
