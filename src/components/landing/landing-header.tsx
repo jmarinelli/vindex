@@ -93,7 +93,7 @@ export function LandingHeader() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden min-[900px]:flex items-center justify-center gap-8" aria-label="Navegación principal">
+        <nav className="hidden min-[900px]:flex items-center justify-center gap-8 absolute left-1/2 -translate-x-1/2" aria-label="Navegación principal">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
