@@ -36,8 +36,9 @@ export default function FieldModePage() {
   const [templateSnapshot, setTemplateSnapshot] = useState<TemplateSnapshot | null>(null);
   const [findings, setFindings] = useState<DraftFinding[]>([]);
   const [vehicleName, setVehicleName] = useState("");
-  const initialSection = Number(searchParams.get("section") ?? 0);
-  const [activeSectionIndex, setActiveSectionIndex] = useState(initialSection);
+  const initialSection = parseInt(searchParams.get("section") ?? "", 10);
+  const [activeSectionIndex, setActiveSectionIndex] = useState(isNaN(initialSection) ? 0 : initialSection);
+  const cameFromReview = searchParams.get("section") !== null;
 
   // Vehicle photos section state
   const [vehiclePhotosExpanded, setVehiclePhotosExpanded] = useState(false);
@@ -77,7 +78,10 @@ export default function FieldModePage() {
         setFindings(localFindings);
 
         setVehicleName(draft.vehicleName);
-        setActiveSectionIndex(draft.lastSectionIndex ?? 0);
+        // Query param (?section=X) takes precedence over saved lastSectionIndex
+        const sectionParam = searchParams.get("section");
+        const parsedSection = sectionParam !== null ? parseInt(sectionParam, 10) : NaN;
+        setActiveSectionIndex(!isNaN(parsedSection) ? parsedSection : (draft.lastSectionIndex ?? 0));
         // Photos are loaded by usePhotoUpload hook
         const hasVehiclePhotos = photos.some((p) => p.photoType === "vehicle");
         setVehiclePhotosExpanded(hasVehiclePhotos);
@@ -404,6 +408,15 @@ export default function FieldModePage() {
           >
             ← Anterior
           </button>
+
+          {cameFromReview && !isLastSection && (
+            <button
+              onClick={handleFinishReview}
+              className="text-sm h-12 px-4 font-medium text-brand-accent"
+            >
+              Revisar
+            </button>
+          )}
 
           <button
             onClick={isLastSection ? handleFinishReview : goToNextSection}
