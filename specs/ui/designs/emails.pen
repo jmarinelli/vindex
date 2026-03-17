@@ -1,0 +1,441 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "3BtLD",
+      "x": 0,
+      "y": 0,
+      "name": "Inspection Signed Email",
+      "width": 600,
+      "fill": "#F9FAFB",
+      "layout": "vertical",
+      "padding": 24,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "AcXMa",
+          "name": "ContentCard",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "oVIoC",
+              "name": "Logo",
+              "gap": 1,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Q8NJy",
+                  "name": "Badge",
+                  "width": 52,
+                  "height": 28,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "CgnlH",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Parallelogram",
+                      "geometry": "M8 0l48 0-8 28-48 0z",
+                      "fill": "$brand-accent",
+                      "width": 56,
+                      "height": 28
+                    },
+                    {
+                      "type": "text",
+                      "id": "aJeqj",
+                      "x": 10,
+                      "y": 4,
+                      "name": "vinText",
+                      "fill": "#FFFFFF",
+                      "content": "VIN",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800",
+                      "letterSpacing": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "z6368",
+                  "name": "dexText",
+                  "fill": "$brand-primary",
+                  "content": "dex",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "line",
+              "id": "Dib3X",
+              "name": "Divider1",
+              "width": "fill_container",
+              "height": 1,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#E5E7EB"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "qYARK",
+              "name": "HeadingSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "o8A6Z",
+                  "name": "heading",
+                  "fill": "#1F2937",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Inspección firmada",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "JqD0z",
+                  "name": "intro",
+                  "fill": "#6B7280",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Se firmó la inspección de tu vehículo.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RvF6V",
+              "name": "VehicleCard",
+              "width": "fill_container",
+              "fill": "#F9FAFB",
+              "cornerRadius": 8,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#E5E7EB"
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "NOslq",
+                  "name": "vehicleName",
+                  "fill": "#1F2937",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "🚗 Nissan Sentra 2019",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "eP1lx",
+                  "name": "VehicleDetails",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PkLot",
+                      "name": "plate",
+                      "fill": "#6B7280",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Patente: AC123BD",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "YNXeE",
+                      "name": "vin",
+                      "fill": "#9CA3AF",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "VIN: 3N1AB7AP5KY250312",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "sdg6P",
+                  "name": "InspectorDetails",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "wNa9e",
+                      "name": "inspector",
+                      "fill": "#6B7280",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Inspector: AutoCheck Buenos Aires",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "JdwMi",
+                      "name": "fecha",
+                      "fill": "#6B7280",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Fecha: 13/03/2026",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "q2ffa",
+                      "name": "resultado",
+                      "fill": "#6B7280",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Resultado: ✓ 12 Bien · ⚠ 3 Att · ✕ 1 Crit",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "McJEJ",
+              "name": "ReportBtnWrap",
+              "width": "fill_container",
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "q3kXb",
+                  "name": "ReportBtn",
+                  "width": 320,
+                  "height": 48,
+                  "fill": "#1E293B",
+                  "cornerRadius": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7V7Rf",
+                      "name": "reportBtnLabel",
+                      "fill": "#FFFFFF",
+                      "content": "Ver reporte completo",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "line",
+              "id": "UNf3L",
+              "name": "Divider2",
+              "width": "fill_container",
+              "height": 1,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#E5E7EB"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "qmUXG",
+              "name": "ReviewSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lpUdX",
+                  "name": "reviewTitle",
+                  "fill": "#1F2937",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dejá tu reseña",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "YmDNc",
+                  "name": "reviewDesc",
+                  "fill": "#6B7280",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "¿El vehículo coincidió con lo que describió el informe? Tu opinión ayuda a otros compradores.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "jplwB",
+                  "name": "ReviewBtnWrap",
+                  "width": "fill_container",
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jGNXE",
+                      "name": "ReviewBtn",
+                      "width": 320,
+                      "height": 48,
+                      "fill": "#0EA5E9",
+                      "cornerRadius": 8,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "2WLQa",
+                          "name": "reviewBtnLabel",
+                          "fill": "#FFFFFF",
+                          "content": "Dejar reseña",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "JCmZ4",
+                  "name": "expiryNote",
+                  "fill": "#9CA3AF",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Este enlace expira en 90 días.",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "line",
+              "id": "GPQnk",
+              "name": "Divider3",
+              "width": "fill_container",
+              "height": 1,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#E5E7EB"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "lszsI",
+              "name": "Footer",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OuLQt",
+                  "name": "footerBrand",
+                  "fill": "#9CA3AF",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "VinDex · vindex.app",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "CphYv",
+                  "name": "footerExpl",
+                  "fill": "#9CA3AF",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Este email fue enviado porque un inspector de VinDex incluyó tu dirección como cliente de una inspección.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "themes": {
+    "Theme": [
+      "Default"
+    ]
+  },
+  "variables": {
+    "brand-primary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1e3a5f",
+          "theme": {
+            "Theme": "Default"
+          }
+        }
+      ]
+    },
+    "brand-accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#0ea5e9",
+          "theme": {
+            "Theme": "Default"
+          }
+        }
+      ]
+    }
+  }
+}

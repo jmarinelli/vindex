@@ -18,14 +18,14 @@ Three-step flow for creating and filling an inspection. Steps 1–2 use **Shell 
 
 ### Shell B Context
 
-- **Top bar (64px):** Logo (left) · "Nueva Inspección" (center) · User menu (right).
+- **Top bar (64px):** Logo (left) · "Nueva Verificación" (center) · User menu (right).
 - **Content area:** max-width `768px`, centered. Background `gray-50`.
 
 ### Page Layout
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  [← Dashboard]          Nueva Inspección                │
+│  [← Dashboard]          Nueva Verificación                │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  Paso 1 de 2 — Vehículo                                │
@@ -37,7 +37,7 @@ Three-step flow for creating and filling an inspection. Steps 1–2 use **Shell 
 │  └─────────────────────────────────────────────────┘    │
 │  17/17 caracteres                              ✓ Válido │
 │                                                         │
-│  ┌ ℹ Vehículo registrado — 2 inspección(es). ─────┐    │
+│  ┌ ℹ Vehículo registrado — 2 verificación(es). ─────┐    │
 │  └─────────────────────────────────────────────────┘    │
 │                                                         │
 │  Marca                          Modelo                  │
@@ -82,7 +82,7 @@ Three-step flow for creating and filling an inspection. Steps 1–2 use **Shell 
 After VIN lookup completes, vehicle data fields are always visible. Their editability depends on the mode:
 
 **Mode A — Existing vehicle:**
-- Info banner: `info` background tint, `radius-sm`, `text-sm`. Message: "Vehículo registrado — {n} inspección(es)."
+- Info banner: `info` background tint, `radius-sm`, `text-sm`. Message: "Vehículo registrado — {n} verificación(es)."
 - Fields with values: displayed as **read-only** styled inputs (`bg-gray-50`, `text-gray-500`, `cursor-not-allowed`). The value is visible but not editable.
 - Fields that are `null`: displayed as standard **editable** text inputs (same styling as Mode B/C).
 
@@ -127,15 +127,15 @@ After VIN lookup completes, vehicle data fields are always visible. Their editab
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  [← Volver]            Nueva Inspección                 │
+│  [← Volver]            Nueva Verificación                 │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
-│  Paso 2 de 2 — Datos de inspección                      │
+│  Paso 2 de 2 — Datos de verificación                     │
 │  ──────────────────────────────                         │
 │                                                         │
 │  Nissan Sentra 2019 — AC123BD                           │
 │                                                         │
-│  Tipo de inspección                                     │
+│  Tipo de verificación                                     │
 │  ┌─────────────────────────────────────────────────┐    │
 │  │ ● Pre-compra                                    │    │
 │  │ ○ Recepción                                     │    │
@@ -156,7 +156,7 @@ After VIN lookup completes, vehicle data fields are always visible. Their editab
 │  │                                  87500  │           │
 │  └──────────────────────────────────────────┘           │
 │                                                         │
-│  Fecha de inspección                                    │
+│  Fecha de verificación                                    │
 │  ┌─────────────────────────────────────────────────┐    │
 │  │ 2026-03-13                                      │    │
 │  └─────────────────────────────────────────────────┘    │
@@ -168,7 +168,7 @@ After VIN lookup completes, vehicle data fields are always visible. Their editab
 │  Se le enviará el informe y un enlace para dejar        │
 │  una reseña.                                            │
 │                                                         │
-│  [           Iniciar Inspección           ]             │
+│  [           Iniciar Verificación           ]             │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -216,7 +216,7 @@ After VIN lookup completes, vehicle data fields are always visible. Their editab
 ### Start Button
 
 - Full-width primary button, 48px height, `radius-sm`.
-- Label: "Iniciar Inspección".
+- Label: "Iniciar Verificación".
 - Disabled while creating (spinner + "Creando...").
 - On mobile: fixed at bottom.
 
@@ -547,7 +547,7 @@ The key principle: **same flow, more breathing room.** No layout changes that wo
 | Container | Centered, `space-6` vertical padding | Replaces form content |
 | Icon | Cloud-off, 48x48, `gray-400` | Visual indicator |
 | Title | `text-lg`, `font-medium`, `gray-700` | "Se requiere conexión" |
-| Subtitle | `text-sm`, `gray-500` | "La creación de inspecciones necesita conexión a internet para buscar vehículos." |
+| Subtitle | `text-sm`, `gray-500` | "La creación de verificaciones necesita conexión a internet para buscar vehículos." |
 | Action | Ghost button, `brand-primary` text | "Volver al Dashboard" → navigates to `/dashboard` |
 
 - When connectivity is restored, the form renders normally.
@@ -568,13 +568,13 @@ The key principle: **same flow, more breathing room.** No layout changes that wo
 
 #### 3. Error
 
-- Toast: "Error al crear la inspección. Intentá de nuevo."
+- Toast: "Error al crear la verificación. Intentá de nuevo."
 - Start button re-enabled.
 
 #### 4. Offline
 
 - Same connectivity message as Step 1 (§Step 1 States → 8. Offline), with adjusted subtitle:
-  - Subtitle: "La creación de inspecciones necesita conexión a internet."
+  - Subtitle: "La creación de verificaciones necesita conexión a internet."
   - Action: "Volver al Dashboard" ghost button → navigates to `/dashboard`.
 
 ### Step 3 States (Field Mode)
@@ -661,7 +661,7 @@ From `specs/ui/design-system.md`:
 | Select inspection type | Tap radio option | Radio selected, visual update |
 | Select requested by | Tap radio option | Radio selected, visual update |
 | Enter odometer | Type number | Number input with numeric keyboard |
-| Start inspection | Tap "Iniciar Inspección" | Create event + detail + findings, navigate to Field Mode |
+| Start inspection | Tap "Iniciar Verificación" | Create event + detail + findings, navigate to Field Mode |
 | Switch section | Tap section tab | Content switches to selected section's items |
 | Set item status | Tap status button | Button highlights, left border updates, auto-save to Dexie |
 | Deselect status | Tap already-selected status | Returns to not_evaluated |

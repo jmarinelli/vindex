@@ -83,6 +83,7 @@ export const createInspectionSchema = z.object({
     .int("El kilometraje debe ser un número entero.")
     .min(1, "Ingresá un kilometraje válido."),
   eventDate: z.string().min(1, "La fecha es requerida."),
+  customerEmail: z.string().email("Ingresá un email válido.").optional().or(z.literal("")),
 });
 
 // ─── Photo Schemas ─────────────────────────────────────────────────────────
@@ -144,6 +145,23 @@ export const submitReviewSchema = z.object({
     .max(500, "El comentario no puede superar los 500 caracteres.")
     .optional()
     .or(z.literal("")),
+});
+
+export const submitTokenReviewSchema = z.object({
+  token: z.string().min(1, "Token inválido."),
+  matchRating: z.enum(matchRatingValues, {
+    error: "Seleccioná una opción válida.",
+  }),
+  comment: z
+    .string()
+    .max(500, "El comentario no puede superar los 500 caracteres.")
+    .optional()
+    .or(z.literal("")),
+});
+
+export const updateCustomerEmailSchema = z.object({
+  eventId: z.string().uuid("ID de inspección inválido."),
+  customerEmail: z.string().email("Ingresá un email válido.").optional().or(z.literal("")),
 });
 
 // ─── Correction Schemas ─────────────────────────────────────────────────────
@@ -255,6 +273,8 @@ export type SignInspectionInput = z.infer<typeof signInspectionSchema>;
 export type UploadPhotoInput = z.infer<typeof uploadPhotoSchema>;
 export type DeleteEventPhotoInput = z.infer<typeof deleteEventPhotoSchema>;
 export type SubmitReviewInput = z.infer<typeof submitReviewSchema>;
+export type SubmitTokenReviewInput = z.infer<typeof submitTokenReviewSchema>;
+export type UpdateCustomerEmailInput = z.infer<typeof updateCustomerEmailSchema>;
 export type ContactFormInput = z.infer<typeof contactFormSchema>;
 export type CreateCorrectionInput = z.infer<typeof createCorrectionSchema>;
 export type CreateNodeInput = z.infer<typeof createNodeSchema>;

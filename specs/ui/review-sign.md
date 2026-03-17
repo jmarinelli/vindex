@@ -18,14 +18,14 @@ Step 4 of the inspection flow. After the inspector finishes filling findings in 
 
 ### Shell B Context
 
-- **Top bar (64px):** Logo (left) · "Revisar Inspección" (center) · User menu (right).
+- **Top bar (64px):** Logo (left) · "Revisar Verificación" (center) · User menu (right).
 - **Content area:** max-width `768px`, centered. Background `gray-50`.
 
 ### Page Layout
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  [← Volver a inspección]    Revisar Inspección           │
+│  [← Volver a verificación]    Revisar Verificación           │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  ┌─────────────────────────────────────────────────┐    │
@@ -69,10 +69,10 @@ Step 4 of the inspection flow. After the inspector finishes filling findings in 
 │                                                         │
 │  ┌─────────────────────────────────────────────────┐    │
 │  │  📧 Se notificará a: comprador@email.com       │    │
-│  │     cuando la inspección sea firmada.           │    │
+│  │     cuando la verificación sea firmada.           │    │
 │  └─────────────────────────────────────────────────┘    │
 │                                                         │
-│  [           Firmar Inspección           ]              │
+│  [           Firmar Verificación           ]              │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -155,15 +155,15 @@ Shown above the sign button when a customer email was provided during inspection
 | Container | `info` bg tint, `border-default`, `radius-sm`, `space-3` padding | Above sign button. Hidden if no customer email. |
 | Icon | 📧 email icon, `info` color | Left of text |
 | Text line 1 | `text-sm`, `font-medium`, `gray-700` | "Se notificará a: {customer_email}" |
-| Text line 2 | `text-xs`, `gray-500` | "cuando la inspección sea firmada." |
+| Text line 2 | `text-xs`, `gray-500` | "cuando la verificación sea firmada." |
 
 ### Sign Button
 
 | Element | Style | Behavior |
 |---------|-------|----------|
 | Button | Full-width primary button, 48px height, `radius-sm` | Fixed at bottom on mobile |
-| Label (ready) | "Firmar Inspección" | Enabled when all checklist items evaluated |
-| Label (incomplete) | "Firmar Inspección" | Disabled: `gray-100` bg, `gray-400` text |
+| Label (ready) | "Firmar Verificación" | Enabled when all checklist items evaluated |
+| Label (incomplete) | "Firmar Verificación" | Disabled: `gray-100` bg, `gray-400` text |
 | Label (signing) | Spinner + "Firmando..." | During server action call |
 | Error state | Button re-enabled | Toast: "Error al firmar. Intentá de nuevo." |
 
@@ -202,11 +202,11 @@ Shown when there are photos in Dexie with `uploaded = false`. Pending uploads **
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Inspección Firmada                    │
+│                    Verificación Firmada                    │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │                       ✓                                 │
-│              Inspección firmada                         │
+│              Verificación firmada                         │
 │                                                         │
 │  Firmada el 13/03/2026 a las 14:32                     │
 │  por Juan Pérez                                         │
@@ -237,7 +237,7 @@ Shown when there are photos in Dexie with `uploaded = false`. Pending uploads **
 |---------|-------|----------|
 | Container | Centered, `space-6` vertical padding | Top of content area |
 | Checkmark circle | 64x64, `success` bg, white ✓ icon, `radius-full` | Prominent visual confirmation |
-| Title | `text-2xl`, `font-bold`, `gray-800` | "Inspección firmada" |
+| Title | `text-2xl`, `font-bold`, `gray-800` | "Verificación firmada" |
 | Timestamp | `text-sm`, `gray-500` | "Firmada el {date} a las {time}" |
 | Signed by | `text-sm`, `gray-500` | "por {user_name}" |
 
@@ -373,8 +373,8 @@ When offline, the review page renders using data from Dexie instead of the serve
 |---------|-------|----------|
 | Container | Centered, `space-6` vertical padding | Replaces review content |
 | Icon | Cloud-off, 48x48, `gray-400` | Visual indicator |
-| Title | `text-lg`, `font-medium`, `gray-700` | "Inspección no disponible offline" |
-| Subtitle | `text-sm`, `gray-500` | "Esta inspección no está guardada en este dispositivo." |
+| Title | `text-lg`, `font-medium`, `gray-700` | "Verificación no disponible offline" |
+| Subtitle | `text-sm`, `gray-500` | "Esta verificación no está guardada en este dispositivo." |
 | Action | Ghost button, `brand-primary` text | "Volver al Dashboard" → navigates to `/dashboard` |
 
 #### 7. Pending Photo Uploads
@@ -444,9 +444,9 @@ From `specs/ui/design-system.md`:
 
 | Action | Trigger | Result |
 |--------|---------|--------|
-| Navigate back | Tap "← Volver a inspección" | Returns to Field Mode (Step 3) at last active section |
+| Navigate back | Tap "← Volver a verificación" | Returns to Field Mode (Step 3) at last active section |
 | Tap finding row | Tap any finding row | Navigates to Field Mode at that finding's section for quick editing |
-| Sign inspection | Tap "Firmar Inspección" | Validates completeness → calls `signInspectionAction` → on success redirects to confirmation |
+| Sign inspection | Tap "Firmar Verificación" | Validates completeness → calls `signInspectionAction` → on success redirects to confirmation |
 | Copy report link | Tap "Copiar enlace" | Copies URL to clipboard, button shows "Copiado ✓" for 2s |
 | Share report link | Tap "Compartir" | Triggers `navigator.share({ url, title })` on mobile |
 | View public report | Tap "Ver Reporte Público" | Opens `/report/{slug}` in new tab |
@@ -474,7 +474,7 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Sign button (signing)** | Shows spinner + "Firmando..." · Disabled during signing |
 | **Sign error** | Toast shown · Button re-enabled |
 | **Offline state** | Connectivity banner shown · Review content rendered from Dexie (vehicle summary, status counts, section groups, photos) · Sign button disabled · Finding row taps navigate to field mode |
-| **Offline — no local draft** | Error state shown: "Inspección no disponible offline" · "Volver al Dashboard" navigates correctly |
+| **Offline — no local draft** | Error state shown: "Verificación no disponible offline" · "Volver al Dashboard" navigates correctly |
 | **Offline → online** | Banner disappears · Sign button re-enables · Data refreshes from server |
 | **Confirmation screen** | Checkmark badge · Signed timestamp · Signed by name |
 | **Report link** | URL displayed · Selectable text |

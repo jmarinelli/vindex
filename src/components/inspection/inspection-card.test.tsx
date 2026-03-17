@@ -52,6 +52,7 @@ function makeItem(overrides?: Partial<InspectionListItem>): InspectionListItem {
       templateSnapshot: {},
       inspectionType: "pre_purchase",
       requestedBy: "buyer",
+      customerEmail: null,
     },
     findingCounts: {
       total: 23,

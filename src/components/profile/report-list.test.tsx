@@ -52,6 +52,7 @@ function makeReport(overrides?: Partial<SignedReportItem>): SignedReportItem {
       templateSnapshot: {},
       inspectionType: "pre_purchase",
       requestedBy: "buyer",
+      customerEmail: null,
     },
     findingCounts: {
       good: 12,

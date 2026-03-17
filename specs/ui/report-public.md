@@ -20,7 +20,7 @@ The public report page displays a signed inspection at `/report/{slug}`. Accessi
 
 - **Top bar:** Minimal. VinDex logo (left, small, links to `/`). No auth controls.
 - **Content area:** max-width `768px`, centered, `white` background.
-- **Footer:** Minimal — "Verificado por VinDex" · Privacy · Terms links.
+- **Footer:** Minimal — "Registrado en VinDex" · Privacy · Terms links.
 
 ---
 
@@ -32,7 +32,7 @@ The public report page displays a signed inspection at `/report/{slug}`. Accessi
 ├──────────────────────────────────────────────────────────┤
 │                                                          │
 │  ┌────────────────────────────────────────────────────┐  │
-│  │ ✓ Verificación                                     │  │
+│  │ ✓ Inspección firmada                                │  │
 │  │ Firmada el 13/03/2026 a las 14:32                  │  │
 │  │ por Juan Pérez · AutoCheck Buenos Aires            │  │
 │  │ Este reporte no puede ser modificado.              │  │
@@ -59,10 +59,10 @@ The public report page displays a signed inspection at `/report/{slug}`. Accessi
 │                                                          │
 │  ┌────────────────────────────────────────────────────┐  │
 │  │  🏢 AutoCheck Buenos Aires                        │  │
-│  │     Inspector verificado                           │  │
+│  │     Verificador registrado                          │  │
 │  │     📧 contacto@autocheck.com                     │  │
 │  │     📞 +54 11 4567-8901                           │  │
-│  │     [Ver perfil del inspector →]                  │  │
+│  │     [Ver perfil del verificador →]                │  │
 │  └────────────────────────────────────────────────────┘  │
 │                                                          │
 │  ┌────────────────────────────────────────────────────┐  │
@@ -109,7 +109,7 @@ The public report page displays a signed inspection at `/report/{slug}`. Accessi
 │  └────────────────────────────────────────────────────┘  │
 │                                                          │
 │  ─────────────────────────────────────────────────────── │
-│  Verificado por VinDex · Privacidad · Términos           │
+│  Registrado en VinDex · Privacidad · Términos             │
 │                                                          │
 └──────────────────────────────────────────────────────────┘
 ```
@@ -124,7 +124,7 @@ The most prominent element on the page. Establishes trust immediately.
 |---------|-------|----------|
 | Container | `success` bg tint (#f0fdf4), `border-default` with `success` left border (3px), `radius-md`, `space-4` padding | Top of content, full-width |
 | Checkmark icon | 24x24, `success` color, shield-check or check-circle icon | Left of content |
-| Title | `text-base`, `font-bold`, `success` color | "Verificación" |
+| Title | `text-base`, `font-bold`, `success` color | "Inspección firmada" |
 | Signed timestamp | `text-sm`, `gray-700` | "Firmada el {date} a las {time}" |
 | Signed by | `text-sm`, `gray-700` | "por {user_name} · {node_display_name}" |
 | Immutability notice | `text-xs`, `gray-500` | "Este reporte no puede ser modificado." |
@@ -155,10 +155,10 @@ The most prominent element on the page. Establishes trust immediately.
 | Card container | `white` bg, `border-default`, `radius-md`, `shadow-sm`, `space-4` padding | Below vehicle summary |
 | Logo | 48x48, `radius-md`, `border-default` | Node logo image. Fallback: first letter of display_name in `brand-primary` bg circle |
 | Node name | `text-lg`, `font-medium`, `gray-800` | Node display_name |
-| Verified label | `text-xs`, `success` color, with shield icon | "Inspector verificado" |
+| Verified label | `text-xs`, `success` color, with shield icon | "Verificador registrado" |
 | Contact email | `text-sm`, `gray-600`, with 📧 icon | mailto link. Hidden if null. |
 | Contact phone | `text-sm`, `gray-600`, with 📞 icon | tel link. Hidden if null. |
-| Profile link | `text-sm`, `brand-accent`, "Ver perfil del inspector →" | Links to `/inspector/{node_slug}` |
+| Profile link | `text-sm`, `brand-accent`, "Ver perfil del verificador →" | Links to `/inspector/{node_slug}` |
 | Brand color accent | 3px top border on card | Uses node `brand_color` if set, otherwise `brand-primary` |
 
 ---
@@ -303,7 +303,7 @@ Full-screen overlay for viewing photos at full resolution.
 |---------|-------|----------|
 | Container | `info` bg tint, `border-default`, `radius-md`, `space-4` padding | Above verification badge |
 | Icon | ℹ info icon, `info` color | Left of text |
-| Text | `text-sm`, `info` color | "Este reporte corrige una inspección anterior." |
+| Text | `text-sm`, `info` color | "Este reporte corrige una verificación anterior." |
 | Link | `text-sm`, `brand-accent`, "Ver original →" | Links to `/report/{original_slug}` |
 
 ---
@@ -314,13 +314,13 @@ For rich previews when sharing links on WhatsApp, MercadoLibre, social media, et
 
 ```html
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Inspección — Nissan Sentra 2019 | VinDex" />
-<meta property="og:description" content="Inspección pre-compra verificada. 12 items bien, 3 atención, 1 crítico. Firmada por AutoCheck Buenos Aires." />
+<meta property="og:title" content="Verificación — Nissan Sentra 2019 | VinDex" />
+<meta property="og:description" content="Verificación pre-compra documentada. 12 items bien, 3 atención, 1 crítico. Firmada por AutoCheck Buenos Aires." />
 <meta property="og:image" content="https://vindex.app/api/og/{slug}" />
 <meta property="og:url" content="https://vindex.app/report/{slug}" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Inspección — Nissan Sentra 2019 | VinDex" />
-<meta name="twitter:description" content="Inspección pre-compra verificada. 12 items bien, 3 atención, 1 crítico." />
+<meta name="twitter:title" content="Verificación — Nissan Sentra 2019 | VinDex" />
+<meta name="twitter:description" content="Verificación pre-compra documentada. 12 items bien, 3 atención, 1 crítico." />
 <meta name="twitter:image" content="https://vindex.app/api/og/{slug}" />
 ```
 
@@ -338,8 +338,8 @@ Dynamic image generated per report using `@vercel/og` (Satori + Resvg).
 | Vehicle name | Large, bold, centered | "{Make} {Model} {Year}" |
 | VIN | Smaller, monospace, below vehicle name | "VIN: {vin}" |
 | Status summary | Color-coded counts | "✓ 12 Bien · ⚠ 3 Att · ✕ 1 Crit" |
-| Inspector name | Bottom section | "Verificada por {node_name}" |
-| Verification badge | Shield/checkmark icon | "Inspección Verificada" |
+| Inspector name | Bottom section | "Firmada por {node_name}" |
+| Verification badge | Shield/checkmark icon | "Verificación documentada" |
 | Date | Bottom-right | Signed date |
 
 ---
@@ -489,7 +489,7 @@ From `specs/ui/design-system.md`:
 |--------|---------|--------|
 | Toggle section | Tap section header row | Expands/collapses section body with 200ms animation. Chevron rotates. |
 | View vehicle history | Tap "Ver historial del vehículo →" | Navigates to `/vehicle/{vin}` |
-| View inspector profile | Tap "Ver perfil del inspector →" | Navigates to `/inspector/{node_slug}` |
+| View inspector profile | Tap "Ver perfil del verificador →" | Navigates to `/inspector/{node_slug}` |
 | View finding photo | Tap photo thumbnail | Opens lightbox at that photo |
 | Navigate photos | Swipe (mobile) or arrows (desktop) | Prev/next photo in lightbox |
 | Close lightbox | Tap ✕, swipe down, or press Escape | Closes lightbox |

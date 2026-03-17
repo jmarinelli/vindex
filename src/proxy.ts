@@ -11,6 +11,7 @@ export default auth((req) => {
     pathname.startsWith("/report/") ||
     pathname.startsWith("/vehicle/") ||
     pathname.startsWith("/inspector/") ||
+    pathname.startsWith("/review/") ||
     pathname.startsWith("/api/auth/")
   ) {
     return NextResponse.next();

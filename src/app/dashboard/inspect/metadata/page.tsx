@@ -46,6 +46,7 @@ export default function MetadataPage() {
   const [requestedBy, setRequestedBy] = useState<string>("buyer");
   const [odometerKm, setOdometerKm] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export default function MetadataPage() {
       requestedBy,
       odometerKm: km,
       eventDate,
+      customerEmail: customerEmail.trim() || undefined,
     });
 
     setSubmitting(false);
@@ -259,6 +261,27 @@ export default function MetadataPage() {
             onChange={(e) => setEventDate(e.target.value)}
             className="h-10"
           />
+        </div>
+
+        {/* Customer Email */}
+        <div className="mb-6">
+          <label
+            htmlFor="customer-email-input"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Email del cliente (opcional)
+          </label>
+          <Input
+            id="customer-email-input"
+            type="email"
+            value={customerEmail}
+            onChange={(e) => setCustomerEmail(e.target.value)}
+            placeholder="comprador@email.com"
+            className="h-10"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Se le enviará el informe y un enlace para dejar una reseña.
+          </p>
         </div>
 
         {/* Start Button */}

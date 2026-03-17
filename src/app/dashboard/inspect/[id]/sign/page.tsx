@@ -6,12 +6,14 @@ import { ArrowLeft, Check, AlertTriangle, X, Slash, Minus, Pencil, Camera, Loade
 import { toast } from "sonner";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConnectivityMessage } from "@/components/offline/connectivity-message";
 import { OfflineBanner } from "@/components/offline/offline-banner";
 import {
   getInspectionForReviewAction,
   signInspectionAction,
+  updateCustomerEmailAction,
 } from "@/lib/actions/inspection";
 import { useOfflineStatus, usePhotoUpload, useDraft } from "@/offline/hooks";
 import { useSyncStatus } from "@/offline/sync-provider";
@@ -119,6 +121,8 @@ export default function ReviewSignPage() {
   const [loading, setLoading] = useState(true);
   const [signing, setSigning] = useState(false);
   const [reviewData, setReviewData] = useState<ReviewData | null>(null);
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [initialCustomerEmail, setInitialCustomerEmail] = useState("");
   const [serverPhotos, setServerPhotos] = useState<Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null }>>([]);
   const [dataSource, setDataSource] = useState<"server" | "dexie" | null>(null);
   // showOffline can be true even when navigator.onLine is true (unreliable)
@@ -151,6 +155,9 @@ export default function ReviewSignPage() {
     setServerPhotos(
       photos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }))
     );
+    const email = (detail as { customerEmail?: string | null }).customerEmail ?? "";
+    setCustomerEmail(email);
+    setInitialCustomerEmail(email);
     setShowOffline(false);
     setDataSource("server");
   }
@@ -355,10 +362,26 @@ export default function ReviewSignPage() {
 
   const canSign = isComplete && !showOffline && pendingCount === 0;
 
+  const saveCustomerEmail = async () => {
+    const trimmed = customerEmail.trim();
+    if (trimmed === initialCustomerEmail) return;
+    try {
+      await updateCustomerEmailAction({ eventId, customerEmail: trimmed || undefined });
+      setInitialCustomerEmail(trimmed);
+    } catch {
+      // Best-effort save
+    }
+  };
+
   const handleSign = async () => {
     if (!canSign || signing) return;
     setSigning(true);
     try {
+      // Save customer email before signing if changed
+      const trimmed = customerEmail.trim();
+      if (trimmed !== initialCustomerEmail) {
+        await updateCustomerEmailAction({ eventId, customerEmail: trimmed || undefined });
+      }
       const result = await signInspectionAction({ eventId });
       if (result.success) {
         await clearInspectionData(eventId);
@@ -620,6 +643,30 @@ export default function ReviewSignPage() {
             </div>
           </div>
         ))}
+
+        {/* Customer Email */}
+        {!showOffline && (
+          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 space-y-2">
+            <label
+              htmlFor="customer-email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email del cliente (opcional)
+            </label>
+            <Input
+              id="customer-email"
+              type="email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+              onBlur={saveCustomerEmail}
+              placeholder="comprador@email.com"
+              className="h-10"
+            />
+            <p className="text-xs text-gray-500">
+              Se le notificará cuando firmes la inspección.
+            </p>
+          </div>
+        )}
 
         {/* Sign Button — desktop inline */}
         <div className="hidden sm:block">

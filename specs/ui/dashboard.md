@@ -29,14 +29,14 @@ Single page at `/dashboard` using **Shell B** (Dashboard). The inspector's home 
 │  Bienvenido, Juan                                       │
 │                                                         │
 │  ┌─────────────────────────────────────────────────┐    │
-│  │           + Nueva Inspección                    │    │
+│  │           + Nueva Verificación                    │    │
 │  └─────────────────────────────────────────────────┘    │
 │                                                         │
 │  ┌─────────────────────────────────┐ [Todos▾][Draft▾]  │
 │  │ 🔍 Buscar por VIN, marca...    │                    │
 │  └─────────────────────────────────┘                    │
 │                                                         │
-│  Mis Inspecciones (5)                                   │
+│  Mis Verificaciones (5)                                   │
 │                                                         │
 │  ┌─────────────────────────────────────────────────┐    │
 │  │ Nissan Sentra 2019                       DRAFT  │    │
@@ -80,7 +80,7 @@ The most prominent call-to-action on the page.
 |---------|-------|----------|
 | Button | Full-width primary button, 48px height, `radius-sm`, `brand-primary` bg, `white` text, `font-medium` | Navigates to `/dashboard/inspect` |
 | Icon | `+` icon, 20x20, left of text | Visual cue |
-| Label | `text-base` | "Nueva Inspección" |
+| Label | `text-base` | "Nueva Verificación" |
 
 ---
 
@@ -117,7 +117,7 @@ A combined row with a text search input and status filter toggle.
 
 | Element | Style | Behavior |
 |---------|-------|----------|
-| Title | `text-base`, `font-medium`, `gray-700` | "Mis Inspecciones ({count})" — count reflects filtered results |
+| Title | `text-base`, `font-medium`, `gray-700` | "Mis Verificaciones ({count})" — count reflects filtered results |
 
 ### Inspection Card
 
@@ -222,14 +222,14 @@ When a status filter is active, only items matching that status are shown, maint
 │                                         │
 │  Bienvenido, Juan                       │
 │                                         │
-│  [      + Nueva Inspección      ]       │
+│  [      + Nueva Verificación      ]       │
 │                                         │
 │  ┌─────────────────────────────────┐    │
 │  │ 🔍 Buscar por VIN, marca...    │    │
 │  └─────────────────────────────────┘    │
 │  [Todos] [Borrador] [Firmados]          │
 │                                         │
-│  Mis Inspecciones (5)                   │
+│  Mis Verificaciones (5)                   │
 │                                         │
 │  ┌─────────────────────────────────┐    │
 │  │ Nissan Sentra 2019       DRAFT  │    │
@@ -290,8 +290,8 @@ When a status filter is active, only items matching that status are shown, maint
 | Element | Style | Behavior |
 |---------|-------|----------|
 | Icon | Clipboard or search icon, 48x48, `gray-300` | Visual indicator |
-| Title | `text-lg`, `font-medium`, `gray-700` | "No tenés inspecciones" |
-| Subtitle | `text-sm`, `gray-500` | "Creá tu primera inspección para empezar." |
+| Title | `text-lg`, `font-medium`, `gray-700` | "No tenés verificaciones" |
+| Subtitle | `text-sm`, `gray-500` | "Creá tu primera verificación para empezar." |
 
 - Quick links visible below the empty state.
 
@@ -303,7 +303,7 @@ When a status filter is active, only items matching that status are shown, maint
 | Element | Style | Behavior |
 |---------|-------|----------|
 | Icon | Search icon, 40x40, `gray-300` | Visual indicator |
-| Text | `text-sm`, `gray-500` | "No se encontraron inspecciones con estos filtros." |
+| Text | `text-sm`, `gray-500` | "No se encontraron verificaciones con estos filtros." |
 | Clear action | `text-sm`, `brand-accent` | "Limpiar filtros" — resets search and filter to defaults |
 
 ### 5. Offline
@@ -321,7 +321,7 @@ The dashboard enters read-only offline mode when the device has no connectivity.
 - **Inspection list:** populated from Dexie `drafts` table only. Each draft card renders with the same layout as the online version (vehicle name, VIN, date, odometer, type, requested by, progress footer). Draft cards are tappable — navigate to field mode.
 - **Signed inspections:** not shown (data is server-only).
 - **Disabled/hidden elements:**
-  - "Nueva Inspección" button — disabled (`gray-100` bg, `gray-400` text). Label: "Nueva Inspección". No tooltip needed — the banner explains the situation.
+  - "Nueva Verificación" button — disabled (`gray-100` bg, `gray-400` text). Label: "Nueva Verificación". No tooltip needed — the banner explains the situation.
   - Search input — hidden.
   - Status filter pills — hidden.
   - Quick links — hidden.
@@ -332,7 +332,7 @@ The dashboard enters read-only offline mode when the device has no connectivity.
 |---------|-------|----------|
 | Icon | Cloud-off icon, 48x48, `gray-300` | Visual indicator |
 | Title | `text-lg`, `font-medium`, `gray-700` | "No hay borradores locales" |
-| Subtitle | `text-sm`, `gray-500` | "Conectate a internet para ver tus inspecciones." |
+| Subtitle | `text-sm`, `gray-500` | "Conectate a internet para ver tus verificaciones." |
 
 - **Reconnect behavior:** when connectivity is restored, the offline banner disappears, the full server data loads, and all controls are re-enabled.
 
@@ -340,7 +340,7 @@ The dashboard enters read-only offline mode when the device has no connectivity.
 
 - Full-page error within Shell B.
 - Icon: warning triangle, 48x48, `error` color.
-- Message: `text-base`, `gray-700` — "Error al cargar tus inspecciones."
+- Message: `text-base`, `gray-700` — "Error al cargar tus verificaciones."
 - Retry button: Secondary button — "Reintentar".
 
 ---
@@ -377,7 +377,7 @@ From `specs/ui/design-system.md`:
 
 | Action | Trigger | Result |
 |--------|---------|--------|
-| Create new inspection | Tap "+ Nueva Inspección" | Navigate to `/dashboard/inspect` (Step 1) |
+| Create new inspection | Tap "+ Nueva Verificación" | Navigate to `/dashboard/inspect` (Step 1) |
 | Search inspections | Type in search input | List filters in real-time (debounced 300ms) |
 | Clear search | Tap ✕ in search input | Resets search, shows full list |
 | Filter by status | Tap filter pill | List filters by draft/signed/all |
@@ -403,11 +403,11 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **New Inspection button** | Renders prominently · Navigates to `/dashboard/inspect` on tap |
 | **Search input** | Typing filters results by VIN/make/model/plate · Debounced 300ms · Clear button resets · Empty search shows all |
 | **Status filter** | "Todos" shows all · "Borrador" shows only drafts · "Firmados" shows only signed · Active pill highlighted |
-| **Empty state** | Shown when inspector has zero inspections · "No tenés inspecciones" message · New Inspection button still visible · Search/filter bar hidden |
-| **Filtered no results** | Shown when search/filter matches nothing · "No se encontraron inspecciones" message · "Limpiar filtros" link resets |
+| **Empty state** | Shown when inspector has zero inspections · "No tenés verificaciones" message · New Inspection button still visible · Search/filter bar hidden |
+| **Filtered no results** | Shown when search/filter matches nothing · "No se encontraron verificaciones" message · "Limpiar filtros" link resets |
 | **Quick links** | Template editor link navigates to `/dashboard/template` · Profile link navigates to `/inspector/{slug}` |
 | **Mobile layout** | Search and filters stacked vertically · Cards full-width · Quick links stacked |
-| **Offline state** | Offline banner shown · Only Dexie drafts displayed · Draft cards tappable · "Nueva Inspección" disabled · Search/filter hidden · Quick links hidden · Signed inspections not shown |
+| **Offline state** | Offline banner shown · Only Dexie drafts displayed · Draft cards tappable · "Nueva Verificación" disabled · Search/filter hidden · Quick links hidden · Signed inspections not shown |
 | **Offline — no drafts** | Empty offline state message shown: "No hay borradores locales" |
 | **Offline → online** | Banner disappears · Server data loads · All controls re-enabled |
 | **Error state** | Error message shown · Retry button triggers reload |
@@ -417,7 +417,7 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 ## Accessibility
 
 - All interactive elements meet 48x48px touch targets on mobile.
-- Search input has associated label (visually hidden): "Buscar inspecciones".
+- Search input has associated label (visually hidden): "Buscar verificaciones".
 - Filter pills use `role="radiogroup"` with individual `role="radio"` and `aria-checked`.
 - Inspection cards have `role="link"` with descriptive `aria-label` (e.g., "Nissan Sentra 2019 — Borrador, 12 Mar 2026").
 - Status badges have `aria-label` (e.g., "Estado: Borrador").

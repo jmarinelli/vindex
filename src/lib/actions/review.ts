@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { createHash } from "crypto";
-import { submitReviewSchema } from "@/lib/validators";
+import { submitReviewSchema, submitTokenReviewSchema } from "@/lib/validators";
 import * as reviewService from "@/lib/services/review";
 import type { Review } from "@/db/schema";
 
@@ -39,6 +39,34 @@ export async function submitReviewAction(
       parsed.data.matchRating,
       parsed.data.comment || undefined,
       reviewerIdentifier
+    );
+
+    return { success: true, data: { review } };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al enviar la reseña.";
+    return { success: false, error: message };
+  }
+}
+
+/**
+ * Submit a review using a single-use token.
+ * No auth required — public action.
+ */
+export async function submitTokenReviewAction(
+  input: unknown
+): Promise<ActionResult<{ review: Review }>> {
+  const parsed = submitTokenReviewSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    const review = await reviewService.submitTokenReview(
+      parsed.data.token,
+      parsed.data.matchRating,
+      parsed.data.comment || undefined
     );
 
     return { success: true, data: { review } };

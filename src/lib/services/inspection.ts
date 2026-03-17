@@ -20,6 +20,8 @@ import type {
   Node,
 } from "@/db/schema";
 import { generateSlug } from "@/lib/slug";
+import { generateToken } from "@/lib/services/review-token";
+import { sendInspectionSignedEmail } from "@/lib/services/email";
 import type { TemplateSection } from "@/lib/validators";
 import type { TemplateSnapshot, FindingStatus } from "@/types/inspection";
 
@@ -33,6 +35,7 @@ export interface CreateInspectionParams {
   requestedBy: "buyer" | "seller" | "agency" | "other";
   odometerKm: number;
   eventDate: string;
+  customerEmail?: string;
 }
 
 export interface InspectionDraft {
@@ -196,6 +199,9 @@ export async function createInspection(
       templateSnapshot,
       inspectionType: params.inspectionType,
       requestedBy: params.requestedBy,
+      customerEmail: params.customerEmail && params.customerEmail.trim()
+        ? params.customerEmail.trim()
+        : null,
     })
     .returning();
 
@@ -423,6 +429,56 @@ export async function signInspection(
 
   if (!signed) {
     throw new Error("Esta inspección ya fue firmada.");
+  }
+
+  // 6. Post-signing: generate review token + send email (best-effort)
+  try {
+    if (detail.customerEmail) {
+      const vehicle = await db
+        .select()
+        .from(vehicles)
+        .where(eq(vehicles.id, event.vehicleId))
+        .limit(1)
+        .then((r) => r[0]);
+
+      const node = await db
+        .select()
+        .from(nodes)
+        .where(eq(nodes.id, event.nodeId))
+        .limit(1)
+        .then((r) => r[0]);
+
+      if (vehicle && node) {
+        const reviewToken = await generateToken(
+          eventId,
+          detail.customerEmail
+        );
+
+        const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
+          .filter(Boolean)
+          .join(" ");
+
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://vindex.app";
+
+        await sendInspectionSignedEmail({
+          to: detail.customerEmail,
+          vehicleName,
+          plate: vehicle.plate,
+          vin: vehicle.vin,
+          inspectorName: node.displayName,
+          eventDate: event.eventDate,
+          findingsSummary: {
+            good: findings.filter((f) => f.status === "good").length,
+            attention: findings.filter((f) => f.status === "attention").length,
+            critical: findings.filter((f) => f.status === "critical").length,
+          },
+          reportUrl: `${baseUrl}/report/${signed.slug}`,
+          reviewUrl: `${baseUrl}/review/${reviewToken.token}`,
+        });
+      }
+    }
+  } catch (error) {
+    console.error("[inspection] Post-signing email/token error:", error);
   }
 
   return signed;

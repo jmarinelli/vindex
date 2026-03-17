@@ -194,6 +194,7 @@ export const inspectionDetails = pgTable(
     templateSnapshot: jsonb("template_snapshot").notNull(),
     inspectionType: inspectionTypeEnum("inspection_type").notNull(),
     requestedBy: requestedByEnum("requested_by").notNull(),
+    customerEmail: varchar("customer_email", { length: 255 }),
   },
   (table) => [
     uniqueIndex("inspection_details_event_unique").on(table.eventId),
@@ -240,16 +241,33 @@ export const eventPhotos = pgTable("event_photos", {
     .defaultNow(),
 });
 
+export const reviewTokens = pgTable(
+  "review_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    eventId: uuid("event_id")
+      .notNull()
+      .references(() => events.id),
+    token: varchar("token", { length: 64 }).notNull(),
+    customerEmail: varchar("customer_email", { length: 255 }).notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    usedAt: timestamp("used_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [uniqueIndex("review_tokens_token_unique").on(table.token)]
+);
+
 export const reviews = pgTable("reviews", {
   id: uuid("id").primaryKey().defaultRandom(),
   eventId: uuid("event_id")
     .notNull()
     .references(() => events.id),
+  reviewTokenId: uuid("review_token_id").references(() => reviewTokens.id),
   matchRating: matchRatingEnum("match_rating").notNull(),
   comment: text("comment"),
-  reviewerIdentifier: varchar("reviewer_identifier", {
-    length: 255,
-  }).notNull(),
+  reviewerIdentifier: varchar("reviewer_identifier", { length: 255 }),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -275,5 +293,7 @@ export type InspectionFinding = typeof inspectionFindings.$inferSelect;
 export type NewInspectionFinding = typeof inspectionFindings.$inferInsert;
 export type EventPhoto = typeof eventPhotos.$inferSelect;
 export type NewEventPhoto = typeof eventPhotos.$inferInsert;
+export type ReviewToken = typeof reviewTokens.$inferSelect;
+export type NewReviewToken = typeof reviewTokens.$inferInsert;
 export type Review = typeof reviews.$inferSelect;
 export type NewReview = typeof reviews.$inferInsert;

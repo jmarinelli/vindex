@@ -1,6 +1,6 @@
 import { eq, and, sql, desc } from "drizzle-orm";
 import { db } from "@/db";
-import { reviews, events } from "@/db/schema";
+import { reviews, events, reviewTokens } from "@/db/schema";
 import type { Review } from "@/db/schema";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -83,6 +83,75 @@ export async function submitReview(
     .returning();
 
   return review;
+}
+
+/**
+ * Submit a review using a single-use token.
+ * In one transaction: insert review + mark token as used.
+ * Throws for invalid/expired/used tokens.
+ */
+export async function submitTokenReview(
+  token: string,
+  matchRating: "yes" | "partially" | "no",
+  comment?: string
+): Promise<Review> {
+  return await db.transaction(async (tx) => {
+    // Lock the token row
+    const [reviewToken] = await tx
+      .select()
+      .from(reviewTokens)
+      .where(eq(reviewTokens.token, token))
+      .for("update")
+      .limit(1);
+
+    if (!reviewToken) {
+      throw new Error("Token de reseña inválido.");
+    }
+
+    if (reviewToken.usedAt) {
+      throw new Error("Ya dejaste una reseña con este enlace.");
+    }
+
+    if (new Date() > reviewToken.expiresAt) {
+      throw new Error("Este enlace de reseña expiró.");
+    }
+
+    // Insert review
+    const [review] = await tx
+      .insert(reviews)
+      .values({
+        eventId: reviewToken.eventId,
+        reviewTokenId: reviewToken.id,
+        matchRating,
+        comment: comment && comment.trim() ? comment.trim() : null,
+      })
+      .returning();
+
+    // Mark token as used
+    await tx
+      .update(reviewTokens)
+      .set({ usedAt: sql`now()` })
+      .where(eq(reviewTokens.id, reviewToken.id));
+
+    return review;
+  });
+}
+
+/**
+ * Get the single review for an event (for report page display).
+ * Returns null if no review exists.
+ */
+export async function getReviewForEvent(
+  eventId: string
+): Promise<Review | null> {
+  const [review] = await db
+    .select()
+    .from(reviews)
+    .where(eq(reviews.eventId, eventId))
+    .orderBy(desc(reviews.createdAt))
+    .limit(1);
+
+  return review ?? null;
 }
 
 /**

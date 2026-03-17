@@ -11,7 +11,7 @@ import { CorrectionNotice } from "@/components/report/correction-notice";
 import { ReportNotFound } from "@/components/report/report-not-found";
 import { ReviewSection } from "@/components/review/review-section";
 import { CorrectionButton } from "@/components/report/correction-button";
-import { getReviewsForEvent } from "@/lib/services/review";
+import { getReviewForEvent } from "@/lib/services/review";
 
 // ─── OG Metadata ────────────────────────────────────────────────────────────
 
@@ -98,7 +98,7 @@ export default async function ReportPage({
     correctionOf,
   } = report;
 
-  const reviewData = await getReviewsForEvent(event.id);
+  const review = await getReviewForEvent(event.id);
 
   return (
     <ShellPublic>
@@ -140,11 +140,7 @@ export default async function ReportPage({
         />
 
         {/* Reviews */}
-        <ReviewSection
-          eventId={event.id}
-          reviews={reviewData.reviews}
-          aggregation={reviewData.aggregation}
-        />
+        <ReviewSection review={review} />
 
         {/* Correction button — only visible to authenticated node members */}
         <CorrectionButton eventId={event.id} nodeId={event.nodeId} />

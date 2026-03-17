@@ -64,6 +64,7 @@ function makeEventItem(overrides?: Partial<VehicleEventItem>): VehicleEventItem 
       templateSnapshot: {},
       inspectionType: "pre_purchase",
       requestedBy: "buyer",
+      customerEmail: null,
     },
     findingCounts: {
       good: 12,

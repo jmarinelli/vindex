@@ -8,7 +8,7 @@
 
 ```
 Landing (/)
-│  └── "¿Sos inspector? Contactanos" CTA
+│  └── "¿Sos verificador? Contactanos" CTA
 │
 ├── Login (/login)
 │   └── → Dashboard
@@ -190,7 +190,7 @@ Used by: verified report, vehicle page, inspector profile, landing.
 └──────────────────────────────────┘
 ```
 
-- **White-label principle:** on report pages, the inspector's brand is prominent (name, logo, contact). The platform appears only as footer-level attribution: "Verificado en VinDex" with a small logo.
+- **White-label principle:** on report pages, the inspector's brand is prominent (name, logo, contact). The platform appears only as footer-level attribution: "Registrado en VinDex" with a small logo.
 - **Max content width:** 768px. Centered on desktop. Full width on mobile.
 - **Background:** `gray-50`. Content on `white` cards.
 
@@ -407,10 +407,10 @@ When the report link is shared on WhatsApp, MercadoLibre, Facebook:
 │ [Vehicle Photo]                     │
 │                                     │
 │ Nissan Sentra 2019                  │
-│ Inspección pre-compra — 23 items    │
+│ Verificación pre-compra — 23 items  │
 │ evaluados, 4 hallazgos              │
 │ Por: Taller Martínez                │
-│ Verificado en VinDex                │
+│ Registrado en VinDex                │
 └─────────────────────────────────────┘
 ```
 

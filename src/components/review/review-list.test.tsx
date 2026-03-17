@@ -13,6 +13,7 @@ function makeReview(
     matchRating: "yes",
     comment: null,
     reviewerIdentifier: "hash",
+    reviewTokenId: null,
     createdAt: new Date(Date.now() - 3600000), // 1 hour ago
     ...overrides,
   };

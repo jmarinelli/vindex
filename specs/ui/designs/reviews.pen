@@ -120,278 +120,6 @@
             },
             {
               "type": "frame",
-              "id": "2Gabc",
-              "name": "ReviewFormCard",
-              "width": "fill_container",
-              "fill": "$white",
-              "cornerRadius": "$radius-md",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$gray-200"
-              },
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#0000000D",
-                "offset": {
-                  "x": 0,
-                  "y": 1
-                },
-                "blur": 2
-              },
-              "layout": "vertical",
-              "gap": 16,
-              "padding": 20,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "5JU7P",
-                  "name": "FormTitle",
-                  "fill": "$gray-800",
-                  "content": "Dejar una reseña",
-                  "fontFamily": "Inter",
-                  "fontSize": 18,
-                  "fontWeight": "700"
-                },
-                {
-                  "type": "text",
-                  "id": "WAwOX",
-                  "name": "FormQuestion",
-                  "fill": "$gray-700",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "¿La condición real del vehículo coincidió con lo que describió el informe?",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "PGebb",
-                  "name": "RadioGroup",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 8,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "vyByi",
-                      "name": "RadioYes",
-                      "width": "fill_container",
-                      "height": 56,
-                      "fill": "$status-good-bg",
-                      "cornerRadius": "$radius-sm",
-                      "stroke": {
-                        "align": "inside",
-                        "thickness": 2,
-                        "fill": "$status-good"
-                      },
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        16
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "JFQvf",
-                          "name": "RadioYesIcon",
-                          "fill": "$status-good",
-                          "content": "✓",
-                          "fontFamily": "Inter",
-                          "fontSize": 18,
-                          "fontWeight": "700"
-                        },
-                        {
-                          "type": "text",
-                          "id": "yn0s6",
-                          "name": "RadioYesLabel",
-                          "fill": "$status-good",
-                          "content": "Sí, coincidió",
-                          "fontFamily": "Inter",
-                          "fontSize": 15,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "PnEEQ",
-                      "name": "RadioPartial",
-                      "width": "fill_container",
-                      "height": 56,
-                      "fill": "$white",
-                      "cornerRadius": "$radius-sm",
-                      "stroke": {
-                        "align": "inside",
-                        "thickness": 1,
-                        "fill": "$gray-200"
-                      },
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        16
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "7CEs2",
-                          "name": "RadioPartialIcon",
-                          "fill": "$gray-600",
-                          "content": "⚠",
-                          "fontFamily": "Inter",
-                          "fontSize": 18,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "J667D",
-                          "name": "RadioPartialLabel",
-                          "fill": "$gray-600",
-                          "content": "Parcialmente",
-                          "fontFamily": "Inter",
-                          "fontSize": 15,
-                          "fontWeight": "500"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "QlUDW",
-                      "name": "RadioNo",
-                      "width": "fill_container",
-                      "height": 56,
-                      "fill": "$white",
-                      "cornerRadius": "$radius-sm",
-                      "stroke": {
-                        "align": "inside",
-                        "thickness": 1,
-                        "fill": "$gray-200"
-                      },
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        16
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "nNR32",
-                          "name": "RadioNoIcon",
-                          "fill": "$gray-600",
-                          "content": "✕",
-                          "fontFamily": "Inter",
-                          "fontSize": 18,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "D4jo6",
-                          "name": "RadioNoLabel",
-                          "fill": "$gray-600",
-                          "content": "No coincidió",
-                          "fontFamily": "Inter",
-                          "fontSize": 15,
-                          "fontWeight": "500"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "oq0I5",
-                  "name": "CommentSection",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 6,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "tsXhQ",
-                      "name": "CommentLabel",
-                      "fill": "$gray-700",
-                      "content": "Comentario (opcional)",
-                      "fontFamily": "Inter",
-                      "fontSize": 14,
-                      "fontWeight": "500"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "Vd48J",
-                      "name": "Textarea",
-                      "width": "fill_container",
-                      "height": 80,
-                      "fill": "$white",
-                      "cornerRadius": "$radius-sm",
-                      "stroke": {
-                        "align": "inside",
-                        "thickness": 1,
-                        "fill": "$gray-200"
-                      },
-                      "padding": [
-                        8,
-                        12
-                      ],
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "NT2Kc",
-                          "name": "TextareaPlaceholder",
-                          "fill": "$gray-400",
-                          "content": "Contanos tu experiencia...",
-                          "fontFamily": "Inter",
-                          "fontSize": 16,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "id": "xdqPS",
-                      "name": "CharCounter",
-                      "fill": "$gray-400",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "0/500",
-                      "textAlign": "right",
-                      "fontFamily": "Inter",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "5psP7",
-                  "name": "SubmitButton",
-                  "width": "fill_container",
-                  "height": 44,
-                  "fill": "$brand-primary",
-                  "cornerRadius": "$radius-sm",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "bzVH6",
-                      "name": "SubmitLabel",
-                      "fill": "$white",
-                      "content": "Enviar reseña",
-                      "fontFamily": "Inter",
-                      "fontSize": 16,
-                      "fontWeight": "500"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
               "id": "evWmU",
               "name": "ReviewsDisplayCard",
               "width": "fill_container",
@@ -421,135 +149,10 @@
                   "id": "l2xFG",
                   "name": "ReviewsTitle",
                   "fill": "$gray-800",
-                  "content": "Reseñas (12)",
+                  "content": "Reseña del comprador",
                   "fontFamily": "Inter",
                   "fontSize": 16,
                   "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "i9Qw0",
-                  "name": "DistributionBar",
-                  "clip": true,
-                  "width": "fill_container",
-                  "height": 8,
-                  "cornerRadius": "$radius-full",
-                  "children": [
-                    {
-                      "type": "rectangle",
-                      "id": "5aYgR",
-                      "name": "BarYes",
-                      "fill": "$status-good",
-                      "width": 200,
-                      "height": 8
-                    },
-                    {
-                      "type": "rectangle",
-                      "id": "6hSIi",
-                      "name": "BarPartial",
-                      "fill": "$status-attention",
-                      "width": 80,
-                      "height": 8
-                    },
-                    {
-                      "type": "rectangle",
-                      "id": "B6MVZ",
-                      "name": "BarNo",
-                      "fill": "$status-critical",
-                      "width": 38,
-                      "height": 8
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "TgcsI",
-                  "name": "CountsRow",
-                  "width": "fill_container",
-                  "gap": 12,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "hrfo1",
-                      "name": "GoodCount",
-                      "gap": 4,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "tQ5Gc",
-                          "fill": "$status-good",
-                          "content": "✓",
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "700"
-                        },
-                        {
-                          "type": "text",
-                          "id": "quV6o",
-                          "fill": "$gray-600",
-                          "content": "8 Sí",
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "bg3jh",
-                      "name": "AttCount",
-                      "gap": 4,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "vP6EN",
-                          "fill": "$status-attention",
-                          "content": "⚠",
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "700"
-                        },
-                        {
-                          "type": "text",
-                          "id": "JFpwx",
-                          "fill": "$gray-600",
-                          "content": "3 Parcial",
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "RE9Wl",
-                      "name": "CritCount",
-                      "gap": 4,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "BsPKv",
-                          "fill": "$status-critical",
-                          "content": "✕",
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "700"
-                        },
-                        {
-                          "type": "text",
-                          "id": "0VTi9",
-                          "fill": "$gray-600",
-                          "content": "1 No",
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
                 },
                 {
                   "type": "frame",
@@ -637,171 +240,6 @@
                           "fontWeight": "normal"
                         }
                       ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "Hys9X",
-                      "name": "ReviewItem2",
-                      "width": "fill_container",
-                      "stroke": {
-                        "align": "inside",
-                        "thickness": {
-                          "bottom": 1
-                        },
-                        "fill": "$gray-200"
-                      },
-                      "layout": "vertical",
-                      "gap": 8,
-                      "padding": [
-                        12,
-                        0
-                      ],
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "T7djt",
-                          "name": "Rev2Header",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "9GGQc",
-                              "name": "Rev2Rating",
-                              "gap": 6,
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "hv0D1",
-                                  "fill": "$status-attention",
-                                  "content": "⚠",
-                                  "fontFamily": "Inter",
-                                  "fontSize": 14,
-                                  "fontWeight": "700"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "Go3EV",
-                                  "fill": "$status-attention",
-                                  "content": "Parcialmente",
-                                  "fontFamily": "Inter",
-                                  "fontSize": 14,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "38lOz",
-                              "name": "Rev2Date",
-                              "fill": "$gray-400",
-                              "content": "Hace 5 días",
-                              "fontFamily": "Inter",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "pnTZt",
-                          "name": "Rev2Comment",
-                          "fill": "$gray-600",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "La parte mecánica estaba bien pero había un rayón en la puerta trasera que no figuraba.",
-                          "fontFamily": "Inter",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "iY4F2",
-                      "name": "ReviewItem3",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "padding": [
-                        12,
-                        0
-                      ],
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "iRyMG",
-                          "name": "Rev3Header",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "8RsaW",
-                              "name": "Rev3Rating",
-                              "gap": 6,
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "9aa3z",
-                                  "fill": "$status-good",
-                                  "content": "✓",
-                                  "fontFamily": "Inter",
-                                  "fontSize": 14,
-                                  "fontWeight": "700"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "2vMXv",
-                                  "fill": "$status-good",
-                                  "content": "Sí, coincidió",
-                                  "fontFamily": "Inter",
-                                  "fontSize": 14,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "dALdd",
-                              "name": "Rev3Date",
-                              "fill": "$gray-400",
-                              "content": "Hace 1 semana",
-                              "fontFamily": "Inter",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "jubW4",
-                  "name": "ViewAllLink",
-                  "width": "fill_container",
-                  "padding": [
-                    4,
-                    0
-                  ],
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "J8X4f",
-                      "name": "ViewAllText",
-                      "fill": "$brand-accent",
-                      "content": "Ver todas las reseñas (12)",
-                      "fontFamily": "Inter",
-                      "fontSize": 14,
-                      "fontWeight": "500"
                     }
                   ]
                 }
@@ -1005,270 +443,8 @@
               "id": "PRQrD",
               "name": "TwoColumnRow",
               "width": "fill_container",
-              "gap": 20,
+              "layout": "vertical",
               "children": [
-                {
-                  "type": "frame",
-                  "id": "a1t58",
-                  "name": "ReviewFormCard",
-                  "width": "fill_container",
-                  "fill": "$white",
-                  "cornerRadius": "$radius-md",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$gray-200"
-                  },
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "color": "#0000000D",
-                    "offset": {
-                      "x": 0,
-                      "y": 1
-                    },
-                    "blur": 2
-                  },
-                  "layout": "vertical",
-                  "gap": 16,
-                  "padding": 24,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "mO1AC",
-                      "name": "FormTitle",
-                      "fill": "$gray-800",
-                      "content": "Dejar una reseña",
-                      "fontFamily": "Inter",
-                      "fontSize": 18,
-                      "fontWeight": "700"
-                    },
-                    {
-                      "type": "text",
-                      "id": "OVOFn",
-                      "name": "FormQuestion",
-                      "fill": "$gray-700",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "¿La condición real del vehículo coincidió con lo que describió el informe?",
-                      "fontFamily": "Inter",
-                      "fontSize": 14,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "Ad9kY",
-                      "name": "RadioGroup",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "Zu56e",
-                          "name": "RadioYes",
-                          "width": "fill_container",
-                          "height": 56,
-                          "fill": "$status-good-bg",
-                          "cornerRadius": "$radius-sm",
-                          "stroke": {
-                            "align": "inside",
-                            "thickness": 2,
-                            "fill": "$status-good"
-                          },
-                          "gap": 12,
-                          "padding": [
-                            0,
-                            16
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "TIr6q",
-                              "fill": "$status-good",
-                              "content": "✓",
-                              "fontFamily": "Inter",
-                              "fontSize": 18,
-                              "fontWeight": "700"
-                            },
-                            {
-                              "type": "text",
-                              "id": "qoeOC",
-                              "fill": "$status-good",
-                              "content": "Sí, coincidió",
-                              "fontFamily": "Inter",
-                              "fontSize": 15,
-                              "fontWeight": "600"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "NidED",
-                          "name": "RadioPartial",
-                          "width": "fill_container",
-                          "height": 56,
-                          "fill": "$white",
-                          "cornerRadius": "$radius-sm",
-                          "stroke": {
-                            "align": "inside",
-                            "thickness": 1,
-                            "fill": "$gray-200"
-                          },
-                          "gap": 12,
-                          "padding": [
-                            0,
-                            16
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "M2Axr",
-                              "fill": "$gray-600",
-                              "content": "⚠",
-                              "fontFamily": "Inter",
-                              "fontSize": 18,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "eq3LX",
-                              "fill": "$gray-600",
-                              "content": "Parcialmente",
-                              "fontFamily": "Inter",
-                              "fontSize": 15,
-                              "fontWeight": "500"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "DLOHK",
-                          "name": "RadioNo",
-                          "width": "fill_container",
-                          "height": 56,
-                          "fill": "$white",
-                          "cornerRadius": "$radius-sm",
-                          "stroke": {
-                            "align": "inside",
-                            "thickness": 1,
-                            "fill": "$gray-200"
-                          },
-                          "gap": 12,
-                          "padding": [
-                            0,
-                            16
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "zQ8fI",
-                              "fill": "$gray-600",
-                              "content": "✕",
-                              "fontFamily": "Inter",
-                              "fontSize": 18,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "dGpdZ",
-                              "fill": "$gray-600",
-                              "content": "No coincidió",
-                              "fontFamily": "Inter",
-                              "fontSize": 15,
-                              "fontWeight": "500"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "ynXKj",
-                      "name": "CommentSection",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 6,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "7Iyqi",
-                          "fill": "$gray-700",
-                          "content": "Comentario (opcional)",
-                          "fontFamily": "Inter",
-                          "fontSize": 14,
-                          "fontWeight": "500"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "qWsGt",
-                          "name": "Textarea",
-                          "width": "fill_container",
-                          "height": 80,
-                          "fill": "$white",
-                          "cornerRadius": "$radius-sm",
-                          "stroke": {
-                            "align": "inside",
-                            "thickness": 1,
-                            "fill": "$gray-200"
-                          },
-                          "padding": [
-                            8,
-                            12
-                          ],
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "0j3ml",
-                              "fill": "$gray-400",
-                              "content": "Contanos tu experiencia...",
-                              "fontFamily": "Inter",
-                              "fontSize": 16,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "kSmsz",
-                          "fill": "$gray-400",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "0/500",
-                          "textAlign": "right",
-                          "fontFamily": "Inter",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "xrEzm",
-                      "name": "SubmitButton",
-                      "width": "fill_container",
-                      "height": 44,
-                      "fill": "$brand-primary",
-                      "cornerRadius": "$radius-sm",
-                      "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "YRNYR",
-                          "fill": "$white",
-                          "content": "Enviar reseña",
-                          "fontFamily": "Inter",
-                          "fontSize": 16,
-                          "fontWeight": "500"
-                        }
-                      ]
-                    }
-                  ]
-                },
                 {
                   "type": "frame",
                   "id": "8tu0n",
@@ -1299,132 +475,10 @@
                       "type": "text",
                       "id": "VkREk",
                       "fill": "$gray-800",
-                      "content": "Reseñas (12)",
+                      "content": "Reseña del comprador",
                       "fontFamily": "Inter",
                       "fontSize": 16,
                       "fontWeight": "600"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "QacvG",
-                      "name": "DistributionBar",
-                      "clip": true,
-                      "width": "fill_container",
-                      "height": 8,
-                      "cornerRadius": "$radius-full",
-                      "children": [
-                        {
-                          "type": "rectangle",
-                          "id": "kheGh",
-                          "fill": "$status-good",
-                          "width": 200,
-                          "height": 8
-                        },
-                        {
-                          "type": "rectangle",
-                          "id": "ZXt7K",
-                          "fill": "$status-attention",
-                          "width": 80,
-                          "height": 8
-                        },
-                        {
-                          "type": "rectangle",
-                          "id": "5QAiV",
-                          "fill": "$status-critical",
-                          "width": 38,
-                          "height": 8
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "KQIpU",
-                      "name": "CountsRow",
-                      "width": "fill_container",
-                      "gap": 12,
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "sbAJu",
-                          "name": "dtGC",
-                          "gap": 4,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "iPmsA",
-                              "fill": "$status-good",
-                              "content": "✓",
-                              "fontFamily": "Inter",
-                              "fontSize": 13,
-                              "fontWeight": "700"
-                            },
-                            {
-                              "type": "text",
-                              "id": "6nyRs",
-                              "fill": "$gray-600",
-                              "content": "8 Sí",
-                              "fontFamily": "Inter",
-                              "fontSize": 13,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "GfzIK",
-                          "name": "dtAC",
-                          "gap": 4,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "TISXy",
-                              "fill": "$status-attention",
-                              "content": "⚠",
-                              "fontFamily": "Inter",
-                              "fontSize": 13,
-                              "fontWeight": "700"
-                            },
-                            {
-                              "type": "text",
-                              "id": "c3SKt",
-                              "fill": "$gray-600",
-                              "content": "3 Parcial",
-                              "fontFamily": "Inter",
-                              "fontSize": 13,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "t2TeS",
-                          "name": "dtCC",
-                          "gap": 4,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "GANWU",
-                              "fill": "$status-critical",
-                              "content": "✕",
-                              "fontFamily": "Inter",
-                              "fontSize": 13,
-                              "fontWeight": "700"
-                            },
-                            {
-                              "type": "text",
-                              "id": "IF9I1",
-                              "fill": "$gray-600",
-                              "content": "1 No",
-                              "fontFamily": "Inter",
-                              "fontSize": 13,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        }
-                      ]
                     },
                     {
                       "type": "frame",
@@ -1510,167 +564,6 @@
                               "fontWeight": "normal"
                             }
                           ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "em6Hd",
-                          "name": "ReviewItem2",
-                          "width": "fill_container",
-                          "stroke": {
-                            "align": "inside",
-                            "thickness": {
-                              "bottom": 1
-                            },
-                            "fill": "$gray-200"
-                          },
-                          "layout": "vertical",
-                          "gap": 8,
-                          "padding": [
-                            12,
-                            0
-                          ],
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "JQsmY",
-                              "name": "dtR2H",
-                              "width": "fill_container",
-                              "justifyContent": "space_between",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "frame",
-                                  "id": "S5YGB",
-                                  "name": "dtR2R",
-                                  "gap": 6,
-                                  "alignItems": "center",
-                                  "children": [
-                                    {
-                                      "type": "text",
-                                      "id": "ScbCR",
-                                      "fill": "$status-attention",
-                                      "content": "⚠",
-                                      "fontFamily": "Inter",
-                                      "fontSize": 14,
-                                      "fontWeight": "700"
-                                    },
-                                    {
-                                      "type": "text",
-                                      "id": "L5lpD",
-                                      "fill": "$status-attention",
-                                      "content": "Parcialmente",
-                                      "fontFamily": "Inter",
-                                      "fontSize": 14,
-                                      "fontWeight": "600"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "Ymn2D",
-                                  "fill": "$gray-400",
-                                  "content": "Hace 5 días",
-                                  "fontFamily": "Inter",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "rijQx",
-                              "fill": "$gray-600",
-                              "textGrowth": "fixed-width",
-                              "width": "fill_container",
-                              "content": "La parte mecánica estaba bien pero había un rayón en la puerta trasera que no figuraba.",
-                              "fontFamily": "Inter",
-                              "fontSize": 14,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "eXtlz",
-                          "name": "ReviewItem3",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 8,
-                          "padding": [
-                            12,
-                            0
-                          ],
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "GzTef",
-                              "name": "dtR3H",
-                              "width": "fill_container",
-                              "justifyContent": "space_between",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "frame",
-                                  "id": "L9sZC",
-                                  "name": "dtR3R",
-                                  "gap": 6,
-                                  "alignItems": "center",
-                                  "children": [
-                                    {
-                                      "type": "text",
-                                      "id": "j6jCP",
-                                      "fill": "$status-good",
-                                      "content": "✓",
-                                      "fontFamily": "Inter",
-                                      "fontSize": 14,
-                                      "fontWeight": "700"
-                                    },
-                                    {
-                                      "type": "text",
-                                      "id": "LwEIa",
-                                      "fill": "$status-good",
-                                      "content": "Sí, coincidió",
-                                      "fontFamily": "Inter",
-                                      "fontSize": 14,
-                                      "fontWeight": "600"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "I1yui",
-                                  "fill": "$gray-400",
-                                  "content": "Hace 1 semana",
-                                  "fontFamily": "Inter",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "nV69n",
-                      "name": "ViewAllLink",
-                      "width": "fill_container",
-                      "padding": [
-                        4,
-                        0
-                      ],
-                      "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "G8Ojn",
-                          "fill": "$brand-accent",
-                          "content": "Ver todas las reseñas (12)",
-                          "fontFamily": "Inter",
-                          "fontSize": 14,
-                          "fontWeight": "500"
                         }
                       ]
                     }
@@ -2293,6 +1186,1505 @@
                   "fontWeight": "normal"
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "b3XPA",
+      "x": 1500,
+      "y": 0,
+      "name": "Review Page — Form (Mobile)",
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "1IB3c",
+          "name": "topbar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "CDvz3",
+              "name": "LogoBadge",
+              "width": 52,
+              "height": 28,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "saOFk",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Parallelogram",
+                  "geometry": "M8 0l48 0-8 28-48 0z",
+                  "fill": "$brand-accent",
+                  "width": 56,
+                  "height": 28
+                },
+                {
+                  "type": "text",
+                  "id": "FMVmZ",
+                  "x": 10,
+                  "y": 4,
+                  "name": "vinText",
+                  "fill": "$white",
+                  "content": "VIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "PjSqV",
+              "name": "dex",
+              "fill": "$brand-primary",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "wj62L",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vD98w",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            16
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "MHB0P",
+              "name": "PageTitle",
+              "fill": "$gray-800",
+              "content": "Dejá tu reseña",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "SUTpU",
+              "name": "ContextCard",
+              "width": "fill_container",
+              "fill": "$gray-50",
+              "cornerRadius": "$radius-md",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xd2f1",
+                  "name": "VehicleLine",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tvT2M",
+                      "name": "carIcon",
+                      "fill": "$gray-800",
+                      "content": "🚗",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "nj60J",
+                      "name": "vehicleName",
+                      "fill": "$gray-800",
+                      "content": "Nissan Sentra 2019 — AC123BD",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "YBGb5",
+                  "name": "dateLine",
+                  "fill": "$gray-600",
+                  "content": "Fecha: 13/03/2026",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "M8vAl",
+                  "name": "inspectorLine",
+                  "fill": "$gray-600",
+                  "content": "Inspector: AutoCheck Buenos Aires",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "pTg5N",
+                  "name": "StatusSummary",
+                  "width": "fill_container",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "amJIZ",
+                      "name": "s1",
+                      "fill": "$status-good",
+                      "content": "✓ 12 Bien",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZcfJZ",
+                      "name": "s2",
+                      "fill": "$gray-400",
+                      "content": "·",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "0UOMD",
+                      "name": "s3",
+                      "fill": "$status-attention",
+                      "content": "⚠ 3 Atención",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "AOmxN",
+                      "name": "s4",
+                      "fill": "$gray-400",
+                      "content": "·",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "H9eYu",
+                      "name": "s5",
+                      "fill": "$status-critical",
+                      "content": "✕ 1 Crítico",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "5D3I4",
+                  "name": "ReportLink",
+                  "fill": "$brand-accent",
+                  "content": "Ver reporte completo →",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "o661K",
+              "name": "Question",
+              "fill": "$gray-800",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "¿La condición real del vehículo coincidió con lo que describió el informe?",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "WundR",
+              "name": "RatingOptions",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "1lm9S",
+                  "name": "RadioYes",
+                  "width": "fill_container",
+                  "height": 56,
+                  "fill": "$status-good-bg",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 2,
+                    "fill": "$status-good"
+                  },
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "6pIwH",
+                      "name": "iconYes",
+                      "fill": "$status-good",
+                      "content": "✓",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "TpjNv",
+                      "name": "labelYes",
+                      "fill": "$status-good",
+                      "content": "Sí, coincidió",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "p5xbE",
+                  "name": "RadioPartial",
+                  "width": "fill_container",
+                  "height": 56,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "l0yqU",
+                      "name": "iconPartial",
+                      "fill": "$gray-600",
+                      "content": "⚠",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "gBuzv",
+                      "name": "labelPartial",
+                      "fill": "$gray-600",
+                      "content": "Parcialmente",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ozssx",
+                  "name": "RadioNo",
+                  "width": "fill_container",
+                  "height": 56,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "bMBCH",
+                      "name": "iconNo",
+                      "fill": "$gray-600",
+                      "content": "✕",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "UG3hl",
+                      "name": "labelNo",
+                      "fill": "$gray-600",
+                      "content": "No coincidió",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "4a1zP",
+              "name": "CommentSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mjYBL",
+                  "name": "commentLabel",
+                  "fill": "$gray-700",
+                  "content": "Comentario (opcional)",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "1FJXC",
+                  "name": "Textarea",
+                  "width": "fill_container",
+                  "height": 80,
+                  "fill": "$white",
+                  "cornerRadius": "$radius-sm",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$gray-200"
+                  },
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TPcj8",
+                      "name": "placeholder",
+                      "fill": "$gray-400",
+                      "content": "Contanos tu experiencia...",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "NU5YS",
+                  "name": "charCount",
+                  "fill": "$gray-400",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "0/500",
+                  "textAlign": "right",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "1p8oc",
+              "name": "SubmitButton",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GSrqx",
+                  "name": "submitLabel",
+                  "fill": "$white",
+                  "content": "Enviar reseña",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "line",
+          "id": "jBNWi",
+          "name": "sep",
+          "width": "fill_container",
+          "height": 0,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$gray-200"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "oCn5S",
+          "name": "Footer",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": 16,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "JjvrZ",
+              "name": "f1",
+              "fill": "$gray-400",
+              "content": "Verificado por VinDex",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "O0kDj",
+              "name": "f2",
+              "fill": "$gray-400",
+              "content": "·",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "ZC0PL",
+              "name": "f3",
+              "fill": "$gray-400",
+              "content": "Privacidad",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "nXhta",
+              "name": "f4",
+              "fill": "$gray-400",
+              "content": "·",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "aAo8y",
+              "name": "f5",
+              "fill": "$gray-400",
+              "content": "Términos",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "lhKPq",
+      "x": 1940,
+      "y": 0,
+      "name": "Review Page — Confirmation (Mobile)",
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "AIT0r",
+          "name": "topbar2",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "8WS44",
+              "name": "LogoBadge",
+              "width": 52,
+              "height": 28,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "ucqtX",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Parallelogram",
+                  "geometry": "M8 0l48 0-8 28-48 0z",
+                  "fill": "$brand-accent",
+                  "width": 56,
+                  "height": 28
+                },
+                {
+                  "type": "text",
+                  "id": "oOaFd",
+                  "x": 10,
+                  "y": 4,
+                  "name": "vinText",
+                  "fill": "$white",
+                  "content": "VIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "8x8U2",
+              "name": "dex",
+              "fill": "$brand-primary",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "umDqC",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "x50up",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            16,
+            24,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "z6yXn",
+              "name": "CheckCircle",
+              "width": 64,
+              "height": 64,
+              "fill": "$success",
+              "cornerRadius": "$radius-full",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "q3Uy4",
+                  "name": "checkIcon",
+                  "fill": "$white",
+                  "content": "✓",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "kNkfO",
+              "name": "confirmTitle",
+              "fill": "$gray-800",
+              "content": "¡Gracias por tu reseña!",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "ZxHDm",
+              "name": "confirmSub",
+              "fill": "$gray-500",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Tu opinión ayuda a otros compradores a tomar mejores decisiones.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "RkI4C",
+              "name": "ReportButton",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XLGZ0",
+                  "name": "reportLabel",
+                  "fill": "$white",
+                  "content": "Ver reporte completo",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "M82bx",
+      "x": 1500,
+      "y": 1000,
+      "name": "Review Page — Invalid Token",
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "3zgAc",
+          "name": "tb3",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "GzJqb",
+              "name": "LogoBadge",
+              "width": 52,
+              "height": 28,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "27nRA",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Parallelogram",
+                  "geometry": "M8 0l48 0-8 28-48 0z",
+                  "fill": "$brand-accent",
+                  "width": 56,
+                  "height": 28
+                },
+                {
+                  "type": "text",
+                  "id": "CKDto",
+                  "x": 10,
+                  "y": 4,
+                  "name": "vinText",
+                  "fill": "$white",
+                  "content": "VIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "a5vEp",
+              "name": "dex",
+              "fill": "$brand-primary",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "ZrcrG",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uj0Tn",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            64,
+            16,
+            24,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "aENy5",
+              "name": "ErrorCircle",
+              "width": 48,
+              "height": 48,
+              "fill": "#FEE2E2",
+              "cornerRadius": "$radius-full",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yCTh1",
+                  "name": "errIcon",
+                  "fill": "$error",
+                  "content": "✕",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "t7j0W",
+              "name": "errTitle",
+              "fill": "$gray-800",
+              "content": "Enlace inválido",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "C4cR7",
+              "name": "errMsg",
+              "fill": "$gray-500",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Este enlace de reseña no es válido.\nVerificá que el enlace sea correcto.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "KceUZ",
+              "name": "HomeCTA",
+              "height": 48,
+              "cornerRadius": "$radius-sm",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mSZRd",
+                  "name": "errCtaLabel",
+                  "fill": "$brand-primary",
+                  "content": "Ir al inicio",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gcrwT",
+      "x": 1940,
+      "y": 1000,
+      "name": "Review Page — Expired Token",
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "vhw8z",
+          "name": "tb4",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "rqx1p",
+              "name": "LogoBadge",
+              "width": 52,
+              "height": 28,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "V2s7x",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Parallelogram",
+                  "geometry": "M8 0l48 0-8 28-48 0z",
+                  "fill": "$brand-accent",
+                  "width": 56,
+                  "height": 28
+                },
+                {
+                  "type": "text",
+                  "id": "FMS24",
+                  "x": 10,
+                  "y": 4,
+                  "name": "vinText",
+                  "fill": "$white",
+                  "content": "VIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "nqUYJ",
+              "name": "dex",
+              "fill": "$brand-primary",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "LS5IQ",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CdKCA",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            64,
+            16,
+            24,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "bWF2X",
+              "name": "WarnCircle",
+              "width": 48,
+              "height": 48,
+              "fill": "$status-attention-bg",
+              "cornerRadius": "$radius-full",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "0I5Em",
+                  "name": "warnIcon",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "timer",
+                  "iconFontFamily": "lucide",
+                  "fill": "$warning"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "wX6gx",
+              "name": "warnTitle",
+              "fill": "$gray-800",
+              "content": "Enlace expirado",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "BIdDy",
+              "name": "warnMsg",
+              "fill": "$gray-500",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "El plazo para dejar una reseña era de 90 días y ya pasó.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "pKMss",
+              "name": "ReportCTA",
+              "height": 48,
+              "cornerRadius": "$radius-sm",
+              "padding": [
+                0,
+                24
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "KJ8q1",
+                  "name": "warnCtaLabel",
+                  "fill": "$brand-accent",
+                  "content": "Ver reporte →",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "CRPSN",
+      "x": 2380,
+      "y": 0,
+      "name": "Review Page — Already Used",
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "6G1zd",
+          "name": "tb5",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "N7TyP",
+              "name": "LogoBadge",
+              "width": 52,
+              "height": 28,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "PMnpk",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Parallelogram",
+                  "geometry": "M8 0l48 0-8 28-48 0z",
+                  "fill": "$brand-accent",
+                  "width": 56,
+                  "height": 28
+                },
+                {
+                  "type": "text",
+                  "id": "sYmnc",
+                  "x": 10,
+                  "y": 4,
+                  "name": "vinText",
+                  "fill": "$white",
+                  "content": "VIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "BqdBJ",
+              "name": "dex",
+              "fill": "$brand-primary",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "zujzB",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "3eEtW",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            16,
+            24,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "r1Q6n",
+              "name": "SuccessCircle",
+              "width": 48,
+              "height": 48,
+              "fill": "$status-good-bg",
+              "cornerRadius": "$radius-full",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "I9hiF",
+                  "name": "usedIcon",
+                  "fill": "$success",
+                  "content": "✓",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "sVTYe",
+              "name": "usedTitle",
+              "fill": "$gray-800",
+              "content": "Ya dejaste una reseña",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "X8IiP",
+              "name": "PrevReviewCard",
+              "width": "fill_container",
+              "fill": "$gray-50",
+              "cornerRadius": "$radius-md",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YD8gs",
+                  "name": "RatingLine",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rkeLV",
+                      "name": "rIcon",
+                      "fill": "$status-good",
+                      "content": "✓",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IFrWU",
+                      "name": "rLabel",
+                      "fill": "$status-good",
+                      "content": "Sí, coincidió",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "RtLSJ",
+                  "name": "rComment",
+                  "fill": "$gray-600",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "\"El auto estaba exactamente como describía el informe.\"",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "zA1JR",
+                  "name": "rTime",
+                  "fill": "$gray-400",
+                  "content": "Hace 3 días",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Qvg17",
+              "name": "ReportButton",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1MdYB",
+                  "name": "usedBtnLabel",
+                  "fill": "$white",
+                  "content": "Ver reporte completo",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "472PF",
+      "x": 2380,
+      "y": 700,
+      "name": "Customer Email — Sign + Step 2",
+      "width": 390,
+      "fill": "$white",
+      "layout": "vertical",
+      "gap": 32,
+      "padding": 16,
+      "children": [
+        {
+          "type": "text",
+          "id": "fnY6D",
+          "name": "signLabel",
+          "fill": "$gray-800",
+          "content": "Sign Page: Customer Email",
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontWeight": "700"
+        },
+        {
+          "type": "frame",
+          "id": "Irw4Q",
+          "name": "EmailFieldSign",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "XJRD5",
+              "name": "emailLabelSign",
+              "fill": "$gray-700",
+              "content": "Email del cliente (opcional)",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "4E1zR",
+              "name": "EmailInputSign",
+              "width": "fill_container",
+              "height": 40,
+              "fill": "$white",
+              "cornerRadius": "$radius-sm",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "padding": [
+                0,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iMjI4",
+                  "name": "emailValueSign",
+                  "fill": "$gray-800",
+                  "content": "comprador@email.com",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "t4oFY",
+              "name": "emailHelpSign",
+              "fill": "$gray-400",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Se le notificará cuando firmes la inspección.",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wi6Hl",
+          "name": "SignButton",
+          "width": "fill_container",
+          "height": 48,
+          "fill": "$brand-primary",
+          "cornerRadius": "$radius-sm",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "zANlA",
+              "name": "signLabel",
+              "fill": "$white",
+              "content": "Firmar Inspección",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "line",
+          "id": "ZXQO5",
+          "name": "step2Sep",
+          "width": "fill_container",
+          "height": 0,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$gray-200"
+          }
+        },
+        {
+          "type": "text",
+          "id": "7hjZz",
+          "name": "step2Label",
+          "fill": "$gray-800",
+          "content": "Step 2: Customer Email Input",
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontWeight": "700"
+        },
+        {
+          "type": "frame",
+          "id": "ap4pf",
+          "name": "EmailField",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "8b7WN",
+              "name": "emailFieldLabel",
+              "fill": "$gray-700",
+              "content": "Email del cliente (opcional)",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "CytuA",
+              "name": "EmailInput",
+              "width": "fill_container",
+              "height": 40,
+              "fill": "$white",
+              "cornerRadius": "$radius-sm",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "padding": [
+                0,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Ucbav",
+                  "name": "emailPlaceholder",
+                  "fill": "$gray-400",
+                  "content": "comprador@email.com",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "uXA69",
+              "name": "emailHelp",
+              "fill": "$gray-400",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Se le enviará el informe y un enlace para dejar una reseña.",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
             }
           ]
         }

@@ -8,11 +8,12 @@ import {
   createCorrectionSchema,
   uploadPhotoSchema,
   deleteEventPhotoSchema,
+  updateCustomerEmailSchema,
 } from "@/lib/validators";
 import * as inspectionService from "@/lib/services/inspection";
 import { db } from "@/db";
-import { nodes } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { nodes, inspectionDetails, events } from "@/db/schema";
+import { eq, and } from "drizzle-orm";
 
 type ActionResult<T = unknown> = {
   success: boolean;
@@ -319,6 +320,60 @@ export async function deleteEventPhotoAction(
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Error al eliminar la foto.";
+    return { success: false, error: message };
+  }
+}
+
+/**
+ * Update customer email on a draft inspection.
+ * Only works on draft events (immutability guard).
+ */
+export async function updateCustomerEmailAction(
+  input: unknown
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id || !session.user.nodeId) {
+    return { success: false, error: "No autenticado." };
+  }
+
+  const parsed = updateCustomerEmailSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    // Verify event belongs to user's node and is still draft
+    const [event] = await db
+      .select()
+      .from(events)
+      .where(
+        and(
+          eq(events.id, parsed.data.eventId),
+          eq(events.nodeId, session.user.nodeId)
+        )
+      )
+      .limit(1);
+
+    if (!event) {
+      return { success: false, error: "Inspección no encontrada." };
+    }
+
+    if (event.status === "signed") {
+      return { success: false, error: "No se puede modificar una inspección firmada." };
+    }
+
+    // Update customer email on inspection detail
+    const emailValue = parsed.data.customerEmail?.trim() || null;
+    await db
+      .update(inspectionDetails)
+      .set({ customerEmail: emailValue })
+      .where(eq(inspectionDetails.eventId, parsed.data.eventId));
+
+    return { success: true };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al actualizar el email.";
     return { success: false, error: message };
   }
 }

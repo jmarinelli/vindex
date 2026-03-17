@@ -20,7 +20,7 @@ The landing page is structured around the platform's core narrative: the seconda
 
 ### Shell A Context (Modified)
 
-- **Header:** Full-width, sticky. VinDex logo (left, links to top of page via `#`), anchor links (center: "Cómo funciona", "Para compradores", "Para inspectores"), Login button (right, secondary style). Background transitions from transparent to `white` with `shadow-sm` on scroll (> 56px).
+- **Header:** Full-width, sticky. VinDex logo (left, links to top of page via `#`), anchor links (center: "Cómo funciona", "Para compradores", "Para verificadores"), Login button (right, secondary style). Background transitions from transparent to `white` with `shadow-sm` on scroll (> 56px).
 - **Content area:** full-width (no max-width constraint — hero and sections span the viewport). Inner content areas use max-width `1024px`, centered.
 - **Footer:** Full-width, `brand-primary` bg, `white` text.
 
@@ -30,7 +30,7 @@ The landing page is structured around the platform's core narrative: the seconda
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  VinDex    Cómo funciona · Compradores · Inspectores  Login │
+│  VinDex    Cómo funciona · Compradores · Verificadores  Login │
 ├──────────────────────────────────────────────────────────┤
 │                                                          │
 │              HERO SECTION                                │
@@ -40,7 +40,7 @@ The landing page is structured around the platform's core narrative: the seconda
 │   VinDex construye identidad vehicular documentada      │
 │   — un servicio profesional a la vez.                   │
 │                                                          │
-│   [ Cómo funciona ]  [ ¿Sos inspector? Contactanos ]   │
+│   [ Cómo funciona ]  [ ¿Sos verificador? Contactanos ]  │
 │                                                          │
 ├──────────────────────────────────────────────────────────┤
 │                                                          │
@@ -59,7 +59,7 @@ The landing page is structured around the platform's core narrative: the seconda
 │                                                          │
 │   ①                 ②                ③                ④  │
 │   Un profesional    El resultado     El cliente       El vehículo │
-│   evalúa el         queda sellado    recibe un        acumula su  │
+│   evalúa el         queda vinculado  recibe un        acumula su  │
 │   vehículo          al VIN           informe          historia    │
 │                                      profesional                  │
 │                                                          │
@@ -74,7 +74,7 @@ The landing page is structured around the platform's core narrative: the seconda
 │                                                          │
 ├──────────────────────────────────────────────────────────┤
 │                                                          │
-│              PARA INSPECTORES                            │
+│              PARA VERIFICADORES                           │
 │                                                          │
 │   Tu herramienta, tu marca, tu historial                │
 │                                                          │
@@ -85,20 +85,20 @@ The landing page is structured around the platform's core narrative: the seconda
 │                                                          │
 │              UN VIN, TODA SU VIDA DOCUMENTADA            │
 │                                                          │
-│   Inspecciones, servicios y reparaciones se anclan      │
+│   Verificaciones, servicios y reparaciones se vinculan   │
 │   al VIN. Con el tiempo, se construye un registro       │
 │   profesional que habla por sí solo.                    │
 │                                                          │
 │   ┌────────────────────────────────────────────┐        │
-│   │  Mar 2026  Inspección pre-compra  78.400km │        │
+│   │  Mar 2026  Verificación pre-compra 78.400km │        │
 │   │  Sep 2026  Cambio de aceite       87.000km │        │
 │   │  Dic 2026  Alineación y balanceo  93.200km │        │
-│   │  Mar 2027  Inspección periódica  104.800km │        │
+│   │  Mar 2027  Verificación periódica 104.800km │        │
 │   └────────────────────────────────────────────┘        │
 │                                                          │
 ├──────────────────────────────────────────────────────────┤
 │                                                          │
-│              ¿SOS INSPECTOR?                             │
+│              ¿SOS VERIFICADOR?                            │
 │                                                          │
 │   Contactanos para empezar                               │
 │                                                          │
@@ -136,7 +136,7 @@ The `LandingHeader` component uses `useSession()` from `next-auth/react` (the ro
 | Container | Full-width, 64px height, `padding` 0 24px, fixed top, z-50 | Transparent initially. After scrolling 56px: `white` bg, `shadow-sm`, transition 200ms. |
 | Logo | `Logo/Principal` component, links to `#` (scroll to top) | Left-aligned |
 | Nav links | `text-sm`, `font-medium`, `gray-700` (on transparent: `white`), `space-6` gap | Center. Hidden on mobile (< 900px). Smooth-scroll to section anchors. |
-| Nav items | — | "Cómo funciona" (#como-funciona), "Para compradores" (#compradores), "Para inspectores" (#inspectores) |
+| Nav items | — | "Cómo funciona" (#como-funciona), "Para compradores" (#compradores), "Para verificadores" (#verificadores) |
 | Login button | `Button/Secondary` variant, `text-sm` | Right-aligned. Navigates to `/login`. |
 | Mobile menu | Hamburger icon (24x24), `gray-700` | Visible < 900px. Opens full-screen overlay with nav links + login button stacked vertically. |
 
@@ -196,7 +196,7 @@ The first fold. Leads with the market problem, then positions VinDex as the solu
 | Subheading | `text-lg`, `gray-300` (on dark bg), max-width `500px`, `space-4` below tagline | "VinDex construye identidad vehicular documentada — un servicio profesional a la vez." |
 | CTA row | Horizontal, `space-4` gap, `space-8` below subheading | Two buttons side by side (stacked on mobile) |
 | Primary CTA | `Button/Primary` with `brand-accent` bg, `white` text, lg size (48px), `radius-sm` | "Cómo funciona" → smooth-scroll to `#como-funciona` |
-| Secondary CTA | White outline button, `white` text, lg size (48px), `radius-sm`, 1px `white` border | "¿Sos inspector? Contactanos" → smooth-scroll to `#contacto` |
+| Secondary CTA | White outline button, `white` text, lg size (48px), `radius-sm`, 1px `white` border | "¿Sos verificador? Contactanos" → smooth-scroll to `#contacto` |
 | Trust indicator | `text-xs`, `gray-400`, `space-10` below CTAs | "Identidad vehicular documentada · Inmutable · Profesional" |
 
 ---
@@ -241,10 +241,10 @@ Four-step visual explanation of the platform flow. The fourth step introduces th
 
 | Step | Icon | Title | Description |
 |------|------|-------|-------------|
-| 1 | `clipboard-check` | "Un profesional evalúa el vehículo" | "Un inspector o taller registrado evalúa el vehículo y documenta su estado real, punto por punto." |
-| 2 | `stamp` | "El resultado queda sellado al VIN" | "Firmado digitalmente, inmutable, anclado a la identidad del vehículo para siempre." |
+| 1 | `clipboard-check` | "Un profesional evalúa el vehículo" | "Un verificador o taller registrado evalúa el vehículo y documenta su estado real, punto por punto." |
+| 2 | `stamp` | "El resultado queda vinculado al VIN" | "Firmado digitalmente, inmutable, vinculado a la identidad del vehículo para siempre." |
 | 3 | `file-check` | "El cliente recibe un informe profesional" | "Un link con preview visual, listo para compartir en publicaciones o por WhatsApp." |
-| 4 | `layers` | "El vehículo acumula su historia" | "Cada servicio profesional se ancla al VIN. Cuando alguien quiera saber qué pasó con ese auto, la información va a estar." |
+| 4 | `layers` | "El vehículo acumula su historia" | "Cada servicio profesional se vincula al VIN. Cuando alguien quiera saber qué pasó con ese auto, la información va a estar." |
 
 ### Connecting Line (Desktop Only)
 
@@ -277,9 +277,9 @@ Value proposition for buyers — the primary audience for public reports.
 
 | Icon | Title | Description |
 |------|-------|-------------|
-| `search` | "Consultá el historial" | "Accedé a todo lo documentado sobre un vehículo por su VIN. Cada inspección y servicio registrado, en un solo lugar." |
+| `search` | "Consultá el historial" | "Accedé a todo lo documentado sobre un vehículo por su VIN. Cada verificación y servicio registrado, en un solo lugar." |
 | `shield-check` | "Inmutable por diseño" | "Una vez firmado, nadie puede alterar lo que el profesional encontró. Lo que ves es lo que se documentó." |
-| `eye` | "Transparencia total" | "Sabé quién pidió la inspección, quién la hizo, cuándo, y a qué kilometraje. Sin zonas grises." |
+| `eye` | "Transparencia total" | "Sabé quién pidió la verificación, quién la hizo, cuándo, y a qué kilometraje. Sin zonas grises." |
 
 ---
 
@@ -289,10 +289,10 @@ Value proposition for inspectors — the users who will register.
 
 | Element | Style | Behavior |
 |---------|-------|----------|
-| Section container | `gray-50` bg, `space-12` vertical padding, id="inspectores" | Anchor target |
+| Section container | `gray-50` bg, `space-12` vertical padding, id="verificadores" | Anchor target |
 | Inner container | max-width `1024px`, centered |  |
 | Section title | `text-2xl`, `font-bold`, `gray-800`, text-center | "Tu herramienta, tu marca, tu historial" |
-| Subtitle | `text-base`, `gray-500`, text-center, `space-2` below title | "Todo lo que necesitás para ofrecer inspecciones profesionales." |
+| Subtitle | `text-base`, `gray-500`, text-center, `space-2` below title | "Todo lo que necesitás para ofrecer verificaciones profesionales." |
 | Features grid | 3-column grid (desktop), stacked (mobile), `space-6` gap, `space-10` below subtitle | Feature cards |
 
 ### Inspector Feature Card
@@ -310,7 +310,7 @@ Value proposition for inspectors — the users who will register.
 |------|-------|-------------|
 | `smartphone` | "Una herramienta superior" | "Formularios estructurados, fotos integradas, funciona offline. Más rápido y profesional que tu método actual." |
 | `palette` | "Tu marca, no la nuestra" | "Reportes white-label con tu identidad prominente. La plataforma es infraestructura invisible." |
-| `trending-up` | "Reputación que se acumula" | "Cada inspección construye tu perfil profesional: cantidad de inspecciones, nivel de detalle, reseñas de compradores." |
+| `trending-up` | "Reputación que se acumula" | "Cada verificación construye tu perfil profesional: cantidad de verificaciones, nivel de detalle, reseñas de compradores." |
 
 ---
 
@@ -323,7 +323,7 @@ A vision section that plants the seed of vehicle identity as an accumulating ass
 | Section container | `brand-primary` bg, `space-16` vertical padding, id="historial" | Dark section for visual contrast and gravitas |
 | Inner container | max-width `768px`, centered, text-center | Narrower, focused |
 | Section title | `text-2xl` (mobile) / `text-3xl` (desktop), `font-bold`, `white` | "Un VIN, toda su vida documentada" |
-| Body text | `text-base`, `gray-400` (on dark bg), `leading-relaxed`, `space-4` below title, max-width `560px`, centered | "Inspecciones, servicios y reparaciones se anclan al VIN. Con el tiempo, se construye un registro profesional que habla por sí solo." |
+| Body text | `text-base`, `gray-400` (on dark bg), `leading-relaxed`, `space-4` below title, max-width `560px`, centered | "Verificaciones, servicios y reparaciones se vinculan al VIN. Con el tiempo, se construye un registro profesional que habla por sí solo." |
 | Timeline container | `space-10` below body text, left-aligned within centered container, max-width `520px` | Visual timeline |
 
 ### Timeline Design
@@ -343,10 +343,10 @@ The timeline is a vertical list of events with a continuous left-edge line conne
 
 | Date | Description | Odometer | Professional |
 |------|-------------|----------|-------------|
-| Mar 2026 | Inspección pre-compra | 78.400 km | Insp. Martínez |
+| Mar 2026 | Verificación pre-compra | 78.400 km | Insp. Martínez |
 | Sep 2026 | Cambio de aceite y filtros | 87.000 km | Taller López |
 | Dic 2026 | Alineación y balanceo | 93.200 km | Taller López |
-| Mar 2027 | Inspección periódica | 104.800 km | Insp. Martínez |
+| Mar 2027 | Verificación periódica | 104.800 km | Insp. Martínez |
 
 **Design note:** The mix of inspection events and workshop services is intentional — it hints at the broader platform direction without explicitly promising workshop features. The ascending odometer readings subtly communicate continuity and coherence. The dark background differentiates this section from the functional sections above and gives it a more aspirational, vision-oriented feel.
 
@@ -360,7 +360,7 @@ Lead capture form for inspectors interested in using VinDex.
 |---------|-------|----------|
 | Section container | `gray-50` bg, `space-12` vertical padding, id="contacto" | Anchor target |
 | Inner container | max-width `560px`, centered |  |
-| Section title | `text-2xl`, `font-bold`, `gray-800`, text-center | "¿Sos inspector?" |
+| Section title | `text-2xl`, `font-bold`, `gray-800`, text-center | "¿Sos verificador?" |
 | Subtitle | `text-base`, `gray-500`, text-center, `space-2` below title | "Contactanos para empezar a usar VinDex." |
 | Form container | `white` bg, `radius-md`, `shadow-sm`, `space-6` padding, `space-8` below subtitle | Centered form |
 
@@ -371,7 +371,7 @@ Lead capture form for inspectors interested in using VinDex.
 | Nombre | Text input | Required, min 2 chars | "Tu nombre" |
 | Email | Email input | Required, valid email format | "tu@email.com" |
 | Teléfono | Tel input | Optional | "+54 11 1234-5678" |
-| Mensaje | Textarea (3 rows, auto-expanding) | Required, min 10 chars, max 500 chars | "Contanos sobre tu taller o servicio de inspección..." |
+| Mensaje | Textarea (3 rows, auto-expanding) | Required, min 10 chars, max 500 chars | "Contanos sobre tu taller o servicio de verificación..." |
 
 ### Form Inputs Style
 
@@ -444,7 +444,7 @@ Full-width footer with platform information and legal links.
 │     vehicular documentada...           │
 │                                         │
 │     [ Cómo funciona             ]      │
-│     [ ¿Sos inspector? Contactanos ]    │
+│     [ ¿Sos verificador? Contactanos ]    │
 │                                         │
 ├─────────────────────────────────────────┤
 │                                         │
@@ -462,7 +462,7 @@ Full-width footer with platform information and legal links.
 │        el vehículo                      │
 │                                         │
 │     ②  El resultado queda              │
-│        sellado al VIN                   │
+│        vinculado al VIN                 │
 │                                         │
 │     ③  El cliente recibe un            │
 │        informe profesional              │
@@ -510,11 +510,11 @@ Full-width footer with platform information and legal links.
 │     ░░░░░░░░░░░░░░░░░░░░░░░░░░░       │
 │     Un VIN, toda su vida documentada   │
 │                                         │
-│     Inspecciones, servicios y          │
-│     reparaciones se anclan al VIN...   │
+│     Verificaciones, servicios y         │
+│     reparaciones se vinculan al VIN... │
 │                                         │
 │     ● Mar 2026                          │
-│     │ Inspección pre-compra             │
+│     │ Verificación pre-compra            │
 │     │ 78.400 km · Insp. Martínez       │
 │     │                                   │
 │     ● Sep 2026                          │
@@ -526,12 +526,12 @@ Full-width footer with platform information and legal links.
 │     │ 93.200 km · Taller López         │
 │     │                                   │
 │     ● Mar 2027                          │
-│     │ Inspección periódica              │
+│     │ Verificación periódica             │
 │     │ 104.800 km · Insp. Martínez      │
 │                                         │
 ├─────────────────────────────────────────┤
 │                                         │
-│     ¿Sos inspector?                     │
+│     ¿Sos verificador?                   │
 │     Contactanos para empezar            │
 │                                         │
 │     ┌──────────────────────────┐       │
@@ -657,7 +657,7 @@ From `specs/ui/design-system.md`:
 
 | Action | Trigger | Result |
 |--------|---------|--------|
-| Scroll to section | Tap nav link | Smooth-scroll to anchor (#como-funciona, #compradores, #inspectores, #contacto) |
+| Scroll to section | Tap nav link | Smooth-scroll to anchor (#como-funciona, #compradores, #verificadores, #contacto) |
 | Open mobile menu | Tap hamburger icon | Full-screen overlay with nav links |
 | Close mobile menu | Tap ✕ or nav link | Overlay closes, scroll to section if link tapped |
 | Login (unauth) | Tap "Login" button | Navigate to `/login` |
