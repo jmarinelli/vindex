@@ -177,9 +177,12 @@ export default function FieldModePage() {
   }, [eventId, draftLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Track online/offline transitions from navigator
-  useEffect(() => {
+  // (adjusting state during render — React recommended pattern)
+  const [prevIsOnline, setPrevIsOnline] = useState(isOnline);
+  if (isOnline !== prevIsOnline) {
+    setPrevIsOnline(isOnline);
     if (!isOnline) setShowOffline(true);
-  }, [isOnline]);
+  }
 
   // Periodic connectivity check — recovers when connectivity returns
   // (handles cached page load where navigator.onLine was already true)

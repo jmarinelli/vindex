@@ -221,7 +221,6 @@ export default function ReviewSignPage() {
 
     load();
     return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId, draftLoading, draft]);
 
   // When navigator detects online, try to refresh from server
@@ -246,7 +245,6 @@ export default function ReviewSignPage() {
     }
 
     refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline, dataSource, eventId]);
 
   // Periodic retry when showing offline — recovers when connectivity returns
@@ -267,7 +265,6 @@ export default function ReviewSignPage() {
       }
     }, 10000);
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showOffline, eventId]);
 
   // Photos source of truth: Dexie if a local draft exists, server otherwise
@@ -280,7 +277,7 @@ export default function ReviewSignPage() {
 
   // ─── Computed values ────────────────────────────────────────────────────
 
-  const findings = reviewData?.findings ?? [];
+  const findings = useMemo(() => reviewData?.findings ?? [], [reviewData?.findings]);
   const templateSnapshot = reviewData?.templateSnapshot ?? null;
 
   const statusCounts = useMemo(() => {
