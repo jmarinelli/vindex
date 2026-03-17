@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Plus, Pencil, User, AlertTriangle, CloudOff } from "lucide-react";
 import { InspectionList } from "@/components/inspection/inspection-list";
 import { OfflineDraftCard } from "@/components/inspection/offline-draft-card";
+import { OfflineBanner } from "@/components/offline/offline-banner";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   getInspectionsAction,
@@ -95,9 +96,10 @@ export default function DashboardPage() {
     // Quick connectivity probe before calling server actions.
     // navigator.onLine is unreliable, and Next.js may handle server action
     // network errors internally (error overlay, retry) rather than rejecting
-    // the promise to user code. A simple HEAD request is the safest check.
+    // the promise to user code. A lightweight GET is the safest check.
     try {
-      await fetch("/api/auth/session", { method: "HEAD" });
+      const probe = await fetch("/api/auth/session");
+      if (!probe.ok) throw new Error("probe failed");
     } catch {
       // Network unreachable — go straight to Dexie, skip server actions
       setShowOffline(true);
@@ -121,6 +123,7 @@ export default function DashboardPage() {
       }
 
       const items = inspResult.data ?? [];
+      setShowOffline(false);
       setInspections(items);
       if (slugResult.success && slugResult.data) {
         setNodeSlug(slugResult.data);
@@ -165,6 +168,19 @@ export default function DashboardPage() {
     }
   }, [mounted, isOnline, loadFromServer, loadFromDexie]);
 
+  // When in offline fallback mode, periodically retry the server.
+  // This handles the case where we loaded from SW cache with navigator.onLine
+  // already true — the 'online' event won't fire when connectivity actually
+  // returns because the browser thinks it was always online.
+  useEffect(() => {
+    if (!mounted || !showOffline) return;
+    const interval = setInterval(() => {
+      loadingRef.current = false;
+      loadFromServer();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [mounted, showOffline, loadFromServer]);
+
   const firstName = session?.user?.name?.split(" ")[0] ?? "Inspector";
 
   // Before mount, always render loading skeleton (matches SSR output, no hydration mismatch)
@@ -196,12 +212,7 @@ export default function DashboardPage() {
             </h1>
 
             {/* Offline Banner */}
-            <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-md">
-              <CloudOff className="h-4 w-4 text-amber-600 shrink-0" />
-              <span className="text-sm font-medium text-amber-700">
-                Sin conexión — solo se muestran borradores locales
-              </span>
-            </div>
+            <OfflineBanner message="Sin conexión — solo se muestran borradores locales" />
 
             {/* Disabled New Inspection Button */}
             <div className="flex items-center justify-center gap-2 w-full h-12 bg-gray-100 text-gray-400 text-base font-medium rounded-md cursor-not-allowed">

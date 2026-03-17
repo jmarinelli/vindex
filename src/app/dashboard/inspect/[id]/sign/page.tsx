@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Check, AlertTriangle, X, Slash, Minus, Pencil, Camera, CloudOff, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, AlertTriangle, X, Slash, Minus, Pencil, Camera, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConnectivityMessage } from "@/components/offline/connectivity-message";
+import { OfflineBanner } from "@/components/offline/offline-banner";
 import {
   getInspectionForReviewAction,
   signInspectionAction,
@@ -120,77 +121,56 @@ export default function ReviewSignPage() {
   const [reviewData, setReviewData] = useState<ReviewData | null>(null);
   const [serverPhotos, setServerPhotos] = useState<Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null }>>([]);
   const [dataSource, setDataSource] = useState<"server" | "dexie" | null>(null);
+  // showOffline can be true even when navigator.onLine is true (unreliable)
+  const [showOffline, setShowOffline] = useState(!isOnline);
+
+  // ─── Helpers ─────────────────────────────────────────────────────────
+
+  function applyServerData(data: NonNullable<Awaited<ReturnType<typeof getInspectionForReviewAction>>["data"]>) {
+    const { event, vehicle, detail, findings, photos, templateSnapshot } = data;
+    const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
+      .filter(Boolean)
+      .join(" ");
+    setReviewData({
+      vehicleName,
+      vin: vehicle.vin,
+      plate: vehicle.plate,
+      inspectionType: detail.inspectionType,
+      requestedBy: detail.requestedBy,
+      odometerKm: event.odometerKm,
+      eventDate: event.eventDate,
+      templateSnapshot,
+      findings: findings.map((f) => ({
+        id: f.id,
+        sectionId: f.sectionId,
+        itemId: f.itemId,
+        status: f.status,
+        observation: f.observation,
+      })),
+    });
+    setServerPhotos(
+      photos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }))
+    );
+    setShowOffline(false);
+    setDataSource("server");
+  }
 
   // ─── Data loading ──────────────────────────────────────────────────────
 
   useEffect(() => {
     let cancelled = false;
 
-    async function load() {
-      if (isOnline) {
-        // Try server first
-        const result = await getInspectionForReviewAction(eventId);
-        if (cancelled) return;
-
-        if (result.success && result.data) {
-          const { event, vehicle, detail, findings, photos, templateSnapshot } = result.data;
-          const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
-            .filter(Boolean)
-            .join(" ");
-          setReviewData({
-            vehicleName,
-            vin: vehicle.vin,
-            plate: vehicle.plate,
-            inspectionType: detail.inspectionType,
-            requestedBy: detail.requestedBy,
-            odometerKm: event.odometerKm,
-            eventDate: event.eventDate,
-            templateSnapshot,
-            findings: findings.map((f) => ({
-              id: f.id,
-              sectionId: f.sectionId,
-              itemId: f.itemId,
-              status: f.status,
-              observation: f.observation,
-            })),
-          });
-          setServerPhotos(
-            photos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }))
-          );
-          setDataSource("server");
-          setLoading(false);
-          return;
-        }
-
-        // Server failed while online — show error and redirect
-        toast.error(result.error ?? "No se pudo cargar la inspección.");
-        router.replace("/dashboard");
-        return;
-      }
-
-      // Offline — wait for draft to load, then populate from Dexie
-      // draftLoading is handled by useDraft hook, we wait for it
-    }
-
-    load();
-    return () => { cancelled = true; };
-  }, [eventId, isOnline, router]);
-
-  // Offline path: populate ReviewData from Dexie draft once loaded
-  useEffect(() => {
-    if (isOnline || draftLoading) return;
-
     async function loadFromDexie() {
+      if (draftLoading) return;
       if (!draft) {
-        // No local draft — will show error state
         setLoading(false);
         return;
       }
-
       const dexieFindings = await getFindingsByEvent(eventId);
+      if (cancelled) return;
       setReviewData({
         vehicleName: draft.vehicleName,
-        vin: "", // VIN not stored in draft
+        vin: "",
         plate: "",
         inspectionType: draft.inspectionType,
         requestedBy: draft.requestedBy,
@@ -209,46 +189,86 @@ export default function ReviewSignPage() {
       setLoading(false);
     }
 
-    loadFromDexie();
-  }, [isOnline, draft, draftLoading, eventId]);
+    async function load() {
+      // Connectivity probe — navigator.onLine is unreliable
+      try {
+        const probe = await fetch("/api/auth/session");
+        if (!probe.ok) throw new Error("probe failed");
+      } catch {
+        // Offline — fall back to Dexie
+        if (cancelled) return;
+        setShowOffline(true);
+        await loadFromDexie();
+        return;
+      }
 
-  // When coming back online with Dexie data, refresh from server
+      if (cancelled) return;
+
+      // Server reachable — fetch inspection data
+      const result = await getInspectionForReviewAction(eventId);
+      if (cancelled) return;
+
+      if (result.success && result.data) {
+        applyServerData(result.data);
+        setLoading(false);
+        return;
+      }
+
+      // Server returned an error — fall back to Dexie
+      setShowOffline(true);
+      await loadFromDexie();
+    }
+
+    load();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventId, draftLoading, draft]);
+
+  // When navigator detects online, try to refresh from server
   useEffect(() => {
-    if (!isOnline || dataSource !== "dexie") return;
+    if (!isOnline) {
+      setShowOffline(true);
+      return;
+    }
+    if (dataSource !== "dexie") return;
 
     async function refresh() {
+      try {
+        const probe = await fetch("/api/auth/session");
+        if (!probe.ok) return;
+      } catch {
+        return;
+      }
       const result = await getInspectionForReviewAction(eventId);
       if (result.success && result.data) {
-        const { event, vehicle, detail, findings, photos, templateSnapshot } = result.data;
-        const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
-          .filter(Boolean)
-          .join(" ");
-        setReviewData({
-          vehicleName,
-          vin: vehicle.vin,
-          plate: vehicle.plate,
-          inspectionType: detail.inspectionType,
-          requestedBy: detail.requestedBy,
-          odometerKm: event.odometerKm,
-          eventDate: event.eventDate,
-          templateSnapshot,
-          findings: findings.map((f) => ({
-            id: f.id,
-            sectionId: f.sectionId,
-            itemId: f.itemId,
-            status: f.status,
-            observation: f.observation,
-          })),
-        });
-        setServerPhotos(
-          photos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }))
-        );
-        setDataSource("server");
+        applyServerData(result.data);
       }
     }
 
     refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline, dataSource, eventId]);
+
+  // Periodic retry when showing offline — recovers when connectivity returns
+  // (handles cached page load where navigator.onLine was already true)
+  useEffect(() => {
+    if (!showOffline) return;
+    const interval = setInterval(async () => {
+      try {
+        const probe = await fetch("/api/auth/session");
+        if (!probe.ok) return;
+      } catch {
+        return;
+      }
+      const result = await getInspectionForReviewAction(eventId);
+      if (result.success && result.data) {
+        applyServerData(result.data);
+        setLoading(false);
+      }
+    }, 10000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showOffline, eventId]);
 
   // Photos source of truth: Dexie if a local draft exists, server otherwise
   const photos: Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null; blob?: Blob }> = useMemo(() => {
@@ -336,7 +356,7 @@ export default function ReviewSignPage() {
 
   // ─── Handlers ───────────────────────────────────────────────────────────
 
-  const canSign = isComplete && isOnline && pendingCount === 0;
+  const canSign = isComplete && !showOffline && pendingCount === 0;
 
   const handleSign = async () => {
     if (!canSign || signing) return;
@@ -382,7 +402,7 @@ export default function ReviewSignPage() {
 
   // ─── Offline — no local draft ─────────────────────────────────────────
 
-  if (!isOnline && !reviewData) {
+  if (showOffline && !reviewData) {
     return (
       <ShellDashboard title="Revisar Inspección">
         <div className="max-w-3xl mx-auto">
@@ -412,16 +432,8 @@ export default function ReviewSignPage() {
         </button>
 
         {/* Offline connectivity banner */}
-        {!isOnline && (
-          <div
-            className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2"
-            role="alert"
-          >
-            <CloudOff className="h-4 w-4 text-amber-600 shrink-0" />
-            <span className="text-sm font-medium text-amber-700">
-              Sin conexión — se requiere conexión para firmar
-            </span>
-          </div>
+        {showOffline && (
+          <OfflineBanner message="Sin conexión — se requiere conexión para firmar" />
         )}
 
         {/* Vehicle Summary Card */}
@@ -489,21 +501,8 @@ export default function ReviewSignPage() {
           </div>
         )}
 
-        {/* Offline Warning (no pending photos) */}
-        {!isOnline && pendingCount === 0 && (
-          <div
-            className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-center gap-2"
-            role="alert"
-          >
-            <CloudOff className="h-4 w-4 text-blue-600 shrink-0" />
-            <span className="text-sm text-blue-700">
-              Se requiere conexión para firmar
-            </span>
-          </div>
-        )}
-
         {/* Pending uploads warning */}
-        {pendingCount > 0 && isOnline && (
+        {pendingCount > 0 && !showOffline && (
           <div className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2">
             {failedCount > 0 ? (
               <>
@@ -525,16 +524,6 @@ export default function ReviewSignPage() {
                 </span>
               </>
             )}
-          </div>
-        )}
-
-        {/* Offline + pending photos */}
-        {!isOnline && pendingCount > 0 && (
-          <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-center gap-2" role="alert">
-            <CloudOff className="h-4 w-4 text-blue-600 shrink-0" />
-            <span className="text-sm text-blue-700">
-              Se requiere conexión para subir fotos y firmar.
-            </span>
           </div>
         )}
 

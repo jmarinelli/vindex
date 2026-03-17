@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { ShellField } from "@/components/layout/shell-field";
 import { SectionTabs } from "@/components/inspection/section-tabs";
 import { SyncIndicator } from "@/components/inspection/sync-indicator";
+import { OfflineBanner } from "@/components/offline/offline-banner";
 import { ChecklistItemCard } from "@/components/inspection/checklist-item-card";
 import { FreeTextItemCard } from "@/components/inspection/free-text-item-card";
 import { PhotoCapture } from "@/components/inspection/photo-capture";
@@ -26,6 +27,9 @@ export default function FieldModePage() {
 
   const isOnline = useOfflineStatus();
   const { syncStatus, triggerSync } = useSyncStatus();
+
+  // showOffline can be true even when navigator.onLine is true (unreliable)
+  const [showOffline, setShowOffline] = useState(!isOnline);
 
   // Core state
   const [loading, setLoading] = useState(true);
@@ -54,6 +58,16 @@ export default function FieldModePage() {
     if (draftLoading) return;  // Wait for Dexie lookup to finish
 
     async function load() {
+      // Connectivity probe — navigator.onLine is unreliable
+      let actuallyOnline = false;
+      try {
+        const probe = await fetch("/api/auth/session");
+        if (probe.ok) actuallyOnline = true;
+      } catch {
+        // Network unreachable
+      }
+      setShowOffline(!actuallyOnline);
+
       // Try local draft first
       if (draft) {
         setTemplateSnapshot(draft.templateSnapshot);
@@ -68,6 +82,14 @@ export default function FieldModePage() {
         const hasVehiclePhotos = photos.some((p) => p.photoType === "vehicle");
         setVehiclePhotosExpanded(hasVehiclePhotos);
         setLoading(false);
+        return;
+      }
+
+      // No local draft — need server
+      if (!actuallyOnline) {
+        // Can't load without draft or server
+        toast.error("No hay datos locales para esta inspección.");
+        router.replace("/dashboard");
         return;
       }
 
@@ -153,6 +175,26 @@ export default function FieldModePage() {
 
     load();
   }, [eventId, draftLoading]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Track online/offline transitions from navigator
+  useEffect(() => {
+    if (!isOnline) setShowOffline(true);
+  }, [isOnline]);
+
+  // Periodic connectivity check — recovers when connectivity returns
+  // (handles cached page load where navigator.onLine was already true)
+  useEffect(() => {
+    if (!showOffline) return;
+    const interval = setInterval(async () => {
+      try {
+        const probe = await fetch("/api/auth/session");
+        if (probe.ok) setShowOffline(false);
+      } catch {
+        // Still offline
+      }
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [showOffline]);
 
   const sections = useMemo(() => templateSnapshot?.sections ?? [], [templateSnapshot]);
 
@@ -339,7 +381,7 @@ export default function FieldModePage() {
     <ShellField
       title={vehicleName}
       progress={`${activeSectionIndex + 1}/${totalSections}`}
-      syncIndicator={<SyncIndicator status={syncStatus} />}
+      syncIndicator={<SyncIndicator status={showOffline ? "offline" : syncStatus} />}
       sectionTabs={
         <SectionTabs
           sections={sections}
@@ -371,10 +413,8 @@ export default function FieldModePage() {
       onClose={handleClose}
     >
       {/* Offline banner */}
-      {!isOnline && (
-        <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 text-xs text-amber-800">
-          ⚠ Sin conexión — los cambios se guardan localmente
-        </div>
+      {showOffline && (
+        <OfflineBanner message="Sin conexión — los cambios se guardan localmente" />
       )}
 
       {/* Item cards */}

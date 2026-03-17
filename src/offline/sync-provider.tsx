@@ -112,11 +112,18 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
     };
   }, [runSync]);
 
-  // Periodic pending count refresh (every 5s)
+  // Periodic sync check (every 5s). Also triggers sync when pending items
+  // exist — this handles the case where we loaded from SW cache with
+  // navigator.onLine already true (so the 'online' event never fires).
   useEffect(() => {
-    const interval = setInterval(refreshPendingCount, 5000);
+    const interval = setInterval(async () => {
+      const count = await refreshPendingCount();
+      if (count > 0 && navigator.onLine) {
+        runSync();
+      }
+    }, 5000);
     return () => clearInterval(interval);
-  }, [refreshPendingCount]);
+  }, [refreshPendingCount, runSync]);
 
   // Ask the SW to cache the current page's HTML after client-side navigations
   // so it's available offline on refresh/direct access.
