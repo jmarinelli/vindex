@@ -12,11 +12,11 @@ import type { DraftInspection, DraftPhoto } from "@/types/inspection";
 // ─── useOfflineStatus ───────────────────────────────────────────────────────
 
 export function useOfflineStatus() {
-  const [isOnline, setIsOnline] = useState(
-    typeof navigator !== "undefined" ? navigator.onLine : true
-  );
+  const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
+    setIsOnline(navigator.onLine);
+
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
