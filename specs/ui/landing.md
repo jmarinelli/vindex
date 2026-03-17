@@ -123,18 +123,46 @@ The landing page is structured around the platform's core narrative: the seconda
 
 ## Navigation Header
 
-Sticky header at the top of the page. Transitions from transparent (overlaying hero) to solid white with shadow on scroll.
+Sticky header at the top of the page. Transitions from transparent (overlaying hero) to solid white with shadow on scroll. The header is session-aware: it shows different actions depending on whether the user is authenticated.
+
+### Session detection
+
+The `LandingHeader` component uses `useSession()` from `next-auth/react` (the root layout already wraps the app in `SessionProvider`). While the session is loading (`status === "loading"`), the right-side area renders nothing to avoid a flash of wrong state.
+
+### Unauthenticated state (default)
 
 | Element | Style | Behavior |
 |---------|-------|----------|
 | Container | Full-width, 64px height, `padding` 0 24px, fixed top, z-50 | Transparent initially. After scrolling 56px: `white` bg, `shadow-sm`, transition 200ms. |
 | Logo | `Logo/Principal` component, links to `#` (scroll to top) | Left-aligned |
-| Nav links | `text-sm`, `font-medium`, `gray-700` (on transparent: `white`), `space-6` gap | Center. Hidden on mobile (< 640px). Smooth-scroll to section anchors. |
+| Nav links | `text-sm`, `font-medium`, `gray-700` (on transparent: `white`), `space-6` gap | Center. Hidden on mobile (< 900px). Smooth-scroll to section anchors. |
 | Nav items | — | "Cómo funciona" (#como-funciona), "Para compradores" (#compradores), "Para inspectores" (#inspectores) |
 | Login button | `Button/Secondary` variant, `text-sm` | Right-aligned. Navigates to `/login`. |
-| Mobile menu | Hamburger icon (24x24), `gray-700` | Visible < 640px. Opens full-screen overlay with nav links + login button stacked vertically. |
+| Mobile menu | Hamburger icon (24x24), `gray-700` | Visible < 900px. Opens full-screen overlay with nav links + login button stacked vertically. |
+
+### Authenticated state
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | Same as unauthenticated | Same scroll transition |
+| Logo | Same | Same |
+| Nav links | Same | Same |
+| Desktop: Avatar + Name | 32x32 circle with user initials (`brand-primary` bg, `white` text, `text-xs`, `font-medium`), `space-2` gap, user's first name (`text-sm`, `font-medium`). Clickable area. | Opens dropdown menu on click. |
+| Desktop: Dropdown menu | `white` bg, `shadow-md`, `radius-md`, `border-default`, min-width `180px`, positioned below avatar, z-50. | Contains two menu items (see below). Closes on click outside or Escape. |
+| Dropdown item 1 | `text-sm`, `gray-700`, `space-3` padding, `hover:bg-gray-50` | **"Ir al dashboard"** → navigates to `/dashboard` (for `user` role) **or "Admin panel"** → navigates to `/admin` (for `platform_admin` role). |
+| Dropdown item 2 | `text-sm`, `gray-500`, `space-3` padding, `hover:bg-gray-50`, top border `gray-100` | **"Cerrar sesión"** → calls `signOut({ redirect: false })` then stays on landing page. |
+| Mobile: Avatar | 32x32 initials circle, to the left of the hamburger icon | Visual indicator of logged-in state. Not interactive on its own. |
+
+### Initials Avatar
+
+Since the user entity has no profile image, the avatar displays initials extracted from `session.user.name`:
+- Take the first letter of the first word and first letter of the second word (e.g., "Carlos Martínez" → "CM").
+- If only one word, take the first two letters (e.g., "Carlos" → "CA").
+- Uppercase, `text-xs`, `font-medium`, `white` text on `brand-primary` circle.
 
 ### Mobile Menu Overlay
+
+#### Unauthenticated
 
 | Element | Style | Behavior |
 |---------|-------|----------|
@@ -142,6 +170,17 @@ Sticky header at the top of the page. Transitions from transparent (overlaying h
 | Close button | ✕ icon, 24x24, top-right, 48px touch target | Closes overlay |
 | Nav links | `text-xl`, `font-medium`, `gray-800`, `space-6` vertical gap | Stacked vertically. Tap scrolls to section and closes overlay. |
 | Login button | Full-width primary button | Bottom of link list |
+
+#### Authenticated
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Overlay | Same as unauthenticated | Same |
+| Close button | Same | Same |
+| User info | Avatar (40x40) + display name, `text-lg`, `font-medium`, `gray-800`, horizontal layout, `space-6` below close button | Non-interactive, identifies current user |
+| Nav links | Same as unauthenticated, below user info | Same behavior |
+| Dashboard/Admin link | Full-width primary button, `space-8` below last nav link | **"Ir al dashboard"** (user role) or **"Admin panel"** (admin role). Navigates accordingly. |
+| Sign out link | Full-width, `text-base`, `font-medium`, `gray-500`, text-center, `space-3` below dashboard button | **"Cerrar sesión"** → signs out, stays on landing page, closes overlay. |
 
 ---
 
@@ -531,17 +570,31 @@ Full-width footer with platform information and legal links.
 
 ## States
 
-### 1. Default (Page Loaded)
+### 1. Default — Unauthenticated (Page Loaded)
 
 - All sections visible, scrollable.
 - Header starts transparent over hero, transitions to white on scroll.
+- Header shows "Login" button (desktop) or hamburger only (mobile).
 - Contact form empty, ready for input.
 
-### 2. Header Scrolled
+### 2. Default — Authenticated (Page Loaded)
+
+- Same as unauthenticated, except:
+- Header shows avatar + first name (desktop) or avatar + hamburger (mobile) instead of "Login" button.
+- Desktop dropdown is closed by default.
+
+### 3. Header Scrolled
 
 - Header transitions to `white` bg with `shadow-sm` (200ms ease).
 - Nav link text color changes from `white` to `gray-700`.
 - Logo transitions from light variant to standard.
+- Avatar circle remains `brand-primary` bg in both scroll states (sufficient contrast on both transparent and white header).
+
+### 4. Desktop Dropdown Open (Authenticated)
+
+- Dropdown appears below avatar/name, right-aligned.
+- Shows "Ir al dashboard" (or "Admin panel") and "Cerrar sesión".
+- Click outside or Escape closes it.
 
 ### 3. Contact Form — Validation Errors
 
@@ -573,8 +626,9 @@ Full-width footer with platform information and legal links.
 
 | Component | Source | Usage |
 |-----------|--------|-------|
-| Button (Primary) | shadcn/ui `Button` | Hero CTA, form submit |
-| Button (Secondary) | shadcn/ui `Button variant="outline"` | Header login, hero secondary CTA |
+| Button (Primary) | shadcn/ui `Button` | Hero CTA, form submit, mobile dashboard link |
+| Button (Secondary) | shadcn/ui `Button variant="outline"` | Header login (unauth), hero secondary CTA |
+| InitialsAvatar | New inline component in `LandingHeader` | Authenticated header — 32x32 circle with user initials |
 | Input | shadcn/ui `Input` | Contact form text inputs |
 | Textarea | shadcn/ui `Textarea` | Contact form message |
 | Label | shadcn/ui `Label` | Form field labels |
@@ -606,7 +660,11 @@ From `specs/ui/design-system.md`:
 | Scroll to section | Tap nav link | Smooth-scroll to anchor (#como-funciona, #compradores, #inspectores, #contacto) |
 | Open mobile menu | Tap hamburger icon | Full-screen overlay with nav links |
 | Close mobile menu | Tap ✕ or nav link | Overlay closes, scroll to section if link tapped |
-| Login | Tap "Login" button | Navigate to `/login` |
+| Login (unauth) | Tap "Login" button | Navigate to `/login` |
+| Open user dropdown (auth, desktop) | Click avatar/name | Dropdown with dashboard link + sign out |
+| Close user dropdown | Click outside or press Escape | Dropdown closes |
+| Go to dashboard (auth) | Click "Ir al dashboard" in dropdown or mobile menu | Navigate to `/dashboard` (user role) or `/admin` (admin role) |
+| Sign out (auth) | Click "Cerrar sesión" in dropdown or mobile menu | `signOut({ redirect: false })`, stay on landing page |
 | How it works | Tap hero primary CTA | Smooth-scroll to `#como-funciona` |
 | Contact | Tap hero secondary CTA | Smooth-scroll to `#contacto` |
 | Submit form | Tap "Enviar mensaje" | Validate → submit → show success/error |
@@ -621,8 +679,13 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | Component / State | Test Cases |
 |-------------------|------------|
 | **Page renders** | Hero section, the-idea section, how-it-works, buyers section, inspectors section, vehicle timeline, contact form, footer all render |
-| **Navigation header** | Logo renders and links to top · Nav links visible on desktop, hidden on mobile · Login button navigates to `/login` |
-| **Mobile menu** | Hamburger visible < 640px · Opens overlay on tap · Close button works · Nav links scroll to sections |
+| **Navigation header (unauth)** | Logo renders and links to top · Nav links visible on desktop, hidden on mobile · Login button navigates to `/login` |
+| **Navigation header (auth, user role)** | Avatar with initials renders · First name shown on desktop · Click opens dropdown with "Ir al dashboard" and "Cerrar sesión" · No "Login" button |
+| **Navigation header (auth, admin role)** | Dropdown shows "Admin panel" instead of "Ir al dashboard" · Links to `/admin` |
+| **Navigation header (loading)** | Right-side area is empty while session loads (no flash) |
+| **Desktop dropdown** | Opens on click · "Ir al dashboard" navigates to `/dashboard` · "Cerrar sesión" signs out and stays on page · Closes on outside click · Closes on Escape |
+| **Mobile menu (unauth)** | Hamburger visible < 900px · Opens overlay on tap · Close button works · Nav links scroll to sections · Login button at bottom |
+| **Mobile menu (auth)** | Shows user info (avatar + name) at top · Nav links below · "Ir al dashboard" primary button · "Cerrar sesión" text link · Sign out stays on page |
 | **Hero section** | Tagline and subheading render with new copy · Primary CTA scrolls to how-it-works · Secondary CTA scrolls to contact section |
 | **The Idea section** | Statement, body text, and closing line render with correct copy |
 | **How it works** | All 4 steps render with correct title and description |
@@ -643,6 +706,9 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 
 - Navigation header uses `<nav>` with `aria-label="Navegación principal"`.
 - Mobile menu button has `aria-label="Abrir menú"` and `aria-expanded` state.
+- Desktop user dropdown button has `aria-haspopup="true"` and `aria-expanded` state.
+- Dropdown menu has `role="menu"`, items have `role="menuitem"`.
+- Dropdown closes on Escape key press, returning focus to the trigger button.
 - Anchor links use `href` with fragment identifiers for native scroll behavior.
 - All form inputs have associated `<label>` elements.
 - Form validation errors are announced via `aria-describedby` linking input to error message.

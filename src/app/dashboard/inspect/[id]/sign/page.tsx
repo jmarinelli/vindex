@@ -7,15 +7,35 @@ import { toast } from "sonner";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ConnectivityMessage } from "@/components/offline/connectivity-message";
 import {
   getInspectionForReviewAction,
   signInspectionAction,
 } from "@/lib/actions/inspection";
 import { useOfflineStatus, usePhotoUpload, useDraft } from "@/offline/hooks";
 import { useSyncStatus } from "@/offline/sync-provider";
-import { clearInspectionData } from "@/offline/dexie";
+import { clearInspectionData, getFindingsByEvent } from "@/offline/dexie";
 import type { FindingStatus, TemplateSnapshot } from "@/types/inspection";
-import type { InspectionFinding, Vehicle, Event, InspectionDetail, EventPhoto } from "@/db/schema";
+
+// ─── Unified ReviewData ──────────────────────────────────────────────────────
+
+interface ReviewData {
+  vehicleName: string;
+  vin: string;
+  plate: string;
+  inspectionType: string;
+  requestedBy: string;
+  odometerKm: number;
+  eventDate: string;
+  templateSnapshot: TemplateSnapshot;
+  findings: Array<{
+    id: string;
+    sectionId: string;
+    itemId: string;
+    status: string | null;
+    observation: string | null;
+  }>;
+}
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -87,7 +107,7 @@ export default function ReviewSignPage() {
   const isOnline = useOfflineStatus();
   const { triggerSync } = useSyncStatus();
 
-  const { draft } = useDraft(eventId);
+  const { draft, loading: draftLoading } = useDraft(eventId);
   const {
     photos: dexiePhotos,
     pendingCount,
@@ -97,43 +117,151 @@ export default function ReviewSignPage() {
 
   const [loading, setLoading] = useState(true);
   const [signing, setSigning] = useState(false);
-  const [event, setEvent] = useState<Event | null>(null);
-  const [detail, setDetail] = useState<InspectionDetail | null>(null);
-  const [findings, setFindings] = useState<InspectionFinding[]>([]);
-  const [serverPhotos, setServerPhotos] = useState<EventPhoto[]>([]);
-  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
-  const [templateSnapshot, setTemplateSnapshot] = useState<TemplateSnapshot | null>(null);
+  const [reviewData, setReviewData] = useState<ReviewData | null>(null);
+  const [serverPhotos, setServerPhotos] = useState<Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null }>>([]);
+  const [dataSource, setDataSource] = useState<"server" | "dexie" | null>(null);
+
+  // ─── Data loading ──────────────────────────────────────────────────────
 
   useEffect(() => {
+    let cancelled = false;
+
     async function load() {
-      const result = await getInspectionForReviewAction(eventId);
-      if (!result.success || !result.data) {
+      if (isOnline) {
+        // Try server first
+        const result = await getInspectionForReviewAction(eventId);
+        if (cancelled) return;
+
+        if (result.success && result.data) {
+          const { event, vehicle, detail, findings, photos, templateSnapshot } = result.data;
+          const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
+            .filter(Boolean)
+            .join(" ");
+          setReviewData({
+            vehicleName,
+            vin: vehicle.vin,
+            plate: vehicle.plate,
+            inspectionType: detail.inspectionType,
+            requestedBy: detail.requestedBy,
+            odometerKm: event.odometerKm,
+            eventDate: event.eventDate,
+            templateSnapshot,
+            findings: findings.map((f) => ({
+              id: f.id,
+              sectionId: f.sectionId,
+              itemId: f.itemId,
+              status: f.status,
+              observation: f.observation,
+            })),
+          });
+          setServerPhotos(
+            photos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }))
+          );
+          setDataSource("server");
+          setLoading(false);
+          return;
+        }
+
+        // Server failed while online — show error and redirect
         toast.error(result.error ?? "No se pudo cargar la inspección.");
         router.replace("/dashboard");
         return;
       }
-      setEvent(result.data.event);
-      setDetail(result.data.detail);
-      setFindings(result.data.findings);
-      setServerPhotos(result.data.photos);
-      setVehicle(result.data.vehicle);
-      setTemplateSnapshot(result.data.templateSnapshot);
+
+      // Offline — wait for draft to load, then populate from Dexie
+      // draftLoading is handled by useDraft hook, we wait for it
+    }
+
+    load();
+    return () => { cancelled = true; };
+  }, [eventId, isOnline, router]);
+
+  // Offline path: populate ReviewData from Dexie draft once loaded
+  useEffect(() => {
+    if (isOnline || draftLoading) return;
+
+    async function loadFromDexie() {
+      if (!draft) {
+        // No local draft — will show error state
+        setLoading(false);
+        return;
+      }
+
+      const dexieFindings = await getFindingsByEvent(eventId);
+      setReviewData({
+        vehicleName: draft.vehicleName,
+        vin: "", // VIN not stored in draft
+        plate: "",
+        inspectionType: draft.inspectionType,
+        requestedBy: draft.requestedBy,
+        odometerKm: draft.odometerKm,
+        eventDate: draft.eventDate,
+        templateSnapshot: draft.templateSnapshot,
+        findings: dexieFindings.map((f) => ({
+          id: f.id,
+          sectionId: f.sectionId,
+          itemId: f.itemId,
+          status: f.status,
+          observation: f.observation,
+        })),
+      });
+      setDataSource("dexie");
       setLoading(false);
     }
-    load();
-  }, [eventId, router]);
+
+    loadFromDexie();
+  }, [isOnline, draft, draftLoading, eventId]);
+
+  // When coming back online with Dexie data, refresh from server
+  useEffect(() => {
+    if (!isOnline || dataSource !== "dexie") return;
+
+    async function refresh() {
+      const result = await getInspectionForReviewAction(eventId);
+      if (result.success && result.data) {
+        const { event, vehicle, detail, findings, photos, templateSnapshot } = result.data;
+        const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
+          .filter(Boolean)
+          .join(" ");
+        setReviewData({
+          vehicleName,
+          vin: vehicle.vin,
+          plate: vehicle.plate,
+          inspectionType: detail.inspectionType,
+          requestedBy: detail.requestedBy,
+          odometerKm: event.odometerKm,
+          eventDate: event.eventDate,
+          templateSnapshot,
+          findings: findings.map((f) => ({
+            id: f.id,
+            sectionId: f.sectionId,
+            itemId: f.itemId,
+            status: f.status,
+            observation: f.observation,
+          })),
+        });
+        setServerPhotos(
+          photos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }))
+        );
+        setDataSource("server");
+      }
+    }
+
+    refresh();
+  }, [isOnline, dataSource, eventId]);
 
   // Photos source of truth: Dexie if a local draft exists, server otherwise
   const photos: Array<{ id: string; findingId: string | null; photoType: string | null; url: string | null; blob?: Blob }> = useMemo(() => {
     if (draft) {
-      // Local draft exists → Dexie is authoritative (respects local deletions)
       return dexiePhotos;
     }
-    // No local draft → user is viewing from another browser, use server photos
-    return serverPhotos.map((p) => ({ id: p.id, findingId: p.findingId, photoType: p.photoType, url: p.url }));
+    return serverPhotos;
   }, [draft, dexiePhotos, serverPhotos]);
 
   // ─── Computed values ────────────────────────────────────────────────────
+
+  const findings = reviewData?.findings ?? [];
+  const templateSnapshot = reviewData?.templateSnapshot ?? null;
 
   const statusCounts = useMemo(() => {
     const counts: Record<FindingStatus, number> = {
@@ -145,7 +273,6 @@ export default function ReviewSignPage() {
     };
     if (!templateSnapshot) return counts;
 
-    // Only count checklist_item findings
     const checklistItemIds = new Set<string>();
     for (const section of templateSnapshot.sections) {
       for (const item of section.items) {
@@ -234,7 +361,6 @@ export default function ReviewSignPage() {
   };
 
   const handleFindingTap = (sectionIndex: number) => {
-    // Navigate back to field mode at the specific section
     router.push(`/dashboard/inspect/${eventId}?section=${sectionIndex}`);
   };
 
@@ -254,11 +380,22 @@ export default function ReviewSignPage() {
     );
   }
 
-  if (!event || !vehicle || !detail || !templateSnapshot) return null;
+  // ─── Offline — no local draft ─────────────────────────────────────────
 
-  const vehicleName = [vehicle.make, vehicle.model, vehicle.year]
-    .filter(Boolean)
-    .join(" ");
+  if (!isOnline && !reviewData) {
+    return (
+      <ShellDashboard title="Revisar Inspección">
+        <div className="max-w-3xl mx-auto">
+          <ConnectivityMessage
+            title="Inspección no disponible offline"
+            subtitle="Esta inspección no está guardada en este dispositivo."
+          />
+        </div>
+      </ShellDashboard>
+    );
+  }
+
+  if (!reviewData) return null;
 
   // ─── Render ─────────────────────────────────────────────────────────────
 
@@ -274,20 +411,35 @@ export default function ReviewSignPage() {
           Volver a inspección
         </button>
 
+        {/* Offline connectivity banner */}
+        {!isOnline && (
+          <div
+            className="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-center gap-2"
+            role="alert"
+          >
+            <CloudOff className="h-4 w-4 text-amber-600 shrink-0" />
+            <span className="text-sm font-medium text-amber-700">
+              Sin conexión — se requiere conexión para firmar
+            </span>
+          </div>
+        )}
+
         {/* Vehicle Summary Card */}
         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 space-y-1">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🚗</span>
             <span className="text-lg font-medium text-gray-800">
-              {vehicleName} {vehicle.plate ? `— ${vehicle.plate}` : ""}
+              {reviewData.vehicleName} {reviewData.plate ? `— ${reviewData.plate}` : ""}
             </span>
           </div>
-          <p className="text-sm text-gray-500 font-mono">VIN: {vehicle.vin}</p>
+          {reviewData.vin && (
+            <p className="text-sm text-gray-500 font-mono">VIN: {reviewData.vin}</p>
+          )}
           <p className="text-sm text-gray-600">
-            Tipo: {INSPECTION_TYPE_LABELS[detail.inspectionType] ?? detail.inspectionType} · Solicitada por: {REQUESTED_BY_LABELS[detail.requestedBy] ?? detail.requestedBy}
+            Tipo: {INSPECTION_TYPE_LABELS[reviewData.inspectionType] ?? reviewData.inspectionType} · Solicitada por: {REQUESTED_BY_LABELS[reviewData.requestedBy] ?? reviewData.requestedBy}
           </p>
           <p className="text-sm text-gray-600">
-            Kilometraje: {formatOdometer(event.odometerKm)} km · Fecha: {formatDate(event.eventDate)}
+            Kilometraje: {formatOdometer(reviewData.odometerKm)} km · Fecha: {formatDate(reviewData.eventDate)}
           </p>
         </div>
 
@@ -337,7 +489,7 @@ export default function ReviewSignPage() {
           </div>
         )}
 
-        {/* Offline Warning */}
+        {/* Offline Warning (no pending photos) */}
         {!isOnline && pendingCount === 0 && (
           <div
             className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-center gap-2"
@@ -507,9 +659,9 @@ export default function ReviewSignPage() {
       <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-[0_-2px_4px_rgba(0,0,0,0.05)]">
         <Button
           onClick={handleSign}
-          disabled={!isComplete || !isOnline || signing}
+          disabled={!canSign || signing}
           className="w-full h-12 text-base"
-          aria-disabled={!isComplete || !isOnline}
+          aria-disabled={!canSign}
         >
           {signing ? (
             <>

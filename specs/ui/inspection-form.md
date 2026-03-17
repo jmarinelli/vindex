@@ -522,6 +522,20 @@ The key principle: **same flow, more breathing room.** No layout changes that wo
 - Inline error below input with specific message.
 - Continue button disabled.
 
+#### 8. Offline
+
+- The VIN entry form is replaced by a connectivity message (this page requires server connectivity for VIN lookup and vehicle creation):
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | Centered, `space-6` vertical padding | Replaces form content |
+| Icon | Cloud-off, 48x48, `gray-400` | Visual indicator |
+| Title | `text-lg`, `font-medium`, `gray-700` | "Se requiere conexión" |
+| Subtitle | `text-sm`, `gray-500` | "La creación de inspecciones necesita conexión a internet para buscar vehículos." |
+| Action | Ghost button, `brand-primary` text | "Volver al Dashboard" → navigates to `/dashboard` |
+
+- When connectivity is restored, the form renders normally.
+
 ### Step 2 States
 
 #### 1. Default
@@ -540,6 +554,12 @@ The key principle: **same flow, more breathing room.** No layout changes that wo
 
 - Toast: "Error al crear la inspección. Intentá de nuevo."
 - Start button re-enabled.
+
+#### 4. Offline
+
+- Same connectivity message as Step 1 (§Step 1 States → 8. Offline), with adjusted subtitle:
+  - Subtitle: "La creación de inspecciones necesita conexión a internet."
+  - Action: "Volver al Dashboard" ghost button → navigates to `/dashboard`.
 
 ### Step 3 States (Field Mode)
 
@@ -663,6 +683,8 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Step 3 — Sync indicator** | Shows saved/syncing/synced/offline correctly |
 | **Step 3 — Offline** | Status changes saved to Dexie · Observations saved · Photos saved as blobs · Sync indicator shows offline · Reconnect triggers sync |
 | **Step 3 — Draft resume** | Navigating away and back restores state · Browser refresh restores from Dexie |
+| **Step 1 — Offline** | Connectivity message shown · "Volver al Dashboard" navigates correctly · Reconnect renders form |
+| **Step 2 — Offline** | Connectivity message shown · "Volver al Dashboard" navigates correctly · Reconnect renders form |
 | **Mobile layout** | Steps 1–2: button fixed at bottom · Step 3: full mobile layout renders correctly |
 
 ---

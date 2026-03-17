@@ -8,6 +8,8 @@ import { toast } from "sonner";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ConnectivityMessage } from "@/components/offline/connectivity-message";
+import { useOfflineStatus } from "@/offline/hooks";
 import { validateVin, sanitizeVin, decodeVin } from "@/lib/vin";
 import {
   lookupVehicleAction,
@@ -25,6 +27,7 @@ const emptyField = (): FieldState => ({ value: "", locked: false });
 
 export default function InspectPage() {
   const router = useRouter();
+  const isOnline = useOfflineStatus();
 
   const [vin, setVin] = useState("");
   const [vinError, setVinError] = useState<string | null>(null);
@@ -144,7 +147,7 @@ export default function InspectPage() {
       model: model.value || null,
       year: year.value ? parseInt(year.value, 10) : null,
       trim: trim.value || null,
-      plate: plate.value || null,
+      plate: plate.value,
     };
 
     const result = await findOrCreateVehicleAction(vehicleData);
@@ -168,6 +171,26 @@ export default function InspectPage() {
   };
 
   const showFields = mode === "mode-a" || mode === "mode-b" || mode === "mode-c";
+
+  if (!isOnline) {
+    return (
+      <ShellDashboard title="Nueva Inspección">
+        <div className="max-w-lg mx-auto">
+          <Link
+            href="/dashboard"
+            className="text-sm text-gray-500 hover:text-gray-700 mb-4 inline-flex items-center gap-1"
+          >
+            ← Dashboard
+          </Link>
+          <p className="text-sm text-gray-500 mb-6">Paso 1 de 2 — Vehículo</p>
+          <ConnectivityMessage
+            title="Se requiere conexión"
+            subtitle="La creación de inspecciones necesita conexión a internet para buscar vehículos."
+          />
+        </div>
+      </ShellDashboard>
+    );
+  }
 
   return (
     <ShellDashboard title="Nueva Inspección">
@@ -279,7 +302,7 @@ export default function InspectPage() {
         <div className="mb-6">
           <VehicleField
             id="plate-input"
-            label="Patente (opcional)"
+            label="Patente"
             placeholder="Ej: AC123BD"
             field={plate}
             onChange={(v) => setPlate({ ...plate, value: v.toUpperCase() })}
@@ -290,7 +313,7 @@ export default function InspectPage() {
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 sm:static sm:border-0 sm:bg-transparent sm:p-0">
           <Button
             onClick={handleContinue}
-            disabled={!vinValid || submitting || mode === "loading"}
+            disabled={!vinValid || !plate.value.trim() || submitting || mode === "loading"}
             className="w-full h-12 text-base"
           >
             {submitting ? (

@@ -70,7 +70,7 @@ export const vehicles = pgTable(
   {
     id: uuid("id").primaryKey().defaultRandom(),
     vin: varchar("vin", { length: 17 }).notNull(),
-    plate: varchar("plate", { length: 20 }),
+    plate: varchar("plate", { length: 20 }).notNull(),
     make: varchar("make", { length: 100 }),
     model: varchar("model", { length: 100 }),
     year: integer("year"),

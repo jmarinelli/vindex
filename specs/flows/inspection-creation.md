@@ -249,7 +249,9 @@ The global sync worker (mounted at dashboard layout) picks up dirty records and 
 | **VIN already in system (all fields populated)** | Show existing vehicle data as read-only. Notice with inspection count. Proceed normally — create a new event for the same vehicle. |
 | **VIN already in system (some fields null)** | Show populated fields as read-only. Show null fields as editable inputs. Inspector can fill blanks. On continue, only null fields are updated. |
 | **NHTSA API timeout** | After 5s timeout, show warning: "No se pudo decodificar el VIN." Enable manual entry. Do not block flow. |
-| **Network lost during Step 1–2** | Show offline indicator. Vehicle creation and event creation are queued. Inspector can still proceed to field mode — all data saved locally. |
+| **Network lost during Step 1–2** | Show connectivity message: "Se requiere conexión." with "Volver al Dashboard" action. Inspection creation requires server connectivity (VIN lookup, event creation). See `specs/flows/offline-navigation.md`. |
+| **Page loaded offline (Step 1–2)** | SW serves cached HTML. Connectivity message shown instead of form. See `specs/flows/offline-navigation.md`. |
+| **Page loaded offline (Step 3)** | SW serves cached HTML. Draft and findings load from Dexie. Full offline functionality. See `specs/flows/offline-navigation.md`. |
 | **Network lost during Step 3** | Auto-save continues to Dexie. Sync indicator shows "Sin conexión". All status changes, observations, and photos persist locally. Sync resumes when online. |
 | **Browser closed mid-inspection** | Draft fully preserved in Dexie. Inspector reopens → resumes from dashboard. |
 | **Photo upload fails** | Retry with exponential backoff (3 attempts). After 3 failures, photo stays in local queue with "retry" indicator. Manual retry available. |

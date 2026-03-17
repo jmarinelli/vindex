@@ -2207,6 +2207,311 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "XNTDy",
+      "x": 930,
+      "y": 0,
+      "name": "Mobile — Dashboard (Offline)",
+      "width": 390,
+      "height": 844,
+      "fill": "$gray-50",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "bYmqR",
+          "name": "topBar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$white",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$gray-200"
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "fDZA0",
+              "type": "ref",
+              "ref": "3wGKW",
+              "width": "fit_content",
+              "height": "fit_content",
+              "name": "logo",
+              "x": 16,
+              "y": 14
+            },
+            {
+              "type": "text",
+              "id": "P5Pc3",
+              "name": "navTitle",
+              "fill": "$gray-700",
+              "content": "Dashboard",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "ellipse",
+              "id": "TglBb",
+              "name": "avatar",
+              "fill": "$gray-300",
+              "width": 32,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "UMFmZ",
+          "name": "offlineBanner",
+          "width": "fill_container",
+          "height": 32,
+          "fill": "$status-attention-bg",
+          "cornerRadius": "$radius-sm",
+          "gap": 6,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "xCHMM",
+              "name": "bannerIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "wifi-off",
+              "iconFontFamily": "lucide",
+              "fill": "$warning"
+            },
+            {
+              "type": "text",
+              "id": "yvuws",
+              "name": "bannerText",
+              "fill": "$warning",
+              "content": "Sin conexión — solo se muestran borradores locales",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wHxGn",
+          "name": "content",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "RQj5m",
+              "name": "greeting",
+              "fill": "$gray-800",
+              "content": "Bienvenido, Juan",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "VxRyL",
+              "name": "newInspBtnDisabled",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$gray-100",
+              "cornerRadius": "$radius-sm",
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "7FkaN",
+                  "name": "plusIcon",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "plus",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-400"
+                },
+                {
+                  "type": "text",
+                  "id": "wW8th",
+                  "name": "btnLabel",
+                  "fill": "$gray-400",
+                  "content": "Nueva Inspección",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "7iEwj",
+              "name": "sectionHeader",
+              "fill": "$gray-700",
+              "content": "Mis Inspecciones (1)",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "3NXnP",
+              "name": "card-draft",
+              "width": "fill_container",
+              "fill": "$white",
+              "cornerRadius": "$radius-md",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000D",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "liWou",
+                  "name": "cardBody",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "layA1",
+                      "name": "nameRow",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RaSKq",
+                          "name": "vehName",
+                          "fill": "$gray-800",
+                          "content": "Nissan Sentra 2019",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "c0OcO",
+                          "name": "badge",
+                          "fill": "$status-attention-bg",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            2,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sxVnT",
+                              "name": "badgeText",
+                              "fill": "$status-attention",
+                              "content": "BORRADOR",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "a65mC",
+                      "name": "vin",
+                      "fill": "$gray-500",
+                      "content": "VIN: 3N1AB7AP5KY250312",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "QaSls",
+                      "name": "dateMeta",
+                      "fill": "$gray-500",
+                      "content": "12 Mar 2026 · 87.500 km",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Yj5ZG",
+                      "name": "typeMeta",
+                      "fill": "$gray-500",
+                      "content": "Pre-compra · Comprador",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "2OYcd",
+                  "name": "cardFooter",
+                  "width": "fill_container",
+                  "fill": "$gray-50",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$gray-100"
+                  },
+                  "padding": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RqZM0",
+                      "name": "progress",
+                      "fill": "$gray-500",
+                      "content": "18/23 items · 4 fotos · 12 obs",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

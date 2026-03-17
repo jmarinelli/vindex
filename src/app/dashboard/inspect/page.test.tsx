@@ -50,7 +50,7 @@ function mockExistingVehicle(overrides: Record<string, unknown> = {}) {
     model: "Corolla",
     year: 2020,
     trim: "SE",
-    plate: null,
+    plate: "ABC123",
     ...overrides,
   };
 }
@@ -279,7 +279,7 @@ describe("InspectPage", () => {
       expect(modelInput).toHaveValue("");
     });
 
-    it("enables continue button even with empty fields", async () => {
+    it("disables continue button when plate is empty", async () => {
       const user = userEvent.setup();
       render(<InspectPage />);
       await user.type(screen.getByLabelText("Número de VIN"), VALID_VIN);
@@ -287,8 +287,24 @@ describe("InspectPage", () => {
       await waitFor(() => {
         expect(
           screen.getByRole("button", { name: "Continuar" })
-        ).toBeEnabled();
+        ).toBeDisabled();
       });
+    });
+
+    it("enables continue button after entering plate", async () => {
+      const user = userEvent.setup();
+      render(<InspectPage />);
+      await user.type(screen.getByLabelText("Número de VIN"), VALID_VIN);
+
+      await waitFor(() => {
+        expect(screen.getByLabelText("Patente")).toBeInTheDocument();
+      });
+
+      await user.type(screen.getByLabelText("Patente"), "ABC123");
+
+      expect(
+        screen.getByRole("button", { name: "Continuar" })
+      ).toBeEnabled();
     });
   });
 
@@ -347,7 +363,7 @@ describe("InspectPage", () => {
             model: "Sentra",
             year: 2019,
             trim: null,
-            plate: null,
+            plate: "ABC123",
           },
           isNew: true,
           inspectionCount: 0,
@@ -361,6 +377,7 @@ describe("InspectPage", () => {
         expect(screen.getByDisplayValue("Nissan")).toBeInTheDocument();
       });
 
+      await user.type(screen.getByLabelText("Patente"), "ABC123");
       await user.click(screen.getByRole("button", { name: "Continuar" }));
 
       await waitFor(() => {

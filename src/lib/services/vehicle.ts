@@ -62,7 +62,7 @@ export async function findOrCreateVehicle(params: {
   model?: string | null;
   year?: number | null;
   trim?: string | null;
-  plate?: string | null;
+  plate: string;
   nodeId: string;
 }): Promise<{ vehicle: Vehicle; isNew: boolean }> {
   const vin = params.vin.toUpperCase();
@@ -80,7 +80,7 @@ export async function findOrCreateVehicle(params: {
       updates.year = params.year;
     if (params.trim !== undefined && params.trim !== null)
       updates.trim = params.trim;
-    if (params.plate !== undefined && params.plate !== null)
+    if (params.plate !== existing.plate)
       updates.plate = params.plate;
 
     if (Object.keys(updates).length > 0) {
@@ -106,7 +106,7 @@ export async function findOrCreateVehicle(params: {
       model: params.model ?? null,
       year: params.year ?? null,
       trim: params.trim ?? null,
-      plate: params.plate ?? null,
+      plate: params.plate,
       createdByNodeId: params.nodeId,
     })
     .returning();

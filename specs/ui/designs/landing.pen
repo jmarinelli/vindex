@@ -3510,6 +3510,794 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "uYeoy",
+      "x": 0,
+      "y": 4969,
+      "name": "Mobile — Header (Authenticated)",
+      "width": 390,
+      "height": 56,
+      "fill": "$brand-primary",
+      "padding": [
+        0,
+        16
+      ],
+      "justifyContent": "space_between",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "BoKd3",
+          "name": "Logo",
+          "gap": 2,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "RBMqA",
+              "name": "Badge",
+              "width": 28,
+              "height": 24,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "KbIhl",
+                  "x": 0,
+                  "y": 0,
+                  "name": "P",
+                  "geometry": "M0 4c0-2.209 1.791-4 4-4l20 0c2.209 0 4 1.791 4 4l0 16c0 2.209-1.791 4-4 4l-20 0c-2.209 0-4-1.791-4-4z",
+                  "fill": "$brand-accent",
+                  "width": 28,
+                  "height": 24
+                },
+                {
+                  "type": "text",
+                  "id": "KqMRq",
+                  "x": 8,
+                  "y": 2,
+                  "name": "vText",
+                  "fill": "$white",
+                  "content": "V",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "ACZ7t",
+              "name": "dexText",
+              "fill": "$white",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mF6sZ",
+          "name": "RightSide",
+          "gap": 12,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "UH4sV",
+              "name": "Avatar",
+              "width": 32,
+              "height": 32,
+              "fill": "$brand-primary-hover",
+              "cornerRadius": "$radius-full",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#FFFFFF30"
+              },
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DYdKe",
+                  "name": "Initials",
+                  "fill": "$white",
+                  "content": "CM",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "icon_font",
+              "id": "eicvh",
+              "name": "MenuIcon",
+              "width": 24,
+              "height": 24,
+              "iconFontName": "menu",
+              "iconFontFamily": "lucide",
+              "fill": "$white"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nO1ND",
+      "x": 490,
+      "y": 4969,
+      "name": "Desktop — Header (Authenticated)",
+      "width": 1440,
+      "height": 64,
+      "fill": "$brand-primary",
+      "padding": [
+        0,
+        48
+      ],
+      "justifyContent": "space_between",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "pohxc",
+          "name": "Logo",
+          "gap": 2,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "LcVu1",
+              "name": "Badge",
+              "width": 36,
+              "height": 30,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "w4xue",
+                  "x": 0,
+                  "y": 0,
+                  "name": "P",
+                  "geometry": "M0 5c0-2.761 2.239-5 5-5l26 0c2.761 0 5 2.239 5 5l0 20c0 2.761-2.239 5-5 5l-26 0c-2.761 0-5-2.239-5-5z",
+                  "fill": "$brand-accent",
+                  "width": 36,
+                  "height": 30
+                },
+                {
+                  "type": "text",
+                  "id": "tCeCV",
+                  "x": 10,
+                  "y": 3,
+                  "name": "vText",
+                  "fill": "$white",
+                  "content": "V",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Hwmfg",
+              "name": "dexText",
+              "fill": "$white",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Qpfwq",
+          "name": "NavLinks",
+          "gap": 32,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "96xWo",
+              "name": "dNav1",
+              "fill": "#FFFFFFCC",
+              "content": "Cómo funciona",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "DbVVj",
+              "name": "dNav2",
+              "fill": "#FFFFFFCC",
+              "content": "Para compradores",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "6iZzd",
+              "name": "dNav3",
+              "fill": "#FFFFFFCC",
+              "content": "Para inspectores",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "QnnTv",
+          "name": "UserArea",
+          "gap": 8,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "G658R",
+              "name": "Avatar",
+              "width": 32,
+              "height": 32,
+              "fill": "$brand-primary-hover",
+              "cornerRadius": "$radius-full",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#FFFFFF30"
+              },
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "a9jgk",
+                  "name": "Initials",
+                  "fill": "$white",
+                  "content": "CM",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "bf27F",
+              "name": "UserName",
+              "fill": "$white",
+              "content": "Carlos",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "icon_font",
+              "id": "rX3IM",
+              "name": "ChevronIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "chevron-down",
+              "iconFontFamily": "lucide",
+              "fill": "#FFFFFFAA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "XKwx2",
+      "x": 490,
+      "y": 5053,
+      "name": "Desktop — User Dropdown (Open)",
+      "width": 1440,
+      "height": 120,
+      "fill": "$brand-primary",
+      "layout": "vertical",
+      "padding": [
+        0,
+        48
+      ],
+      "alignItems": "end",
+      "children": [
+        {
+          "type": "frame",
+          "id": "wVgFs",
+          "name": "DropdownMenu",
+          "width": 200,
+          "fill": "$white",
+          "cornerRadius": "$radius-md",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$gray-200"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000020",
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "blur": 8
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "VgoIq",
+              "name": "MenuItem-Dashboard",
+              "width": "fill_container",
+              "gap": 8,
+              "padding": [
+                10,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "15jRz",
+                  "name": "DashIcon",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "layout-dashboard",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-500"
+                },
+                {
+                  "type": "text",
+                  "id": "9Vgj4",
+                  "name": "DashText",
+                  "fill": "$gray-700",
+                  "content": "Ir al dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "TlU55",
+              "name": "Divider",
+              "fill": "$gray-100",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "GaF4p",
+              "name": "MenuItem-Logout",
+              "width": "fill_container",
+              "gap": 8,
+              "padding": [
+                10,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "00f35",
+                  "name": "LogoutIcon",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "log-out",
+                  "iconFontFamily": "lucide",
+                  "fill": "$gray-400"
+                },
+                {
+                  "type": "text",
+                  "id": "lcrCb",
+                  "name": "LogoutText",
+                  "fill": "$gray-500",
+                  "content": "Cerrar sesión",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "eOEfE",
+      "x": 0,
+      "y": 5093,
+      "name": "Mobile — Menu Overlay (Authenticated)",
+      "width": 390,
+      "height": 680,
+      "fill": "$white",
+      "layout": "vertical",
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "eh2i0",
+          "name": "CloseRow",
+          "width": "fill_container",
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "TtJHk",
+              "name": "CloseIcon",
+              "width": 24,
+              "height": 24,
+              "iconFontName": "x",
+              "iconFontFamily": "lucide",
+              "fill": "$gray-700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gOl4K",
+          "name": "UserInfo",
+          "width": "fill_container",
+          "gap": 12,
+          "padding": [
+            16,
+            0,
+            0,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mt9nE",
+              "name": "Avatar",
+              "width": 40,
+              "height": 40,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-full",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "jmdvv",
+                  "name": "Initials",
+                  "fill": "$white",
+                  "content": "CM",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "XeTgn",
+              "name": "UserName",
+              "fill": "$gray-800",
+              "content": "Carlos Martínez",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qbgvc",
+          "name": "NavLinks",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            0,
+            0,
+            0
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "5wUhA",
+              "name": "Nav1",
+              "fill": "$gray-800",
+              "content": "Cómo funciona",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "fbFsP",
+              "name": "Nav2",
+              "fill": "$gray-800",
+              "content": "Para compradores",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "MH8gg",
+              "name": "Nav3",
+              "fill": "$gray-800",
+              "content": "Para inspectores",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "aCQAW",
+              "name": "Nav4",
+              "fill": "$gray-800",
+              "content": "Contacto",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sNqKZ",
+          "name": "Actions",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            32,
+            0,
+            0,
+            0
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "PBWTf",
+              "name": "DashboardBtn",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-sm",
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "UoknP",
+                  "name": "DashIcon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "layout-dashboard",
+                  "iconFontFamily": "lucide",
+                  "fill": "$white"
+                },
+                {
+                  "type": "text",
+                  "id": "RvlmC",
+                  "name": "DashText",
+                  "fill": "$white",
+                  "content": "Ir al dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "9DtPl",
+              "name": "LogoutBtn",
+              "width": "fill_container",
+              "height": 44,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DH1eD",
+                  "name": "LogoutText",
+                  "fill": "$gray-500",
+                  "content": "Cerrar sesión",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Scmyg",
+      "x": 490,
+      "y": 5193,
+      "name": "Desktop — Header (Authenticated, Scrolled)",
+      "width": 1440,
+      "height": 64,
+      "fill": "$white",
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#0000000D",
+        "offset": {
+          "x": 0,
+          "y": 1
+        },
+        "blur": 4
+      },
+      "padding": [
+        0,
+        48
+      ],
+      "justifyContent": "space_between",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "YraE1",
+          "name": "Logo",
+          "gap": 2,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "n77Tf",
+              "name": "Badge",
+              "width": 36,
+              "height": 30,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "gPxGh",
+                  "x": 0,
+                  "y": 0,
+                  "name": "P",
+                  "geometry": "M0 5c0-2.761 2.239-5 5-5l26 0c2.761 0 5 2.239 5 5l0 20c0 2.761-2.239 5-5 5l-26 0c-2.761 0-5-2.239-5-5z",
+                  "fill": "$brand-accent",
+                  "width": 36,
+                  "height": 30
+                },
+                {
+                  "type": "text",
+                  "id": "HBMMl",
+                  "x": 10,
+                  "y": 3,
+                  "name": "vText",
+                  "fill": "$white",
+                  "content": "V",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "MFYKd",
+              "name": "dexText",
+              "fill": "$gray-800",
+              "content": "dex",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jXgX1",
+          "name": "NavLinks",
+          "gap": 32,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "eaofY",
+              "name": "dNav1",
+              "fill": "$gray-700",
+              "content": "Cómo funciona",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "lpHFY",
+              "name": "dNav2",
+              "fill": "$gray-700",
+              "content": "Para compradores",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "QXJz2",
+              "name": "dNav3",
+              "fill": "$gray-700",
+              "content": "Para inspectores",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "99GoR",
+          "name": "UserArea",
+          "gap": 8,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MvfkR",
+              "name": "Avatar",
+              "width": 32,
+              "height": 32,
+              "fill": "$brand-primary",
+              "cornerRadius": "$radius-full",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$gray-200"
+              },
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xqWiB",
+                  "name": "Initials",
+                  "fill": "$white",
+                  "content": "CM",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "ZoIv3",
+              "name": "UserName",
+              "fill": "$gray-700",
+              "content": "Carlos",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "icon_font",
+              "id": "wydXM",
+              "name": "ChevronIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "chevron-down",
+              "iconFontFamily": "lucide",
+              "fill": "$gray-400"
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

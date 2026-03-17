@@ -51,7 +51,7 @@ export const vehicleEntrySchema = z.object({
   model: z.string().max(100).optional().nullable(),
   year: z.number().int().min(1900).max(2100).optional().nullable(),
   trim: z.string().max(100).optional().nullable(),
-  plate: z.string().max(20).optional().nullable(),
+  plate: z.string().min(1, "La patente es requerida.").max(20),
 });
 
 // ─── Inspection Metadata Schemas ────────────────────────────────────────────

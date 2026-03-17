@@ -332,10 +332,34 @@ Shown when there are photos in Dexie with `uploaded = false`. Pending uploads **
 
 #### 6. Offline
 
-- Connectivity warning banner visible.
-- Sign button disabled.
-- Review content still fully visible (loaded from Dexie if needed).
-- Online detection restores sign button.
+When offline, the review page renders using data from Dexie instead of the server.
+
+- **Data source:** Vehicle summary from `drafts` table. Findings from `findings` table, grouped by sectionId using the template snapshot. Photos from `photos` table (local blob thumbnails).
+- **Status counts bar:** computed from local findings data.
+- **Section groups and finding rows:** rendered identically to the online version.
+- **Vehicle photos preview:** rendered from local photo blobs.
+- **Connectivity banner:**
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | `status-attention-bg` bg, `radius-sm`, `space-3` padding, full-width | Shown when offline, above vehicle summary card |
+| Icon | Cloud-off icon, `warning` color | Left of text |
+| Text | `text-sm`, `font-medium`, `warning` color | "Sin conexión — se requiere conexión para firmar" |
+
+- **Sign button:** disabled.
+- **Finding row taps:** still work — navigate back to Field Mode at that section for editing.
+- **Online detection:** banner disappears, sign button re-enables (if all preconditions met), data can refresh from server.
+
+**Edge case — No local draft:**
+- If Dexie has no draft for this event ID (deep link to an inspection never opened locally):
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | Centered, `space-6` vertical padding | Replaces review content |
+| Icon | Cloud-off, 48x48, `gray-400` | Visual indicator |
+| Title | `text-lg`, `font-medium`, `gray-700` | "Inspección no disponible offline" |
+| Subtitle | `text-sm`, `gray-500` | "Esta inspección no está guardada en este dispositivo." |
+| Action | Ghost button, `brand-primary` text | "Volver al Dashboard" → navigates to `/dashboard` |
 
 #### 7. Pending Photo Uploads
 
@@ -432,7 +456,9 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Sign button (incomplete)** | Disabled when not_evaluated items remain · Gray styling |
 | **Sign button (signing)** | Shows spinner + "Firmando..." · Disabled during signing |
 | **Sign error** | Toast shown · Button re-enabled |
-| **Offline state** | Warning banner shown · Sign button disabled · Content visible |
+| **Offline state** | Connectivity banner shown · Review content rendered from Dexie (vehicle summary, status counts, section groups, photos) · Sign button disabled · Finding row taps navigate to field mode |
+| **Offline — no local draft** | Error state shown: "Inspección no disponible offline" · "Volver al Dashboard" navigates correctly |
+| **Offline → online** | Banner disappears · Sign button re-enables · Data refreshes from server |
 | **Confirmation screen** | Checkmark badge · Signed timestamp · Signed by name |
 | **Report link** | URL displayed · Selectable text |
 | **Copy button** | Copies to clipboard · Label changes to "Copiado ✓" · Reverts after 2s |

@@ -8,6 +8,8 @@ import { toast } from "sonner";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ConnectivityMessage } from "@/components/offline/connectivity-message";
+import { useOfflineStatus } from "@/offline/hooks";
 import { createInspectionAction } from "@/lib/actions/inspection";
 
 interface VehicleData {
@@ -36,6 +38,7 @@ const REQUESTED_BY_OPTIONS = [
 
 export default function MetadataPage() {
   const router = useRouter();
+  const isOnline = useOfflineStatus();
 
   const [vehicle] = useState<VehicleData | null>(() => {
     if (typeof window === "undefined") return null;
@@ -98,6 +101,28 @@ export default function MetadataPage() {
   };
 
   if (!vehicle) return null;
+
+  if (!isOnline) {
+    return (
+      <ShellDashboard title="Nueva Inspección">
+        <div className="max-w-lg mx-auto">
+          <Link
+            href="/dashboard/inspect"
+            className="text-sm text-gray-500 hover:text-gray-700 mb-4 inline-flex items-center gap-1"
+          >
+            ← Volver
+          </Link>
+          <p className="text-sm text-gray-500 mb-2">
+            Paso 2 de 2 — Datos de inspección
+          </p>
+          <ConnectivityMessage
+            title="Se requiere conexión"
+            subtitle="La creación de inspecciones necesita conexión a internet."
+          />
+        </div>
+      </ShellDashboard>
+    );
+  }
 
   return (
     <ShellDashboard title="Nueva Inspección">

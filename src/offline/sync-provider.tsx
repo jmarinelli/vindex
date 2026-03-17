@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { getUnsyncedFindings, getUnsyncedPhotos, getPendingPhotoDeletions } from "./dexie";
 import { processSyncQueue } from "./sync";
 
@@ -116,6 +117,18 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
     const interval = setInterval(refreshPendingCount, 5000);
     return () => clearInterval(interval);
   }, [refreshPendingCount]);
+
+  // Ask the SW to cache the current page's HTML after client-side navigations
+  // so it's available offline on refresh/direct access.
+  const pathname = usePathname();
+  useEffect(() => {
+    if (navigator.serviceWorker?.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: "CACHE_PAGE",
+        url: pathname,
+      });
+    }
+  }, [pathname]);
 
   return (
     <SyncContext.Provider value={{ syncStatus, pendingCount, triggerSync }}>

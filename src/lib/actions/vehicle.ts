@@ -21,7 +21,7 @@ export async function lookupVehicleAction(
       model: string | null;
       year: number | null;
       trim: string | null;
-      plate: string | null;
+      plate: string;
     };
     inspectionCount: number;
   } | null>
@@ -80,7 +80,7 @@ export async function findOrCreateVehicleAction(
       model: string | null;
       year: number | null;
       trim: string | null;
-      plate: string | null;
+      plate: string;
     };
     isNew: boolean;
     inspectionCount: number;

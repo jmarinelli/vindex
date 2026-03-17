@@ -38,7 +38,7 @@ function makeReport(overrides?: Partial<SignedReportItem>): SignedReportItem {
     vehicle: {
       id: "v-1",
       vin: "3N1AB7AP5KY250312",
-      plate: null,
+      plate: "ABC123",
       make: "Nissan",
       model: "Sentra",
       year: 2019,

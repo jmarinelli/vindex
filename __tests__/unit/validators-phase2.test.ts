@@ -40,9 +40,10 @@ describe("lookupVehicleSchema", () => {
 describe("vehicleEntrySchema", () => {
   const validEntry = {
     vin: "1G1YY22G965104015",
+    plate: "AC123BD",
   };
 
-  it("accepts valid VIN only", () => {
+  it("accepts valid VIN and plate", () => {
     const result = vehicleEntrySchema.safeParse(validEntry);
     expect(result.success).toBe(true);
   });
@@ -78,16 +79,31 @@ describe("vehicleEntrySchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("accepts null optional fields", () => {
+  it("accepts null optional fields (except plate)", () => {
     const result = vehicleEntrySchema.safeParse({
       ...validEntry,
       make: null,
       model: null,
       year: null,
       trim: null,
-      plate: null,
+      plate: "ABC123",
     });
     expect(result.success).toBe(true);
+  });
+
+  it("rejects empty plate", () => {
+    const result = vehicleEntrySchema.safeParse({
+      ...validEntry,
+      plate: "",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects missing plate", () => {
+    const result = vehicleEntrySchema.safeParse({
+      vin: validEntry.vin,
+    });
+    expect(result.success).toBe(false);
   });
 
   it("rejects plate over 20 chars", () => {

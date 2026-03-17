@@ -188,7 +188,12 @@ PWA is a hard requirement (PRD Section 9.1). The inspector must be able to:
 - Caches the application shell (HTML, CSS, JS bundles) for offline access.
 - Caches static assets and the inspection form UI.
 - Does NOT cache dynamic data (inspection content, photos) — that is handled by IndexedDB via Dexie.
-- Strategy: Stale-while-revalidate for app shell, network-first for API calls.
+- Strategies:
+  - **Static assets** (`/_next/static/`): cache-first (immutable, hashed filenames).
+  - **Navigation requests** (HTML pages): stale-while-revalidate. On first visit, the HTML response is cached. On subsequent visits, the cached version is served immediately while a fresh copy is fetched in the background. When offline, the cached version is served. If no cached version exists (page never visited), falls back to `/offline.html`.
+  - **Everything else** (API calls, server actions): network-only (pass through).
+- Cached navigation routes enable offline page loads. Dynamic data comes from Dexie — the SW only needs to serve the page shell so React can mount and read from IndexedDB.
+- Pages that should work offline: `/dashboard`, `/dashboard/inspect/[id]`, `/dashboard/inspect/[id]/sign`. Pages that require connectivity to function (`/dashboard/inspect`, `/dashboard/inspect/metadata`) are still cached so they render in-app with a connectivity message instead of the raw offline fallback.
 
 ### 4.2 Web App Manifest
 

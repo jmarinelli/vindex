@@ -33,6 +33,7 @@ function validInput(overrides: Record<string, unknown> = {}) {
     make: "Toyota",
     model: "Corolla",
     year: 2020,
+    plate: "ABC123",
     ...overrides,
   };
 }
@@ -110,7 +111,7 @@ describe("findOrCreateVehicleAction", () => {
       model: "Corolla",
       year: 2020,
       trim: null,
-      plate: null,
+      plate: "ABC123",
     };
     mockFindOrCreateVehicle.mockResolvedValue({ vehicle, isNew: true });
 
@@ -126,7 +127,7 @@ describe("findOrCreateVehicleAction", () => {
           model: "Corolla",
           year: 2020,
           trim: null,
-          plate: null,
+          plate: "ABC123",
         },
         isNew: true,
         inspectionCount: 0,
@@ -147,7 +148,7 @@ describe("findOrCreateVehicleAction", () => {
       model: "Corolla",
       year: 2020,
       trim: null,
-      plate: null,
+      plate: "ABC123",
     };
     mockFindOrCreateVehicle.mockResolvedValue({ vehicle, isNew: false });
     mockCountVehicleInspections.mockResolvedValue(3);
@@ -164,7 +165,7 @@ describe("findOrCreateVehicleAction", () => {
           model: "Corolla",
           year: 2020,
           trim: null,
-          plate: null,
+          plate: "ABC123",
         },
         isNew: false,
         inspectionCount: 3,
@@ -184,7 +185,7 @@ describe("findOrCreateVehicleAction", () => {
       model: "Corolla",
       year: 2020,
       trim: null,
-      plate: null,
+      plate: "ABC123",
     };
     mockFindOrCreateVehicle.mockResolvedValue({ vehicle, isNew: true });
 

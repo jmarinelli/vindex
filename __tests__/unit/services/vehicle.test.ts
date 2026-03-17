@@ -98,7 +98,7 @@ describe("findVehicleByVin", () => {
       model: "Corolla",
       year: 2020,
       trim: null,
-      plate: null,
+      plate: "ABC123",
       createdByNodeId: "n1",
       createdAt: new Date(),
     };
@@ -132,7 +132,7 @@ describe("findOrCreateVehicle", () => {
       model: "Civic",
       year: 2022,
       trim: null,
-      plate: null,
+      plate: "ABC123",
       createdByNodeId: "node-1",
       createdAt: new Date(),
     };
@@ -146,6 +146,7 @@ describe("findOrCreateVehicle", () => {
       make: "Honda",
       model: "Civic",
       year: 2022,
+      plate: "ABC123",
       nodeId: "node-1",
     });
 
@@ -161,7 +162,7 @@ describe("findOrCreateVehicle", () => {
       model: null,
       year: null,
       trim: null,
-      plate: null,
+      plate: "ABC123",
       createdByNodeId: "node-1",
       createdAt: new Date(),
     };
@@ -177,6 +178,7 @@ describe("findOrCreateVehicle", () => {
       vin: "abcde12345678901x",
       model: "Civic",
       year: 2022,
+      plate: "ABC123",
       nodeId: "node-1",
     });
 
@@ -193,7 +195,7 @@ describe("findOrCreateVehicle", () => {
       model: null,
       year: null,
       trim: null,
-      plate: null,
+      plate: "ABC123",
       createdByNodeId: "node-1",
       createdAt: new Date(),
     };
@@ -205,6 +207,7 @@ describe("findOrCreateVehicle", () => {
 
     const result = await findOrCreateVehicle({
       vin: "abcde12345678901x",
+      plate: "ABC123",
       nodeId: "node-1",
     });
 
@@ -220,7 +223,7 @@ describe("findOrCreateVehicle", () => {
       model: null,
       year: null,
       trim: null,
-      plate: null,
+      plate: "ABC123",
       createdByNodeId: "node-1",
       createdAt: new Date(),
     };
@@ -234,6 +237,7 @@ describe("findOrCreateVehicle", () => {
       vin: "abcde12345678901x",
       make: null,
       model: null,
+      plate: "ABC123",
       nodeId: "node-1",
     });
 

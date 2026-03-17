@@ -132,6 +132,10 @@ export async function deletePhoto(photoId: string): Promise<void> {
   }
 }
 
+export async function getAllDrafts(): Promise<DraftInspection[]> {
+  return localDb.drafts.orderBy("updatedAt").reverse().toArray();
+}
+
 // ─── Sync Helpers ───────────────────────────────────────────────────────────
 
 export async function clearInspectionData(eventId: string): Promise<void> {

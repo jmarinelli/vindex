@@ -306,7 +306,37 @@ When a status filter is active, only items matching that status are shown, maint
 | Text | `text-sm`, `gray-500` | "No se encontraron inspecciones con estos filtros." |
 | Clear action | `text-sm`, `brand-accent` | "Limpiar filtros" — resets search and filter to defaults |
 
-### 5. Error State
+### 5. Offline
+
+The dashboard enters read-only offline mode when the device has no connectivity. Data comes from Dexie instead of the server.
+
+- **Offline banner** at the top of the content area (below greeting):
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | `status-attention-bg` bg, `radius-sm`, `space-3` padding, full-width | Visible only when offline |
+| Icon | Cloud-off icon, 16x16, `warning` color | Left of text |
+| Text | `text-sm`, `font-medium`, `warning` color | "Sin conexión — solo se muestran borradores locales" |
+
+- **Inspection list:** populated from Dexie `drafts` table only. Each draft card renders with the same layout as the online version (vehicle name, VIN, date, odometer, type, requested by, progress footer). Draft cards are tappable — navigate to field mode.
+- **Signed inspections:** not shown (data is server-only).
+- **Disabled/hidden elements:**
+  - "Nueva Inspección" button — disabled (`gray-100` bg, `gray-400` text). Label: "Nueva Inspección". No tooltip needed — the banner explains the situation.
+  - Search input — hidden.
+  - Status filter pills — hidden.
+  - Quick links — hidden.
+- **Greeting:** still shown ("Bienvenido, {name}" — name from the JWT session, which is available locally).
+- **Empty offline state** (no Dexie drafts):
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Icon | Cloud-off icon, 48x48, `gray-300` | Visual indicator |
+| Title | `text-lg`, `font-medium`, `gray-700` | "No hay borradores locales" |
+| Subtitle | `text-sm`, `gray-500` | "Conectate a internet para ver tus inspecciones." |
+
+- **Reconnect behavior:** when connectivity is restored, the offline banner disappears, the full server data loads, and all controls are re-enabled.
+
+### 6. Error State
 
 - Full-page error within Shell B.
 - Icon: warning triangle, 48x48, `error` color.
@@ -377,6 +407,9 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Filtered no results** | Shown when search/filter matches nothing · "No se encontraron inspecciones" message · "Limpiar filtros" link resets |
 | **Quick links** | Template editor link navigates to `/dashboard/template` · Profile link navigates to `/inspector/{slug}` |
 | **Mobile layout** | Search and filters stacked vertically · Cards full-width · Quick links stacked |
+| **Offline state** | Offline banner shown · Only Dexie drafts displayed · Draft cards tappable · "Nueva Inspección" disabled · Search/filter hidden · Quick links hidden · Signed inspections not shown |
+| **Offline — no drafts** | Empty offline state message shown: "No hay borradores locales" |
+| **Offline → online** | Banner disappears · Server data loads · All controls re-enabled |
 | **Error state** | Error message shown · Retry button triggers reload |
 
 ---
