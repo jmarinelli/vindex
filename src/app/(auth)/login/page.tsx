@@ -8,7 +8,7 @@ export default function LoginPage() {
         <LoginForm />
       </Suspense>
       <p className="text-xs text-gray-400 tracking-widest">
-        Inspecciones vehiculares verificadas
+        Verificaciones vehiculares documentadas
       </p>
     </div>
   );

@@ -59,12 +59,12 @@ export function StatsCard({ stats }: StatsCardProps) {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <StatTile
           value={String(stats.inspectionCount)}
-          label="inspecciones"
+          label="verificaciones"
         />
         {stats.operatingSince && (
           <StatTile
             value={formatOperatingSince(stats.operatingSince)}
-            label="inspeccionando desde"
+            label="verificando desde"
           />
         )}
         <StatTile

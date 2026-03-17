@@ -76,7 +76,7 @@ export function MetricsTab() {
         <MetricTile value={String(metrics.totalUsers)} label="usuarios" />
         <MetricTile
           value={String(metrics.totalInspections)}
-          label="inspecciones"
+          label="verificaciones"
         />
         <MetricTile
           value={String(metrics.signedInspections)}

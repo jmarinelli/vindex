@@ -47,14 +47,14 @@ export function IdentityCard({ node }: IdentityCardProps) {
             </h1>
             <div
               className="flex items-center gap-1"
-              aria-label="Inspector verificado por VinDex"
+              aria-label="Verificador registrado en VinDex"
             >
               <BadgeCheck
                 className="w-4 h-4 text-status-good"
                 aria-hidden="true"
               />
               <span className="text-xs font-medium text-status-good">
-                Inspector verificado
+                Verificador registrado
               </span>
             </div>
           </div>

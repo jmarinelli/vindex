@@ -32,7 +32,7 @@ export function VerificationBadge({
         aria-hidden="true"
       />
       <div className="flex flex-col gap-1">
-        <h2 className="text-base font-bold text-status-good">Verificación</h2>
+        <h2 className="text-base font-bold text-status-good">Verificación firmada</h2>
         <p className="text-sm text-gray-700">
           Firmada el {formattedDate} a las {formattedTime}
         </p>

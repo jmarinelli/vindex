@@ -14,7 +14,7 @@ const inspectionTypeLabels: Record<string, string> = {
   pre_purchase: "Pre-compra",
   intake: "Recepción",
   periodic: "Periódica",
-  other: "Inspección",
+  other: "Verificación",
 };
 
 function formatDate(date: Date | string | null): string {
@@ -36,7 +36,7 @@ function ReportItem({ report }: { report: SignedReportItem }) {
       .join(" ") || "Vehículo sin datos";
 
   const typeLabel =
-    inspectionTypeLabels[detail.inspectionType] ?? "Inspección";
+    inspectionTypeLabels[detail.inspectionType] ?? "Verificación";
 
   return (
     <div className="bg-gray-50 rounded-md p-3 sm:p-4">
@@ -88,14 +88,14 @@ export function ReportList({
       data-testid="reports-card"
     >
       <h2 className="text-base font-semibold text-gray-800">
-        Inspecciones firmadas ({total})
+        Verificaciones firmadas ({total})
       </h2>
 
       {total === 0 ? (
         <div className="flex flex-col items-center gap-3 py-8">
           <ClipboardList className="w-10 h-10 text-gray-300" aria-hidden="true" />
           <p className="text-sm text-gray-500 text-center">
-            Este inspector aún no tiene inspecciones firmadas.
+            Este verificador aún no tiene verificaciones firmadas.
           </p>
         </div>
       ) : (
@@ -114,7 +114,7 @@ export function ReportList({
               onClick={loadMore}
               disabled={loading}
               className="text-sm font-medium text-brand-accent py-2 hover:underline disabled:opacity-50"
-              aria-label="Cargar más inspecciones"
+              aria-label="Cargar más verificaciones"
             >
               {loading ? "Cargando..." : "Ver más"}
             </button>

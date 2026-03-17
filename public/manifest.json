@@ -1,7 +1,7 @@
 {
   "name": "VinDex",
   "short_name": "VinDex",
-  "description": "Historial vehicular verificado",
+  "description": "Historial vehicular documentado",
   "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#F9FAFB",

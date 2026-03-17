@@ -19,14 +19,14 @@ export async function generateMetadata({
   const profile = await getNodeProfile(slug);
 
   if (!profile) {
-    return { title: "Inspector no encontrado | VinDex" };
+    return { title: "Verificador no encontrado | VinDex" };
   }
 
   const { node } = profile;
-  const title = `${node.displayName} — Inspector verificado | VinDex`;
+  const title = `${node.displayName} — Verificador registrado | VinDex`;
   const description = node.bio
     ? `${node.bio.slice(0, 150)}${node.bio.length > 150 ? "..." : ""}`
-    : `Perfil profesional de ${node.displayName}. Inspector verificado en VinDex.`;
+    : `Perfil profesional de ${node.displayName}. Verificador registrado en VinDex.`;
 
   return {
     title,

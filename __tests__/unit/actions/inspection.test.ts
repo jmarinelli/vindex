@@ -172,14 +172,14 @@ describe("createInspectionAction", () => {
   it("returns error when service throws", async () => {
     mockAuth.mockResolvedValue(createMockSession());
     mockCreateInspection.mockRejectedValue(
-      new Error("No tenés permiso para crear inspecciones en este nodo.")
+      new Error("No tenés permiso para crear verificaciones en este nodo.")
     );
 
     const result = await createInspectionAction(validCreateInput());
 
     expect(result).toEqual({
       success: false,
-      error: "No tenés permiso para crear inspecciones en este nodo.",
+      error: "No tenés permiso para crear verificaciones en este nodo.",
     });
   });
 
@@ -191,7 +191,7 @@ describe("createInspectionAction", () => {
 
     expect(result).toEqual({
       success: false,
-      error: "Error al crear la inspección.",
+      error: "Error al crear la verificación.",
     });
   });
 });
@@ -307,14 +307,14 @@ describe("updateFindingAction", () => {
   it("returns error when service throws", async () => {
     mockAuth.mockResolvedValue(createMockSession());
     mockUpdateFinding.mockRejectedValue(
-      new Error("No se puede modificar una inspección firmada.")
+      new Error("No se puede modificar una verificación firmada.")
     );
 
     const result = await updateFindingAction(validFindingInput());
 
     expect(result).toEqual({
       success: false,
-      error: "No se puede modificar una inspección firmada.",
+      error: "No se puede modificar una verificación firmada.",
     });
   });
 

@@ -13,13 +13,13 @@ describe("ShellField", () => {
     expect(screen.getByText("Field Content")).toBeInTheDocument();
   });
 
-  it("renders default title 'Inspección'", () => {
+  it("renders default title 'Verificación'", () => {
     render(
       <ShellField>
         <div>Content</div>
       </ShellField>
     );
-    expect(screen.getByText("Inspección")).toBeInTheDocument();
+    expect(screen.getByText("Verificación")).toBeInTheDocument();
   });
 
   it("renders custom title", () => {

@@ -109,7 +109,7 @@ describe("PhotoCapture", () => {
     render(<PhotoCapture photos={[photo]} onCapture={vi.fn()} />);
 
     expect(createObjectURLSpy).toHaveBeenCalledWith(blob);
-    const img = screen.getByAltText("Foto de inspecci\u00f3n");
+    const img = screen.getByAltText("Foto de verificaci\u00f3n");
     expect(img).toBeInTheDocument();
   });
 
@@ -124,7 +124,7 @@ describe("PhotoCapture", () => {
     render(<PhotoCapture photos={[photo]} onCapture={vi.fn()} />);
 
     expect(createObjectURLSpy).not.toHaveBeenCalled();
-    const img = screen.getByAltText("Foto de inspecci\u00f3n");
+    const img = screen.getByAltText("Foto de verificaci\u00f3n");
     expect(img).toHaveAttribute("src", "https://cdn.example.com/photo.jpg");
   });
 

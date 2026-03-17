@@ -55,7 +55,7 @@ describe("LandingPage", () => {
   it("renders hero CTAs", () => {
     render(<LandingPage />);
     expect(screen.getAllByText("Cómo funciona").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText("¿Sos inspector? Contactanos")).toBeDefined();
+    expect(screen.getByText("¿Sos verificador? Contactanos")).toBeDefined();
   });
 
   it("renders trust indicator", () => {
@@ -83,7 +83,7 @@ describe("LandingPage", () => {
       screen.getByText("Un profesional evalúa el vehículo")
     ).toBeDefined();
     expect(
-      screen.getByText("El resultado queda sellado al VIN")
+      screen.getByText("El resultado queda vinculado al VIN")
     ).toBeDefined();
     expect(
       screen.getByText("El cliente recibe un informe profesional")
@@ -116,15 +116,15 @@ describe("LandingPage", () => {
     expect(
       screen.getByText("Un VIN, toda su vida documentada")
     ).toBeDefined();
-    expect(screen.getByText("Inspección pre-compra")).toBeDefined();
+    expect(screen.getByText("Verificación pre-compra")).toBeDefined();
     expect(screen.getByText("Cambio de aceite y filtros")).toBeDefined();
     expect(screen.getByText("Alineación y balanceo")).toBeDefined();
-    expect(screen.getByText("Inspección periódica")).toBeDefined();
+    expect(screen.getByText("Verificación periódica")).toBeDefined();
   });
 
   it("renders contact section with form", () => {
     render(<LandingPage />);
-    expect(screen.getByText("¿Sos inspector?")).toBeDefined();
+    expect(screen.getByText("¿Sos verificador?")).toBeDefined();
     expect(
       screen.getByText("Contactanos para empezar a usar VinDex.")
     ).toBeDefined();
@@ -150,7 +150,7 @@ describe("LandingPage", () => {
     const { container } = render(<LandingPage />);
     expect(container.querySelector("#como-funciona")).toBeDefined();
     expect(container.querySelector("#compradores")).toBeDefined();
-    expect(container.querySelector("#inspectores")).toBeDefined();
+    expect(container.querySelector("#verificadores")).toBeDefined();
     expect(container.querySelector("#historial")).toBeDefined();
     expect(container.querySelector("#contacto")).toBeDefined();
   });

@@ -10,7 +10,7 @@ import { UserMenu } from "@/components/ui/user-menu";
 const NAV_LINKS = [
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "Para compradores", href: "#compradores" },
-  { label: "Para inspectores", href: "#inspectores" },
+  { label: "Para verificadores", href: "#verificadores" },
 ] as const;
 
 function getInitials(name: string): string {

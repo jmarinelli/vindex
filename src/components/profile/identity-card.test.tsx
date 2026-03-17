@@ -30,7 +30,7 @@ describe("IdentityCard", () => {
 
   it("renders verified label", () => {
     render(<IdentityCard node={makeNode()} />);
-    expect(screen.getByText("Inspector verificado")).toBeInTheDocument();
+    expect(screen.getByText("Verificador registrado")).toBeInTheDocument();
   });
 
   it("renders bio when present", () => {
@@ -124,7 +124,7 @@ describe("IdentityCard", () => {
   it("has verified aria-label", () => {
     render(<IdentityCard node={makeNode()} />);
     expect(
-      screen.getByLabelText("Inspector verificado por VinDex")
+      screen.getByLabelText("Verificador registrado en VinDex")
     ).toBeInTheDocument();
   });
 });

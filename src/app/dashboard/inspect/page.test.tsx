@@ -108,7 +108,7 @@ describe("InspectPage", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("Vehículo registrado — 3 inspección(es).")
+          screen.getByText("Vehículo registrado — 3 verificación(es).")
         ).toBeInTheDocument();
       });
     });

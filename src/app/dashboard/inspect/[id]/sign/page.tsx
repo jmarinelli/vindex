@@ -408,7 +408,7 @@ export default function ReviewSignPage() {
 
   if (loading) {
     return (
-      <ShellDashboard title="Revisar Inspección">
+      <ShellDashboard title="Revisar Verificación">
         <div className="max-w-3xl mx-auto space-y-4">
           <Skeleton className="h-32 w-full rounded-xl" />
           <Skeleton className="h-16 w-full rounded-xl" />
@@ -424,11 +424,11 @@ export default function ReviewSignPage() {
 
   if (showOffline && !reviewData) {
     return (
-      <ShellDashboard title="Revisar Inspección">
+      <ShellDashboard title="Revisar Verificación">
         <div className="max-w-3xl mx-auto">
           <ConnectivityMessage
-            title="Inspección no disponible offline"
-            subtitle="Esta inspección no está guardada en este dispositivo."
+            title="Verificación no disponible offline"
+            subtitle="Esta verificación no está guardada en este dispositivo."
           />
         </div>
       </ShellDashboard>
@@ -440,7 +440,7 @@ export default function ReviewSignPage() {
   // ─── Render ─────────────────────────────────────────────────────────────
 
   return (
-    <ShellDashboard title="Revisar Inspección">
+    <ShellDashboard title="Revisar Verificación">
       <div className="max-w-3xl mx-auto space-y-4 pb-24 sm:pb-6">
         {/* Back link */}
         <button
@@ -448,7 +448,7 @@ export default function ReviewSignPage() {
           className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
         >
           <ArrowLeft className="h-4 w-4" />
-          Volver a inspección
+          Volver a verificación
         </button>
 
         {/* Offline connectivity banner */}
@@ -663,7 +663,7 @@ export default function ReviewSignPage() {
               className="h-10"
             />
             <p className="text-xs text-gray-500">
-              Se le notificará cuando firmes la inspección.
+              Se le notificará cuando firmes la verificación.
             </p>
           </div>
         )}
@@ -682,7 +682,7 @@ export default function ReviewSignPage() {
                 Firmando...
               </>
             ) : (
-              "Firmar Inspección"
+              "Firmar Verificación"
             )}
           </Button>
         </div>
@@ -702,7 +702,7 @@ export default function ReviewSignPage() {
               Firmando...
             </>
           ) : (
-            "Firmar Inspección"
+            "Firmar Verificación"
           )}
         </Button>
       </div>

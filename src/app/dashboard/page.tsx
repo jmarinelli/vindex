@@ -181,7 +181,7 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, [mounted, showOffline, loadFromServer]);
 
-  const firstName = session?.user?.name?.split(" ")[0] ?? "Inspector";
+  const firstName = session?.user?.name?.split(" ")[0] ?? "Verificador";
 
   // Before mount, always render loading skeleton (matches SSR output, no hydration mismatch)
   if (!mounted) {
@@ -217,7 +217,7 @@ export default function DashboardPage() {
             {/* Disabled New Inspection Button */}
             <div className="flex items-center justify-center gap-2 w-full h-12 bg-gray-100 text-gray-400 text-base font-medium rounded-md cursor-not-allowed">
               <Plus className="h-5 w-5" />
-              Nueva Inspección
+              Nueva Verificación
             </div>
 
             {/* Offline Draft List or Empty State */}
@@ -231,7 +231,7 @@ export default function DashboardPage() {
             {offlineLoaded && offlineDrafts && offlineDrafts.length > 0 && (
               <div className="space-y-4">
                 <p className="text-base font-medium text-gray-700">
-                  Mis Inspecciones ({offlineDrafts.length})
+                  Mis Verificaciones ({offlineDrafts.length})
                 </p>
                 <div className="space-y-3">
                   {offlineDrafts.map((item) => (
@@ -254,7 +254,7 @@ export default function DashboardPage() {
                   No hay borradores locales
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">
-                  Conectate a internet para ver tus inspecciones.
+                  Conectate a internet para ver tus verificaciones.
                 </p>
               </div>
             )}
@@ -269,7 +269,7 @@ export default function DashboardPage() {
               <div className="text-center py-12">
                 <AlertTriangle className="mx-auto h-12 w-12 text-red-400" />
                 <p className="mt-4 text-base text-gray-700">
-                  Error al cargar tus inspecciones.
+                  Error al cargar tus verificaciones.
                 </p>
                 <button
                   onClick={loadFromServer}
@@ -308,7 +308,7 @@ export default function DashboardPage() {
                   className="flex items-center justify-center gap-2 w-full h-12 bg-blue-600 hover:bg-blue-700 text-white text-base font-medium rounded-md transition-colors"
                 >
                   <Plus className="h-5 w-5" />
-                  Nueva Inspección
+                  Nueva Verificación
                 </Link>
 
                 {/* Inspection List */}

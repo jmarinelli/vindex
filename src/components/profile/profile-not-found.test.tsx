@@ -21,7 +21,7 @@ describe("ProfileNotFound", () => {
   it("renders not-found title", () => {
     render(<ProfileNotFound />);
     expect(
-      screen.getByText("Inspector no encontrado")
+      screen.getByText("Verificador no encontrado")
     ).toBeInTheDocument();
   });
 

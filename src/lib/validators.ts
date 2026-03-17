@@ -73,7 +73,7 @@ export const requestedByValues = [
 export const createInspectionSchema = z.object({
   vehicleId: z.string().uuid("ID de vehículo inválido."),
   inspectionType: z.enum(inspectionTypeValues, {
-    error: "Tipo de inspección inválido.",
+    error: "Tipo de verificación inválido.",
   }),
   requestedBy: z.enum(requestedByValues, {
     error: "Valor de 'solicitada por' inválido.",
@@ -128,7 +128,7 @@ export const updateFindingSchema = z.object({
 // ─── Signing Schemas ───────────────────────────────────────────────────────
 
 export const signInspectionSchema = z.object({
-  eventId: z.string().uuid("ID de inspección inválido."),
+  eventId: z.string().uuid("ID de verificación inválido."),
 });
 
 // ─── Review Schemas ───────────────────────────────────────────────────────
@@ -136,7 +136,7 @@ export const signInspectionSchema = z.object({
 export const matchRatingValues = ["yes", "partially", "no"] as const;
 
 export const submitReviewSchema = z.object({
-  eventId: z.string().uuid("ID de inspección inválido."),
+  eventId: z.string().uuid("ID de verificación inválido."),
   matchRating: z.enum(matchRatingValues, {
     error: "Seleccioná una opción válida.",
   }),
@@ -160,14 +160,14 @@ export const submitTokenReviewSchema = z.object({
 });
 
 export const updateCustomerEmailSchema = z.object({
-  eventId: z.string().uuid("ID de inspección inválido."),
+  eventId: z.string().uuid("ID de verificación inválido."),
   customerEmail: z.string().email("Ingresá un email válido.").optional().or(z.literal("")),
 });
 
 // ─── Correction Schemas ─────────────────────────────────────────────────────
 
 export const createCorrectionSchema = z.object({
-  eventId: z.string().uuid("ID de inspección inválido."),
+  eventId: z.string().uuid("ID de verificación inválido."),
 });
 
 // ─── Admin Node Schemas ─────────────────────────────────────────────────────

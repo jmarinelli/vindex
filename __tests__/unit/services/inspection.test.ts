@@ -125,7 +125,7 @@ describe("createInspection", () => {
     queryResults = [[]];
 
     await expect(createInspection(baseParams)).rejects.toThrow(
-      "No tenés permiso para crear inspecciones en este nodo."
+      "No tenés permiso para crear verificaciones en este nodo."
     );
   });
 
@@ -341,7 +341,7 @@ describe("updateFinding", () => {
 
     await expect(
       updateFinding({ ...baseParams, status: "good" })
-    ).rejects.toThrow("No se puede modificar una inspección firmada.");
+    ).rejects.toThrow("No se puede modificar una verificación firmada.");
   });
 
   it("throws when node does not match", async () => {

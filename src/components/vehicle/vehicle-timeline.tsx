@@ -36,7 +36,7 @@ function formatOdometer(km: number): string {
 function EventCard({ item }: { item: VehicleEventItem }) {
   const router = useRouter();
   const { event, node, detail, findingCounts, photoCount, correction, correctionOf } = item;
-  const typeLabel = inspectionTypeLabels[detail.inspectionType] ?? "Inspección";
+  const typeLabel = inspectionTypeLabels[detail.inspectionType] ?? "Verificación";
 
   function handleCardClick(e: React.MouseEvent) {
     // Don't navigate if the user clicked an inner link
@@ -174,18 +174,18 @@ export function VehicleTimeline({
       data-testid="timeline-card"
     >
       <h2 className="text-base font-semibold text-gray-800">
-        Historial de inspecciones ({total})
+        Historial de verificaciones ({total})
       </h2>
 
       {total === 0 ? (
         <div className="flex flex-col items-center gap-3 py-8">
           <ClipboardList className="w-10 h-10 text-gray-300" aria-hidden="true" />
           <p className="text-sm text-gray-500 text-center">
-            Este vehículo aún no tiene inspecciones firmadas.
+            Este vehículo aún no tiene verificaciones firmadas.
           </p>
         </div>
       ) : (
-        <ol className="flex flex-col gap-0" aria-label="Timeline de inspecciones">
+        <ol className="flex flex-col gap-0" aria-label="Timeline de verificaciones">
           {eventItems.map((item, index) => (
             <li key={item.event.id} className="relative pl-6 sm:pl-8">
               {/* Timeline line */}
@@ -199,7 +199,7 @@ export function VehicleTimeline({
               {/* Date marker */}
               <div
                 className="flex items-center gap-2 mb-2"
-                aria-label={`${formatDate(item.event.signedAt)} — ${inspectionTypeLabels[item.detail.inspectionType] ?? "Inspección"}, ${formatOdometer(item.event.odometerKm)} km`}
+                aria-label={`${formatDate(item.event.signedAt)} — ${inspectionTypeLabels[item.detail.inspectionType] ?? "Verificación"}, ${formatOdometer(item.event.odometerKm)} km`}
               >
                 <div
                   className="absolute left-0 sm:left-0.5 w-2.5 h-2.5 rounded-full bg-brand-primary border-2 border-white"
@@ -224,7 +224,7 @@ export function VehicleTimeline({
           onClick={loadMore}
           disabled={loading}
           className="text-sm font-medium text-brand-accent py-2 hover:underline disabled:opacity-50 text-center"
-          aria-label="Cargar más inspecciones"
+          aria-label="Cargar más verificaciones"
         >
           {loading ? "Cargando..." : "Ver más"}
         </button>

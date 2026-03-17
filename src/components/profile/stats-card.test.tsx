@@ -18,9 +18,9 @@ describe("StatsCard", () => {
   it("renders all stat tiles with correct values", () => {
     render(<StatsCard stats={makeStats()} />);
     expect(screen.getByText("24")).toBeInTheDocument();
-    expect(screen.getByText("inspecciones")).toBeInTheDocument();
+    expect(screen.getByText("verificaciones")).toBeInTheDocument();
     expect(screen.getByText("Mar 2024")).toBeInTheDocument();
-    expect(screen.getByText("inspeccionando desde")).toBeInTheDocument();
+    expect(screen.getByText("verificando desde")).toBeInTheDocument();
     expect(screen.getByText("8.3")).toBeInTheDocument();
     expect(screen.getByText("fotos/reporte")).toBeInTheDocument();
     expect(screen.getByText("5.2")).toBeInTheDocument();
@@ -46,15 +46,15 @@ describe("StatsCard", () => {
       <StatsCard stats={makeStats({ operatingSince: null })} />
     );
     expect(
-      screen.queryByText("inspeccionando desde")
+      screen.queryByText("verificando desde")
     ).not.toBeInTheDocument();
   });
 
   it("has aria-labels on stat tiles", () => {
     render(<StatsCard stats={makeStats()} />);
-    expect(screen.getByLabelText("24 inspecciones")).toBeInTheDocument();
+    expect(screen.getByLabelText("24 verificaciones")).toBeInTheDocument();
     expect(
-      screen.getByLabelText("Mar 2024 inspeccionando desde")
+      screen.getByLabelText("Mar 2024 verificando desde")
     ).toBeInTheDocument();
     expect(screen.getByLabelText("8.3 fotos/reporte")).toBeInTheDocument();
   });

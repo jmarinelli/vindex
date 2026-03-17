@@ -92,7 +92,7 @@ export default function FieldModePage() {
       // No local draft — need server
       if (!actuallyOnline) {
         // Can't load without draft or server
-        toast.error("No hay datos locales para esta inspección.");
+        toast.error("No hay datos locales para esta verificación.");
         router.replace("/dashboard");
         return;
       }
@@ -100,7 +100,7 @@ export default function FieldModePage() {
       // Fetch from server
       const result = await getDraftAction(eventId);
       if (!result.success || !result.data) {
-        toast.error(result.error ?? "No se pudo cargar la inspección.");
+        toast.error(result.error ?? "No se pudo cargar la verificación.");
         router.replace("/dashboard");
         return;
       }

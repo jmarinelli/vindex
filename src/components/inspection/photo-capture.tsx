@@ -101,7 +101,7 @@ export function PhotoCapture({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={url}
-              alt={photo.caption || "Foto de inspección"}
+              alt={photo.caption || "Foto de verificación"}
               className="w-full h-full object-cover rounded-sm"
             />
             {/* Upload status overlays */}

@@ -6,9 +6,9 @@ import { InstallPrompt } from "@/components/pwa/install-prompt";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VinDex — Historial vehicular verificado",
+  title: "VinDex — Historial vehicular documentado",
   description:
-    "Inspecciones vehiculares firmadas digitalmente. Historial verificable para cada VIN.",
+    "Verificaciones vehiculares firmadas por profesionales. Historial documentado para cada VIN.",
   manifest: "/manifest.json",
 };
 

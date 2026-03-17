@@ -6,7 +6,7 @@ export function ProfileNotFound() {
     <div className="flex flex-col items-center gap-4 py-16 text-center" data-testid="profile-not-found">
       <Search className="w-12 h-12 text-gray-400" aria-hidden="true" />
       <h1 className="text-xl font-bold text-gray-800">
-        Inspector no encontrado
+        Verificador no encontrado
       </h1>
       <p className="text-base text-gray-500">
         El perfil que buscás no existe o no está disponible.

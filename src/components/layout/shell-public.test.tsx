@@ -38,13 +38,13 @@ describe("ShellPublic", () => {
     expect(links[0]).toHaveAttribute("href", "/");
   });
 
-  it("renders footer with 'Verificado en' text", () => {
+  it("renders footer with 'Registrado en' text", () => {
     render(
       <ShellPublic>
         <div>Content</div>
       </ShellPublic>
     );
-    expect(screen.getByText("Verificado en")).toBeInTheDocument();
+    expect(screen.getByText("Registrado en")).toBeInTheDocument();
   });
 
   it("renders footer link to home", () => {

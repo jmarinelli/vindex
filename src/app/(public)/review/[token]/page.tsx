@@ -84,7 +84,7 @@ export default async function ReviewPage({
             Ya dejaste una reseña
           </h1>
           <p className="text-sm text-gray-500 max-w-sm">
-            Gracias por tu opinión. Ya dejaste una reseña para esta inspección.
+            Gracias por tu opinión. Ya dejaste una reseña para esta verificación.
           </p>
 
           {review && (

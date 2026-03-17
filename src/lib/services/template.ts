@@ -46,7 +46,7 @@ function buildStarterSections() {
 export async function createStarterTemplate(nodeId: string): Promise<void> {
   await db.insert(inspectionTemplates).values({
     nodeId,
-    name: "Inspección Pre-Compra Completa",
+    name: "Verificación Pre-Compra Completa",
     sections: buildStarterSections(),
   });
 }

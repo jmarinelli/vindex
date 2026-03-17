@@ -77,7 +77,7 @@ export function PhotoLightbox({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={photo.url}
-        alt={photo.caption || "Foto de inspección"}
+        alt={photo.caption || "Foto de verificación"}
         className="max-w-[90vw] max-h-[90vh] object-contain"
         onClick={(e) => e.stopPropagation()}
       />

@@ -75,7 +75,7 @@ describe("LandingHeader", () => {
       render(<LandingHeader />);
       expect(screen.getByText("Cómo funciona")).toBeDefined();
       expect(screen.getByText("Para compradores")).toBeDefined();
-      expect(screen.getByText("Para inspectores")).toBeDefined();
+      expect(screen.getByText("Para verificadores")).toBeDefined();
     });
 
     it("renders login button", () => {
@@ -98,8 +98,8 @@ describe("LandingHeader", () => {
         screen.getByText("Para compradores").closest("a")?.getAttribute("href")
       ).toBe("#compradores");
       expect(
-        screen.getByText("Para inspectores").closest("a")?.getAttribute("href")
-      ).toBe("#inspectores");
+        screen.getByText("Para verificadores").closest("a")?.getAttribute("href")
+      ).toBe("#verificadores");
     });
 
     it("does not render avatar or dropdown", () => {

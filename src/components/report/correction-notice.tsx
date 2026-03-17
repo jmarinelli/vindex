@@ -14,7 +14,7 @@ export function CorrectionNotice({ type, linkedSlug }: CorrectionNoticeProps) {
         <p className="text-sm text-info">
           {type === "has_correction"
             ? "Se ha emitido una corrección para este reporte."
-            : "Este reporte corrige una inspección anterior."}
+            : "Este reporte corrige una verificación anterior."}
         </p>
         <Link
           href={`/report/${linkedSlug}`}

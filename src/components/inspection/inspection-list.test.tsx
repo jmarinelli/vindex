@@ -97,16 +97,16 @@ describe("InspectionList", () => {
   describe("Empty state", () => {
     it("shows empty state when no inspections", () => {
       render(<InspectionList inspections={[]} />);
-      expect(screen.getByText("No tenés inspecciones")).toBeInTheDocument();
+      expect(screen.getByText("No tenés verificaciones")).toBeInTheDocument();
       expect(
-        screen.getByText("Creá tu primera inspección para empezar.")
+        screen.getByText("Creá tu primera verificación para empezar.")
       ).toBeInTheDocument();
     });
 
     it("hides search/filter when no inspections", () => {
       render(<InspectionList inspections={[]} />);
       expect(
-        screen.queryByLabelText("Buscar inspecciones")
+        screen.queryByLabelText("Buscar verificaciones")
       ).not.toBeInTheDocument();
     });
   });
@@ -120,12 +120,12 @@ describe("InspectionList", () => {
 
     it("shows correct count in header", () => {
       render(<InspectionList inspections={[draftItem, signedItem]} />);
-      expect(screen.getByText("Mis Inspecciones (2)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (2)")).toBeInTheDocument();
     });
 
     it("renders search input", () => {
       render(<InspectionList inspections={[draftItem]} />);
-      expect(screen.getByLabelText("Buscar inspecciones")).toBeInTheDocument();
+      expect(screen.getByLabelText("Buscar verificaciones")).toBeInTheDocument();
     });
 
     it("renders filter pills", () => {
@@ -141,21 +141,21 @@ describe("InspectionList", () => {
       const user = userEvent.setup();
       render(<InspectionList inspections={[draftItem, signedItem]} />);
 
-      const input = screen.getByLabelText("Buscar inspecciones");
+      const input = screen.getByLabelText("Buscar verificaciones");
       await user.type(input, "3N1AB");
 
       expect(screen.getByText("Nissan Sentra 2019")).toBeInTheDocument();
       expect(
         screen.queryByText("Toyota Corolla 2020")
       ).not.toBeInTheDocument();
-      expect(screen.getByText("Mis Inspecciones (1)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (1)")).toBeInTheDocument();
     });
 
     it("filters by make", async () => {
       const user = userEvent.setup();
       render(<InspectionList inspections={[draftItem, signedItem]} />);
 
-      const input = screen.getByLabelText("Buscar inspecciones");
+      const input = screen.getByLabelText("Buscar verificaciones");
       await user.type(input, "toyota");
 
       expect(screen.getByText("Toyota Corolla 2020")).toBeInTheDocument();
@@ -168,7 +168,7 @@ describe("InspectionList", () => {
       const user = userEvent.setup();
       render(<InspectionList inspections={[draftItem]} />);
 
-      const input = screen.getByLabelText("Buscar inspecciones");
+      const input = screen.getByLabelText("Buscar verificaciones");
       await user.type(input, "test");
 
       expect(screen.getByLabelText("Limpiar búsqueda")).toBeInTheDocument();
@@ -178,14 +178,14 @@ describe("InspectionList", () => {
       const user = userEvent.setup();
       render(<InspectionList inspections={[draftItem, signedItem]} />);
 
-      const input = screen.getByLabelText("Buscar inspecciones");
+      const input = screen.getByLabelText("Buscar verificaciones");
       await user.type(input, "xyz-no-match");
 
-      expect(screen.getByText("Mis Inspecciones (0)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (0)")).toBeInTheDocument();
 
       await user.click(screen.getByLabelText("Limpiar búsqueda"));
 
-      expect(screen.getByText("Mis Inspecciones (2)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (2)")).toBeInTheDocument();
     });
   });
 
@@ -206,7 +206,7 @@ describe("InspectionList", () => {
       expect(
         screen.queryByText("Toyota Corolla 2020")
       ).not.toBeInTheDocument();
-      expect(screen.getByText("Mis Inspecciones (1)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (1)")).toBeInTheDocument();
     });
 
     it("filters by Firmados", async () => {
@@ -226,10 +226,10 @@ describe("InspectionList", () => {
       render(<InspectionList inspections={[draftItem, signedItem]} />);
 
       await user.click(screen.getByText("Borrador"));
-      expect(screen.getByText("Mis Inspecciones (1)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (1)")).toBeInTheDocument();
 
       await user.click(screen.getByText("Todos"));
-      expect(screen.getByText("Mis Inspecciones (2)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (2)")).toBeInTheDocument();
     });
   });
 
@@ -238,12 +238,12 @@ describe("InspectionList", () => {
       const user = userEvent.setup();
       render(<InspectionList inspections={[draftItem]} />);
 
-      const input = screen.getByLabelText("Buscar inspecciones");
+      const input = screen.getByLabelText("Buscar verificaciones");
       await user.type(input, "zzz-no-match");
 
       expect(
         screen.getByText(
-          "No se encontraron inspecciones con estos filtros."
+          "No se encontraron verificaciones con estos filtros."
         )
       ).toBeInTheDocument();
     });
@@ -252,13 +252,13 @@ describe("InspectionList", () => {
       const user = userEvent.setup();
       render(<InspectionList inspections={[draftItem]} />);
 
-      const input = screen.getByLabelText("Buscar inspecciones");
+      const input = screen.getByLabelText("Buscar verificaciones");
       await user.type(input, "zzz-no-match");
 
       await user.click(screen.getByText("Limpiar filtros"));
 
       expect(screen.getByText("Nissan Sentra 2019")).toBeInTheDocument();
-      expect(screen.getByText("Mis Inspecciones (1)")).toBeInTheDocument();
+      expect(screen.getByText("Mis Verificaciones (1)")).toBeInTheDocument();
     });
   });
 

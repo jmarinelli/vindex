@@ -19,7 +19,7 @@ const inspectionTypeLabels: Record<string, string> = {
   pre_purchase: "pre-compra",
   intake: "recepción",
   periodic: "periódica",
-  other: "inspección",
+  other: "verificación",
 };
 
 export async function generateMetadata({
@@ -43,10 +43,10 @@ export async function generateMetadata({
   const attention = findings.filter((f) => f.status === "attention").length;
   const critical = findings.filter((f) => f.status === "critical").length;
 
-  const typeLabel = inspectionTypeLabels[detail.inspectionType] ?? "inspección";
-  const description = `Inspección ${typeLabel} verificada. ${good} items bien, ${attention} atención, ${critical} crítico. Firmada por ${node.displayName}.`;
+  const typeLabel = inspectionTypeLabels[detail.inspectionType] ?? "verificación";
+  const description = `Verificación ${typeLabel} documentada. ${good} items bien, ${attention} atención, ${critical} crítico. Firmada por ${node.displayName}.`;
 
-  const title = `Inspección — ${vehicleName} | VinDex`;
+  const title = `Verificación — ${vehicleName} | VinDex`;
   const ogImageUrl = `/api/og/${slug}`;
 
   return {

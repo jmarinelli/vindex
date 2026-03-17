@@ -111,7 +111,7 @@ export async function GET(
               }}
             >
               <span style={{ fontSize: "18px", color: "#16A34A", fontWeight: 700 }}>
-                ✓ Inspección Verificada
+                ✓ Verificación documentada
               </span>
             </div>
           </div>
@@ -198,7 +198,7 @@ export async function GET(
           }}
         >
           <span style={{ fontSize: "20px", color: "#6B7280" }}>
-            Verificada por {node.displayName}
+            Firmada por {node.displayName}
           </span>
           <span style={{ fontSize: "18px", color: "#9CA3AF" }}>
             {signedDate}

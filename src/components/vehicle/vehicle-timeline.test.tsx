@@ -88,7 +88,7 @@ describe("VehicleTimeline", () => {
       />
     );
     expect(
-      screen.getByText("Historial de inspecciones (1)")
+      screen.getByText("Historial de verificaciones (1)")
     ).toBeInTheDocument();
   });
 
@@ -97,7 +97,7 @@ describe("VehicleTimeline", () => {
       <VehicleTimeline initialEvents={[]} total={0} vehicleId="v-1" />
     );
     expect(
-      screen.getByText("Este vehículo aún no tiene inspecciones firmadas.")
+      screen.getByText("Este vehículo aún no tiene verificaciones firmadas.")
     ).toBeInTheDocument();
   });
 
@@ -239,7 +239,7 @@ describe("VehicleTimeline", () => {
       />
     );
     expect(
-      screen.getByRole("button", { name: "Cargar más inspecciones" })
+      screen.getByRole("button", { name: "Cargar más verificaciones" })
     ).toBeInTheDocument();
   });
 
@@ -252,7 +252,7 @@ describe("VehicleTimeline", () => {
       />
     );
     expect(
-      screen.queryByRole("button", { name: "Cargar más inspecciones" })
+      screen.queryByRole("button", { name: "Cargar más verificaciones" })
     ).not.toBeInTheDocument();
   });
 
@@ -293,7 +293,7 @@ describe("VehicleTimeline", () => {
         vehicleId="v-1"
       />
     );
-    const list = screen.getByRole("list", { name: "Timeline de inspecciones" });
+    const list = screen.getByRole("list", { name: "Timeline de verificaciones" });
     expect(list.tagName).toBe("OL");
     expect(list.querySelectorAll("li")).toHaveLength(1);
   });

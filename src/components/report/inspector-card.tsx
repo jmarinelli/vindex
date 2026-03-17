@@ -37,7 +37,7 @@ export function InspectorCard({ node }: InspectorCardProps) {
         <div className="flex items-center gap-1">
           <BadgeCheck className="w-3.5 h-3.5 text-status-good" aria-hidden="true" />
           <span className="text-xs font-medium text-status-good">
-            Inspector verificado
+            Verificador registrado
           </span>
         </div>
         {node.contactEmail && (
@@ -63,7 +63,7 @@ export function InspectorCard({ node }: InspectorCardProps) {
           className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-accent hover:underline"
         >
           <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-          Ver perfil del inspector
+          Ver perfil del verificador
         </Link>
       </div>
     </div>

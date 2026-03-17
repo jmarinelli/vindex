@@ -174,7 +174,7 @@ export default function InspectPage() {
 
   if (!isOnline) {
     return (
-      <ShellDashboard title="Nueva Inspección">
+      <ShellDashboard title="Nueva Verificación">
         <div className="max-w-lg mx-auto">
           <Link
             href="/dashboard"
@@ -185,7 +185,7 @@ export default function InspectPage() {
           <p className="text-sm text-gray-500 mb-6">Paso 1 de 2 — Vehículo</p>
           <ConnectivityMessage
             title="Se requiere conexión"
-            subtitle="La creación de inspecciones necesita conexión a internet para buscar vehículos."
+            subtitle="La creación de verificaciones necesita conexión a internet para buscar vehículos."
           />
         </div>
       </ShellDashboard>
@@ -193,7 +193,7 @@ export default function InspectPage() {
   }
 
   return (
-    <ShellDashboard title="Nueva Inspección">
+    <ShellDashboard title="Nueva Verificación">
       <div className="max-w-lg mx-auto">
         <Link
           href="/dashboard"
@@ -249,7 +249,7 @@ export default function InspectPage() {
         {mode === "mode-a" && inspectionCount > 0 && (
           <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md text-sm text-blue-800 flex items-center gap-2">
             <Info className="h-4 w-4 shrink-0" />
-            Vehículo registrado — {inspectionCount} inspección(es).
+            Vehículo registrado — {inspectionCount} verificación(es).
           </div>
         )}
 

@@ -60,10 +60,10 @@ export function InspectionList({ inspections }: InspectionListProps) {
       <div className="text-center py-12" role="status">
         <ClipboardList className="mx-auto h-12 w-12 text-gray-300" />
         <h3 className="mt-4 text-lg font-medium text-gray-700">
-          No tenés inspecciones
+          No tenés verificaciones
         </h3>
         <p className="mt-1 text-sm text-gray-500">
-          Creá tu primera inspección para empezar.
+          Creá tu primera verificación para empezar.
         </p>
       </div>
     );
@@ -81,7 +81,7 @@ export function InspectionList({ inspections }: InspectionListProps) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar por VIN, marca, modelo..."
-            aria-label="Buscar inspecciones"
+            aria-label="Buscar verificaciones"
             className="w-full h-10 pl-9 pr-9 text-sm text-gray-800 placeholder:text-gray-400 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {search && (
@@ -121,7 +121,7 @@ export function InspectionList({ inspections }: InspectionListProps) {
 
       {/* Section Header */}
       <p className="text-base font-medium text-gray-700">
-        Mis Inspecciones ({filtered.length})
+        Mis Verificaciones ({filtered.length})
       </p>
 
       {/* List or No Results */}
@@ -135,7 +135,7 @@ export function InspectionList({ inspections }: InspectionListProps) {
         <div className="text-center py-12" role="status">
           <Search className="mx-auto h-10 w-10 text-gray-300" />
           <p className="mt-4 text-sm text-gray-500">
-            No se encontraron inspecciones con estos filtros.
+            No se encontraron verificaciones con estos filtros.
           </p>
           <button
             onClick={clearFilters}

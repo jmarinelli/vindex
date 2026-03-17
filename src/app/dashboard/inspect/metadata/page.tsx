@@ -90,7 +90,7 @@ export default function MetadataPage() {
     setSubmitting(false);
 
     if (!result.success) {
-      toast.error(result.error ?? "Error al crear la inspección.");
+      toast.error(result.error ?? "Error al crear la verificación.");
       return;
     }
 
@@ -109,7 +109,7 @@ export default function MetadataPage() {
 
   if (!isOnline) {
     return (
-      <ShellDashboard title="Nueva Inspección">
+      <ShellDashboard title="Nueva Verificación">
         <div className="max-w-lg mx-auto">
           <Link
             href="/dashboard/inspect"
@@ -118,11 +118,11 @@ export default function MetadataPage() {
             ← Volver
           </Link>
           <p className="text-sm text-gray-500 mb-2">
-            Paso 2 de 2 — Datos de inspección
+            Paso 2 de 2 — Datos de verificación
           </p>
           <ConnectivityMessage
             title="Se requiere conexión"
-            subtitle="La creación de inspecciones necesita conexión a internet."
+            subtitle="La creación de verificaciones necesita conexión a internet."
           />
         </div>
       </ShellDashboard>
@@ -130,7 +130,7 @@ export default function MetadataPage() {
   }
 
   return (
-    <ShellDashboard title="Nueva Inspección">
+    <ShellDashboard title="Nueva Verificación">
       <div className="max-w-lg mx-auto">
         <Link
           href="/dashboard/inspect"
@@ -140,7 +140,7 @@ export default function MetadataPage() {
         </Link>
 
         <p className="text-sm text-gray-500 mb-2">
-          Paso 2 de 2 — Datos de inspección
+          Paso 2 de 2 — Datos de verificación
         </p>
 
         {/* Vehicle summary */}
@@ -154,7 +154,7 @@ export default function MetadataPage() {
         {/* Inspection Type */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Tipo de inspección
+            Tipo de verificación
           </label>
           <div className="bg-white border border-gray-200 rounded-md overflow-hidden">
             {INSPECTION_TYPES.map((opt, i) => (
@@ -251,7 +251,7 @@ export default function MetadataPage() {
             htmlFor="date-input"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Fecha de inspección
+            Fecha de verificación
           </label>
           <Input
             id="date-input"
@@ -296,7 +296,7 @@ export default function MetadataPage() {
                 Creando...
               </>
             ) : (
-              "Iniciar Inspección"
+              "Iniciar Verificación"
             )}
           </Button>
         </div>

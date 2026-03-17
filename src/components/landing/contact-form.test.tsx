@@ -118,7 +118,7 @@ describe("ContactForm", () => {
     await user.type(screen.getByLabelText("Nombre"), "Juan Pérez");
     await user.type(screen.getByLabelText("Email"), "juan@test.com");
     await user.type(screen.getByLabelText("Teléfono (opcional)"), "+54 11 1234");
-    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de inspecciones.");
+    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de verificaciones.");
     await user.click(screen.getByText("Enviar mensaje"));
 
     await waitFor(() => {
@@ -126,7 +126,7 @@ describe("ContactForm", () => {
         name: "Juan Pérez",
         email: "juan@test.com",
         phone: "+54 11 1234",
-        message: "Tengo un taller de inspecciones.",
+        message: "Tengo un taller de verificaciones.",
       });
     });
   });
@@ -139,7 +139,7 @@ describe("ContactForm", () => {
 
     await user.type(screen.getByLabelText("Nombre"), "Juan Pérez");
     await user.type(screen.getByLabelText("Email"), "juan@test.com");
-    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de inspecciones.");
+    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de verificaciones.");
     await user.click(screen.getByText("Enviar mensaje"));
 
     await waitFor(() => {
@@ -158,7 +158,7 @@ describe("ContactForm", () => {
 
     await user.type(screen.getByLabelText("Nombre"), "Juan Pérez");
     await user.type(screen.getByLabelText("Email"), "juan@test.com");
-    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de inspecciones.");
+    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de verificaciones.");
     await user.click(screen.getByText("Enviar mensaje"));
 
     await waitFor(() => {
@@ -176,7 +176,7 @@ describe("ContactForm", () => {
 
     await user.type(screen.getByLabelText("Nombre"), "Juan Pérez");
     await user.type(screen.getByLabelText("Email"), "juan@test.com");
-    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de inspecciones.");
+    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de verificaciones.");
     await user.click(screen.getByText("Enviar mensaje"));
 
     await waitFor(() => {
@@ -194,7 +194,7 @@ describe("ContactForm", () => {
 
     await user.type(screen.getByLabelText("Nombre"), "Juan Pérez");
     await user.type(screen.getByLabelText("Email"), "juan@test.com");
-    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de inspecciones.");
+    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de verificaciones.");
     await user.click(screen.getByText("Enviar mensaje"));
 
     await waitFor(() => {
@@ -222,7 +222,7 @@ describe("ContactForm", () => {
     expect(screen.getByPlaceholderText("+54 11 1234-5678")).toBeDefined();
     expect(
       screen.getByPlaceholderText(
-        "Contanos sobre tu taller o servicio de inspección..."
+        "Contanos sobre tu taller o servicio de verificación..."
       )
     ).toBeDefined();
   });
@@ -248,7 +248,7 @@ describe("ContactForm", () => {
 
     await user.type(screen.getByLabelText("Nombre"), "Juan Pérez");
     await user.type(screen.getByLabelText("Email"), "juan@test.com");
-    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de inspecciones.");
+    await user.type(screen.getByLabelText("Mensaje"), "Tengo un taller de verificaciones.");
     await user.click(screen.getByText("Enviar mensaje"));
 
     await waitFor(() => {

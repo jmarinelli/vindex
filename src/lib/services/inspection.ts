@@ -123,7 +123,7 @@ export async function assertEventIsMutable(eventId: string): Promise<Event> {
   }
 
   if (event.status === "signed") {
-    throw new Error("No se puede modificar una inspección firmada.");
+    throw new Error("No se puede modificar una verificación firmada.");
   }
 
   return event;
@@ -151,7 +151,7 @@ export async function createInspection(
     .limit(1);
 
   if (!membership) {
-    throw new Error("No tenés permiso para crear inspecciones en este nodo.");
+    throw new Error("No tenés permiso para crear verificaciones en este nodo.");
   }
 
   // Get the node's template
@@ -350,15 +350,15 @@ export async function signInspection(
     .limit(1);
 
   if (!event) {
-    throw new Error("La inspección no fue encontrada.");
+    throw new Error("La verificación no fue encontrada.");
   }
 
   if (event.status === "signed") {
-    throw new Error("Esta inspección ya fue firmada.");
+    throw new Error("Esta verificación ya fue firmada.");
   }
 
   if (event.eventType !== "inspection") {
-    throw new Error("Solo se pueden firmar inspecciones.");
+    throw new Error("Solo se pueden firmar verificaciones.");
   }
 
   // 2. Authorization — user must be active node member
@@ -375,7 +375,7 @@ export async function signInspection(
     .limit(1);
 
   if (!membership) {
-    throw new Error("No tenés permisos para firmar esta inspección.");
+    throw new Error("No tenés permisos para firmar esta verificación.");
   }
 
   // 3. Get inspection detail (template snapshot)
@@ -386,7 +386,7 @@ export async function signInspection(
     .limit(1);
 
   if (!detail) {
-    throw new Error("La inspección no tiene detalle asociado.");
+    throw new Error("La verificación no tiene detalle asociado.");
   }
 
   // 4. Completeness validation — all checklist_item findings must be evaluated
@@ -428,7 +428,7 @@ export async function signInspection(
     .returning();
 
   if (!signed) {
-    throw new Error("Esta inspección ya fue firmada.");
+    throw new Error("Esta verificación ya fue firmada.");
   }
 
   // 6. Post-signing: generate review token + send email (best-effort)
@@ -556,7 +556,7 @@ export async function getSignedInspection(
   if (!vehicle) return null;
 
   // Get signer name
-  let signerName = "Inspector";
+  let signerName = "Verificador";
   if (event.signedByUserId) {
     const [signer] = await db
       .select()
@@ -621,7 +621,7 @@ export async function getPublicReport(
   if (!vehicle || !node || !detail) return null;
 
   // 3. Get signer name
-  let signerName = "Inspector";
+  let signerName = "Verificador";
   if (event.signedByUserId) {
     const [signer] = await db
       .select()
@@ -697,15 +697,15 @@ export async function createCorrection(
     .limit(1);
 
   if (!originalEvent) {
-    throw new Error("La inspección no fue encontrada.");
+    throw new Error("La verificación no fue encontrada.");
   }
 
   if (originalEvent.status !== "signed") {
-    throw new Error("Solo se pueden corregir inspecciones firmadas.");
+    throw new Error("Solo se pueden corregir verificaciones firmadas.");
   }
 
   if (originalEvent.eventType !== "inspection") {
-    throw new Error("Solo se pueden corregir inspecciones.");
+    throw new Error("Solo se pueden corregir verificaciones.");
   }
 
   // 2. Authorization — user must be active node member
@@ -722,7 +722,7 @@ export async function createCorrection(
     .limit(1);
 
   if (!membership) {
-    throw new Error("No tenés permisos para corregir esta inspección.");
+    throw new Error("No tenés permisos para corregir esta verificación.");
   }
 
   // 3. Fetch original detail and findings
@@ -733,7 +733,7 @@ export async function createCorrection(
     .limit(1);
 
   if (!originalDetail) {
-    throw new Error("La inspección no tiene detalle asociado.");
+    throw new Error("La verificación no tiene detalle asociado.");
   }
 
   const originalFindings = await db

@@ -51,7 +51,7 @@ export default function SignedConfirmationPage() {
     async function load() {
       const result = await getSignedInspectionAction(eventId);
       if (!result.success || !result.data) {
-        toast.error(result.error ?? "No se pudo cargar la inspección.");
+        toast.error(result.error ?? "No se pudo cargar la verificación.");
         router.replace("/dashboard");
         return;
       }
@@ -113,7 +113,7 @@ export default function SignedConfirmationPage() {
     if (!navigator.share) return;
     try {
       await navigator.share({
-        title: `Inspección — ${vehicle?.make ?? ""} ${vehicle?.model ?? ""} ${vehicle?.year ?? ""}`,
+        title: `Verificación — ${vehicle?.make ?? ""} ${vehicle?.model ?? ""} ${vehicle?.year ?? ""}`,
         url: reportUrl,
       });
     } catch {
@@ -127,7 +127,7 @@ export default function SignedConfirmationPage() {
 
   if (loading) {
     return (
-      <ShellDashboard title="Inspección Firmada">
+      <ShellDashboard title="Verificación Firmada">
         <div className="max-w-xl mx-auto space-y-6 text-center">
           <Skeleton className="h-16 w-16 rounded-full mx-auto" />
           <Skeleton className="h-8 w-48 mx-auto" />
@@ -147,7 +147,7 @@ export default function SignedConfirmationPage() {
   // ─── Render ─────────────────────────────────────────────────────────────
 
   return (
-    <ShellDashboard title="Inspección Firmada">
+    <ShellDashboard title="Verificación Firmada">
       <div className="max-w-xl mx-auto space-y-6 py-4">
         {/* Success Badge */}
         <div className="text-center space-y-2">
@@ -155,7 +155,7 @@ export default function SignedConfirmationPage() {
             <Check className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800">
-            Inspección firmada
+            Verificación firmada
           </h1>
           <p className="text-sm text-gray-500">
             Firmada el {formatSignedDate(event.signedAt)} a las{" "}

@@ -37,7 +37,7 @@ export function InspectionSignedEmail({
   reportUrl,
   reviewUrl,
 }: InspectionSignedEmailProps) {
-  const previewText = `Inspección de ${vehicleName} firmada por ${inspectorName}. Podés ver el reporte y dejar tu reseña.`;
+  const previewText = `Verificación de ${vehicleName} firmada por ${inspectorName}. Podés ver el reporte y dejar tu reseña.`;
 
   return (
     <Html>
@@ -60,9 +60,9 @@ export function InspectionSignedEmail({
 
           {/* Heading */}
           <Section style={sectionStyle}>
-            <Text style={titleStyle}>Inspección firmada</Text>
+            <Text style={titleStyle}>Verificación firmada</Text>
             <Text style={introStyle}>
-              Se firmó la inspección de tu vehículo.
+              Se firmó la verificación de tu vehículo.
             </Text>
           </Section>
 
@@ -75,7 +75,7 @@ export function InspectionSignedEmail({
               <Text style={vehicleDetailStyle}>Patente: {plate}</Text>
             )}
             <Text style={vinStyle}>VIN: {vin}</Text>
-            <Text style={vehicleDetailStyle}>Inspector: {inspectorName}</Text>
+            <Text style={vehicleDetailStyle}>Verificador: {inspectorName}</Text>
             <Text style={vehicleDetailStyle}>
               Fecha: {formatDate(eventDate)}
             </Text>
@@ -116,8 +116,8 @@ export function InspectionSignedEmail({
           <Section style={footerStyle}>
             <Text style={footerTextStyle}>VinDex · vindex.app</Text>
             <Text style={footerTextStyle}>
-              Este email fue enviado porque un inspector de VinDex incluyó tu
-              dirección como cliente de una inspección.
+              Este email fue enviado porque un verificador de VinDex incluyó tu
+              dirección como cliente de una verificación.
             </Text>
           </Section>
         </Container>

@@ -55,7 +55,7 @@ describe("ReportList", () => {
       <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
     );
     expect(
-      screen.getByText("Inspecciones firmadas (1)")
+      screen.getByText("Verificaciones firmadas (1)")
     ).toBeInTheDocument();
   });
 
@@ -63,7 +63,7 @@ describe("ReportList", () => {
     render(<ReportList initialReports={[]} total={0} nodeId="n-1" />);
     expect(
       screen.getByText(
-        "Este inspector aún no tiene inspecciones firmadas."
+        "Este verificador aún no tiene verificaciones firmadas."
       )
     ).toBeInTheDocument();
   });
@@ -102,7 +102,7 @@ describe("ReportList", () => {
       <ReportList initialReports={[makeReport()]} total={15} nodeId="n-1" />
     );
     expect(
-      screen.getByRole("button", { name: "Cargar más inspecciones" })
+      screen.getByRole("button", { name: "Cargar más verificaciones" })
     ).toBeInTheDocument();
   });
 
@@ -111,7 +111,7 @@ describe("ReportList", () => {
       <ReportList initialReports={[makeReport()]} total={1} nodeId="n-1" />
     );
     expect(
-      screen.queryByRole("button", { name: "Cargar más inspecciones" })
+      screen.queryByRole("button", { name: "Cargar más verificaciones" })
     ).not.toBeInTheDocument();
   });
 

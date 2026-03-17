@@ -24,8 +24,8 @@ export async function generateMetadata({
       .filter(Boolean)
       .join(" ") || "Vehículo";
 
-  const title = `${vehicleName} — Historial de inspecciones | VinDex`;
-  const description = `Historial de inspecciones verificadas para VIN ${vehicle.vin}.`;
+  const title = `${vehicleName} — Historial de verificaciones | VinDex`;
+  const description = `Historial de verificaciones documentadas para VIN ${vehicle.vin}.`;
 
   return {
     title,

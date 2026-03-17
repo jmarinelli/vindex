@@ -35,7 +35,7 @@ export default function LandingPage() {
             El historial que cada auto debería tener.
           </h1>
           <p className="text-lg text-gray-400 max-w-[500px]">
-            VinDex construye identidad vehicular documentada — un servicio
+            VinDex construye identidad vehicular documentada — una verificación
             profesional a la vez.
           </p>
           <div className="flex flex-col min-[900px]:flex-row gap-3 min-[900px]:gap-4 w-full min-[900px]:w-auto mt-4">
@@ -49,7 +49,7 @@ export default function LandingPage() {
               href="#contacto"
               className="inline-flex items-center justify-center h-12 px-8 rounded-sm border border-white/50 text-white font-medium text-base hover:bg-white/10 transition-colors"
             >
-              ¿Sos inspector? Contactanos
+              ¿Sos verificador? Contactanos
             </a>
           </div>
           <p className="text-xs text-white/40 mt-6">
@@ -67,7 +67,7 @@ export default function LandingPage() {
           </h2>
           <p className="text-base text-gray-500 leading-relaxed mt-6">
             No hay forma confiable de saber qué le hicieron al auto que estás
-            viendo. VinDex cambia eso: documenta desde la fuente, con quienes lo
+            viendo. VinDex cambia eso: documenta desde la fuente, con los profesionales que lo
             ven y trabajan en él directamente.
           </p>
         </div>
@@ -88,13 +88,13 @@ export default function LandingPage() {
               number={1}
               icon={<ClipboardCheck className="size-8 text-gray-600" />}
               title="Un profesional evalúa el vehículo"
-              description="Un inspector o taller registrado evalúa el vehículo y documenta su estado real, punto por punto."
+              description="Un verificador o taller registrado evalúa el vehículo y documenta su estado real, punto por punto."
             />
             <StepCard
               number={2}
               icon={<Stamp className="size-8 text-gray-600" />}
-              title="El resultado queda sellado al VIN"
-              description="Firmado digitalmente, inmutable, anclado a la identidad del vehículo para siempre."
+              title="El resultado queda vinculado al VIN"
+              description="Firmado, inmutable, vinculado a la identidad del vehículo para siempre."
             />
             <StepCard
               number={3}
@@ -106,7 +106,7 @@ export default function LandingPage() {
               number={4}
               icon={<Layers className="size-8 text-gray-600" />}
               title="El vehículo acumula su historia"
-              description="Cada servicio profesional se ancla al VIN. Cuando alguien quiera saber qué pasó con ese auto, la información va a estar."
+              description="Cada servicio profesional se vincula al VIN. Cuando alguien quiera saber qué pasó con ese auto, la información va a estar."
             />
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function LandingPage() {
             <FeatureCard
               icon={<Search className="size-9 text-brand-accent" />}
               title="Consultá el historial"
-              description="Accedé a todo lo documentado sobre un vehículo por su VIN. Cada inspección y servicio registrado, en un solo lugar."
+              description="Accedé a todo lo documentado sobre un vehículo por su VIN. Cada verificación y servicio registrado, en un solo lugar."
               variant="muted"
             />
             <FeatureCard
@@ -139,7 +139,7 @@ export default function LandingPage() {
             <FeatureCard
               icon={<Eye className="size-9 text-brand-accent" />}
               title="Transparencia total"
-              description="Sabé quién pidió la inspección, quién la hizo, cuándo, y a qué kilometraje. Sin zonas grises."
+              description="Sabé quién pidió la verificación, quién la hizo, cuándo, y a qué kilometraje. Sin zonas grises."
               variant="muted"
             />
           </div>
@@ -147,13 +147,13 @@ export default function LandingPage() {
       </section>
 
       {/* Inspectors Section */}
-      <section id="inspectores" className="w-full bg-gray-50 py-12 min-[900px]:py-16 scroll-mt-16">
+      <section id="verificadores" className="w-full bg-gray-50 py-12 min-[900px]:py-16 scroll-mt-16">
         <div className="max-w-[1024px] mx-auto px-6 text-center">
           <h2 className="text-2xl min-[900px]:text-[32px] font-bold text-gray-800">
             Tu herramienta, tu marca, tu historial
           </h2>
           <p className="text-base text-gray-500 mt-2">
-            Todo lo que necesitás para ofrecer inspecciones profesionales.
+            Todo lo que necesitás para ofrecer verificaciones profesionales.
           </p>
 
           <div className="grid grid-cols-1 min-[900px]:grid-cols-3 gap-6 mt-10">
@@ -165,12 +165,12 @@ export default function LandingPage() {
             <FeatureCard
               icon={<Palette className="size-9 text-brand-accent" />}
               title="Tu marca, no la nuestra"
-              description="Reportes white-label con tu identidad prominente. La plataforma es infraestructura invisible."
+              description="Reportes white-label con tu identidad prominente. La plataforma queda en segundo plano."
             />
             <FeatureCard
               icon={<TrendingUp className="size-9 text-brand-accent" />}
               title="Reputación que se acumula"
-              description="Cada inspección construye tu perfil profesional: cantidad de inspecciones, nivel de detalle, reseñas de compradores."
+              description="Cada verificación construye tu perfil profesional: cantidad de verificaciones, nivel de detalle, reseñas de compradores."
             />
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function LandingPage() {
               Un VIN, toda su vida documentada
             </h2>
             <p className="text-base text-gray-400 leading-relaxed max-w-[560px]">
-              Inspecciones, servicios y reparaciones se anclan al VIN. Con el
+              Verificaciones, servicios y reparaciones se vinculan al VIN. Con el
               tiempo, se construye un registro profesional que habla por sí
               solo.
             </p>
@@ -196,8 +196,8 @@ export default function LandingPage() {
           <ol className="w-full max-w-[520px] min-[900px]:max-w-none min-[900px]:grid min-[900px]:grid-cols-4 min-[900px]:items-start min-[900px]:gap-0 flex flex-col text-left pt-2">
             <TimelineEvent
               date="Mar 2026"
-              description="Inspección pre-compra"
-              meta="78.400 km · Insp. Martínez"
+              description="Verificación pre-compra"
+              meta="78.400 km · Verif. Martínez"
             />
             <TimelineEvent
               date="Sep 2026"
@@ -211,8 +211,8 @@ export default function LandingPage() {
             />
             <TimelineEvent
               date="Mar 2027"
-              description="Inspección periódica"
-              meta="104.800 km · Insp. Martínez"
+              description="Verificación periódica"
+              meta="104.800 km · Verif. Martínez"
               isLast
             />
           </ol>
@@ -223,7 +223,7 @@ export default function LandingPage() {
       <section id="contacto" className="w-full bg-gray-50 py-12 min-[900px]:py-16 scroll-mt-16">
         <div className="max-w-[560px] mx-auto px-6 text-center">
           <h2 className="text-2xl min-[900px]:text-[32px] font-bold text-gray-800">
-            ¿Sos inspector?
+            ¿Sos verificador?
           </h2>
           <p className="text-base text-gray-500 mt-2">
             Contactanos para empezar a usar VinDex.

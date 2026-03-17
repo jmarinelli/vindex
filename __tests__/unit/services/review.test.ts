@@ -131,7 +131,7 @@ describe("submitReview", () => {
 
     await expect(
       submitReview(crypto.randomUUID(), "yes", undefined, "hash123")
-    ).rejects.toThrow("La inspección no fue encontrada.");
+    ).rejects.toThrow("La verificación no fue encontrada.");
   });
 
   it("throws when event is not signed (draft)", async () => {
@@ -141,7 +141,7 @@ describe("submitReview", () => {
     await expect(
       submitReview(event.id, "yes", undefined, "hash123")
     ).rejects.toThrow(
-      "Solo se pueden dejar reseñas en inspecciones firmadas."
+      "Solo se pueden dejar reseñas en verificaciones firmadas."
     );
   });
 
@@ -155,7 +155,7 @@ describe("submitReview", () => {
     await expect(
       submitReview(event.id, "yes", undefined, "hash123")
     ).rejects.toThrow(
-      "Ya dejaste una reseña para esta inspección. Podés dejar otra en 24 horas."
+      "Ya dejaste una reseña para esta verificación. Podés dejar otra en 24 horas."
     );
   });
 

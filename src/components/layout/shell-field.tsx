@@ -26,7 +26,7 @@ export function ShellField({
       {/* Fixed top bar — 48px */}
       <header className="h-12 border-b border-gray-200 bg-white flex items-center justify-between px-4 shrink-0">
         <span className="text-sm font-medium text-gray-800 truncate max-w-[40%]">
-          {title ?? "Inspección"}
+          {title ?? "Verificación"}
         </span>
         <div className="flex items-center gap-3">
           {progress && (

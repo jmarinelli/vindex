@@ -51,7 +51,7 @@ export async function createInspectionAction(
     };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Error al crear la inspección.";
+      err instanceof Error ? err.message : "Error al crear la verificación.";
     return { success: false, error: message };
   }
 }
@@ -135,7 +135,7 @@ export async function signInspectionAction(
     };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Error al firmar la inspección.";
+      err instanceof Error ? err.message : "Error al firmar la verificación.";
     return { success: false, error: message };
   }
 }
@@ -157,7 +157,7 @@ export async function getInspectionsAction(
     return { success: true, data: items };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Error al obtener las inspecciones.";
+      err instanceof Error ? err.message : "Error al obtener las verificaciones.";
     return { success: false, error: message };
   }
 }
@@ -176,12 +176,12 @@ export async function getInspectionForReviewAction(
       session.user.nodeId
     );
     if (!data) {
-      return { success: false, error: "Inspección no encontrada." };
+      return { success: false, error: "Verificación no encontrada." };
     }
     return { success: true, data };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Error al obtener la inspección.";
+      err instanceof Error ? err.message : "Error al obtener la verificación.";
     return { success: false, error: message };
   }
 }
@@ -200,12 +200,12 @@ export async function getSignedInspectionAction(
       session.user.nodeId
     );
     if (!data) {
-      return { success: false, error: "Inspección firmada no encontrada." };
+      return { success: false, error: "Verificación firmada no encontrada." };
     }
     return { success: true, data };
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Error al obtener la inspección.";
+      err instanceof Error ? err.message : "Error al obtener la verificación.";
     return { success: false, error: message };
   }
 }
@@ -356,11 +356,11 @@ export async function updateCustomerEmailAction(
       .limit(1);
 
     if (!event) {
-      return { success: false, error: "Inspección no encontrada." };
+      return { success: false, error: "Verificación no encontrada." };
     }
 
     if (event.status === "signed") {
-      return { success: false, error: "No se puede modificar una inspección firmada." };
+      return { success: false, error: "No se puede modificar una verificación firmada." };
     }
 
     // Update customer email on inspection detail

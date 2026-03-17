@@ -32,7 +32,7 @@ export async function sendInspectionSignedEmail(
     await getResend().emails.send({
       from: process.env.FROM_EMAIL ?? "VinDex <noreply@vindex.app>",
       to: params.to,
-      subject: `Inspección de ${params.vehicleName} firmada — ${params.inspectorName}`,
+      subject: `Verificación de ${params.vehicleName} firmada — ${params.inspectorName}`,
       react: InspectionSignedEmail(params),
     });
   } catch (error) {

@@ -43,12 +43,12 @@ export async function submitReview(
     .limit(1);
 
   if (!event) {
-    throw new Error("La inspección no fue encontrada.");
+    throw new Error("La verificación no fue encontrada.");
   }
 
   if (event.status !== "signed") {
     throw new Error(
-      "Solo se pueden dejar reseñas en inspecciones firmadas."
+      "Solo se pueden dejar reseñas en verificaciones firmadas."
     );
   }
 
@@ -67,7 +67,7 @@ export async function submitReview(
 
   if (existing) {
     throw new Error(
-      "Ya dejaste una reseña para esta inspección. Podés dejar otra en 24 horas."
+      "Ya dejaste una reseña para esta verificación. Podés dejar otra en 24 horas."
     );
   }
 

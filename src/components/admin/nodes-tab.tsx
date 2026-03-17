@@ -58,7 +58,7 @@ function NodeCard({
         <p className="text-xs text-gray-500">{node.contactEmail}</p>
         <p className="text-xs text-gray-500">
           {node.memberCount} miembro{node.memberCount !== 1 ? "s" : ""} ·{" "}
-          {node.inspectionCount} inspecciones
+          {node.inspectionCount} verificaciones
         </p>
       </div>
     </button>

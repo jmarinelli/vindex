@@ -167,7 +167,7 @@ async function seed() {
 
   await db.insert(schema.inspectionTemplates).values({
     nodeId: node.id,
-    name: "Inspección Pre-Compra Completa",
+    name: "Verificación Pre-Compra Completa",
     sections: starterSections,
   });
   console.log("  ✓ Starter template created (9 sections)");

@@ -101,7 +101,7 @@ export function ContactForm() {
         <textarea
           id="message"
           name="message"
-          placeholder="Contanos sobre tu taller o servicio de inspección..."
+          placeholder="Contanos sobre tu taller o servicio de verificación..."
           value={formData.message}
           onChange={handleChange}
           disabled={isPending}

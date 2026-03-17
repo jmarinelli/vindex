@@ -135,7 +135,7 @@ describe("TemplateEditor", () => {
 
   const defaultProps = {
     templateId: crypto.randomUUID(),
-    initialName: "Inspección Pre-Compra Completa",
+    initialName: "Verificación Pre-Compra Completa",
     initialSections: sections,
   };
 
@@ -147,7 +147,7 @@ describe("TemplateEditor", () => {
   it("renders template name", () => {
     render(<TemplateEditor {...defaultProps} />);
     expect(
-      screen.getByText("Inspección Pre-Compra Completa")
+      screen.getByText("Verificación Pre-Compra Completa")
     ).toBeInTheDocument();
   });
 
@@ -365,7 +365,7 @@ describe("TemplateEditor", () => {
     const user = userEvent.setup();
     render(<TemplateEditor {...defaultProps} />);
 
-    await user.click(screen.getByText("Inspección Pre-Compra Completa"));
+    await user.click(screen.getByText("Verificación Pre-Compra Completa"));
     const input = screen.getByRole("textbox");
     await user.clear(input);
     await user.type(input, "Nuevo Nombre{Enter}");
