@@ -68,22 +68,26 @@ describe("ShellDashboard", () => {
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
   });
 
-  it("renders the user name from session", () => {
+  it("renders the user first name from session", () => {
     render(
       <ShellDashboard>
         <div>Content</div>
       </ShellDashboard>
     );
-    expect(screen.getByText("Inspector Demo")).toBeInTheDocument();
+    expect(screen.getByText("Inspector")).toBeInTheDocument();
   });
 
-  it("renders logout button", () => {
+  it("renders user menu with sign-out option", async () => {
+    const { default: userEvent } = await import("@testing-library/user-event");
+    const user = userEvent.setup();
     render(
       <ShellDashboard>
         <div>Content</div>
       </ShellDashboard>
     );
-    expect(screen.getByText("Salir")).toBeInTheDocument();
+    // Open the dropdown
+    await user.click(screen.getByText("Inspector"));
+    expect(screen.getByText("Cerrar sesión")).toBeInTheDocument();
   });
 
   it("renders logo link to dashboard", () => {
@@ -96,7 +100,7 @@ describe("ShellDashboard", () => {
     expect(logoLink).toHaveAttribute("href", "/dashboard");
   });
 
-  it("calls signOut when 'Salir' is clicked", async () => {
+  it("calls signOut when 'Cerrar sesión' is clicked", async () => {
     const { default: userEvent } = await import("@testing-library/user-event");
     const user = userEvent.setup();
     render(
@@ -105,7 +109,9 @@ describe("ShellDashboard", () => {
       </ShellDashboard>
     );
 
-    await user.click(screen.getByText("Salir"));
+    // Open the dropdown first
+    await user.click(screen.getByText("Inspector"));
+    await user.click(screen.getByText("Cerrar sesión"));
     expect(mockSignOut).toHaveBeenCalledWith({ redirect: false });
   });
 });

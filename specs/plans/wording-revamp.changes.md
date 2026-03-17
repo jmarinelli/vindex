@@ -1,6 +1,9 @@
 # Changes: Wording Revamp
 GitHub Issue: #7
 
+## PLAN
+- Created `specs/plans/wording-revamp.md` — implementation plan covering ~20 source files, ~10 test files, service layer error messages, email template, and all UI components
+
 ## SPEC
 - Created `specs/ui/voice-and-tone.md` — voice & tone principles, messaging hierarchy, vocabulary (do/don't), tone guidelines, platform attribution rules, terminology for roles (verificador/profesional/inspector)
 - Created `specs/ui/copy-audit.md` — journey-by-journey audit of all user-facing copy with before/after rewrites in Spanish

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Menu, X, ChevronDown, LayoutDashboard, LogOut } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
+import { UserMenu } from "@/components/ui/user-menu";
 
 const NAV_LINKS = [
   { label: "Cómo funciona", href: "#como-funciona" },
@@ -27,12 +28,9 @@ export function LandingHeader() {
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const userName = session?.user?.name ?? "";
   const userRole = (session?.user as { role?: string } | undefined)?.role;
-  const firstName = userName.split(/\s+/)[0] || "";
   const initials = userName ? getInitials(userName) : "";
   const isAdmin = userRole === "platform_admin";
   const dashboardHref = isAdmin ? "/admin" : "/dashboard";
@@ -46,30 +44,6 @@ export function LandingHeader() {
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    if (!dropdownOpen) return;
-    function handleMouseDown(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [dropdownOpen]);
-
-  // Close dropdown on Escape
-  useEffect(() => {
-    if (!dropdownOpen) return;
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [dropdownOpen]);
 
   function handleNavClick() {
     setMenuOpen(false);
@@ -112,50 +86,14 @@ export function LandingHeader() {
           {isLoading ? (
             <div className="hidden min-[900px]:block w-24" />
           ) : isAuthenticated ? (
-            <div className="hidden min-[900px]:block relative" ref={dropdownRef}>
-              <button
-                className="flex items-center gap-2"
-                onClick={() => setDropdownOpen((prev) => !prev)}
-                aria-haspopup="true"
-                aria-expanded={dropdownOpen}
-              >
-                <span className={`flex items-center justify-center size-8 rounded-full text-xs font-medium ${scrolled ? "bg-brand-primary text-white" : "bg-white/20 text-white"}`}>
-                  {initials}
-                </span>
-                <span className={`text-sm font-medium ${scrolled ? "text-gray-700" : "text-white"}`}>
-                  {firstName}
-                </span>
-                <ChevronDown className={`size-4 ${scrolled ? "text-gray-700" : "text-white"}`} />
-              </button>
-
-              {dropdownOpen && (
-                <div
-                  className="absolute right-0 top-full mt-2 min-w-[180px] bg-white rounded-md shadow-md border border-gray-200 z-50"
-                  role="menu"
-                >
-                  <Link
-                    href={dashboardHref}
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                    role="menuitem"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    <LayoutDashboard className="size-4" />
-                    {dashboardLabel}
-                  </Link>
-                  <div className="border-t border-gray-100" />
-                  <button
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-500 hover:bg-gray-50 w-full text-left"
-                    role="menuitem"
-                    onClick={() => {
-                      handleSignOut();
-                      setDropdownOpen(false);
-                    }}
-                  >
-                    <LogOut className="size-4" />
-                    Cerrar sesión
-                  </button>
-                </div>
-              )}
+            <div className="hidden min-[900px]:block">
+              <UserMenu
+                userName={userName}
+                userRole={userRole}
+                variant={scrolled ? "default" : "light"}
+                showDashboardLink
+                onSignOut={() => { window.location.href = "/"; }}
+              />
             </div>
           ) : (
             <Link

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { Logo } from "@/components/ui/logo";
+import { UserMenu } from "@/components/ui/user-menu";
 
 export function ShellDashboard({
   children,
@@ -23,20 +24,12 @@ export function ShellDashboard({
         <span className="absolute inset-0 flex items-center justify-center pointer-events-none text-sm font-medium text-gray-700 hidden sm:flex">
           {title}
         </span>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">
-            {session?.user?.name ?? ""}
-          </span>
-          <button
-            onClick={async () => {
-              await signOut({ redirect: false });
-              window.location.href = "/login";
-            }}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            Salir
-          </button>
-        </div>
+        {session?.user?.name && (
+          <UserMenu
+            userName={session.user.name}
+            userRole={(session.user as { role?: string } | undefined)?.role}
+          />
+        )}
       </header>
 
       {/* Content area — max 1024px centered */}
