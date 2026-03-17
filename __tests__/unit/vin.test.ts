@@ -107,20 +107,25 @@ describe("validateVin", () => {
 });
 
 describe("decodeVin", () => {
+  const originalEnv = process.env;
+
   beforeEach(() => {
     vi.restoreAllMocks();
+    process.env = { ...originalEnv, AUTO_DEV_API_KEY: "test-api-key" };
+  });
+
+  afterEach(() => {
+    process.env = originalEnv;
   });
 
   it("returns decoded data on success", async () => {
     const mockResponse = {
-      Results: [
-        {
-          Make: "Nissan",
-          Model: "Sentra",
-          ModelYear: "2019",
-          Trim: "SR",
-        },
-      ],
+      make: "Nissan",
+      model: "Sentra",
+      year: 2019,
+      trim: "SR",
+      vin: "1G1YY22G965104015",
+      vinValid: true,
     };
 
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
@@ -137,9 +142,43 @@ describe("decodeVin", () => {
     });
   });
 
-  it("returns null on API error", async () => {
+  it("sends Authorization header with API key", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ make: "Toyota" }),
+    } as Response);
+
+    await decodeVin("1G1YY22G965104015");
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "https://api.auto.dev/vin/1G1YY22G965104015",
+      expect.objectContaining({
+        headers: { Authorization: "Bearer test-api-key" },
+      })
+    );
+  });
+
+  it("returns null when API key is not set", async () => {
+    delete process.env.AUTO_DEV_API_KEY;
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toBeNull();
+  });
+
+  it("returns null on API error (non-200)", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
       ok: false,
+      status: 400,
+    } as Response);
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toBeNull();
+  });
+
+  it("returns null on 404 (VIN not found)", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: false,
+      status: 404,
     } as Response);
 
     const result = await decodeVin("1G1YY22G965104015");
@@ -153,28 +192,129 @@ describe("decodeVin", () => {
     expect(result).toBeNull();
   });
 
-  it("returns null when no results", async () => {
-    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ Results: [] }),
-    } as Response);
-
-    const result = await decodeVin("1G1YY22G965104015");
-    expect(result).toBeNull();
-  });
-
   it("handles partial decode data", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
       ok: true,
-      json: async () => ({
-        Results: [{ Make: "Toyota", Model: "", ModelYear: "", Trim: "" }],
-      }),
+      json: async () => ({ make: "Toyota", model: "", trim: "" }),
     } as Response);
 
     const result = await decodeVin("1G1YY22G965104015");
     expect(result).toEqual({
       make: "Toyota",
       model: null,
+      year: null,
+      trim: null,
+    });
+  });
+
+  it("falls back to vehicle fields when root fields are missing", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        vehicle: { make: "Chevrolet", model: "Silverado", year: 2022 },
+      }),
+    } as Response);
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toEqual({
+      make: "Chevrolet",
+      model: "Silverado",
+      year: 2022,
+      trim: null,
+    });
+  });
+
+  it("prefers root fields over vehicle fields", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        make: "RootMake",
+        model: "RootModel",
+        year: 2024,
+        vehicle: { make: "VehicleMake", model: "VehicleModel", year: 2020 },
+      }),
+    } as Response);
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toEqual({
+      make: "RootMake",
+      model: "RootModel",
+      year: 2024,
+      trim: null,
+    });
+  });
+
+  it("uses type as make when make is empty", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        type: "Truck",
+        model: "Silverado",
+        year: 2022,
+      }),
+    } as Response);
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toEqual({
+      make: "Truck",
+      model: "Silverado",
+      year: 2022,
+      trim: null,
+    });
+  });
+
+  it("prefers root make over type", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        make: "Chevrolet",
+        type: "Truck",
+        model: "Silverado",
+        year: 2022,
+      }),
+    } as Response);
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toEqual({
+      make: "Chevrolet",
+      model: "Silverado",
+      year: 2022,
+      trim: null,
+    });
+  });
+
+  it("uses first element when year is an array", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        make: "Toyota",
+        model: "Camry",
+        year: [2023, 2024],
+      }),
+    } as Response);
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toEqual({
+      make: "Toyota",
+      model: "Camry",
+      year: 2023,
+      trim: null,
+    });
+  });
+
+  it("falls back to vehicle.model when root model is missing", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        make: "Toyota",
+        vehicle: { model: "Camry" },
+      }),
+    } as Response);
+
+    const result = await decodeVin("1G1YY22G965104015");
+    expect(result).toEqual({
+      make: "Toyota",
+      model: "Camry",
       year: null,
       trim: null,
     });

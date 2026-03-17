@@ -47,17 +47,18 @@ The inspector enters the VIN to identify the vehicle.
 
 #### 1.2 VIN Lookup & Decode
 
-When VIN reaches 17 valid characters, the system runs two lookups in parallel:
+When VIN reaches 17 valid characters, the system runs a **sequential lookup** to minimize paid API calls:
+
 1. **Database lookup** — checks if the VIN already exists in the system via `lookupVehicleAction(vin)`.
-2. **NHTSA decode** — calls the NHTSA vPIC API to decode make/model/year/trim.
+2. **VIN decode (only on DB miss)** — if the vehicle is not in the database, calls the auto.dev VIN Decode API (`GET https://api.auto.dev/vin/{vin}`, Bearer token auth) to decode make/model/year/trim. This is a **paid API** — never call it when the vehicle already exists in the DB.
 
 **While looking up:** spinner indicator next to the input, "Buscando VIN...".
 
 The result determines which of three vehicle data modes applies:
 
-- **Mode A — Existing vehicle (DB hit):** Vehicle data loaded from the database. Fields that already have values are displayed as **read-only**. Fields that are `null` in the database are displayed as **editable** text inputs so the inspector can fill them in. A notice is shown: "Este vehículo ya tiene {n} inspección(es) registrada(s)." NHTSA decode result is ignored (DB is source of truth for existing vehicles).
-- **Mode B — New vehicle + decode success (DB miss, NHTSA hit):** Vehicle data fields (Make, Model, Year, Trim) shown as **editable** text inputs, **pre-filled** with decoded values. The inspector can correct any field.
-- **Mode C — New vehicle + decode failure (DB miss, NHTSA miss):** Warning notice: "No se pudo decodificar el VIN. Podés ingresar los datos manualmente." Vehicle data fields shown as **editable** text inputs, empty. All optional.
+- **Mode A — Existing vehicle (DB hit):** Vehicle data loaded from the database. Fields that already have values are displayed as **read-only**. Fields that are `null` in the database are displayed as **editable** text inputs so the inspector can fill them in. A notice is shown: "Este vehículo ya tiene {n} inspección(es) registrada(s)." **No VIN decode API call is made** (DB is source of truth for existing vehicles, and this saves API costs).
+- **Mode B — New vehicle + decode success (DB miss, API hit):** Vehicle data fields (Make, Model, Year, Trim) shown as **editable** text inputs, **pre-filled** with decoded values. The inspector can correct any field.
+- **Mode C — New vehicle + decode failure (DB miss, API miss):** Warning notice: "No se pudo decodificar el VIN. Podés ingresar los datos manualmente." Vehicle data fields shown as **editable** text inputs, empty. All optional.
 
 #### 1.3 Plate (Optional)
 
@@ -115,7 +116,17 @@ The inspector selects the type of inspection and basic metadata.
 - Default: today's date.
 - Native `<input type="date">` on mobile.
 
-#### 2.5 Continue
+#### 2.5 Customer Email (Optional)
+
+- Email input for the inspector's customer (the person who hired the inspector).
+- Label: "Email del cliente (opcional)".
+- Placeholder: "comprador@email.com".
+- `type="email"`, `inputmode="email"`.
+- Validation: standard email format when provided. No validation if empty.
+- Help text below input: "Se le enviará el informe y un enlace para dejar una reseña."
+- When provided, stored on InspectionDetail as `customer_email`. Used post-signing to generate a review token and send a notification email.
+
+#### 2.6 Continue
 
 - "Iniciar Inspección" primary button at the bottom.
 - On tap:
@@ -248,7 +259,7 @@ The global sync worker (mounted at dashboard layout) picks up dirty records and 
 | **VIN decode returns partial data** | Pre-fill decoded fields as editable. Leave blanks for missing fields. Inspector can fill or correct any field. |
 | **VIN already in system (all fields populated)** | Show existing vehicle data as read-only. Notice with inspection count. Proceed normally — create a new event for the same vehicle. |
 | **VIN already in system (some fields null)** | Show populated fields as read-only. Show null fields as editable inputs. Inspector can fill blanks. On continue, only null fields are updated. |
-| **NHTSA API timeout** | After 5s timeout, show warning: "No se pudo decodificar el VIN." Enable manual entry. Do not block flow. |
+| **VIN decode API timeout** | After 5s timeout, show warning: "No se pudo decodificar el VIN." Enable manual entry. Do not block flow. |
 | **Network lost during Step 1–2** | Show connectivity message: "Se requiere conexión." with "Volver al Dashboard" action. Inspection creation requires server connectivity (VIN lookup, event creation). See `specs/flows/offline-navigation.md`. |
 | **Page loaded offline (Step 1–2)** | SW serves cached HTML. Connectivity message shown instead of form. See `specs/flows/offline-navigation.md`. |
 | **Page loaded offline (Step 3)** | SW serves cached HTML. Draft and findings load from Dexie. Full offline functionality. See `specs/flows/offline-navigation.md`. |
@@ -271,13 +282,14 @@ The global sync worker (mounted at dashboard layout) picks up dirty records and 
 ```
 Inspector enters VIN
   → Client validates format (17 chars, no I/O/Q, check digit)
-  → Parallel lookup:
+  → Sequential lookup:
     → Server action: lookupVehicle(vin) — read-only DB check
-    → NHTSA decode (best effort, client-side)
+    → If DB miss → auto.dev VIN decode (best effort, server-side, paid API)
+    → If DB hit → skip decode (saves API costs)
   → Determine mode:
     → DB hit → Mode A (existing vehicle, read-only populated fields, editable nulls)
-    → DB miss + NHTSA hit → Mode B (new vehicle, editable pre-filled fields)
-    → DB miss + NHTSA miss → Mode C (new vehicle, editable empty fields)
+    → DB miss + API hit → Mode B (new vehicle, editable pre-filled fields)
+    → DB miss + API miss → Mode C (new vehicle, editable empty fields)
   → Inspector reviews/edits fields, taps "Continuar"
   → Server action: findOrCreateVehicle({ vin, make, model, year, trim, plate })
   → Zod validation (validators.ts)
@@ -293,13 +305,13 @@ Inspector enters VIN
 
 ```
 Inspector selects metadata, taps "Iniciar Inspección"
-  → Server action: createInspection({ vehicleId, nodeId, inspectionType, requestedBy, odometerKm, eventDate })
+  → Server action: createInspection({ vehicleId, nodeId, inspectionType, requestedBy, odometerKm, eventDate, customerEmail? })
   → Zod validation
   → Service: inspection.createInspection(...)
     → Generate slug (8 chars, alphanumeric, unique)
     → INSERT INTO events (vehicle_id, node_id, event_type, odometer_km, event_date, status='draft', slug)
     → Snapshot template: SELECT sections FROM inspection_templates WHERE node_id = ?
-    → INSERT INTO inspection_details (event_id, template_snapshot, inspection_type, requested_by)
+    → INSERT INTO inspection_details (event_id, template_snapshot, inspection_type, requested_by, customer_email)
     → For each item in template_snapshot:
       → INSERT INTO inspection_findings (event_id, section_id, item_id, status='not_evaluated')
   → Save full draft to Dexie
@@ -331,7 +343,7 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 | Target | File | Cases |
 |--------|------|-------|
 | VIN validation | `lib/vin.ts` | Valid 17-char VIN passes · Invalid length fails · Contains I/O/Q fails · Check digit validation · Non-alphanumeric chars fail · Empty string fails |
-| NHTSA decode parsing | `lib/vin.ts` | Successful response extracts make/model/year/trim · Partial response returns available fields · Error response returns null · Timeout handled |
+| auto.dev decode parsing | `lib/vin.ts` | Successful response extracts make/model/year/trim · Partial response returns available fields · Error response returns null · Timeout handled · 404 (VIN not found) returns null |
 | Vehicle Zod schemas | `validators.ts` | Valid vehicle entry passes · Missing VIN fails · VIN wrong length fails · Invalid plate length fails · Odometer negative fails |
 | Inspection metadata Zod schemas | `validators.ts` | Valid metadata passes · Invalid inspection_type fails · Invalid requested_by fails · Missing odometer fails · Invalid date fails |
 | Findings Zod schemas | `validators.ts` | Valid finding update passes · Invalid status value fails · Valid status values (good, attention, critical, not_evaluated) pass |
@@ -341,7 +353,7 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 | Target | File | Cases |
 |--------|------|-------|
 | `lookupVehicle` action | `actions/vehicle.ts` | Returns vehicle data for known VIN · Returns null for unknown VIN · Includes inspection count |
-| `findOrCreateVehicle` service | `services/vehicle.ts` | Creates new vehicle for unknown VIN · Returns existing vehicle for known VIN · Updates only NULL fields on existing vehicle (does not overwrite populated fields) · Decode via NHTSA (MSW mocked) success · Decode failure does not block creation |
+| `findOrCreateVehicle` service | `services/vehicle.ts` | Creates new vehicle for unknown VIN · Returns existing vehicle for known VIN · Updates only NULL fields on existing vehicle (does not overwrite populated fields) |
 | `createInspection` service | `services/inspection.ts` | Creates event + detail + findings for valid input · Snapshots current template · Generates unique slug · Sets status to draft · Creates findings for all template items · Rejects if user is not node member |
 | `updateDraft` service | `services/inspection.ts` | Updates finding status · Updates finding observation · Rejects update on signed event · Rejects update from non-member |
 | `getDraft` service | `services/inspection.ts` | Returns draft with all findings · Returns null for unknown ID · Only returns draft for user's node |
@@ -375,7 +387,7 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 
 ## Acceptance Criteria
 
-- [ ] Inspector can enter a VIN and decode vehicle info via NHTSA API
+- [ ] Inspector can enter a VIN and decode vehicle info via auto.dev API
 - [ ] Invalid VINs are rejected with clear error messages
 - [ ] VIN decode failure allows manual vehicle data entry
 - [ ] Inspector can select inspection type, requested by, odometer, and date

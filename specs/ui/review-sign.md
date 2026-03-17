@@ -67,6 +67,11 @@ Step 4 of the inspection flow. After the inspector finishes filling findings in 
 │  │ ...                                             │    │
 │  └─────────────────────────────────────────────────┘    │
 │                                                         │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  📧 Se notificará a: comprador@email.com       │    │
+│  │     cuando la inspección sea firmada.           │    │
+│  └─────────────────────────────────────────────────┘    │
+│                                                         │
 │  [           Firmar Inspección           ]              │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
@@ -140,6 +145,17 @@ A mini thumbnail grid showing the vehicle photos that will appear in the public 
 | Thumbnail grid | Horizontal wrap, `space-2` gap, max 6 visible | 64x64 thumbnails, `radius-sm`, `border-default`, `object-fit: cover` |
 | Overflow indicator | `text-xs`, `gray-500`, after last visible thumbnail | "+{n} más" when > 6 photos |
 | Empty state | Hidden entirely | If no vehicle photos, section not rendered |
+
+### Customer Email Notice
+
+Shown above the sign button when a customer email was provided during inspection creation. Confirms to the inspector that the customer will be notified.
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | `info` bg tint, `border-default`, `radius-sm`, `space-3` padding | Above sign button. Hidden if no customer email. |
+| Icon | 📧 email icon, `info` color | Left of text |
+| Text line 1 | `text-sm`, `font-medium`, `gray-700` | "Se notificará a: {customer_email}" |
+| Text line 2 | `text-xs`, `gray-500` | "cuando la inspección sea firmada." |
 
 ### Sign Button
 
@@ -452,6 +468,7 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Finding rows** | Status icon correct per status · Item name displayed · Observation preview truncated · Photo count shown · Free text items show ✎ icon |
 | **Finding row tap** | Navigates to Field Mode at correct section |
 | **Vehicle photos preview** | Thumbnail grid renders vehicle photos · Max 6 thumbnails with "+N más" overflow · Hidden when 0 photos · Positioned above findings sections |
+| **Customer email notice** | Shown when customer email present · Hidden when no customer email · Displays correct email address · Info styling |
 | **Sign button (ready)** | Enabled when all checklist items evaluated · Calls signInspectionAction on tap |
 | **Sign button (incomplete)** | Disabled when not_evaluated items remain · Gray styling |
 | **Sign button (signing)** | Shows spinner + "Firmando..." · Disabled during signing |

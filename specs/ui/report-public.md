@@ -95,6 +95,19 @@ The public report page displays a signed inspection at `/report/{slug}`. Accessi
 │  │                             2 items · 0 fotos     │  │
 │  └────────────────────────────────────────────────────┘  │
 │                                                          │
+│  ┌────────────────────────────────────────────────────┐  │
+│  │  Reseñas                                          │  │
+│  │  [■■■■■■■■■ 3 Sí] [■■ 1 Parcial]                │  │
+│  │  4 reseñas                                        │  │
+│  │                                                    │  │
+│  │  ✓ Sí, coincidió                                  │  │
+│  │  "El auto estaba como describía el informe."      │  │
+│  │  Hace 3 días                                      │  │
+│  │  ────────────────────────────────────────────────  │  │
+│  │  ⚠ Parcialmente                                   │  │
+│  │  Hace 1 semana                                    │  │
+│  └────────────────────────────────────────────────────┘  │
+│                                                          │
 │  ─────────────────────────────────────────────────────── │
 │  Verificado por VinDex · Privacidad · Términos           │
 │                                                          │
@@ -331,6 +344,39 @@ Dynamic image generated per report using `@vercel/og` (Satori + Resvg).
 
 ---
 
+## Reviews Section (Read-Only)
+
+Existing reviews are displayed below the findings sections. **No review submission form** is present on the report page — reviews are submitted via the dedicated review page (`/review/{token}`).
+
+### Rating Distribution Bar
+
+A horizontal segmented bar showing the distribution of all reviews for this event.
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Container | `white` bg, `border-default`, `radius-md`, `shadow-sm`, `space-4` padding | Below last findings section |
+| Section title | `text-base`, `font-semibold`, `gray-800` | "Reseñas" |
+| Segmented bar | 8px height, `radius-full` | Proportional colored segments: `status-good` (yes), `status-attention` (partially), `status-critical` (no) |
+| Count labels | `text-sm`, status colors, below bar | "✓ {n} Sí · ⚠ {n} Parcial · ✕ {n} No" |
+| Total | `text-xs`, `gray-500` | "{n} reseña(s)" |
+
+### Recent Reviews List
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Review card | `space-3` padding, `border-default` bottom (except last) | Within section card |
+| Rating icon | 20x20, status color | ✓ / ⚠ / ✕ |
+| Rating label | `text-sm`, `font-medium`, status color | "Sí, coincidió" / "Parcialmente" / "No coincidió" |
+| Comment | `text-sm`, `gray-600` | Full text, no truncation. Hidden if no comment. |
+| Timestamp | `text-xs`, `gray-400` | Relative: "Hace 2 días", "Hace 1 semana", etc. |
+| Show all | `text-sm`, `brand-accent` | "Ver todas las reseñas ({n})" — shown when > 5 reviews. Expands full list. |
+
+### Zero Reviews
+
+- When no reviews exist for the event: the entire reviews section is **not rendered**. The report page remains clean with no empty-state messaging.
+
+---
+
 ## Draft Slug Handling
 
 | Scenario | Behavior |
@@ -478,6 +524,8 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **404 page** | Draft slug returns 404 page, unknown slug returns 404 page, signed slug renders report |
 | **Vehicle history link** | Links to correct `/vehicle/{vin}` URL |
 | **Inspector profile link** | Links to correct `/inspector/{node_slug}` URL |
+| **Reviews section (read-only)** | Distribution bar renders with correct proportions and colors · Count labels correct · Reviews list sorted newest first · Max 5 shown, "Ver todas" expands · Comment shown when present, hidden when absent · Relative timestamps correct · No submission form present |
+| **Reviews section (zero reviews)** | Entire reviews section not rendered · No empty-state message |
 | **Mobile layout** | Cards full-width, photos 80px, 2-column general photos grid |
 | **Desktop layout** | Content max-width 768px, photos 100px, 3-column general photos grid |
 

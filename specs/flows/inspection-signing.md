@@ -105,6 +105,21 @@ After a successful signing:
 
 The slug was already generated at event creation (Phase 2). Signing does not modify the slug.
 
+### Post-Signing: Review Token & Email
+
+After the signing transaction commits successfully, if a `customer_email` is present on the InspectionDetail:
+
+1. **Generate review token:** Create a ReviewToken record with a cryptographically random 48-character token, linked to the event, expiring in 90 days.
+2. **Send notification email:** Via Resend, send a transactional email to the customer email with:
+   - A link to the public report (`/report/{slug}`)
+   - A link to submit a review (`/review/{token}`)
+   - Vehicle and inspector information for context
+   - See `specs/ui/email-templates.md` for email design.
+
+**Important:** Token generation and email sending happen **after** the signing transaction commits — not inside it. If email sending fails, the inspection is still signed. The token is created regardless; the email is best-effort. A failed email is logged but does not surface as an error to the inspector.
+
+If no `customer_email` is present, this step is skipped entirely.
+
 ---
 
 ## Slug Behavior
@@ -241,6 +256,9 @@ All errors are caught at the server action level and returned as `{ success: fal
 | **Template snapshot has empty sections** | Sections with zero items contribute nothing to completeness. If all sections are empty, there are no checklist items to evaluate, so signing succeeds. |
 | **Photo uploads still pending (in Dexie queue)** | Signing is **blocked**. The client checks for photos with `uploaded = false` in Dexie before enabling the sign button. The inspector must wait for all uploads to complete, retry failed uploads, or delete pending photos before signing. This is enforced client-side (not a server precondition) since the server never sees un-uploaded photos. See `specs/flows/cloudinary-upload.md §Interaction with Signing`. |
 | **Network lost during signing** | The server action fails. The client shows an error toast. The event remains in `draft`. The inspector retries when connectivity returns. |
+| **Email sending fails after signing** | Signing succeeds. Token is created. Email failure is logged server-side. Inspector is not notified of the email failure — the signing confirmation is shown normally. The inspector can share the report link manually. |
+| **No customer email on inspection** | No token generated, no email sent. Signing proceeds normally. |
+| **Customer email is invalid format** | Validation at inspection creation (Step 2) prevents invalid emails from being stored. If somehow an invalid email reaches signing, email sending fails gracefully (logged, not surfaced). |
 | **User signs from a different device** | Allowed, as long as the user has an active NodeMember for the event's node. The Dexie draft on the original device becomes stale (last-write-wins on next sync). |
 | **Event belongs to a different node than user's** | Authorization check fails with `FORBIDDEN`. |
 | **Inactive NodeMember tries to sign** | Authorization check fails with `FORBIDDEN`. |
@@ -276,6 +294,12 @@ Inspector triggers sign (from UI in Phase 3B, or test harness)
       → SELECT events WHERE id = :eventId AND status = 'draft' FOR UPDATE
       → UPDATE events SET status='signed', signed_at=now(), signed_by_user_id=:userId, updated_at=now()
     → COMMIT
+  → Post-signing (outside transaction, best-effort):
+    → SELECT inspection_details WHERE event_id = :eventId
+    → If detail.customer_email is not null:
+      → Generate ReviewToken: INSERT INTO review_tokens (event_id, token, customer_email, expires_at)
+      → Send email via Resend to customer_email with report link + review link
+      → If email fails: log error, continue
   → Return { success: true, data: { event } }
 ```
 
@@ -332,3 +356,7 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 - [ ] Server action validates input with Zod and returns `{ success, data?, error? }` shape
 - [ ] Authorization checks: user must be active NodeMember for event's node
 - [ ] All error cases return descriptive Spanish-language messages
+- [ ] Review token generated post-signing when customer email is present
+- [ ] Notification email sent to customer via Resend after signing
+- [ ] Email failure does not affect signing success
+- [ ] No token or email when customer email is absent

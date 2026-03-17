@@ -10,10 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ConnectivityMessage } from "@/components/offline/connectivity-message";
 import { useOfflineStatus } from "@/offline/hooks";
-import { validateVin, sanitizeVin, decodeVin } from "@/lib/vin";
+import { validateVin, sanitizeVin } from "@/lib/vin";
 import {
   lookupVehicleAction,
   findOrCreateVehicleAction,
+  decodeVinAction,
 } from "@/lib/actions/vehicle";
 
 type VehicleMode = "idle" | "loading" | "mode-a" | "mode-b" | "mode-c";
@@ -77,20 +78,12 @@ export default function InspectPage() {
       setVinValid(true);
       setMode("loading");
 
-      const [dbResult, nhtsaResult] = await Promise.allSettled([
-        lookupVehicleAction({ vin: sanitized }),
-        decodeVin(sanitized),
-      ]);
-
-      const dbData =
-        dbResult.status === "fulfilled" && dbResult.value.success
-          ? dbResult.value.data
-          : null;
-      const decoded =
-        nhtsaResult.status === "fulfilled" ? nhtsaResult.value : null;
+      // Sequential lookup: DB first, then decode only on DB miss (saves paid API calls)
+      const dbResult = await lookupVehicleAction({ vin: sanitized });
+      const dbData = dbResult.success ? dbResult.data : null;
 
       if (dbData?.vehicle) {
-        // Mode A — existing vehicle
+        // Mode A — existing vehicle (no decode API call needed)
         const v = dbData.vehicle;
         setMode("mode-a");
         setInspectionCount(dbData.inspectionCount);
@@ -119,19 +112,26 @@ export default function InspectPage() {
             ? { value: v.plate, locked: true }
             : { value: "", locked: false }
         );
-      } else if (decoded && (decoded.make || decoded.model)) {
-        // Mode B — new vehicle, NHTSA decoded
-        setMode("mode-b");
-        setMake({ value: decoded.make ?? "", locked: false });
-        setModel({ value: decoded.model ?? "", locked: false });
-        setYear({
-          value: decoded.year != null ? String(decoded.year) : "",
-          locked: false,
-        });
-        setTrim({ value: decoded.trim ?? "", locked: false });
       } else {
-        // Mode C — new vehicle, decode failed
-        setMode("mode-c");
+        // DB miss — call decode API (paid, server-side)
+        const decodeResult = await decodeVinAction({ vin: sanitized });
+        const decoded =
+          decodeResult.success ? decodeResult.data : null;
+
+        if (decoded && (decoded.make || decoded.model)) {
+          // Mode B — new vehicle, decoded
+          setMode("mode-b");
+          setMake({ value: decoded.make ?? "", locked: false });
+          setModel({ value: decoded.model ?? "", locked: false });
+          setYear({
+            value: decoded.year != null ? String(decoded.year) : "",
+            locked: false,
+          });
+          setTrim({ value: decoded.trim ?? "", locked: false });
+        } else {
+          // Mode C — new vehicle, decode failed
+          setMode("mode-c");
+        }
       }
     },
     [resetFields]

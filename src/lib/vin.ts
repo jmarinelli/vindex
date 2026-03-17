@@ -1,4 +1,4 @@
-// ─── VIN Validation & NHTSA Decoding ─────────────────────────────────────────
+// ─── VIN Validation & Decoding ───────────────────────────────────────────────
 
 const VIN_LENGTH = 17;
 const FORBIDDEN_CHARS = /[IOQ]/i;
@@ -79,7 +79,7 @@ export function sanitizeVin(input: string): string {
   return input.replace(/\s/g, "").toUpperCase();
 }
 
-// ─── NHTSA vPIC API ──────────────────────────────────────────────────────────
+// ─── auto.dev VIN Decode API ─────────────────────────────────────────────────
 
 export interface VinDecodeResult {
   make: string | null;
@@ -88,37 +88,40 @@ export interface VinDecodeResult {
   trim: string | null;
 }
 
-const NHTSA_BASE_URL =
-  process.env.NHTSA_API_URL || "https://vpic.nhtsa.dot.gov/api/vehicles";
+const AUTO_DEV_API_URL = "https://api.auto.dev/vin";
 
 /**
- * Decode a VIN using the NHTSA vPIC API.
+ * Decode a VIN using the auto.dev VIN Decode API.
  * Returns decoded data on success, null on failure.
+ * This is a paid API — only call when the vehicle is not already in the DB.
  */
 export async function decodeVin(vin: string): Promise<VinDecodeResult | null> {
+  const apiKey = process.env.AUTO_DEV_API_KEY;
+  if (!apiKey) return null;
+
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
 
-    const res = await fetch(
-      `${NHTSA_BASE_URL}/DecodeVinValues/${vin}?format=json`,
-      { signal: controller.signal }
-    );
+    const res = await fetch(`${AUTO_DEV_API_URL}/${vin}`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+      signal: controller.signal,
+    });
     clearTimeout(timeout);
 
     if (!res.ok) return null;
 
     const data = await res.json();
-    const result = data?.Results?.[0];
-    if (!result) return null;
 
-    const make = result.Make || null;
-    const model = result.Model || null;
-    const yearStr = result.ModelYear;
-    const year = yearStr ? parseInt(yearStr, 10) : null;
-    const trim = result.Trim || null;
+    // Root fields take priority, fall back to vehicle.*
+    const rawMake = data.make || data.vehicle?.make || null;
+    const make = rawMake || data.type || null; // type as last resort for make
+    const model = data.model || data.vehicle?.model || null;
+    const rawYear = data.year ?? data.vehicle?.year ?? null;
+    const year = Array.isArray(rawYear) ? rawYear[0] : rawYear;
+    const trim = data.trim || null; // trim only at root (not in vehicle)
 
-    return { make, model, year: year && !isNaN(year) ? year : null, trim };
+    return { make, model, year: typeof year === "number" ? year : null, trim };
   } catch {
     return null;
   }

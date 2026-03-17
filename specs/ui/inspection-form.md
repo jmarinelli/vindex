@@ -161,6 +161,13 @@ After VIN lookup completes, vehicle data fields are always visible. Their editab
 │  │ 2026-03-13                                      │    │
 │  └─────────────────────────────────────────────────┘    │
 │                                                         │
+│  Email del cliente (opcional)                           │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │ comprador@email.com                             │    │
+│  └─────────────────────────────────────────────────┘    │
+│  Se le enviará el informe y un enlace para dejar        │
+│  una reseña.                                            │
+│                                                         │
 │  [           Iniciar Inspección           ]             │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
@@ -196,6 +203,15 @@ After VIN lookup completes, vehicle data fields are always visible. Their editab
 |---------|-------|----------|
 | Label | `text-sm`, `font-medium`, `gray-700` | Static |
 | Input | `text-base`, 40px height, `radius-sm`, `border-default` | Native `<input type="date">`, default today |
+
+### Customer Email Input (Optional)
+
+| Element | Style | Behavior |
+|---------|-------|----------|
+| Label | `text-sm`, `font-medium`, `gray-700` | "Email del cliente (opcional)" |
+| Input | `text-base`, 40px height, `radius-sm`, `border-default` | `type="email"`, `inputmode="email"`, placeholder: "comprador@email.com" |
+| Help text | `text-xs`, `gray-400`, below input | "Se le enviará el informe y un enlace para dejar una reseña." |
+| Validation | `text-xs`, `error` color | Standard email format validation (only when non-empty). Error: "Ingresá un email válido." |
 
 ### Start Button
 
@@ -639,7 +655,7 @@ From `specs/ui/design-system.md`:
 
 | Action | Trigger | Result |
 |--------|---------|--------|
-| Enter VIN | Type in VIN input | Auto-uppercase, validate, lookup DB + decode NHTSA on 17 chars |
+| Enter VIN | Type in VIN input | Auto-uppercase, validate, lookup DB on 17 chars, decode via auto.dev only on DB miss |
 | Edit vehicle field | Type in editable vehicle field | Updates local state (Mode B/C: all fields; Mode A: only null fields) |
 | Continue (Step 1) | Tap Continue button | Create/find vehicle (only fills null fields for existing), navigate to Step 2 |
 | Select inspection type | Tap radio option | Radio selected, visual update |
@@ -671,7 +687,8 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Step 2 — Radio groups** | Renders 4 options each · Default selections correct · Tap changes selection · Only one selected per group |
 | **Step 2 — Odometer** | Renders number input · Accepts positive numbers · Rejects zero/negative · Shows error for invalid |
 | **Step 2 — Date** | Defaults to today · Accepts valid dates · Native date picker |
-| **Step 2 — Start** | Creates inspection on tap · Shows spinner during creation · Error toast on failure · Navigates to field mode on success |
+| **Step 2 — Customer email** | Input renders with placeholder · Help text visible · Empty value accepted (optional) · Valid email accepted · Invalid email shows error · Email keyboard on mobile (`inputmode="email"`) |
+| **Step 2 — Start** | Creates inspection on tap · Shows spinner during creation · Error toast on failure · Navigates to field mode on success · Customer email passed to createInspection when provided |
 | **Step 3 — Loading** | Skeleton tabs + cards render |
 | **Step 3 — Section tabs** | Tabs render from template · Active tab highlighted · Tap switches content · Scroll behavior · Completed sections show ✓ |
 | **Step 3 — Status buttons** | 4 buttons render per checklist item · Tap selects · Tap selected deselects · Correct colors per status · Auto-save on change |

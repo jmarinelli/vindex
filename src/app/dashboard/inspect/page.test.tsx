@@ -18,14 +18,15 @@ vi.mock("@/components/layout/shell-dashboard", () => ({
 
 const mockLookupVehicleAction = vi.fn();
 const mockFindOrCreateVehicleAction = vi.fn();
+const mockDecodeVinAction = vi.fn();
 vi.mock("@/lib/actions/vehicle", () => ({
   lookupVehicleAction: (...args: unknown[]) =>
     mockLookupVehicleAction(...args),
   findOrCreateVehicleAction: (...args: unknown[]) =>
     mockFindOrCreateVehicleAction(...args),
+  decodeVinAction: (...args: unknown[]) => mockDecodeVinAction(...args),
 }));
 
-const mockDecodeVin = vi.fn();
 vi.mock("@/lib/vin", () => ({
   sanitizeVin: (v: string) => v.toUpperCase().replace(/\s/g, ""),
   validateVin: (v: string) => {
@@ -34,7 +35,6 @@ vi.mock("@/lib/vin", () => ({
       return { valid: false, error: "Caracteres inválidos" };
     return { valid: true };
   },
-  decodeVin: (...args: unknown[]) => mockDecodeVin(...args),
 }));
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -81,9 +81,8 @@ describe("InspectPage", () => {
 
   it("shows loading state during lookup", async () => {
     const user = userEvent.setup();
-    // Make lookups hang indefinitely so we can observe loading state
+    // Make lookup hang indefinitely so we can observe loading state
     mockLookupVehicleAction.mockReturnValue(new Promise(() => {}));
-    mockDecodeVin.mockReturnValue(new Promise(() => {}));
 
     render(<InspectPage />);
     await user.type(screen.getByLabelText("Número de VIN"), VALID_VIN);
@@ -100,7 +99,6 @@ describe("InspectPage", () => {
           inspectionCount: 3,
         },
       });
-      mockDecodeVin.mockResolvedValue(null);
     });
 
     it("shows info banner with inspection count", async () => {
@@ -142,6 +140,18 @@ describe("InspectPage", () => {
         ).toBeEnabled();
       });
     });
+
+    it("does not call decode API when vehicle exists in DB", async () => {
+      const user = userEvent.setup();
+      render(<InspectPage />);
+      await user.type(screen.getByLabelText("Número de VIN"), VALID_VIN);
+
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Toyota")).toBeInTheDocument();
+      });
+
+      expect(mockDecodeVinAction).not.toHaveBeenCalled();
+    });
   });
 
   describe("Mode A — Existing vehicle (some fields null)", () => {
@@ -153,7 +163,6 @@ describe("InspectPage", () => {
           inspectionCount: 1,
         },
       });
-      mockDecodeVin.mockResolvedValue(null);
     });
 
     it("shows populated fields as locked and null fields as editable", async () => {
@@ -182,11 +191,14 @@ describe("InspectPage", () => {
         success: true,
         data: null,
       });
-      mockDecodeVin.mockResolvedValue({
-        make: "Nissan",
-        model: "Sentra",
-        year: 2019,
-        trim: "SR",
+      mockDecodeVinAction.mockResolvedValue({
+        success: true,
+        data: {
+          make: "Nissan",
+          model: "Sentra",
+          year: 2019,
+          trim: "SR",
+        },
       });
     });
 
@@ -245,7 +257,10 @@ describe("InspectPage", () => {
         success: true,
         data: null,
       });
-      mockDecodeVin.mockResolvedValue(null);
+      mockDecodeVinAction.mockResolvedValue({
+        success: true,
+        data: null,
+      });
     });
 
     it("shows warning banner", async () => {
@@ -318,7 +333,6 @@ describe("InspectPage", () => {
           inspectionCount: 2,
         },
       });
-      mockDecodeVin.mockResolvedValue(null);
 
       render(<InspectPage />);
       await user.type(screen.getByLabelText("Número de VIN"), VALID_VIN);
@@ -347,11 +361,14 @@ describe("InspectPage", () => {
         success: true,
         data: null,
       });
-      mockDecodeVin.mockResolvedValue({
-        make: "Nissan",
-        model: "Sentra",
-        year: 2019,
-        trim: null,
+      mockDecodeVinAction.mockResolvedValue({
+        success: true,
+        data: {
+          make: "Nissan",
+          model: "Sentra",
+          year: 2019,
+          trim: null,
+        },
       });
       mockFindOrCreateVehicleAction.mockResolvedValue({
         success: true,

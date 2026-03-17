@@ -1,13 +1,13 @@
 # Flow: Post-Purchase Review
 
-*Describes how buyers leave reviews on inspection reports: access, submission, spam prevention, and display on report and inspector profile.*
-*Derived from: specs/entities/review.md | specs/entities/event.md | specs/entities/node.md | specs/ui/report-public.md | specs/ui/inspector-profile.md | specs/implementation-plan.md (Phase 5B)*
+*Describes how buyers leave reviews on inspection reports: token-based access, submission, and display on report and inspector profile.*
+*Derived from: specs/entities/review.md | specs/entities/review-token.md | specs/entities/event.md | specs/entities/inspection-detail.md | specs/entities/node.md | specs/ui/review-page.md | specs/ui/report-public.md | specs/ui/inspector-profile.md*
 
 ---
 
 ## Overview
 
-After purchasing a vehicle, the buyer can leave a review on the inspection report to indicate whether the vehicle's actual condition matched what the report described. Reviews are public, require no authentication, and use a single ternary question as the core signal. They are displayed on the report page and aggregated on the inspector's public profile.
+After purchasing a vehicle, the buyer receives an email with a link to the inspection report and a separate link to leave a review. Reviews are submitted on a dedicated review page (`/review/{token}`), not on the report page itself. The review token is single-use and expires after 90 days. Reviews are public, require no authentication, and use a single ternary question as the core signal.
 
 The review question measures **inspection accuracy**, not service satisfaction: "¿La condición real del vehículo coincidió con lo que describió el informe de inspección?"
 
@@ -15,34 +15,55 @@ The review question measures **inspection accuracy**, not service satisfaction: 
 
 ## Prerequisites
 
-- The inspection event has `status = 'signed'` (only signed reports accept reviews).
-- The public report page is accessible at `/report/{slug}`.
-- No authentication is required to submit a review.
+- The inspection event has `status = 'signed'`.
+- A ReviewToken exists for the event (generated at signing time when customer email was provided).
+- The token has not been used (`used_at` is null).
+- The token has not expired (`expires_at` is in the future).
 
 ---
 
 ## Entry Point
 
-- On the public report page (`/report/{slug}`), below the findings sections, a "Dejar una reseña" section is visible.
-- The section is always visible on signed reports — it does not require a special token or link.
+The buyer accesses the review page via a link in the post-signing notification email:
+
+```
+https://vindex.app/review/{token}
+```
+
+This link is **not** available on the public report page. The report page shows existing reviews read-only but does not provide a way to submit new reviews.
 
 ---
 
 ## Flow Steps
 
-### Step 1: Access Review Form
+### Step 1: Token Validation
 
-The review form is embedded directly on the public report page, below all findings sections and above the footer. It is not a separate page or modal.
+When the buyer visits `/review/{token}`, the server validates the token:
 
-#### 1.1 Form Visibility
+1. **Token lookup:** `SELECT * FROM review_tokens WHERE token = :token`
+2. **Token exists?** If not → render "Enlace inválido" error page.
+3. **Token expired?** If `expires_at < now()` → render "Enlace expirado" error page.
+4. **Token used?** If `used_at IS NOT NULL` → render "Reseña ya enviada" page showing the previously submitted review.
+5. **Event signed?** Defensive check — if the linked event is not signed → render error page. (Should not happen since tokens are only created post-signing.)
 
-- The form is visible to all visitors on signed report pages.
-- If the visitor has already submitted a review for this event (detected via rate limiting — same IP within 24h), the form is replaced with a "Ya dejaste una reseña" message.
-- Draft report pages (404) do not show the form.
+If all checks pass, render the review form with the inspection context.
 
-### Step 2: Fill Review Form
+### Step 2: Review Page Context
 
-#### 2.1 The Review Question
+The review page shows a summary of the inspection to remind the buyer what they're reviewing:
+
+- Vehicle name (make, model, year)
+- License plate (if present)
+- Inspection date
+- Inspector name (node display name)
+- Status summary (e.g., "✓ 12 Bien · ⚠ 3 Atención · ✕ 1 Crítico")
+- Link to the full public report: "Ver reporte completo →"
+
+This context is loaded server-side from the event, vehicle, node, and findings data.
+
+### Step 3: Fill Review Form
+
+#### 3.1 The Review Question
 
 The core of the review is a single ternary question:
 
@@ -64,7 +85,7 @@ Three options displayed as a radio button group with large touch targets:
   - `no` → `status-critical` colors
 - `match_rating` is **required**. The submit button is disabled until a selection is made.
 
-#### 2.2 Comment (Optional)
+#### 3.2 Comment (Optional)
 
 - Textarea below the rating question.
 - Label: "Comentario (opcional)".
@@ -73,53 +94,219 @@ Three options displayed as a radio button group with large touch targets:
 - Auto-expanding, minimum 2 lines.
 - `text-base` (16px) to prevent iOS zoom.
 
-#### 2.3 Submit
+#### 3.3 Submit
 
 - "Enviar reseña" primary button, full-width.
 - **Disabled** when no `match_rating` is selected.
 - **Loading state** while submitting: spinner + "Enviando..." text, button disabled.
-- **On success:** form replaced with success confirmation (see Step 3).
+- **On success:** page transitions to confirmation view (see Step 4).
 - **On error:** toast notification with error message. Form remains editable for retry.
 
-### Step 3: Confirmation
+### Step 4: Confirmation
 
-After successful submission, the form area is replaced with a confirmation message:
+After successful submission, the form is replaced with a confirmation view:
 
 - Icon: checkmark in `success` color.
 - Title: "¡Gracias por tu reseña!"
 - Subtitle: "Tu opinión ayuda a otros compradores a tomar mejores decisiones."
-- The confirmation is static — no action buttons. The visitor can continue browsing the report or navigate away.
+- Link: "Ver reporte completo →" linking to `/report/{slug}`.
+- The confirmation is static — no action buttons beyond the report link.
 
 ---
 
-## Spam Prevention
+## Data Flow
 
-### Rate Limiting (Phase 1 Implementation)
+### Token Validation (Page Load)
 
-- **1 review per event per IP per 24 hours.**
-- Rate limiting is enforced at the server action level.
-- If a visitor attempts to submit a second review for the same event within 24h:
-  - The server action returns `{ success: false, error: "Ya dejaste una reseña para esta inspección. Podés dejar otra en 24 horas." }`.
-  - The form shows the error via toast.
+```
+Buyer visits /review/{token}
+  → Server component: validateReviewToken(token)
+  → Service: reviewToken.validateToken(token)
+    → SELECT review_tokens WHERE token = :token
+    → Check: token exists → INVALID_TOKEN
+    → Check: expires_at > now() → EXPIRED_TOKEN
+    → Check: used_at IS NULL → ALREADY_USED (load existing review for display)
+    → SELECT event WHERE id = token.event_id AND status = 'signed'
+    → Check: event is signed → INVALID_STATE
+    → Load context: event + vehicle + node + findings aggregation
+  → Render review page with form and context
+```
 
-### Reviewer Identifier
+### Review Submission
 
-- The `reviewer_identifier` column stores a pseudonymous identifier.
-- Phase 1 implementation: hash of the client IP address (`sha256(ip)`).
-- This is used for rate limit enforcement and basic duplicate detection, not for display.
+```
+Buyer fills review form on /review/{token}
+  → Client validates: match_rating required, comment ≤ 500 chars
+  → Server action: submitTokenReviewAction({ token, matchRating, comment })
+  → Zod validation
+  → Service: review.submitTokenReview(token, matchRating, comment)
+    → SELECT review_tokens WHERE token = :token FOR UPDATE
+    → Check: token exists → INVALID_TOKEN
+    → Check: expires_at > now() → EXPIRED_TOKEN
+    → Check: used_at IS NULL → ALREADY_USED
+    → BEGIN TRANSACTION
+      → INSERT INTO reviews (event_id, review_token_id, match_rating, comment)
+      → UPDATE review_tokens SET used_at = now() WHERE id = :tokenId
+    → COMMIT
+  → Return { success: true, data: { review } }
+```
 
-### Future Upgrade Path
+### Report Page — Review Display (Read-Only)
 
-If spam becomes an issue post-MVP:
-- **Option A:** Review token embedded in the shared URL (inspector shares `/report/{slug}?review={token}`). Token generated at signing time.
-- **Option B:** Email-based verification. Reviewer enters an email, receives a confirmation link.
-- These upgrades do not change the review entity schema or UI — they only add an access gate.
+```
+Report page loads (server component)
+  → Service: review.getReviewsForEvent(eventId)
+    → SELECT * FROM reviews WHERE event_id = :eventId ORDER BY created_at DESC
+  → Returns: { reviews, aggregation: { total, yesCount, partiallyCount, noCount } }
+  → Render rating distribution bar + recent reviews list (no form)
+```
+
+### Inspector Profile — Review Aggregation
+
+```
+Profile page loads (server component)
+  → Service: review.getReviewsForNode(nodeId)
+    → SELECT r.match_rating, COUNT(*) FROM reviews r
+        JOIN events e ON r.event_id = e.id
+        WHERE e.node_id = :nodeId AND e.status = 'signed'
+        GROUP BY r.match_rating
+  → Returns: { total, yesCount, partiallyCount, noCount, matchRate }
+  → Render review stat tiles + breakdown bar
+```
 
 ---
 
-## Display: Report Page
+## Server Action
 
-Reviews are displayed on the public report page, below the review submission form (or below the confirmation message after submitting).
+### `submitTokenReviewAction`
+
+**Location:** `src/lib/actions/review.ts`
+
+**Input:**
+
+```typescript
+{
+  token: string,        // the review token from the URL
+  matchRating: string,  // 'yes' | 'partially' | 'no'
+  comment?: string      // optional, max 500 chars
+}
+```
+
+**Zod Schema:**
+
+```typescript
+const submitTokenReviewSchema = z.object({
+  token: z.string().min(1, "Token inválido."),
+  matchRating: z.enum(["yes", "partially", "no"], {
+    error: "Seleccioná una opción válida.",
+  }),
+  comment: z
+    .string()
+    .max(500, "El comentario no puede superar los 500 caracteres.")
+    .optional()
+    .or(z.literal("")),
+});
+```
+
+**Return Shape:**
+
+```typescript
+// Success
+{ success: true, data: { review: Review } }
+
+// Error
+{ success: false, error: string }
+```
+
+---
+
+## Service Functions
+
+### `review.submitTokenReview`
+
+**Location:** `src/lib/services/review.ts`
+
+**Signature:**
+
+```typescript
+async function submitTokenReview(
+  token: string,
+  matchRating: "yes" | "partially" | "no",
+  comment: string | undefined
+): Promise<Review>
+```
+
+**Logic:**
+1. Look up and lock the token (`SELECT ... FOR UPDATE`).
+2. Validate: exists, not expired, not used.
+3. In a single transaction: insert review + mark token as used.
+4. Return created review.
+
+### `reviewToken.validateToken`
+
+**Location:** `src/lib/services/review-token.ts`
+
+**Signature:**
+
+```typescript
+async function validateToken(token: string): Promise<{
+  status: "valid" | "invalid" | "expired" | "used";
+  reviewToken?: ReviewToken;
+  existingReview?: Review;
+  context?: {
+    event: Event;
+    vehicle: Vehicle;
+    node: Node;
+    findingsAggregation: { good: number; attention: number; critical: number };
+  };
+}>
+```
+
+### `review.getReviewsForEvent`
+
+*(Unchanged from current implementation.)*
+
+### `review.getReviewsForNode`
+
+*(Unchanged from current implementation.)*
+
+---
+
+## Error Handling
+
+All errors are caught at the server action level and returned as `{ success: false, error }`.
+
+| Error Code | Message | Cause |
+|-----------|---------|-------|
+| `INVALID_TOKEN` | "Este enlace de reseña no es válido." | Token does not exist |
+| `EXPIRED_TOKEN` | "Este enlace de reseña expiró. El plazo para dejar una reseña es de 90 días." | Token past expiration |
+| `ALREADY_USED` | "Ya se dejó una reseña con este enlace." | Token already used |
+| `INVALID_STATE` | "El reporte no está disponible." | Event not signed (defensive) |
+| `VALIDATION_ERROR` | Zod error messages | Invalid input |
+
+---
+
+## Edge Cases
+
+| Scenario | Behavior |
+|----------|----------|
+| **Token does not exist** | Error page: "Enlace inválido". No form rendered. |
+| **Token expired** | Error page: "Este enlace expiró" with explanation that the review window was 90 days. Link to the report is still shown (report is always public). |
+| **Token already used** | Page shows the previously submitted review as read-only confirmation. No form. "Ya dejaste una reseña" message. Link to report. |
+| **Event not signed (defensive)** | Error page: "El reporte no está disponible." Should not happen in practice. |
+| **Very long comment** | Client-side validation prevents > 500 chars. Server-side Zod rejects as well. |
+| **Empty comment** | Allowed — comment is optional. Stored as `null`. |
+| **Concurrent submissions with same token** | `SELECT ... FOR UPDATE` prevents race conditions. One succeeds, the other gets `ALREADY_USED`. |
+| **Event with corrections** | The token is tied to the original event. Each event (original and correction) has its own independent token. |
+| **Report page visited directly** | Shows existing reviews as read-only list. No submission form. No way to submit a review from the report page. |
+| **XSS in comment text** | Comment rendered as plain text (not HTML). React's default escaping prevents XSS. Server-side: no HTML processing. |
+| **Customer shares review link** | The link works for whoever clicks it first. Once used, subsequent visitors see the confirmation page. This is by design — one review per token. |
+
+---
+
+## Display: Report Page (Read-Only)
+
+Reviews are displayed on the public report page below the findings sections. **No submission form** is present on the report page.
 
 ### Rating Distribution Bar
 
@@ -147,17 +334,19 @@ A horizontal segmented bar showing the distribution of all reviews for this even
 
 - When no reviews exist for the event:
   - Rating distribution bar and review list are **not rendered**.
-  - Only the submission form is visible with a subtle prompt: "Sé el primero en dejar una reseña."
+  - No prompt to leave a review (the report page is clean).
 
 ---
 
 ## Display: Inspector Profile
 
-Reviews are aggregated on the inspector's public profile page (`/inspector/{slug}`), extending the stats section from Phase 4B.
+*(Unchanged from current spec.)*
 
-### Review Stats (New Stat Tiles)
+Reviews are aggregated on the inspector's public profile page (`/inspector/{slug}`).
 
-Two new stat tiles are added to the stats grid:
+### Review Stats (Stat Tiles)
+
+Two stat tiles in the stats grid:
 
 | Stat | Value | Label | Computation |
 |------|-------|-------|-------------|
@@ -181,180 +370,6 @@ Below the stat tiles (within the stats card), a compact distribution bar:
 
 ---
 
-## Data Flow
-
-### Review Submission
-
-```
-Visitor fills review form on /report/{slug}
-  → Client validates: match_rating required, comment ≤ 500 chars
-  → Server action: submitReviewAction({ eventId, matchRating, comment })
-  → Zod validation
-  → Service: review.submitReview(eventId, matchRating, comment, reviewerIdentifier)
-    → SELECT event WHERE id = :eventId AND status = 'signed'
-    → Check: event exists and is signed → NOT_FOUND / INVALID_STATE
-    → Rate limit check: SELECT review WHERE event_id = :eventId AND reviewer_identifier = :identifier AND created_at > now() - 24h
-    → Check: no existing review → RATE_LIMITED
-    → INSERT INTO reviews (event_id, match_rating, comment, reviewer_identifier)
-  → Return { success: true, data: { review } }
-```
-
-### Report Page — Review Display
-
-```
-Report page loads (server component)
-  → Service: review.getReviewsForEvent(eventId)
-    → SELECT * FROM reviews WHERE event_id = :eventId ORDER BY created_at DESC
-  → Returns: { reviews, aggregation: { total, yesCount, partiallyCount, noCount } }
-  → Render rating distribution bar + recent reviews list
-```
-
-### Inspector Profile — Review Aggregation
-
-```
-Profile page loads (server component)
-  → Service: review.getReviewsForNode(nodeId)
-    → SELECT r.match_rating, COUNT(*) FROM reviews r
-        JOIN events e ON r.event_id = e.id
-        WHERE e.node_id = :nodeId AND e.status = 'signed'
-        GROUP BY r.match_rating
-  → Returns: { total, yesCount, partiallyCount, noCount, matchRate }
-  → Render review stat tiles + breakdown bar
-```
-
----
-
-## Server Action
-
-### `submitReviewAction`
-
-**Location:** `src/lib/actions/review.ts`
-
-**Input:**
-
-```typescript
-{
-  eventId: string,      // UUID of the signed event
-  matchRating: string,  // 'yes' | 'partially' | 'no'
-  comment?: string      // optional, max 500 chars
-}
-```
-
-**Zod Schema:**
-
-```typescript
-const submitReviewSchema = z.object({
-  eventId: z.string().uuid("ID de inspección inválido."),
-  matchRating: z.enum(["yes", "partially", "no"], {
-    required_error: "Seleccioná una opción.",
-    invalid_type_error: "Opción inválida.",
-  }),
-  comment: z
-    .string()
-    .max(500, "El comentario no puede superar los 500 caracteres.")
-    .optional()
-    .or(z.literal("")),
-});
-```
-
-**Return Shape:**
-
-```typescript
-// Success
-{ success: true, data: { review: Review } }
-
-// Error
-{ success: false, error: string }
-```
-
----
-
-## Service Functions
-
-### `review.submitReview`
-
-**Location:** `src/lib/services/review.ts`
-
-**Signature:**
-
-```typescript
-async function submitReview(
-  eventId: string,
-  matchRating: "yes" | "partially" | "no",
-  comment: string | undefined,
-  reviewerIdentifier: string
-): Promise<Review>
-```
-
-**Logic:**
-1. Validate event exists and is signed.
-2. Check rate limit (1 per event per identifier per 24h).
-3. Insert review record.
-4. Return created review.
-
-### `review.getReviewsForEvent`
-
-**Location:** `src/lib/services/review.ts`
-
-**Signature:**
-
-```typescript
-async function getReviewsForEvent(eventId: string): Promise<{
-  reviews: Review[];
-  aggregation: { total: number; yesCount: number; partiallyCount: number; noCount: number };
-}>
-```
-
-### `review.getReviewsForNode`
-
-**Location:** `src/lib/services/review.ts`
-
-**Signature:**
-
-```typescript
-async function getReviewsForNode(nodeId: string): Promise<{
-  total: number;
-  yesCount: number;
-  partiallyCount: number;
-  noCount: number;
-  matchRate: number; // percentage 0-100
-}>
-```
-
----
-
-## Error Handling
-
-All errors are caught at the server action level and returned as `{ success: false, error }`.
-
-| Error Code | Message | Cause |
-|-----------|---------|-------|
-| `NOT_FOUND` | "La inspección no fue encontrada." | Event does not exist |
-| `INVALID_STATE` | "Solo se pueden dejar reseñas en inspecciones firmadas." | Event is not signed |
-| `RATE_LIMITED` | "Ya dejaste una reseña para esta inspección. Podés dejar otra en 24 horas." | Rate limit exceeded |
-| `VALIDATION_ERROR` | Zod error messages | Invalid input |
-
----
-
-## Edge Cases
-
-| Scenario | Behavior |
-|----------|----------|
-| **Draft report** | Report page returns 404. No review form visible. |
-| **Visitor already reviewed (same IP, same event, < 24h)** | Form shows. On submit, server returns rate limit error. Toast displayed. |
-| **Visitor reviews after 24h** | New review is accepted. Both reviews exist for the event. Multiple reviews per event per IP are allowed if separated by 24h. |
-| **Very long comment** | Client-side validation prevents > 500 chars. Server-side Zod rejects as well. |
-| **Empty comment** | Allowed — comment is optional. Stored as `null`. |
-| **Multiple reviews from different IPs** | All accepted. Distribution bar and list show all reviews. |
-| **Event with corrections** | Each event (original and correction) has its own independent reviews. Reviews are not shared between them. |
-| **Inspector has events across multiple nodes** | Not applicable in Phase 1 (one user, one node). Profile aggregation queries by `node_id`. |
-| **Concurrent submissions from same IP** | Race condition possible but low risk. Worst case: 2 reviews from same IP within 24h. Acceptable for MVP. |
-| **Report page with many reviews** | First 5 shown, "Ver todas" expands. No pagination — full list loads on expand. Acceptable for MVP volume. |
-| **Review on report with zero findings** | Allowed. The review question is about accuracy, which applies even to minimal reports. |
-| **XSS in comment text** | Comment rendered as plain text (not HTML). React's default escaping prevents XSS. Server-side: no HTML processing. |
-
----
-
 ## Test Plan
 
 Per `specs/architecture.md §5` — coverage target ≥ 80%.
@@ -363,46 +378,51 @@ Per `specs/architecture.md §5` — coverage target ≥ 80%.
 
 | Target | File | Cases |
 |--------|------|-------|
-| Review Zod schema | `validators.ts` | Valid submission passes · Missing `matchRating` fails · Invalid `matchRating` value fails · Comment > 500 chars fails · Empty comment passes · Missing `eventId` fails · Invalid UUID format fails · Extra fields stripped |
+| Token review Zod schema | `validators.ts` | Valid submission passes · Missing `matchRating` fails · Invalid `matchRating` value fails · Comment > 500 chars fails · Empty comment passes · Missing `token` fails · Empty `token` fails · Extra fields stripped |
 
 ### Integration Tests
 
 | Target | File | Cases |
 |--------|------|-------|
-| `submitReview` service | `services/review.ts` | Creates review for signed event · Rejects review on draft event (`INVALID_STATE`) · Rejects review on non-existent event (`NOT_FOUND`) · Rejects duplicate within 24h (`RATE_LIMITED`) · Allows review after 24h · Stores `reviewer_identifier` correctly · Handles empty comment (stored as `null`) |
-| `getReviewsForEvent` service | `services/review.ts` | Returns reviews sorted by `created_at` desc · Returns correct aggregation counts · Returns empty list and zero counts for event with no reviews · Only returns reviews for the specified event |
-| `getReviewsForNode` service | `services/review.ts` | Aggregates across all signed events for node · Calculates correct match rate · Returns zero counts for node with no reviews · Excludes reviews on draft events (should not exist, but defensive) |
-| `submitReviewAction` action | `actions/review.ts` | Valid submission returns `{ success: true, data }` · Rate-limited submission returns `{ success: false, error }` · Invalid input returns validation error · Return shape matches contract |
+| `validateToken` service | `services/review-token.ts` | Returns `valid` for unused unexpired token with context · Returns `invalid` for non-existent token · Returns `expired` for past-expiration token · Returns `used` for already-used token with existing review |
+| `submitTokenReview` service | `services/review.ts` | Creates review and marks token as used atomically · Rejects expired token (`EXPIRED_TOKEN`) · Rejects used token (`ALREADY_USED`) · Rejects non-existent token (`INVALID_TOKEN`) · Handles empty comment (stored as `null`) · Concurrent submissions: one succeeds, other fails |
+| `getReviewsForEvent` service | `services/review.ts` | Returns reviews sorted by `created_at` desc · Returns correct aggregation counts · Returns empty list and zero counts for event with no reviews · Only returns reviews for the specified event · Includes both legacy and token-based reviews |
+| `getReviewsForNode` service | `services/review.ts` | Aggregates across all signed events for node · Calculates correct match rate · Returns zero counts for node with no reviews · Includes both legacy and token-based reviews |
+| `submitTokenReviewAction` action | `actions/review.ts` | Valid submission returns `{ success: true, data }` · Expired token returns `{ success: false, error }` · Used token returns `{ success: false, error }` · Invalid input returns validation error · Return shape matches contract |
+| Token generation (in signing) | `services/inspection.ts` | Token created when customer_email present · No token created when customer_email absent · Token has correct expiration (90 days) · Token is unique and URL-safe |
+| Email sending (in signing) | `services/inspection.ts` | Email sent when customer_email present · No email sent when absent · Email failure does not affect signing result |
 
 ### Component Tests
 
 | Component | Cases |
 |-----------|-------|
-| **Review form** | Renders on signed report page · Submit button disabled when no rating selected · Rating selection enables submit button · Selected rating shows correct status color styling · Comment textarea renders with placeholder · Character counter updates on input · Submission shows loading state · Successful submission shows confirmation message · Error shows toast · Character limit enforced client-side |
-| **Review confirmation** | Renders after successful submission · Shows checkmark icon, title, and subtitle · No action buttons |
-| **Rating distribution bar** | Renders proportional segments with correct colors · Shows count labels below · Handles all-yes (single segment), mixed, and all-no distributions · Hidden when zero reviews |
-| **Recent reviews list** | Renders reviews newest-first · Shows rating icon + label + comment + timestamp · Handles reviews without comments · "Ver todas" shown when > 5 reviews · Expand loads remaining reviews · Hidden when zero reviews |
-| **Zero reviews state** | Form visible with "Sé el primero" prompt · No distribution bar · No review list |
+| **Review page (valid token)** | Renders inspection context (vehicle, date, inspector, status summary) · Report link works · Review form renders · Submit button disabled when no rating selected · Rating selection enables submit button · Selected rating shows correct status color styling · Comment textarea renders with placeholder · Character counter updates on input · Submission shows loading state · Successful submission shows confirmation message · Error shows toast · Character limit enforced client-side |
+| **Review page (expired token)** | Shows expiration message · Shows link to report · No form rendered |
+| **Review page (used token)** | Shows previously submitted review · Shows "Ya dejaste una reseña" message · Shows link to report · No form rendered |
+| **Review page (invalid token)** | Shows invalid link message · No form rendered |
+| **Review confirmation** | Renders after successful submission · Shows checkmark icon, title, and subtitle · Shows link to full report |
+| **Report page — read-only reviews** | Rating distribution bar renders with correct proportions · Recent reviews list shows newest first, max 5 with expand · Zero reviews: no bar, no list, no prompt · No submission form present |
 | **Profile review stats** | Review stat tiles render with correct values · Distribution bar renders on profile · Hidden when zero reviews · Match rate percentage correct |
 
 ---
 
 ## Acceptance Criteria
 
-- [ ] Review form visible on signed report pages, no auth required
-- [ ] Ternary match rating is the only required field (comment is optional)
+- [ ] Review can only be submitted via a valid, unexpired, unused token
+- [ ] Token is single-use — marked as used atomically with review creation
+- [ ] Expired tokens show clear expiration message with link to report
+- [ ] Used tokens show the previously submitted review
+- [ ] Invalid tokens show error message
+- [ ] Review form is NOT present on the public report page
+- [ ] Report page displays existing reviews as read-only list
 - [ ] Rating options use status colors (good/attention/critical)
 - [ ] Submit button disabled until rating selected, shows loading state
-- [ ] Successful submission shows confirmation message replacing the form
-- [ ] Rate limiting: 1 review per event per IP per 24h
-- [ ] Rate limit error shown via toast with descriptive message
-- [ ] Rating distribution bar displays on report page with correct proportions
-- [ ] Recent reviews list shows on report page, newest first, max 5 with expand
-- [ ] Zero reviews: form visible with prompt, no bar or list
+- [ ] Successful submission shows confirmation message with report link
+- [ ] Zero reviews on report: no bar, no list, clean page
 - [ ] Review aggregation on inspector profile: total count + match rate
-- [ ] Review breakdown bar on inspector profile
 - [ ] Profile with zero reviews hides review stats
 - [ ] Comment max length 500 chars enforced client and server side
 - [ ] Reviews cannot be edited or deleted after submission
 - [ ] Server action returns `{ success, data?, error? }` shape
 - [ ] All error messages in Spanish
+- [ ] Legacy reviews (pre-token) are preserved and displayed normally

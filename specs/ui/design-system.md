@@ -31,7 +31,10 @@ Landing (/)
 ├── Public Report (/report/{slug})                [no auth]
 │   ├── → Inspector Profile
 │   ├── → Vehicle Page
-│   └── → Leave Review
+│   └── Reviews (read-only list, no submission form)
+│
+├── Review Page (/review/{token})                 [no auth, token required]
+│   └── Submit review for a specific inspection
 │
 ├── Inspector Profile (/inspector/{slug})         [no auth]
 │   └── → Individual reports

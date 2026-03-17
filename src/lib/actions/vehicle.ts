@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { lookupVehicleSchema, vehicleEntrySchema } from "@/lib/validators";
 import * as vehicleService from "@/lib/services/vehicle";
+import { decodeVin, type VinDecodeResult } from "@/lib/vin";
 
 type ActionResult<T = unknown> = {
   success: boolean;
@@ -65,6 +66,30 @@ export async function lookupVehicleAction(
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Error al buscar el vehículo.";
+    return { success: false, error: message };
+  }
+}
+
+export async function decodeVinAction(
+  input: unknown
+): Promise<ActionResult<VinDecodeResult | null>> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, error: "No autenticado." };
+  }
+
+  const parsed = lookupVehicleSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    const result = await decodeVin(parsed.data.vin);
+    return { success: true, data: result };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Error al decodificar el VIN.";
     return { success: false, error: message };
   }
 }

@@ -19,10 +19,16 @@ vi.mock("@/lib/services/vehicle", () => ({
   findVehicleByVin: (...args: unknown[]) => mockFindVehicleByVin(...args),
 }));
 
+const mockDecodeVin = vi.fn();
+vi.mock("@/lib/vin", () => ({
+  decodeVin: (...args: unknown[]) => mockDecodeVin(...args),
+}));
+
 // Import after mocking
 import {
   lookupVehicleAction,
   findOrCreateVehicleAction,
+  decodeVinAction,
 } from "@/lib/actions/vehicle";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -293,5 +299,71 @@ describe("lookupVehicleAction", () => {
     const result = await lookupVehicleAction({ vin: "ABCDE12345678901X" });
 
     expect(result).toEqual({ success: false, error: "DB error" });
+  });
+});
+
+// ─── decodeVinAction ─────────────────────────────────────────────────────────
+
+describe("decodeVinAction", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns error when not authenticated", async () => {
+    mockAuth.mockResolvedValue(null);
+
+    const result = await decodeVinAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({ success: false, error: "No autenticado." });
+  });
+
+  it("returns validation error for invalid VIN", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+
+    const result = await decodeVinAction({ vin: "SHORT" });
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+  });
+
+  it("returns decoded data on success", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+    mockDecodeVin.mockResolvedValue({
+      make: "Nissan",
+      model: "Sentra",
+      year: 2019,
+      trim: "SR",
+    });
+
+    const result = await decodeVinAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({
+      success: true,
+      data: {
+        make: "Nissan",
+        model: "Sentra",
+        year: 2019,
+        trim: "SR",
+      },
+    });
+    expect(mockDecodeVin).toHaveBeenCalledWith("ABCDE12345678901X");
+  });
+
+  it("returns null data when decode fails", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+    mockDecodeVin.mockResolvedValue(null);
+
+    const result = await decodeVinAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({ success: true, data: null });
+  });
+
+  it("returns error when decodeVin throws", async () => {
+    mockAuth.mockResolvedValue(createMockSession());
+    mockDecodeVin.mockRejectedValue(new Error("API error"));
+
+    const result = await decodeVinAction({ vin: "ABCDE12345678901X" });
+
+    expect(result).toEqual({ success: false, error: "API error" });
   });
 });

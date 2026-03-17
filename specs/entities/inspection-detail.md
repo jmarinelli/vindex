@@ -11,6 +11,7 @@ Type-specific data for events where `event_type = inspection`. One-to-one relati
 | template_snapshot | JSONB | NOT NULL — frozen copy of the inspector's template at inspection creation time |
 | inspection_type | ENUM(`pre_purchase`, `intake`, `periodic`, `other`) | NOT NULL |
 | requested_by | ENUM(`buyer`, `seller`, `agency`, `other`) | NOT NULL |
+| customer_email | VARCHAR(255) | nullable — email of the inspector's customer, used for post-signing review notification |
 
 ## Behavior
 
@@ -18,6 +19,7 @@ Type-specific data for events where `event_type = inspection`. One-to-one relati
 - **Created when the inspector starts a new inspection.** The inspection detail is created at the same time as the event.
 - **Template snapshot:** at inspection creation, the inspector's current template is copied into `template_snapshot`. This preserves the exact template structure used, ensuring the report renders correctly even if the inspector later modifies their template. The snapshot format is identical to the InspectionTemplate `sections` JSON.
 - **inspection_type and requested_by** are metadata displayed on the report. They inform the buyer about the context of the inspection but do not change the form structure.
+- **customer_email** is optional. When provided, the system generates a review token and sends a notification email to the customer after the inspection is signed. The email is not displayed on the public report.
 
 ## Why a Separate Table
 
@@ -43,7 +45,8 @@ The Event entity is the base of the vehicle ledger — shared across all event t
     ]
   },
   "inspection_type": "pre_purchase",
-  "requested_by": "buyer"
+  "requested_by": "buyer",
+  "customer_email": "comprador@email.com"
 }
 ```
 
@@ -58,3 +61,5 @@ The Event entity is the base of the vehicle ledger — shared across all event t
 - [ ] Template snapshot is a frozen copy — not a reference to the live template
 - [ ] Modifying the live template does not affect existing inspection details
 - [ ] inspection_type and requested_by are displayed on the public report
+- [ ] customer_email is optional and not displayed on the public report
+- [ ] customer_email triggers review token generation and email on signing when present
