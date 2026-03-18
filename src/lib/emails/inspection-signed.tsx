@@ -110,7 +110,7 @@ export function InspectionSignedEmail({
             <Text style={footerRegisteredStyle}>
               Registrado en{" "}
               <Img
-                src="https://vindex-kappa.vercel.app/logo-email.png"
+                src="https://vindex-kappa.vercel.app/logo-principal.png"
                 width="80"
                 height="22"
                 alt="VinDex"

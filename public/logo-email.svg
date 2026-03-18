@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="32" viewBox="0 0 120 32" fill="none">
-  <!-- Parallelogram badge -->
-  <path d="M10 0l52 0-10 32-52 0z" fill="#0EA5E9"/>
-  <text x="32" y="16" dominant-baseline="central" text-anchor="middle" fill="white" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-weight="800" font-size="18" letter-spacing="1.5">VIN</text>
-  <!-- "dex" text -->
-  <text x="68" y="16" dominant-baseline="central" text-anchor="start" fill="#1E293B" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-weight="500" font-size="24">dex</text>
-</svg>
