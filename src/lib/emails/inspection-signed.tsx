@@ -111,7 +111,6 @@ export function InspectionSignedEmail({
               Registrado en{" "}
               <Img
                 src="https://vindex-kappa.vercel.app/logo-principal.png"
-                width="80"
                 height="22"
                 alt="VinDex"
                 style={{ display: "inline-block", verticalAlign: "middle" }}
