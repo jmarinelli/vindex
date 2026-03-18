@@ -24,7 +24,7 @@ export function ShellField({
   return (
     <div className="h-screen flex flex-col bg-gray-50">
       {/* Fixed top bar — 48px */}
-      <header className="h-12 border-b border-gray-200 bg-white flex items-center justify-between px-4 shrink-0">
+      <header className="h-12 border-b border-gray-200 bg-white flex items-center justify-between px-4 shrink-0 pt-[env(safe-area-inset-top)]">
         <span className="text-sm font-medium text-gray-800 truncate max-w-[40%]">
           {title ?? "Verificación"}
         </span>

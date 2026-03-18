@@ -17,7 +17,7 @@ export function ShellDashboard({
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Top bar — 64px */}
-      <header className="relative h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4">
+      <header className="relative h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4 pt-[env(safe-area-inset-top)]">
         <Link href="/dashboard">
           <Logo size="sm" />
         </Link>

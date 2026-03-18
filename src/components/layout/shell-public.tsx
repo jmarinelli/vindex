@@ -7,7 +7,7 @@ export function ShellPublic({ children, hideHeader = false }: { children: React.
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Top bar — 56px */}
       {!hideHeader && (
-        <header className="h-14 border-b border-gray-200 bg-white flex items-center justify-between px-4">
+        <header className="h-14 border-b border-gray-200 bg-white flex items-center justify-between px-4 pt-[env(safe-area-inset-top)]">
           <Link href="/">
             <Logo size="sm" />
           </Link>
