@@ -51,19 +51,6 @@ export function InspectionSignedEmail({
       <Preview>{previewText}</Preview>
       <Body style={bodyStyle}>
         <Container style={containerStyle}>
-          {/* Header */}
-          <Section style={headerStyle}>
-            <Img
-              src="https://vindex.app/logo-email.png"
-              width="120"
-              height="32"
-              alt="VinDex"
-              style={{ display: "block" }}
-            />
-          </Section>
-
-          <Hr style={hrStyle} />
-
           {/* Heading */}
           <Section style={sectionStyle}>
             <Text style={titleStyle}>Verificación firmada</Text>
@@ -120,7 +107,16 @@ export function InspectionSignedEmail({
 
           {/* Footer */}
           <Section style={footerStyle}>
-            <Text style={footerTextStyle}>VinDex · vindex.app</Text>
+            <Text style={footerRegisteredStyle}>
+              Registrado en
+            </Text>
+            <Img
+              src="https://vindex.app/logo-email.png"
+              width="80"
+              height="22"
+              alt="VinDex"
+              style={{ display: "inline-block", verticalAlign: "middle", margin: "0 auto" }}
+            />
             <Text style={footerTextStyle}>
               Este email fue enviado porque un verificador de VinDex incluyó tu
               dirección como cliente de una verificación.
@@ -150,10 +146,6 @@ const containerStyle: React.CSSProperties = {
   backgroundColor: "#FFFFFF",
   borderRadius: "8px",
   padding: "24px",
-};
-
-const headerStyle: React.CSSProperties = {
-  padding: "0 0 8px 0",
 };
 
 const hrStyle: React.CSSProperties = {
@@ -268,6 +260,15 @@ const expiryStyle: React.CSSProperties = {
 
 const footerStyle: React.CSSProperties = {
   padding: "0",
+  textAlign: "center" as const,
+};
+
+const footerRegisteredStyle: React.CSSProperties = {
+  fontSize: "13px",
+  color: "#9CA3AF",
+  lineHeight: "1.5",
+  margin: "0 0 4px 0",
+  textAlign: "center" as const,
 };
 
 const footerTextStyle: React.CSSProperties = {
