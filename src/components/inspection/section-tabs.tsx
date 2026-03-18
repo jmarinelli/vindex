@@ -31,7 +31,7 @@ export function SectionTabs({
 
   return (
     <div
-      className="h-11 border-b border-gray-200 bg-white overflow-x-auto flex shrink-0"
+      className="h-11 border-b border-gray-200 bg-white overflow-x-auto overflow-y-hidden flex shrink-0"
       role="tablist"
       style={{ scrollbarWidth: "none" }}
     >

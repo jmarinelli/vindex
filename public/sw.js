@@ -5,14 +5,14 @@
 //
 // Strategies:
 // - Static assets (_next/static/, icons): cache-first (immutable, hashed filenames)
-// - Navigation requests: stale-while-revalidate per URL, with offline fallback.
+// - Navigation requests: network-first with 3s timeout, with offline fallback.
 //   Next.js App Router embeds route-specific RSC data in each page's HTML, so
 //   each URL must be cached separately (a shared "app shell" key won't work).
 //   When offline and the exact URL is not cached, we redirect to /dashboard
 //   (which is precached) so the user lands on the offline-aware dashboard.
 // - Everything else: network-only (pass through)
 
-const CACHE_NAME = "vindex-v9";
+const CACHE_NAME = "vindex-v10";
 const PRECACHE = ["/offline.html"];
 
 // Dashboard is precached so there's always an offline entry point.
@@ -52,9 +52,6 @@ self.addEventListener("message", (event) => {
     const url = event.data.url;
     if (!url) return;
     caches.open(CACHE_NAME).then(async (cache) => {
-      // Skip if already cached
-      const existing = await cache.match(url);
-      if (existing) return;
       try {
         const response = await fetch(url);
         if (response.ok) {
@@ -100,7 +97,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Navigation — stale-while-revalidate with offline fallback
+  // Navigation — network-first with timeout, offline fallback
   if (request.mode === "navigate") {
     event.respondWith(navigationHandler(request));
     return;
@@ -114,46 +111,42 @@ self.addEventListener("fetch", (event) => {
 async function navigationHandler(request) {
   const cache = await caches.open(CACHE_NAME);
   const url = new URL(request.url);
-  const cached = await cache.match(url.pathname);
 
-  const fetchAndCache = fetch(request)
-    .then(async (response) => {
-      if (response.ok) {
-        // Cache under the pathname (strip query strings / hashes)
-        await cache.put(url.pathname, response.clone());
-      }
-      return response;
-    })
-    .catch(async () => {
-      // Network failed and no cache for this exact URL
-      if (!cached) {
-        // Redirect to dashboard (which is precached and handles offline mode)
-        const dashboardCached = await cache.match(DASHBOARD_URL);
-        if (dashboardCached && url.pathname !== DASHBOARD_URL) {
-          return Response.redirect(
-            url.origin + DASHBOARD_URL,
-            302
-          );
-        }
-        // Last resort — static offline page
-        const fallback = await caches.match("/offline.html");
-        return (
-          fallback ||
-          new Response("Offline", { status: 503, statusText: "Offline" })
-        );
-      }
-      // cached exists and was already returned — this is the background update path
-      return new Response(null, { status: 503 });
-    });
+  try {
+    // Race the network against a 3s timeout
+    const response = await withTimeout(fetch(request), 3000);
+    if (response.ok) {
+      await cache.put(url.pathname, response.clone());
+    }
+    return response;
+  } catch {
+    // Network failed or timed out — serve from cache
+    const cached = await cache.match(url.pathname);
+    if (cached) return cached;
 
-  if (cached) {
-    // Serve cached version immediately, update in background
-    fetchAndCache.catch(() => {});
-    return cached;
+    // No cache for this URL — try dashboard as offline entry point
+    const dashboardCached = await cache.match(DASHBOARD_URL);
+    if (dashboardCached && url.pathname !== DASHBOARD_URL) {
+      return Response.redirect(url.origin + DASHBOARD_URL, 302);
+    }
+
+    // Last resort — static offline page
+    const fallback = await caches.match("/offline.html");
+    return (
+      fallback ||
+      new Response("Offline", { status: 503, statusText: "Offline" })
+    );
   }
+}
 
-  // No cached version — wait for network
-  return fetchAndCache;
+function withTimeout(promise, ms) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("timeout")), ms);
+    promise.then(
+      (val) => { clearTimeout(timer); resolve(val); },
+      (err) => { clearTimeout(timer); reject(err); }
+    );
+  });
 }
 
 async function cacheFirst(request) {

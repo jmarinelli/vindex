@@ -22,7 +22,7 @@ export function ShellField({
   onClose,
 }: ShellFieldProps) {
   return (
-    <div className="h-[100dvh] flex flex-col bg-gray-50">
+    <div className="h-[100dvh] flex flex-col bg-gray-50 overflow-hidden">
       {/* Safe-area spacer for notch/Dynamic Island */}
       <div className="bg-white shrink-0 h-[env(safe-area-inset-top)]" />
       {/* Fixed top bar — 48px */}
@@ -64,8 +64,8 @@ export function ShellField({
           </button>
         </footer>
       )}
-      {/* Safe-area spacer for bottom home indicator */}
-      <div className="bg-white shrink-0 h-[env(safe-area-inset-bottom)]" />
+      {/* Safe-area spacer — only needed in PWA standalone (Safari browser handles its own bottom) */}
+      <div className="bg-white shrink-0 hidden [@media(display-mode:standalone)]:block [@media(display-mode:standalone)]:h-2" />
     </div>
   );
 }
