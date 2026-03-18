@@ -22,9 +22,11 @@ export function ShellField({
   onClose,
 }: ShellFieldProps) {
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="h-[100dvh] flex flex-col bg-gray-50">
+      {/* Safe-area spacer for notch/Dynamic Island */}
+      <div className="bg-white shrink-0 h-[env(safe-area-inset-top)]" />
       {/* Fixed top bar — 48px */}
-      <header className="h-12 border-b border-gray-200 bg-white flex items-center justify-between px-4 shrink-0 pt-[env(safe-area-inset-top)]">
+      <header className="h-12 border-b border-gray-200 bg-white flex items-center justify-between px-4 shrink-0">
         <span className="text-sm font-medium text-gray-800 truncate max-w-[40%]">
           {title ?? "Verificación"}
         </span>
@@ -62,6 +64,8 @@ export function ShellField({
           </button>
         </footer>
       )}
+      {/* Safe-area spacer for bottom home indicator */}
+      <div className="bg-white shrink-0 h-[env(safe-area-inset-bottom)]" />
     </div>
   );
 }

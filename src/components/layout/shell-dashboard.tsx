@@ -15,9 +15,11 @@ export function ShellDashboard({
   const { data: session } = useSession();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-[100dvh] flex flex-col bg-gray-50">
+      {/* Safe-area spacer for notch/Dynamic Island */}
+      <div className="bg-white shrink-0 h-[env(safe-area-inset-top)]" />
       {/* Top bar — 64px */}
-      <header className="relative h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4 pt-[env(safe-area-inset-top)]">
+      <header className="relative h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4">
         <Link href="/dashboard">
           <Logo size="sm" />
         </Link>
