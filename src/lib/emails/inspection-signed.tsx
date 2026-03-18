@@ -108,15 +108,15 @@ export function InspectionSignedEmail({
           {/* Footer */}
           <Section style={footerStyle}>
             <Text style={footerRegisteredStyle}>
-              Registrado en
+              Registrado en{" "}
+              <Img
+                src="https://vindex-kappa.vercel.app/logo-email.png"
+                width="80"
+                height="22"
+                alt="VinDex"
+                style={{ display: "inline-block", verticalAlign: "middle" }}
+              />
             </Text>
-            <Img
-              src="https://vindex.app/logo-email.png"
-              width="80"
-              height="22"
-              alt="VinDex"
-              style={{ display: "inline-block", verticalAlign: "middle", margin: "0 auto" }}
-            />
             <Text style={footerTextStyle}>
               Este email fue enviado porque un verificador de VinDex incluyó tu
               dirección como cliente de una verificación.

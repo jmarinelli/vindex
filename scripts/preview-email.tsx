@@ -1,13 +1,12 @@
 /**
- * Renders the InspectionSignedEmail template to HTML and opens it in the browser.
+ * Renders the InspectionSignedEmail template to HTML and serves it on a local server.
  *
  * Usage: npx tsx scripts/preview-email.tsx
  */
 import { render } from "@react-email/render";
 import { InspectionSignedEmail } from "../src/lib/emails/inspection-signed";
-import { writeFileSync } from "fs";
+import { createServer } from "http";
 import { execSync } from "child_process";
-import { join } from "path";
 
 async function main() {
   const html = await render(
@@ -23,22 +22,22 @@ async function main() {
     })
   );
 
-  // Replace remote logo URL with local path for preview
-  const localHtml = html.replace(
-    "https://vindex.app/logo-email.png",
-    "../public/logo-email.png"
-  );
+  const port = 3088;
+  const server = createServer((_req, res) => {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end(html);
+  });
 
-  const outPath = join(__dirname, "../tmp/email-preview.html");
-  writeFileSync(outPath, localHtml, "utf-8");
-  console.log(`Email preview saved to: ${outPath}`);
-
-  // Open in default browser
-  try {
-    execSync(`open "${outPath}"`);
-  } catch {
-    console.log("Could not auto-open. Open the file manually in your browser.");
-  }
+  server.listen(port, () => {
+    const url = `http://localhost:${port}`;
+    console.log(`Email preview at: ${url}`);
+    console.log("Press Ctrl+C to stop.");
+    try {
+      execSync(`open "${url}"`);
+    } catch {
+      // ignore
+    }
+  });
 }
 
 main();
