@@ -1,0 +1,1 @@
+ALTER TABLE "nodes" ADD COLUMN "brand_accent" varchar(7);

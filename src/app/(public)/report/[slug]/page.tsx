@@ -101,7 +101,7 @@ export default async function ReportPage({
   const review = await getReviewForEvent(event.id);
 
   return (
-    <ShellPublic>
+    <ShellPublic hideHeader>
       <div className="flex flex-col gap-4">
         {/* Correction notices */}
         {correction && (
@@ -118,16 +118,16 @@ export default async function ReportPage({
           nodeName={node.displayName}
         />
 
+        {/* Inspector identity */}
+        <InspectorCard node={node} />
+
         {/* Vehicle summary */}
-        <VehicleSummaryCard vehicle={vehicle} event={event} detail={detail} />
+        <VehicleSummaryCard vehicle={vehicle} event={event} detail={detail} brandAccent={node.brandAccent} />
 
         {/* Vehicle photos gallery */}
         <VehiclePhotos
           photos={photos.filter((p) => p.photoType === "vehicle")}
         />
-
-        {/* Inspector identity */}
-        <InspectorCard node={node} />
 
         {/* Summary card */}
         <SummaryCard findings={findings} photos={photos} />

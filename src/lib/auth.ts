@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { compareSync } from "bcryptjs";
 import { db } from "@/db";
-import { users, nodeMembers } from "@/db/schema";
+import { users, nodeMembers, nodes } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -55,11 +55,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.role = (user as { role: string }).role;
         token.nodeId = (user as { nodeId: string | null }).nodeId;
+      }
+      // Refresh logoUrl from DB on each request (lightweight, keeps it current)
+      if (token.nodeId) {
+        const [node] = await db
+          .select({ slug: nodes.slug, logoUrl: nodes.logoUrl })
+          .from(nodes)
+          .where(eq(nodes.id, token.nodeId as string))
+          .limit(1);
+        token.nodeSlug = node?.slug ?? null;
+        token.logoUrl = node?.logoUrl ?? null;
+      } else {
+        token.nodeSlug = null;
+        token.logoUrl = null;
       }
       return token;
     },
@@ -67,6 +80,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.id = token.id as string;
       session.user.role = token.role as string;
       session.user.nodeId = token.nodeId as string | null;
+      session.user.nodeSlug = token.nodeSlug as string | null;
+      session.user.logoUrl = token.logoUrl as string | null;
       return session;
     },
   },

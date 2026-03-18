@@ -27,7 +27,9 @@ export function ShellDashboard({
         {session?.user?.name && (
           <UserMenu
             userName={session.user.name}
-            userRole={(session.user as { role?: string } | undefined)?.role}
+            userRole={session.user.role}
+            logoUrl={session.user.logoUrl}
+            nodeSlug={session.user.nodeSlug}
           />
         )}
       </header>

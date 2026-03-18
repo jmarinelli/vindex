@@ -50,6 +50,7 @@ function makeEventItem(overrides?: Partial<VehicleEventItem>): VehicleEventItem 
       displayName: "AutoCheck Buenos Aires",
       logoUrl: null,
       brandColor: null,
+      brandAccent: null,
       contactEmail: "info@autocheck.com",
       contactPhone: null,
       address: null,

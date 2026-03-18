@@ -900,6 +900,41 @@
                   "children": [
                     {
                       "type": "frame",
+                      "id": "CHE7F",
+                      "name": "qlSettings",
+                      "width": "fill_container",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "34dFB",
+                          "name": "settingsIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "settings",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bCAve",
+                          "name": "qlSettingsTxt",
+                          "fill": "$brand-accent",
+                          "content": "Configuración",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
                       "id": "nzSxl",
                       "name": "qlTemplate",
                       "width": "fill_container",
@@ -2122,6 +2157,40 @@
                   "alignItems": "center",
                   "children": [
                     {
+                      "type": "frame",
+                      "id": "8HOeF",
+                      "name": "dQLs",
+                      "height": 44,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "vEZ2M",
+                          "name": "sIconD",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "settings",
+                          "iconFontFamily": "lucide",
+                          "fill": "$brand-accent"
+                        },
+                        {
+                          "type": "text",
+                          "id": "FpPRU",
+                          "name": "dQLsTxt",
+                          "fill": "$brand-accent",
+                          "content": "Configuración",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
                       "type": "text",
                       "id": "pHtzA",
                       "name": "dQLlabel",
@@ -2248,7 +2317,15 @@
               "height": "fit_content",
               "name": "logo",
               "x": 16,
-              "y": 14
+              "y": 14,
+              "descendants": {
+                "HFBuF": {
+                  "y": 0
+                },
+                "OeXDM": {
+                  "x": 53
+                }
+              }
             },
             {
               "type": "text",

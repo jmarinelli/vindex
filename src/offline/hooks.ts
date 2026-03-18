@@ -12,20 +12,20 @@ import type { DraftInspection, DraftPhoto } from "@/types/inspection";
 // ─── useOfflineStatus ───────────────────────────────────────────────────────
 
 export function useOfflineStatus() {
-  const [isOnline, setIsOnline] = useState(
-    () => typeof window !== "undefined" && navigator.onLine
-  );
+  // Initialize to true (assume online) so SSR and first client render match.
+  // The effect below corrects to the real value after mount.
+  const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const sync = () => setIsOnline(navigator.onLine);
+    sync();
 
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", sync);
+    window.addEventListener("offline", sync);
 
     return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", sync);
+      window.removeEventListener("offline", sync);
     };
   }, []);
 
@@ -76,6 +76,15 @@ export function usePhotoUpload(eventId: string, triggerSync?: () => void) {
   const refreshPhotos = useCallback(async () => {
     const updated = await getPhotosByEvent(eventId);
     setPhotos(updated);
+  }, [eventId]);
+
+  // Poll Dexie to keep state in sync with background sync changes
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const updated = await getPhotosByEvent(eventId);
+      setPhotos(updated);
+    }, 3000);
+    return () => clearInterval(interval);
   }, [eventId]);
 
   const pendingCount = photos.filter((p) => !p.uploaded).length;

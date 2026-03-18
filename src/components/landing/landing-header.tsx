@@ -30,11 +30,12 @@ export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const userName = session?.user?.name ?? "";
-  const userRole = (session?.user as { role?: string } | undefined)?.role;
+  const userRole = session?.user?.role;
+  const logoUrl = session?.user?.logoUrl;
   const initials = userName ? getInitials(userName) : "";
   const isAdmin = userRole === "platform_admin";
   const dashboardHref = isAdmin ? "/admin" : "/dashboard";
-  const dashboardLabel = isAdmin ? "Admin panel" : "Ir al dashboard";
+  const dashboardLabel = isAdmin ? "Admin panel" : "Dashboard";
 
   useEffect(() => {
     function handleScroll() {
@@ -91,7 +92,8 @@ export function LandingHeader() {
                 userName={userName}
                 userRole={userRole}
                 variant={scrolled ? "default" : "light"}
-                showDashboardLink
+                logoUrl={logoUrl}
+                nodeSlug={session?.user?.nodeSlug}
                 onSignOut={() => { window.location.href = "/"; }}
               />
             </div>
@@ -110,9 +112,14 @@ export function LandingHeader() {
 
           {/* Mobile: avatar (when authenticated) + hamburger */}
           {isAuthenticated && (
-            <span className={`min-[900px]:hidden flex items-center justify-center size-8 rounded-full text-xs font-medium ${scrolled ? "bg-brand-primary text-white" : "bg-white/20 text-white"}`}>
-              {initials}
-            </span>
+            logoUrl ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={`${logoUrl}?w=64&h=64&c=fill&g=face&f=auto`} alt={userName} className="min-[900px]:hidden size-8 rounded-full object-cover border border-white/20" />
+            ) : (
+              <span className={`min-[900px]:hidden flex items-center justify-center size-8 rounded-full text-xs font-medium ${scrolled ? "bg-brand-primary text-white" : "bg-white/20 text-white"}`}>
+                {initials}
+              </span>
+            )
           )}
 
           <button
@@ -139,9 +146,14 @@ export function LandingHeader() {
 
           {isAuthenticated && (
             <div className="flex items-center gap-3 mt-6">
-              <span className="flex items-center justify-center size-10 rounded-full bg-brand-primary text-white text-sm font-medium">
-                {initials}
-              </span>
+              {logoUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={`${logoUrl}?w=80&h=80&c=fill&g=face&f=auto`} alt={userName} className="size-10 rounded-full object-cover border border-gray-200" />
+              ) : (
+                <span className="flex items-center justify-center size-10 rounded-full bg-brand-primary text-white text-sm font-medium">
+                  {initials}
+                </span>
+              )}
               <span className="text-lg font-medium text-gray-800">{userName}</span>
             </div>
           )}

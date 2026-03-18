@@ -61,6 +61,7 @@ export function InspectorCard({ node }: InspectorCardProps) {
         <Link
           href={`/inspector/${node.slug}`}
           className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-accent hover:underline"
+          style={node.brandAccent ? { color: node.brandAccent } : undefined}
         >
           <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
           Ver perfil del verificador

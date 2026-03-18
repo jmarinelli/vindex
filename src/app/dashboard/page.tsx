@@ -4,15 +4,12 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { ShellDashboard } from "@/components/layout/shell-dashboard";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Plus, Pencil, User, AlertTriangle, CloudOff } from "lucide-react";
+import { Plus, AlertTriangle, CloudOff } from "lucide-react";
 import { InspectionList } from "@/components/inspection/inspection-list";
 import { OfflineDraftCard } from "@/components/inspection/offline-draft-card";
 import { OfflineBanner } from "@/components/offline/offline-banner";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  getInspectionsAction,
-  getNodeSlugAction,
-} from "@/lib/actions/inspection";
+import { getInspectionsAction } from "@/lib/actions/inspection";
 import { useOfflineStatus } from "@/offline/hooks";
 import {
   getAllDrafts,
@@ -36,7 +33,6 @@ export default function DashboardPage() {
   const [inspections, setInspections] = useState<InspectionListItem[] | null>(
     null
   );
-  const [nodeSlug, setNodeSlug] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Defer rendering until after mount to avoid SSR hydration mismatch
@@ -109,10 +105,7 @@ export default function DashboardPage() {
     }
 
     try {
-      const [inspResult, slugResult] = await Promise.all([
-        getInspectionsAction(),
-        getNodeSlugAction(),
-      ]);
+      const inspResult = await getInspectionsAction();
 
       if (!inspResult.success) {
         // Server returned an error (could be auth failure while offline,
@@ -125,9 +118,6 @@ export default function DashboardPage() {
       const items = inspResult.data ?? [];
       setShowOffline(false);
       setInspections(items);
-      if (slugResult.success && slugResult.data) {
-        setNodeSlug(slugResult.data);
-      }
 
       // Clean up Dexie drafts for inspections that are now signed on the server
       const signedEventIds = new Set(
@@ -313,36 +303,6 @@ export default function DashboardPage() {
 
                 {/* Inspection List */}
                 <InspectionList inspections={inspections} />
-
-                {/* Quick Links */}
-                <div className="pt-4">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex-1 h-px bg-gray-200" />
-                    <span className="text-xs font-medium text-gray-400 uppercase">
-                      Enlaces rápidos
-                    </span>
-                    <div className="flex-1 h-px bg-gray-200" />
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Link
-                      href="/dashboard/template"
-                      className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                    >
-                      <Pencil className="h-4 w-4" />
-                      Editor de Template
-                    </Link>
-                    {nodeSlug && (
-                      <Link
-                        href={`/inspector/${nodeSlug}`}
-                        className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                      >
-                        <User className="h-4 w-4" />
-                        Mi Perfil Público
-                      </Link>
-                    )}
-                  </div>
-                </div>
               </>
             )}
           </>

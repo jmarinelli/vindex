@@ -48,7 +48,16 @@ export async function uploadWithRetry(
  */
 export async function uploadAndSavePhoto(photo: DraftPhoto): Promise<boolean> {
   try {
-    const url = await uploadWithRetry(photo);
+    // If the photo already has a Cloudinary URL (from a previous attempt where
+    // the server save failed), skip re-uploading to avoid duplicates.
+    const url = photo.url ?? (await uploadWithRetry(photo));
+
+    // Persist the Cloudinary URL to Dexie immediately so retries won't
+    // re-upload if the server save below fails.
+    if (!photo.url) {
+      await localDb.photos.update(photo.id, { url });
+    }
+
     const result = await saveEventPhotoAction({
       eventId: photo.eventId,
       findingId: photo.findingId,
@@ -82,28 +91,13 @@ export async function processPhotoQueue(eventId: string): Promise<void> {
     .equals(eventId)
     .toArray();
 
-  const pending = photos.filter((p) => !p.uploaded && p.blob);
+  const pending = photos.filter((p) => !p.uploaded && (p.blob || p.url));
 
   for (const photo of pending) {
     try {
-      const cloudinaryUrl = await uploadWithRetry(photo);
-
-      // Persist to server
-      const result = await saveEventPhotoAction({
-        eventId: photo.eventId,
-        findingId: photo.findingId,
-        photoType: photo.photoType,
-        url: cloudinaryUrl,
-        caption: photo.caption,
-        order: photo.order,
-      });
-
-      if (result.success) {
-        await localDb.photos.update(photo.id, {
-          uploaded: true,
-          url: cloudinaryUrl,
-          serverPhotoId: result.data?.eventPhoto.id,
-        });
+      const success = await uploadAndSavePhoto(photo);
+      if (!success) {
+        // Per-photo error — continue with next photo
       }
     } catch {
       // Per-photo error — continue with next photo

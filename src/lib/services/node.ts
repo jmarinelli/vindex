@@ -46,6 +46,62 @@ export interface SignedReportItem {
 // ─── Service Functions ──────────────────────────────────────────────────────
 
 /**
+ * Get a node by ID.
+ */
+export async function getNodeById(nodeId: string): Promise<Node | null> {
+  const [node] = await db
+    .select()
+    .from(nodes)
+    .where(eq(nodes.id, nodeId))
+    .limit(1);
+
+  return node ?? null;
+}
+
+/**
+ * Update branding fields on a node.
+ */
+export async function updateNodeBranding(
+  nodeId: string,
+  data: {
+    contactEmail: string;
+    contactPhone?: string | null;
+    address?: string | null;
+    bio?: string | null;
+    brandColor?: string | null;
+    brandAccent?: string | null;
+  }
+): Promise<Node> {
+  const [updated] = await db
+    .update(nodes)
+    .set({
+      contactEmail: data.contactEmail,
+      contactPhone: data.contactPhone || null,
+      address: data.address || null,
+      bio: data.bio || null,
+      brandColor: data.brandColor || null,
+      brandAccent: data.brandAccent || null,
+    })
+    .where(eq(nodes.id, nodeId))
+    .returning();
+
+  return updated;
+}
+
+/**
+ * Set or clear the node's logo URL.
+ */
+export async function updateNodeLogo(
+  nodeId: string,
+  logoUrl: string | null
+): Promise<void> {
+  await db
+    .update(nodes)
+    .set({ logoUrl })
+    .where(eq(nodes.id, nodeId));
+}
+
+/**
  * Get a node's profile by slug.
  * Returns null if the node is not found or not active.
  */

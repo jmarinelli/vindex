@@ -97,6 +97,7 @@ The primary visual element. Establishes the inspector's professional identity an
 |---------|-------|----------|
 | Card container | `white` bg, `border-default`, `radius-md`, `shadow-sm`, `space-5` padding | Top of content, full-width |
 | Brand color accent | 3px top border on card | Uses node `brand_color` if set, otherwise `brand-primary` |
+| Brand accent links | Contact email and phone link color | Uses node `brand_accent` if set, otherwise `brand-accent` |
 | Logo | 64x64, `radius-md`, `border-default`, `object-fit: cover` | Node logo image via Cloudinary (w_128). Fallback: first letter of display_name on `brand-primary` bg circle, `white` text, `text-2xl`, `font-bold` |
 | Node name | `text-2xl`, `font-bold`, `gray-800` | Right of logo (same row) |
 | Verified label | `text-xs`, `success` color, with shield-check icon | Below node name, same row alignment. "Verificador registrado" |
@@ -186,7 +187,7 @@ Each signed inspection appears as a compact row within the list card.
 | VIN | `text-xs`, `gray-500`, `font-mono` | "VIN: {vin}" |
 | Odometer + Type | `text-xs`, `gray-500` | "{odometer_km} km · {inspection_type}" with thousand separator. Display labels in Spanish. |
 | Status summary | `text-xs` | "✓{n} ⚠{n} ✕{n} · {photo_count} fotos" with respective status colors inline |
-| Report link | `text-xs`, `brand-accent`, right-aligned | "Ver reporte →" — links to `/report/{slug}` |
+| Report link | `text-xs`, node `brand_accent` (fallback: `brand-accent`), right-aligned | "Ver reporte →" — links to `/report/{slug}` |
 | Divider | 1px `gray-200` border-bottom | Between items (except last) |
 
 ### Report Item Tap Behavior

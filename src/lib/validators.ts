@@ -190,6 +190,11 @@ export const createNodeSchema = z.object({
     .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
     .optional()
     .or(z.literal("")),
+  brandAccent: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
+    .optional()
+    .or(z.literal("")),
   logoUrl: z.string().url().optional().or(z.literal("")),
 });
 
@@ -209,8 +214,42 @@ export const updateNodeSchema = z.object({
     .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
     .optional()
     .or(z.literal("")),
+  brandAccent: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
+    .optional()
+    .or(z.literal("")),
   logoUrl: z.string().url().optional().or(z.literal("")),
   status: z.enum(["active", "suspended"]).optional(),
+});
+
+// ─── Node Branding Schemas (Self-Service) ──────────────────────────────────
+
+export const updateNodeBrandingSchema = z.object({
+  contactEmail: z
+    .string()
+    .min(1, "El email es obligatorio.")
+    .email("Ingresá un email válido.")
+    .max(255),
+  contactPhone: z.string().max(50, "El teléfono no puede superar los 50 caracteres.").optional().or(z.literal("")).nullable(),
+  address: z.string().max(500).optional().or(z.literal("")).nullable(),
+  bio: z.string().max(500, "La bio no puede superar los 500 caracteres.").optional().or(z.literal("")).nullable(),
+  brandColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
+    .optional()
+    .or(z.literal(""))
+    .nullable(),
+  brandAccent: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Ingresá un color hexadecimal válido (ej: #3B82F6).")
+    .optional()
+    .or(z.literal(""))
+    .nullable(),
+});
+
+export const updateNodeLogoSchema = z.object({
+  logoUrl: z.string().url("URL de logo inválida.").nullable(),
 });
 
 // ─── Admin User Schemas ─────────────────────────────────────────────────────
@@ -279,5 +318,7 @@ export type ContactFormInput = z.infer<typeof contactFormSchema>;
 export type CreateCorrectionInput = z.infer<typeof createCorrectionSchema>;
 export type CreateNodeInput = z.infer<typeof createNodeSchema>;
 export type UpdateNodeInput = z.infer<typeof updateNodeSchema>;
+export type UpdateNodeBrandingInput = z.infer<typeof updateNodeBrandingSchema>;
+export type UpdateNodeLogoInput = z.infer<typeof updateNodeLogoSchema>;
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;

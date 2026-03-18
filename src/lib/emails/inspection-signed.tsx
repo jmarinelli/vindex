@@ -20,6 +20,8 @@ interface InspectionSignedEmailProps {
   findingsSummary: { good: number; attention: number; critical: number };
   reportUrl: string;
   reviewUrl: string;
+  brandColor?: string | null;
+  brandAccent?: string | null;
 }
 
 function formatDate(dateStr: string): string {
@@ -36,7 +38,11 @@ export function InspectionSignedEmail({
   findingsSummary,
   reportUrl,
   reviewUrl,
+  brandColor,
+  brandAccent,
 }: InspectionSignedEmailProps) {
+  const reportBtnBg = brandColor || "#1E293B";
+  const reviewBtnBg = brandAccent || "#0EA5E9";
   const previewText = `Verificación de ${vehicleName} firmada por ${inspectorName}. Podés ver el reporte y dejar tu reseña.`;
 
   return (
@@ -86,7 +92,7 @@ export function InspectionSignedEmail({
 
           {/* Report CTA */}
           <Section style={ctaSectionStyle}>
-            <Button style={primaryButtonStyle} href={reportUrl}>
+            <Button style={{ ...primaryButtonStyle, backgroundColor: reportBtnBg }} href={reportUrl}>
               Ver reporte completo
             </Button>
           </Section>
@@ -103,7 +109,7 @@ export function InspectionSignedEmail({
           </Section>
 
           <Section style={ctaSectionStyle}>
-            <Button style={accentButtonStyle} href={reviewUrl}>
+            <Button style={{ ...accentButtonStyle, backgroundColor: reviewBtnBg }} href={reviewUrl}>
               Dejar reseña
             </Button>
           </Section>

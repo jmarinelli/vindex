@@ -474,6 +474,8 @@ export async function signInspection(
           },
           reportUrl: `${baseUrl}/report/${signed.slug}`,
           reviewUrl: `${baseUrl}/review/${reviewToken.token}`,
+          brandColor: node.brandColor,
+          brandAccent: node.brandAccent,
         });
       }
     }

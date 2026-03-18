@@ -210,14 +210,14 @@ export async function getSignedInspectionAction(
   }
 }
 
-export async function getNodeSlugAction(): Promise<ActionResult<string>> {
+export async function getNodeSlugAction(): Promise<ActionResult<{ slug: string; logoUrl: string | null }>> {
   const session = await auth();
   if (!session?.user?.nodeId) {
     return { success: false, error: "No autenticado." };
   }
 
   const [node] = await db
-    .select({ slug: nodes.slug })
+    .select({ slug: nodes.slug, logoUrl: nodes.logoUrl })
     .from(nodes)
     .where(eq(nodes.id, session.user.nodeId))
     .limit(1);
@@ -226,7 +226,7 @@ export async function getNodeSlugAction(): Promise<ActionResult<string>> {
     return { success: false, error: "Nodo no encontrado." };
   }
 
-  return { success: true, data: node.slug };
+  return { success: true, data: { slug: node.slug, logoUrl: node.logoUrl } };
 }
 
 export async function createCorrectionAction(

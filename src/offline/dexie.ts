@@ -151,7 +151,7 @@ export async function getUnsyncedFindings(): Promise<DraftFinding[]> {
 
 export async function getUnsyncedPhotos(): Promise<DraftPhoto[]> {
   const all = await localDb.photos.toArray();
-  return all.filter((p) => !p.uploaded && !p.deletedAt && p.blob && p.retries < 3);
+  return all.filter((p) => !p.uploaded && !p.deletedAt && (p.blob || p.url) && p.retries < 3);
 }
 
 export async function getPendingPhotoDeletions(): Promise<DraftPhoto[]> {

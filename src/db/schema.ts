@@ -92,6 +92,7 @@ export const nodes = pgTable(
     displayName: varchar("display_name", { length: 255 }).notNull(),
     logoUrl: varchar("logo_url", { length: 500 }),
     brandColor: varchar("brand_color", { length: 7 }),
+    brandAccent: varchar("brand_accent", { length: 7 }),
     contactEmail: varchar("contact_email", { length: 255 }).notNull(),
     contactPhone: varchar("contact_phone", { length: 50 }),
     address: text("address"),

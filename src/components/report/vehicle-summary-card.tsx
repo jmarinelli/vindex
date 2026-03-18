@@ -29,12 +29,14 @@ interface VehicleSummaryCardProps {
   vehicle: Vehicle;
   event: Event;
   detail: InspectionDetail;
+  brandAccent?: string | null;
 }
 
 export function VehicleSummaryCard({
   vehicle,
   event,
   detail,
+  brandAccent,
 }: VehicleSummaryCardProps) {
   const vehicleName = [vehicle.make, vehicle.model, vehicle.year, vehicle.trim]
     .filter(Boolean)
@@ -67,6 +69,7 @@ export function VehicleSummaryCard({
       <Link
         href={`/vehicle/${vehicle.vin}`}
         className="inline-flex items-center gap-1 text-[13px] font-medium text-brand-accent hover:underline"
+        style={brandAccent ? { color: brandAccent } : undefined}
       >
         <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
         Ver historial del vehículo

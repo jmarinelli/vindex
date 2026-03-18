@@ -11,6 +11,7 @@ function makeNode(overrides?: Partial<Node>): Node {
     displayName: "Taller Martínez",
     logoUrl: null,
     brandColor: null,
+    brandAccent: null,
     contactEmail: "contacto@tallermartinez.com",
     contactPhone: "+54 11 4555-1234",
     address: "Av. Corrientes 4500, CABA",
@@ -103,22 +104,20 @@ describe("IdentityCard", () => {
     expect(img).toHaveAttribute("src", "https://example.com/logo.jpg");
   });
 
-  it("uses brand color for top border when set", () => {
+  it("uses platform brand-primary for top border (always)", () => {
     const { container } = render(
       <IdentityCard node={makeNode({ brandColor: "#FF5500" })} />
     );
     const border = container.querySelector("[data-testid='identity-card'] > div");
-    expect(border).toHaveStyle({ backgroundColor: "#FF5500" });
+    expect(border).toHaveClass("bg-brand-primary");
   });
 
-  it("uses brand-primary for top border when no brand color", () => {
+  it("uses platform brand-primary for top border when no brand color", () => {
     const { container } = render(
       <IdentityCard node={makeNode({ brandColor: null })} />
     );
     const border = container.querySelector("[data-testid='identity-card'] > div");
-    expect(border).toHaveStyle({
-      backgroundColor: "var(--color-brand-primary)",
-    });
+    expect(border).toHaveClass("bg-brand-primary");
   });
 
   it("has verified aria-label", () => {

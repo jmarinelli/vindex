@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ShellPublic } from "@/components/layout/shell-public";
+import { auth } from "@/lib/auth";
 import { getNodeProfile, getNodeStats, getSignedReports } from "@/lib/services/node";
 import { IdentityCard } from "@/components/profile/identity-card";
 import { StatsCard } from "@/components/profile/stats-card";
@@ -59,16 +60,19 @@ export default async function InspectorProfilePage({
 
   const { node } = profile;
 
-  const [stats, { reports, total }, reviewStats] = await Promise.all([
+  const [session, stats, { reports, total }, reviewStats] = await Promise.all([
+    auth(),
     getNodeStats(node.id),
     getSignedReports(node.id, 0, 10),
     getReviewsForNode(node.id),
   ]);
 
+  const isOwner = session?.user?.nodeId === node.id;
+
   return (
     <ShellPublic>
       <div className="flex flex-col gap-4">
-        <IdentityCard node={node} />
+        <IdentityCard node={node} isOwner={isOwner} />
         <StatsCard stats={stats} />
         <ReviewStats stats={reviewStats} />
         <ReportList initialReports={reports} total={total} nodeId={node.id} />

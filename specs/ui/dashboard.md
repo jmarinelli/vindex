@@ -57,7 +57,8 @@ Single page at `/dashboard` using **Shell B** (Dashboard). The inspector's home 
 │  └─────────────────────────────────────────────────┘    │
 │                                                         │
 │  ── Enlaces rápidos ──────────────────────────────────  │
-│  [✎ Editor de Template]  [👤 Mi Perfil Público]        │
+│  [⚙ Configuración]  [✎ Editor de Template]             │
+│  [👤 Mi Perfil Público]                                 │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -187,6 +188,7 @@ Secondary navigation to other dashboard features.
 |---------|-------|----------|
 | Section separator | `text-xs`, `gray-400`, uppercase, `font-medium` | "Enlaces rápidos" with horizontal lines |
 | Link row | Horizontal, `space-4` gap | Side by side on desktop, stacked on mobile |
+| Settings link | Ghost button, `brand-primary` text, ⚙ icon | "Configuración" → `/dashboard/settings` |
 | Template link | Ghost button, `brand-primary` text, ✎ icon | "Editor de Template" → `/dashboard/template` |
 | Profile link | Ghost button, `brand-primary` text, 👤 icon | "Mi Perfil Público" → `/inspector/{slug}` |
 
@@ -245,6 +247,7 @@ When a status filter is active, only items matching that status are shown, maint
 │  │ ...                              │    │
 │  └─────────────────────────────────┘    │
 │                                         │
+│  [⚙ Configuración             ]         │
 │  [✎ Editor de Template        ]         │
 │  [👤 Mi Perfil Público        ]         │
 │                                         │
@@ -383,6 +386,7 @@ From `specs/ui/design-system.md`:
 | Filter by status | Tap filter pill | List filters by draft/signed/all |
 | Open draft inspection | Tap draft card | Navigate to `/dashboard/inspect/{id}` (Field Mode) |
 | Open signed inspection | Tap signed card | Navigate to `/report/{slug}` (Public Report) |
+| Open settings | Tap "Configuración" | Navigate to `/dashboard/settings` |
 | Open template editor | Tap "Editor de Template" | Navigate to `/dashboard/template` |
 | View public profile | Tap "Mi Perfil Público" | Navigate to `/inspector/{slug}` |
 
@@ -405,7 +409,7 @@ Per `specs/architecture.md §5` — all component tests use React Testing Librar
 | **Status filter** | "Todos" shows all · "Borrador" shows only drafts · "Firmados" shows only signed · Active pill highlighted |
 | **Empty state** | Shown when inspector has zero inspections · "No tenés verificaciones" message · New Inspection button still visible · Search/filter bar hidden |
 | **Filtered no results** | Shown when search/filter matches nothing · "No se encontraron verificaciones" message · "Limpiar filtros" link resets |
-| **Quick links** | Template editor link navigates to `/dashboard/template` · Profile link navigates to `/inspector/{slug}` |
+| **Quick links** | Settings link navigates to `/dashboard/settings` · Template editor link navigates to `/dashboard/template` · Profile link navigates to `/inspector/{slug}` |
 | **Mobile layout** | Search and filters stacked vertically · Cards full-width · Quick links stacked |
 | **Offline state** | Offline banner shown · Only Dexie drafts displayed · Draft cards tappable · "Nueva Verificación" disabled · Search/filter hidden · Quick links hidden · Signed inspections not shown |
 | **Offline — no drafts** | Empty offline state message shown: "No hay borradores locales" |

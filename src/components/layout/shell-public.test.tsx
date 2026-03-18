@@ -2,6 +2,11 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ShellPublic } from "./shell-public";
 
+// Mock AuthUserMenu (needs SessionProvider which isn't available in tests)
+vi.mock("@/components/ui/auth-user-menu", () => ({
+  AuthUserMenu: () => null,
+}));
+
 // Mock next/link
 vi.mock("next/link", () => ({
   default: ({

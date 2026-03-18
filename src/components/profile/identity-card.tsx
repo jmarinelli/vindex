@@ -1,22 +1,21 @@
-import { BadgeCheck, Mail, Phone, MapPin } from "lucide-react";
+import Link from "next/link";
+import { BadgeCheck, Mail, Phone, MapPin, Pencil } from "lucide-react";
 import type { Node } from "@/db/schema";
 
 interface IdentityCardProps {
   node: Node;
+  isOwner?: boolean;
 }
 
-export function IdentityCard({ node }: IdentityCardProps) {
-  const brandColor = node.brandColor || undefined;
-
+export function IdentityCard({ node, isOwner = false }: IdentityCardProps) {
   return (
     <div
       className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden"
       data-testid="identity-card"
     >
-      {/* Brand color top border */}
+      {/* Platform brand top border */}
       <div
-        className="h-[3px] w-full"
-        style={{ backgroundColor: brandColor ?? "var(--color-brand-primary)" }}
+        className="h-[3px] w-full bg-brand-primary"
       />
 
       <div className="flex flex-col gap-3 p-4 sm:p-5">
@@ -41,10 +40,22 @@ export function IdentityCard({ node }: IdentityCardProps) {
             </div>
           )}
 
-          <div className="flex flex-col gap-0.5">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
-              {node.displayName}
-            </h1>
+          <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 truncate">
+                {node.displayName}
+              </h1>
+              {isOwner && (
+                <Link
+                  href="/dashboard/settings"
+                  className="shrink-0 flex items-center gap-1 px-2 py-1 text-xs font-medium text-gray-500 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+                  aria-label="Editar perfil"
+                >
+                  <Pencil className="w-3 h-3" />
+                  Editar
+                </Link>
+              )}
+            </div>
             <div
               className="flex items-center gap-1"
               aria-label="Verificador registrado en VinDex"

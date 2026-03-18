@@ -43,7 +43,8 @@ All emails share a common structure:
 | Text color | `#1F2937` (`gray-800`) | Primary text |
 | Secondary text | `#6B7280` (`gray-500`) | Metadata, footer |
 | Accent color | `#0EA5E9` (`brand-accent`) | Links |
-| Button color | `#1E293B` (`brand-primary`) | CTA buttons |
+| Button color | Node `brand_color` if set, otherwise `#1E293B` (`brand-primary`) | Report CTA button |
+| Review button color | Node `brand_accent` if set, otherwise `#0EA5E9` (`brand-accent`) | Review CTA button |
 | Button text | `#FFFFFF` (`white`) | CTA button text |
 | Border | `#E5E7EB` (`gray-200`) | Dividers |
 | Font family | `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif` | System font stack |
@@ -150,7 +151,7 @@ A bordered card with vehicle and inspection summary.
 
 | Element | Style | Content |
 |---------|-------|---------|
-| Button | `brand-primary` bg, `white` text, 16px font, 600 weight, 48px height, 8px radius, full-width (max 320px), center-aligned | "Ver reporte completo" |
+| Button | Node `brand_color` bg (fallback: `brand-primary`), `white` text, 16px font, 600 weight, 48px height, 8px radius, full-width (max 320px), center-aligned | "Ver reporte completo" |
 | URL | — | `https://vindex.app/report/{slug}` |
 
 #### Review Section
@@ -160,7 +161,7 @@ A bordered card with vehicle and inspection summary.
 | Separator | 1px `gray-200` line | Above section |
 | Title | 20px, `font-bold`, `gray-800` | "Dejá tu reseña" |
 | Description | 16px, `gray-600` | "¿El vehículo coincidió con lo que describió el informe? Tu opinión ayuda a otros compradores." |
-| Button | `brand-accent` bg, `white` text, 16px font, 600 weight, 48px height, 8px radius, full-width (max 320px), center-aligned | "Dejar reseña" |
+| Button | Node `brand_accent` bg (fallback: `brand-accent`), `white` text, 16px font, 600 weight, 48px height, 8px radius, full-width (max 320px), center-aligned | "Dejar reseña" |
 | URL | — | `https://vindex.app/review/{token}` |
 | Expiry note | 12px, `gray-400`, center-aligned | "Este enlace expira en 90 días." |
 
@@ -253,6 +254,8 @@ async function sendInspectionSignedEmail(params: {
   findingsSummary: { good: number; attention: number; critical: number };
   reportUrl: string;
   reviewUrl: string;
+  brandColor: string | null;  // Node brand_color for report CTA
+  brandAccent: string | null; // Node brand_accent for review CTA
 }): Promise<void> {
   await resend.emails.send({
     from: process.env.FROM_EMAIL!,

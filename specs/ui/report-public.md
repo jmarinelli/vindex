@@ -158,8 +158,9 @@ The most prominent element on the page. Establishes trust immediately.
 | Verified label | `text-xs`, `success` color, with shield icon | "Verificador registrado" |
 | Contact email | `text-sm`, `gray-600`, with 📧 icon | mailto link. Hidden if null. |
 | Contact phone | `text-sm`, `gray-600`, with 📞 icon | tel link. Hidden if null. |
-| Profile link | `text-sm`, `brand-accent`, "Ver perfil del verificador →" | Links to `/inspector/{node_slug}` |
+| Profile link | `text-sm`, node `brand_accent` (fallback: `brand-accent`), "Ver perfil del verificador →" | Links to `/inspector/{node_slug}` |
 | Brand color accent | 3px top border on card | Uses node `brand_color` if set, otherwise `brand-primary` |
+| Brand accent links | Link colors within the inspector card | Uses node `brand_accent` if set, otherwise `brand-accent` |
 
 ---
 

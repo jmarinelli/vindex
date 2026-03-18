@@ -145,7 +145,7 @@ describe("LandingHeader", () => {
       await user.click(screen.getByText("Carlos"));
 
       expect(screen.getByRole("menu")).toBeDefined();
-      expect(screen.getByText("Ir al dashboard")).toBeDefined();
+      expect(screen.getByText("Dashboard")).toBeDefined();
       expect(screen.getByText("Cerrar sesión")).toBeDefined();
     });
 
@@ -154,7 +154,7 @@ describe("LandingHeader", () => {
       render(<LandingHeader />);
 
       await user.click(screen.getByText("Carlos"));
-      const dashLink = screen.getByText("Ir al dashboard");
+      const dashLink = screen.getByText("Dashboard");
       expect(dashLink.closest("a")?.getAttribute("href")).toBe("/dashboard");
     });
 
@@ -281,12 +281,12 @@ describe("LandingHeader", () => {
       expect(screen.getByText("Carlos Martínez")).toBeDefined();
     });
 
-    it("shows 'Ir al dashboard' button", async () => {
+    it("shows 'Dashboard' button", async () => {
       const user = userEvent.setup();
       render(<LandingHeader />);
 
       await user.click(screen.getByLabelText("Abrir menú"));
-      const dashLink = screen.getByText("Ir al dashboard");
+      const dashLink = screen.getByText("Dashboard");
       expect(dashLink.closest("a")?.getAttribute("href")).toBe("/dashboard");
     });
 
@@ -314,13 +314,13 @@ describe("LandingHeader", () => {
       mockAuthenticated("Admin User", "platform_admin");
     });
 
-    it("shows 'Admin panel' instead of 'Ir al dashboard'", async () => {
+    it("shows 'Admin panel' instead of 'Dashboard'", async () => {
       const user = userEvent.setup();
       render(<LandingHeader />);
 
       await user.click(screen.getByLabelText("Abrir menú"));
       expect(screen.getByText("Admin panel")).toBeDefined();
-      expect(screen.queryByText("Ir al dashboard")).toBeNull();
+      expect(screen.queryByText("Dashboard")).toBeNull();
     });
   });
 

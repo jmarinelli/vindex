@@ -2,8 +2,16 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { ChevronDown, LayoutDashboard, LogOut } from "lucide-react";
+import {
+  ChevronDown,
+  LayoutDashboard,
+  Settings,
+  Pencil,
+  ExternalLink,
+  LogOut,
+} from "lucide-react";
 
 function getInitials(name: string): string {
   const words = name.trim().split(/\s+/);
@@ -18,29 +26,49 @@ interface UserMenuProps {
   userRole?: string;
   /** "light" for dark backgrounds (white text), "default" for light backgrounds */
   variant?: "default" | "light";
-  /** Show the dashboard link in the dropdown. Defaults to false. */
-  showDashboardLink?: boolean;
   /** Called after sign out completes */
   onSignOut?: () => void;
+  /** Node logo URL — shown as avatar when set */
+  logoUrl?: string | null;
+  /** Node slug — needed for the public profile link */
+  nodeSlug?: string | null;
 }
 
 export function UserMenu({
   userName,
   userRole,
   variant = "default",
-  showDashboardLink = false,
   onSignOut,
+  logoUrl,
+  nodeSlug,
 }: UserMenuProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   const firstName = userName.split(/\s+/)[0] || "";
   const initials = userName ? getInitials(userName) : "";
   const isAdmin = userRole === "platform_admin";
-  const dashboardHref = isAdmin ? "/admin" : "/dashboard";
-  const dashboardLabel = isAdmin ? "Admin panel" : "Ir al dashboard";
 
   const isLight = variant === "light";
+
+  // Build quick links, filtering out the current page
+  const links = [
+    {
+      href: isAdmin ? "/admin" : "/dashboard",
+      label: isAdmin ? "Admin panel" : "Dashboard",
+      icon: LayoutDashboard,
+    },
+    ...(!isAdmin
+      ? [
+          { href: "/dashboard/settings", label: "Configuración", icon: Settings },
+          { href: "/dashboard/template", label: "Editor de Template", icon: Pencil },
+          ...(nodeSlug
+            ? [{ href: `/inspector/${nodeSlug}`, label: "Mi Perfil Público", icon: ExternalLink }]
+            : []),
+        ]
+      : []),
+  ].filter((link) => link.href !== pathname);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -84,13 +112,22 @@ export function UserMenu({
         aria-haspopup="true"
         aria-expanded={dropdownOpen}
       >
-        <span
-          className={`flex items-center justify-center size-8 rounded-full text-xs font-medium ${
-            isLight ? "bg-white/20 text-white" : "bg-brand-primary text-white"
-          }`}
-        >
-          {initials}
-        </span>
+        {logoUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={`${logoUrl}?w=64&h=64&c=fill&g=face&f=auto`}
+            alt={userName}
+            className="size-8 rounded-full object-cover border border-gray-200"
+          />
+        ) : (
+          <span
+            className={`flex items-center justify-center size-8 rounded-full text-xs font-medium ${
+              isLight ? "bg-white/20 text-white" : "bg-brand-primary text-white"
+            }`}
+          >
+            {initials}
+          </span>
+        )}
         <span
           className={`text-sm font-medium ${
             isLight ? "text-white" : "text-gray-700"
@@ -105,23 +142,22 @@ export function UserMenu({
 
       {dropdownOpen && (
         <div
-          className="absolute right-0 top-full mt-2 min-w-[180px] bg-white rounded-md shadow-md border border-gray-200 z-50"
+          className="absolute right-0 top-full mt-2 min-w-[200px] bg-white rounded-md shadow-md border border-gray-200 z-50"
           role="menu"
         >
-          {showDashboardLink && (
-            <>
-              <Link
-                href={dashboardHref}
-                className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                role="menuitem"
-                onClick={() => setDropdownOpen(false)}
-              >
-                <LayoutDashboard className="size-4" />
-                {dashboardLabel}
-              </Link>
-              <div className="border-t border-gray-100" />
-            </>
-          )}
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+              role="menuitem"
+              onClick={() => setDropdownOpen(false)}
+            >
+              <link.icon className="size-4" />
+              {link.label}
+            </Link>
+          ))}
+          <div className="border-t border-gray-100" />
           <button
             className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-500 hover:bg-gray-50 w-full text-left"
             role="menuitem"

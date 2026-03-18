@@ -19,6 +19,8 @@ interface SendInspectionSignedEmailParams {
   findingsSummary: { good: number; attention: number; critical: number };
   reportUrl: string;
   reviewUrl: string;
+  brandColor?: string | null;
+  brandAccent?: string | null;
 }
 
 /**

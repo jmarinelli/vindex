@@ -63,6 +63,7 @@ describe("useOfflineStatus", () => {
     const { result } = renderHook(() => useOfflineStatus());
 
     act(() => {
+      Object.defineProperty(navigator, "onLine", { value: false, writable: true, configurable: true });
       window.dispatchEvent(new Event("offline"));
     });
 
@@ -74,6 +75,7 @@ describe("useOfflineStatus", () => {
     const { result } = renderHook(() => useOfflineStatus());
 
     act(() => {
+      Object.defineProperty(navigator, "onLine", { value: true, writable: true, configurable: true });
       window.dispatchEvent(new Event("online"));
     });
 
