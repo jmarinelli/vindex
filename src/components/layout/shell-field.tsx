@@ -22,7 +22,7 @@ export function ShellField({
   onClose,
 }: ShellFieldProps) {
   return (
-    <div className="h-[100dvh] flex flex-col bg-gray-50 overflow-hidden">
+    <div className="h-[100svh] flex flex-col bg-gray-50 overflow-hidden">
       {/* Safe-area spacer for notch/Dynamic Island */}
       <div className="bg-white shrink-0 h-[env(safe-area-inset-top)]" />
       {/* Fixed top bar — 48px */}

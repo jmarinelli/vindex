@@ -689,7 +689,7 @@ export default function ReviewSignPage() {
       </div>
 
       {/* Sign Button — mobile fixed at bottom */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-[0_-2px_4px_rgba(0,0,0,0.05)]">
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-2px_4px_rgba(0,0,0,0.05)]">
         <Button
           onClick={handleSign}
           disabled={!canSign || signing}
